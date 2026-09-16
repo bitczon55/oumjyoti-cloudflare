@@ -1,7 +1,10 @@
 const json = (data, status = 200, headers = {}) =>
   new Response(JSON.stringify(data), {
     status,
-    headers: { "content-type": "application/json; charset=utf-8", ...headers }
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+      ...headers
+    }
   });
 
 const now = () => new Date().toISOString();
@@ -10,18 +13,22 @@ const uid = () => crypto.randomUUID();
 function b64(bytes) {
   let s = "";
   const arr = new Uint8Array(bytes);
+
   for (let i = 0; i < arr.length; i += 0x8000) {
     s += String.fromCharCode(...arr.subarray(i, i + 0x8000));
   }
+
   return btoa(s);
 }
 
 function unb64(s) {
   const bin = atob(s);
   const out = new Uint8Array(bin.length);
+
   for (let i = 0; i < bin.length; i++) {
     out[i] = bin.charCodeAt(i);
   }
+
   return out;
 }
 
@@ -30,6 +37,7 @@ async function sha256(text) {
     "SHA-256",
     new TextEncoder().encode(text)
   );
+
   return b64(d);
 }
 
@@ -74,7 +82,7 @@ async function verifyPassword(password, hash, salt) {
   return r.hash === hash;
 }
 
-async function encryptText(plaintext, env) {
+function getEncryptionKey(env) {
   if (!env.APP_ENCRYPTION_KEY) {
     throw new Error("APP_ENCRYPTION_KEY is not configured");
   }
@@ -86,6 +94,12 @@ async function encryptText(plaintext, env) {
       "APP_ENCRYPTION_KEY must be base64 for exactly 32 bytes"
     );
   }
+
+  return keyBytes;
+}
+
+async function encryptText(plaintext, env) {
+  const keyBytes = getEncryptionKey(env);
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -109,8 +123,14 @@ async function encryptText(plaintext, env) {
 async function decryptText(payload, env) {
   if (!payload) return "";
 
-  const [ivS, ctS] = payload.split(".");
-  const keyBytes = unb64(env.APP_ENCRYPTION_KEY);
+  const parts = payload.split(".");
+
+  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+    throw new Error("Invalid encrypted payload");
+  }
+
+  const [ivS, ctS] = parts;
+  const keyBytes = getEncryptionKey(env);
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -130,7 +150,7 @@ async function decryptText(payload, env) {
 }
 
 function cookie(name, value, maxAge) {
-  return `${name}=${value}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+  return `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
 function clearCookie(name) {
@@ -161,6 +181,15 @@ function maskPan(v) {
   return v ? `${v.slice(0, 2)}XXXX${v.slice(-2)}` : "";
 }
 
+function getSessionToken(request) {
+  const cookieHeader = request.headers.get("Cookie") || "";
+  const match = cookieHeader.match(
+    /(?:^|;\s*)session=([^;]+)/
+  );
+
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
 async function createSession(userId, env) {
   const raw = await randomB64(32);
   const hash = await sha256(raw);
@@ -179,12 +208,11 @@ async function createSession(userId, env) {
 }
 
 async function auth(request, env) {
-  const c = request.headers.get("Cookie") || "";
-  const m = c.match(/(?:^|; )session=([^;]+)/);
+  const token = getSessionToken(request);
 
-  if (!m) return null;
+  if (!token) return null;
 
-  const tokenHash = await sha256(m[1]);
+  const tokenHash = await sha256(token);
 
   const row = await env.DB.prepare(`
     SELECT
@@ -210,7 +238,7 @@ async function auth(request, env) {
 }
 
 function requireRole(user, roles) {
-  return user && roles.includes(user.role);
+  return Boolean(user && roles.includes(user.role));
 }
 
 async function api(request, env) {
@@ -243,12 +271,14 @@ async function api(request, env) {
     }
 
     const name = input(body.name, 100);
+    const place = input(body.place, 100);
     const email = input(body.email, 150).toLowerCase();
     const mobile = input(body.mobile, 10);
     const password = body.password;
 
     if (
       !name ||
+      !place ||
       !validEmail(email) ||
       !validMobile(mobile) ||
       !validPassword(password)
@@ -274,7 +304,7 @@ async function api(request, env) {
           uid(),
           "admin",
           name,
-          input(body.place, 100),
+          place,
           email,
           mobile,
           p.hash,
@@ -286,6 +316,7 @@ async function api(request, env) {
         .run();
     } catch (e) {
       console.error("SETUP_ADMIN_ERROR:", e);
+
       return json(
         { error: "Email or mobile already exists" },
         409
@@ -387,10 +418,9 @@ async function api(request, env) {
 
       return json(
         {
-          error: "REGISTER_ERROR",
-          details: String(e?.message || e)
+          error: "Email or mobile already exists"
         },
-        500
+        409
       );
     }
   }
@@ -402,7 +432,7 @@ async function api(request, env) {
     const mobile = input(b.mobile, 10);
     const password = b.password;
 
-    if (!validMobile(mobile) || !password) {
+    if (!validMobile(mobile) || !validPassword(password)) {
       return json({ error: "Invalid login" }, 400);
     }
 
@@ -467,14 +497,13 @@ async function api(request, env) {
 
   // LOGOUT
   if (path === "/api/logout" && method === "POST") {
-    const c = request.headers.get("Cookie") || "";
-    const m = c.match(/(?:^|; )session=([^;]+)/);
+    const token = getSessionToken(request);
 
-    if (m) {
+    if (token) {
       await env.DB.prepare(
         "DELETE FROM sessions WHERE token_hash=?"
       )
-        .bind(await sha256(m[1]))
+        .bind(await sha256(token))
         .run();
     }
 
@@ -487,22 +516,22 @@ async function api(request, env) {
 
   // CURRENT USER
   if (path === "/api/me" && method === "GET") {
-    const u = await auth(request, env);
+    const currentUser = await auth(request, env);
 
-    if (!u) {
+    if (!currentUser) {
       return json({ authenticated: false });
     }
 
     return json({
       authenticated: true,
       user: {
-        id: u.id,
-        role: u.role,
-        name: u.name,
-        place: u.place,
-        email: u.email,
-        mobile: u.mobile,
-        staffRole: u.staff_role
+        id: currentUser.id,
+        role: currentUser.role,
+        name: currentUser.name,
+        place: currentUser.place,
+        email: currentUser.email,
+        mobile: currentUser.mobile,
+        staffRole: currentUser.staff_role
       }
     });
   }
@@ -539,6 +568,7 @@ async function api(request, env) {
       return json({ ok: true });
     } catch (e) {
       console.error("PROFILE_UPDATE_ERROR:", e);
+
       return json(
         { error: "Email is already in use" },
         409
@@ -567,6 +597,7 @@ async function api(request, env) {
       .first();
 
     if (
+      !row ||
       !(await verifyPassword(
         b.currentPassword || "",
         row.password_hash,
@@ -732,6 +763,7 @@ async function api(request, env) {
       return json({ ok: true }, 201);
     } catch (e) {
       console.error("ADMIN_MEMBER_CREATE_ERROR:", e);
+
       return json(
         { error: "Email or mobile already exists" },
         409
@@ -814,12 +846,23 @@ async function api(request, env) {
     }
 
     const b = await request.json().catch(() => ({}));
+    const status = ["new", "read", "resolved"].includes(b.status)
+      ? b.status
+      : "read";
 
-    await env.DB.prepare(
+    if (!b.id) {
+      return json({ error: "Feedback ID is required" }, 400);
+    }
+
+    const result = await env.DB.prepare(
       "UPDATE feedback SET status=? WHERE id=?"
     )
-      .bind(b.status || "read", b.id)
+      .bind(status, b.id)
       .run();
+
+    if (!result.meta?.changes) {
+      return json({ error: "Feedback not found" }, 404);
+    }
 
     return json({ ok: true });
   }
@@ -834,6 +877,10 @@ async function api(request, env) {
     }
 
     const b = await request.json().catch(() => ({}));
+
+    if (!b.id) {
+      return json({ error: "Member ID is required" }, 400);
+    }
 
     const row = await env.DB.prepare(
       "SELECT pan_enc,aadhaar_enc FROM users WHERE id=?"
@@ -873,7 +920,8 @@ export default {
 
         return json(
           {
-            error: "Server error"
+            error: "API_ERROR",
+            details: String(e?.message || e)
           },
           500
         );
