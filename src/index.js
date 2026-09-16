@@ -131,8 +131,13 @@ async function api(request, env) {
       await env.DB.prepare(`INSERT INTO users (id,role,name,place,email,mobile,password_hash,password_salt,pan_enc,aadhaar_enc,status,created_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`)
         .bind(uid(),"member",name,place,email,mobile,p.hash,p.salt,panEnc,aadhaarEnc,"active",now(),now()).run();
       return json({ ok:true, message:"Registration successful. You can now login." },201);
-    } catch(e) { return json({ error:"Email or mobile already registered." },409); }
-  }
+    } catch(e) {
+  console.error("REGISTER_ERROR:", e);
+  return json({
+    error: "REGISTER_ERROR",
+    details: String(e?.message || e)
+  }, 500);
+}
 
   if (path === "/api/login" && method === "POST") {
     const b=await request.json().catch(()=>({}));
