@@ -11,8 +11,8 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "oumjyoti-seva-db",
-      "database_id": "e9578861-a4bc-4252-8241-f83660010381",
+      "database_name": "oumjyoti-seva-db-v2",
+      "database_id": "b82c4f3e-03c0-40b3-8fe2-aa7387d735f1",
       "migrations_dir": "migrations"
     }
   ]
