@@ -433,7 +433,114 @@ footer strong{
 }
 
 
+/* ============================= */
+/* ADMIN SEARCH + STATISTICS */
+/* ============================= */
+
+.admin-stats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin:15px 0
+}
+
+.admin-stat{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:14px 8px;
+  text-align:center
+}
+
+.admin-stat-icon{
+  font-size:22px
+}
+
+.admin-stat-number{
+  display:block;
+  font-size:24px;
+  font-weight:800;
+  color:var(--gold);
+  line-height:1.2
+}
+
+.admin-stat-label{
+  display:block;
+  color:#bbb;
+  font-size:12px;
+  margin-top:3px
+}
+
+.member-tools{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:15px
+}
+
+.member-tools-title{
+  color:var(--light);
+  font-weight:700;
+  margin-bottom:8px
+}
+
+.member-filters{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr auto;
+  gap:10px;
+  align-items:center
+}
+
+.member-filters input,
+.member-filters select{
+  margin:0
+}
+
+.reset-btn{
+  padding:11px 16px;
+  border-radius:10px;
+  border:1px solid var(--line);
+  background:#281218;
+  color:var(--light);
+  cursor:pointer;
+  font-weight:700
+}
+
+.reset-btn:hover{
+  background:var(--gold);
+  color:#241000
+}
+
+.filter-result{
+  color:#aaa;
+  font-size:13px;
+  margin-top:10px
+}
+
+.no-result{
+  text-align:center;
+  padding:25px;
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:15px;
+  color:#bbb
+}
+
+
 /* MOBILE */
+
+@media(max-width:900px){
+
+  .admin-stats{
+    grid-template-columns:repeat(3,1fr)
+  }
+
+  .member-filters{
+    grid-template-columns:1fr 1fr
+  }
+
+}
 
 @media(max-width:800px){
 
@@ -464,6 +571,18 @@ footer strong{
     grid-template-columns:1fr
   }
 
+  .admin-stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .member-filters{
+    grid-template-columns:1fr
+  }
+
+  .reset-btn{
+    width:100%
+  }
+
 }
 </style>
 </head>
@@ -472,7 +591,10 @@ footer strong{
 
 <header>
 <nav>
-<a class="logo" href="#home">ॐ OUMJYOTI</a>
+
+<a class="logo" href="#home">
+ॐ OUMJYOTI
+</a>
 
 <div class="links">
 <a href="#mission">Mission</a>
@@ -487,6 +609,7 @@ footer strong{
 
 
 <main>
+
 
 <section id="home" class="hero">
 
@@ -1277,8 +1400,11 @@ adminMembers();
 
 
 /* ================================= */
-/* PROFESSIONAL MEMBERS / STAFF LIST */
+/* MEMBERS / STAFF + SEARCH + FILTER */
 /* ================================= */
+
+let allAdminMembers=[];
+
 
 async function adminMembers(){
 
@@ -1286,8 +1412,12 @@ try{
 
 const d=await api('/api/admin/members');
 
+allAdminMembers=Array.isArray(d.members)
+? d.members
+: [];
 
-if(!d.members || !d.members.length){
+
+if(!allAdminMembers.length){
 
 $('adminArea').innerHTML=
 '<div class="msg">'+
@@ -1299,19 +1429,269 @@ return;
 }
 
 
+renderMemberManager();
+
+}catch(e){
+
+$('adminArea').innerHTML=
+'<div class="msg">❌ '+
+esc(e.message)+
+'</div>';
+
+}
+
+}
+
+
+
+/* MEMBER MANAGER */
+
+function renderMemberManager(){
+
+const total=allAdminMembers.length;
+
+const members=allAdminMembers.filter(
+x=>x.role==='member'
+).length;
+
+const staff=allAdminMembers.filter(
+x=>x.role==='staff'
+).length;
+
+const active=allAdminMembers.filter(
+x=>x.status==='active'
+).length;
+
+const disabled=allAdminMembers.filter(
+x=>x.status!=='active'
+).length;
+
+
 $('adminArea').innerHTML=
 
 '<div class="admin-members">'+
 
 
-'<div class="admin-note">'+
-'कुल Members / Staff: <b>'+
-d.members.length+
-'</b>'+
+/* STATISTICS */
+
+'<div class="admin-stats">'+
+
+'<div class="admin-stat">'+
+'<span class="admin-stat-icon">👥</span>'+
+'<span class="admin-stat-number">'+
+total+
+'</span>'+
+'<span class="admin-stat-label">Total</span>'+
+'</div>'+
+
+'<div class="admin-stat">'+
+'<span class="admin-stat-icon">🤝</span>'+
+'<span class="admin-stat-number">'+
+members+
+'</span>'+
+'<span class="admin-stat-label">Members</span>'+
+'</div>'+
+
+'<div class="admin-stat">'+
+'<span class="admin-stat-icon">👨‍💼</span>'+
+'<span class="admin-stat-number">'+
+staff+
+'</span>'+
+'<span class="admin-stat-label">Staff</span>'+
+'</div>'+
+
+'<div class="admin-stat">'+
+'<span class="admin-stat-icon">🟢</span>'+
+'<span class="admin-stat-number">'+
+active+
+'</span>'+
+'<span class="admin-stat-label">Active</span>'+
+'</div>'+
+
+'<div class="admin-stat">'+
+'<span class="admin-stat-icon">🔴</span>'+
+'<span class="admin-stat-number">'+
+disabled+
+'</span>'+
+'<span class="admin-stat-label">Disabled</span>'+
+'</div>'+
+
 '</div>'+
 
 
-d.members.map(x=>{
+/* SEARCH + FILTER */
+
+'<div class="member-tools">'+
+
+'<div class="member-tools-title">'+
+'🔎 Member Search & Filter'+
+'</div>'+
+
+'<div class="member-filters">'+
+
+'<input id="memberSearch" '+
+'type="search" '+
+'placeholder="नाम, Mobile या Email खोजें..." '+
+'oninput="filterMembers()">'+
+
+'<select id="memberRoleFilter" onchange="filterMembers()">'+
+'<option value="all">सभी Roles</option>'+
+'<option value="admin">👑 Admin</option>'+
+'<option value="staff">👨‍💼 Staff</option>'+
+'<option value="member">🤝 Member</option>'+
+'</select>'+
+
+'<select id="memberStatusFilter" onchange="filterMembers()">'+
+'<option value="all">सभी Status</option>'+
+'<option value="active">🟢 Active</option>'+
+'<option value="disabled">🔴 Disabled</option>'+
+'</select>'+
+
+'<button class="reset-btn" onclick="resetMemberFilters()">'+
+'↻ Reset'+
+'</button>'+
+
+'</div>'+
+
+'<div id="memberFilterResult" class="filter-result"></div>'+
+
+'</div>'+
+
+
+'<div id="memberList"></div>'+
+
+'</div>';
+
+
+filterMembers();
+
+}
+
+
+
+/* FILTER MEMBERS */
+
+function filterMembers(){
+
+const search=
+($('memberSearch')?.value||'')
+.trim()
+.toLowerCase();
+
+const role=
+$('memberRoleFilter')?.value||'all';
+
+const status=
+$('memberStatusFilter')?.value||'all';
+
+
+const filtered=allAdminMembers.filter(x=>{
+
+const text=(
+
+String(x.name||'')+' '+
+String(x.mobile||'')+' '+
+String(x.email||'')+' '+
+String(x.place||'')+' '+
+String(x.staff_role||'')
+
+).toLowerCase();
+
+
+const searchMatch=
+!search || text.includes(search);
+
+const roleMatch=
+role==='all' || x.role===role;
+
+const statusMatch=
+status==='all'
+||
+(status==='active' && x.status==='active')
+||
+(status==='disabled' && x.status!=='active');
+
+
+return searchMatch &&
+roleMatch &&
+statusMatch;
+
+});
+
+
+renderFilteredMembers(filtered);
+
+}
+
+
+
+/* RESET */
+
+function resetMemberFilters(){
+
+if($('memberSearch'))
+$('memberSearch').value='';
+
+if($('memberRoleFilter'))
+$('memberRoleFilter').value='all';
+
+if($('memberStatusFilter'))
+$('memberStatusFilter').value='all';
+
+filterMembers();
+
+}
+
+
+
+/* RENDER FILTERED MEMBERS */
+
+function renderFilteredMembers(list){
+
+const result=
+$('memberFilterResult');
+
+const container=
+$('memberList');
+
+
+if(!container)return;
+
+
+if(result){
+
+result.innerHTML=
+'दिखाए जा रहे हैं: <b>'+
+list.length+
+'</b> / '+
+allAdminMembers.length+
+' Members / Staff';
+
+}
+
+
+if(!list.length){
+
+container.innerHTML=
+
+'<div class="no-result">'+
+
+'<div style="font-size:32px">🔍</div>'+
+
+'<b>कोई Member नहीं मिला</b>'+
+
+'<br>'+
+
+'<span>Search या Filter बदलकर फिर प्रयास करें।</span>'+
+
+'</div>';
+
+return;
+
+}
+
+
+container.innerHTML=list.map(x=>{
 
 
 const role=
@@ -1417,7 +1797,6 @@ return(
 
 '<div class="member-card">'+
 
-
 '<div class="member-top">'+
 
 '<div class="member-name">'+
@@ -1431,7 +1810,6 @@ status+
 '</div>'+
 
 '</div>'+
-
 
 '<div class="member-info">'+
 
@@ -1457,28 +1835,13 @@ esc(x.created_at)+
 
 '</div>'+
 
-
 action+
-
 
 '</div>'
 
 );
 
-
-}).join('')+
-
-'</div>';
-
-}catch(e){
-
-$('adminArea').innerHTML=
-
-'<div class="msg">❌ '+
-esc(e.message)+
-'</div>';
-
-}
+}).join('');
 
 }
 
