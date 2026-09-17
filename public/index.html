@@ -12,12 +12,16 @@
 :root{
   --bg:#0f0508;
   --card:#1c0e12;
+  --card2:#211015;
   --gold:#f3ba2f;
   --light:#ffe898;
   --text:#f5f5f5;
   --muted:#bbb;
   --orange:#ff6b00;
-  --line:rgba(243,186,47,.24)
+  --line:rgba(243,186,47,.24);
+  --success:#8ff0a1;
+  --danger:#ffaaaa;
+  --blue:#9fe7ff
 }
 
 *{
@@ -28,7 +32,9 @@
 body{
   margin:0;
   font-family:Arial,"Noto Sans Devanagari",sans-serif;
-  background:var(--bg);
+  background:
+    radial-gradient(circle at 50% -10%,rgba(243,186,47,.08),transparent 35%),
+    var(--bg);
   color:var(--text);
   line-height:1.65
 }
@@ -38,12 +44,19 @@ a{
   text-decoration:none
 }
 
+button,
+input,
+textarea,
+select{
+  font-family:inherit
+}
+
 header{
   position:sticky;
   top:0;
   z-index:10;
-  background:#0f0508ee;
-  backdrop-filter:blur(10px);
+  background:rgba(15,5,8,.94);
+  backdrop-filter:blur(14px);
   border-bottom:1px solid var(--line)
 }
 
@@ -61,7 +74,8 @@ nav{
 .logo{
   font-weight:800;
   font-size:24px;
-  color:var(--gold)
+  color:var(--gold);
+  text-shadow:0 0 18px rgba(243,186,47,.18)
 }
 
 .links{
@@ -71,7 +85,8 @@ nav{
 }
 
 .links a{
-  font-size:14px
+  font-size:14px;
+  transition:.2s
 }
 
 .links a:hover{
@@ -81,12 +96,14 @@ nav{
 .hero{
   text-align:center;
   padding:85px 20px 75px;
-  background:radial-gradient(circle,rgba(243,186,47,.14),transparent 45%)
+  background:
+    radial-gradient(circle,rgba(243,186,47,.14),transparent 45%)
 }
 
 .om{
   font-size:80px;
-  color:var(--gold)
+  color:var(--gold);
+  text-shadow:0 0 35px rgba(243,186,47,.22)
 }
 
 h1{
@@ -120,12 +137,25 @@ h2{
   border:1px solid var(--gold);
   margin:7px;
   font-weight:700;
-  cursor:pointer
+  cursor:pointer;
+  transition:.22s;
+  background:transparent
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  box-shadow:0 8px 25px rgba(243,186,47,.14)
 }
 
 .gold{
-  background:var(--gold);
-  color:#241000
+  background:linear-gradient(135deg,#ffe898,#f3ba2f,#d99513);
+  color:#241000;
+  border-color:#ffe898;
+  box-shadow:0 4px 18px rgba(243,186,47,.15)
+}
+
+.gold:hover{
+  filter:brightness(1.08)
 }
 
 .dark{
@@ -150,14 +180,20 @@ section{
 
 .card,
 .panel{
-  background:var(--card);
+  background:linear-gradient(145deg,rgba(33,16,21,.98),rgba(28,14,18,.98));
   border:1px solid var(--line);
   border-radius:18px;
   padding:24px
 }
 
 .card{
-  text-align:center
+  text-align:center;
+  transition:.2s
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(243,186,47,.48)
 }
 
 .icon{
@@ -207,23 +243,31 @@ section{
   color:var(--light);
   padding:10px 16px;
   border-radius:20px;
-  cursor:pointer
+  cursor:pointer;
+  font-weight:700;
+  transition:.2s
+}
+
+.tab:hover{
+  border-color:var(--gold)
 }
 
 .tab.active{
-  background:var(--gold);
-  color:#241000
+  background:linear-gradient(135deg,#ffe898,#f3ba2f);
+  color:#241000;
+  border-color:#ffe898
 }
 
 .modal{
   position:fixed;
   inset:0;
-  background:#000b;
+  background:rgba(0,0,0,.78);
   display:none;
   align-items:center;
   justify-content:center;
   z-index:100;
-  padding:18px
+  padding:18px;
+  backdrop-filter:blur(5px)
 }
 
 .modal.show{
@@ -234,10 +278,13 @@ section{
   width:min(680px,100%);
   max-height:92vh;
   overflow:auto;
-  background:#16080c;
+  background:
+    radial-gradient(circle at top right,rgba(243,186,47,.08),transparent 35%),
+    #16080c;
   border:1px solid var(--gold);
-  border-radius:20px;
-  padding:25px
+  border-radius:22px;
+  padding:25px;
+  box-shadow:0 20px 70px rgba(0,0,0,.5)
 }
 
 .close{
@@ -258,7 +305,16 @@ select{
   border-radius:10px;
   border:1px solid #553a20;
   background:#0c0608;
-  color:#fff
+  color:#fff;
+  outline:none;
+  transition:.2s
+}
+
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(243,186,47,.08)
 }
 
 label{
@@ -274,7 +330,7 @@ label{
 }
 
 .hide{
-  display:none
+  display:none!important
 }
 
 .dash{
@@ -330,9 +386,143 @@ footer strong{
 }
 
 
-/* ============================= */
+/* ================================= */
+/* PREMIUM LOGIN / REGISTER */
+/* ================================= */
+
+.auth-modalbox{
+  width:min(500px,100%);
+  max-height:94vh;
+  overflow:auto;
+  padding:0;
+  background:
+    radial-gradient(circle at top,rgba(243,186,47,.13),transparent 42%),
+    linear-gradient(145deg,#19090e,#0f0508);
+  border:1px solid rgba(243,186,47,.55);
+  border-radius:26px;
+  box-shadow:
+    0 25px 90px rgba(0,0,0,.65),
+    0 0 40px rgba(243,186,47,.06)
+}
+
+.auth-head{
+  text-align:center;
+  padding:30px 25px 18px
+}
+
+.auth-om{
+  width:70px;
+  height:70px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  border:1px solid rgba(243,186,47,.55);
+  background:rgba(243,186,47,.07);
+  color:var(--gold);
+  font-size:40px;
+  box-shadow:0 0 25px rgba(243,186,47,.08)
+}
+
+.auth-title{
+  color:var(--light);
+  font-size:25px;
+  font-weight:800;
+  margin-top:10px
+}
+
+.auth-subtitle{
+  color:#aaa;
+  font-size:13px;
+  margin-top:3px
+}
+
+.auth-close{
+  position:absolute;
+  right:16px;
+  top:10px;
+  z-index:2;
+  background:rgba(0,0,0,.25);
+  border:1px solid rgba(243,186,47,.15);
+  border-radius:50%;
+  width:38px;
+  height:38px;
+  color:white;
+  font-size:24px;
+  cursor:pointer
+}
+
+.auth-body{
+  padding:0 25px 25px
+}
+
+.auth-tabs{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:6px;
+  padding:5px;
+  margin-bottom:22px;
+  background:#0b0507;
+  border:1px solid rgba(243,186,47,.14);
+  border-radius:14px
+}
+
+.auth-tab{
+  border:0;
+  background:transparent;
+  color:#aaa;
+  padding:11px;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:800;
+  transition:.2s
+}
+
+.auth-tab.active{
+  background:linear-gradient(135deg,#ffe898,#f3ba2f);
+  color:#241000;
+  box-shadow:0 4px 15px rgba(243,186,47,.14)
+}
+
+.auth-form-title{
+  color:var(--light);
+  margin:0 0 14px;
+  font-size:21px
+}
+
+.auth-field{
+  margin-bottom:5px
+}
+
+.auth-field input{
+  background:rgba(7,4,5,.8);
+  border-color:#4a301d;
+  padding:13px 14px
+}
+
+.auth-submit{
+  width:100%;
+  margin:8px 0 4px;
+  padding:13px;
+  border-radius:13px
+}
+
+.auth-note{
+  text-align:center;
+  color:#888;
+  font-size:12px;
+  margin-top:12px
+}
+
+.auth-msg{
+  margin-top:10px
+}
+
+
+/* ================================= */
 /* PROFESSIONAL ADMIN MEMBERS UI */
-/* ============================= */
+/* ================================= */
 
 .admin-members{
   margin-top:15px
@@ -414,7 +604,8 @@ footer strong{
   margin-top:12px;
   display:flex;
   gap:8px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
+  align-items:center
 }
 
 .small-btn{
@@ -424,7 +615,8 @@ footer strong{
   background:#281218;
   color:var(--light);
   cursor:pointer;
-  font-weight:700
+  font-weight:700;
+  transition:.2s
 }
 
 .small-btn:hover{
@@ -439,9 +631,9 @@ footer strong{
 }
 
 
-/* ============================= */
+/* ================================= */
 /* ADMIN SEARCH + STATISTICS */
-/* ============================= */
+/* ================================= */
 
 .admin-stats{
   display:grid;
@@ -534,9 +726,9 @@ footer strong{
 }
 
 
-/* ============================= */
+/* ================================= */
 /* MEMBER PROFILE */
-/* ============================= */
+/* ================================= */
 
 .profile-modalbox{
   width:min(620px,100%);
@@ -639,9 +831,9 @@ footer strong{
 }
 
 
-/* ============================= */
+/* ================================= */
 /* PROFESSIONAL FEEDBACK MANAGER */
-/* ============================= */
+/* ================================= */
 
 .feedback-stats{
   display:grid;
@@ -861,7 +1053,196 @@ footer strong{
 }
 
 
+/* ================================= */
+/* ADMIN OVERVIEW DASHBOARD */
+/* ================================= */
+
+.admin-overview{
+  margin-top:15px
+}
+
+.overview-welcome{
+  background:
+    radial-gradient(circle at right top,rgba(243,186,47,.12),transparent 35%),
+    linear-gradient(145deg,#211015,#16090d);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  margin-bottom:15px
+}
+
+.overview-welcome h3{
+  color:var(--light);
+  margin:0 0 5px;
+  font-size:22px
+}
+
+.overview-welcome p{
+  color:#aaa;
+  margin:0
+}
+
+.overview-stats{
+  display:grid;
+  grid-template-columns:repeat(6,1fr);
+  gap:10px;
+  margin-bottom:18px
+}
+
+.overview-stat{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:14px 8px;
+  text-align:center;
+  min-height:105px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center
+}
+
+.overview-stat-icon{
+  font-size:23px
+}
+
+.overview-stat-number{
+  font-size:25px;
+  font-weight:800;
+  color:var(--gold);
+  line-height:1.2
+}
+
+.overview-stat-label{
+  color:#aaa;
+  font-size:11px;
+  margin-top:3px
+}
+
+.overview-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px
+}
+
+.overview-panel{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:17px
+}
+
+.overview-panel h3{
+  color:var(--light);
+  margin:0 0 12px
+}
+
+.activity-item{
+  padding:11px 0;
+  border-bottom:1px solid #392027;
+  display:flex;
+  gap:10px;
+  align-items:flex-start
+}
+
+.activity-item:last-child{
+  border-bottom:0
+}
+
+.activity-icon{
+  width:35px;
+  height:35px;
+  flex:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#281218;
+  border:1px solid var(--line)
+}
+
+.activity-content{
+  min-width:0
+}
+
+.activity-title{
+  color:#eee;
+  font-size:14px;
+  font-weight:700
+}
+
+.activity-date{
+  color:#888;
+  font-size:11px;
+  margin-top:2px
+}
+
+.quick-actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:15px
+}
+
+.quick-action{
+  padding:14px 10px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:#281218;
+  color:var(--light);
+  cursor:pointer;
+  text-align:center;
+  font-weight:700;
+  transition:.2s
+}
+
+.quick-action:hover{
+  background:var(--gold);
+  color:#241000
+}
+
+.overview-empty{
+  color:#888;
+  text-align:center;
+  padding:20px
+}
+
+
+/* ================================= */
+/* ADD STAFF */
+/* ================================= */
+
+.staff-panel{
+  max-width:650px;
+  margin:auto
+}
+
+.staff-panel h3{
+  color:var(--light);
+  margin-top:0
+}
+
+.staff-security{
+  background:#160b0f;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px;
+  color:#aaa;
+  font-size:13px;
+  margin-bottom:15px
+}
+
+
+/* ================================= */
 /* MOBILE */
+/* ================================= */
+
+@media(max-width:1000px){
+
+  .overview-stats{
+    grid-template-columns:repeat(3,1fr)
+  }
+
+}
 
 @media(max-width:900px){
 
@@ -873,12 +1254,24 @@ footer strong{
     grid-template-columns:1fr 1fr
   }
 
+  .overview-columns{
+    grid-template-columns:1fr
+  }
+
 }
 
 @media(max-width:800px){
 
   .grid,
   .dash{
+    grid-template-columns:1fr 1fr
+  }
+
+  .overview-stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .quick-actions{
     grid-template-columns:1fr 1fr
   }
 
@@ -948,6 +1341,30 @@ footer strong{
     padding:20px
   }
 
+  .auth-modalbox{
+    border-radius:20px
+  }
+
+  .auth-head{
+    padding:25px 20px 15px
+  }
+
+  .auth-body{
+    padding:0 20px 22px
+  }
+
+  .auth-title{
+    font-size:22px
+  }
+
+  .overview-stats{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .quick-actions{
+    grid-template-columns:1fr
+  }
+
 }
 </style>
 </head>
@@ -975,7 +1392,6 @@ footer strong{
 
 <main>
 
-
 <section id="home" class="hero">
 
 <div class="om">ॐ</div>
@@ -997,7 +1413,7 @@ footer strong{
 </a>
 
 <button class="btn dark" onclick="openModal('authModal')">
-Member Login / Register
+🔐 Member Login / Register
 </button>
 
 </div>
@@ -1183,7 +1599,7 @@ Member बनकर सेवा गतिविधियों और अपन
 class="btn gold"
 onclick="openModal('authModal')">
 
-Login / Register
+🔐 Login / Register
 
 </button>
 
@@ -1205,6 +1621,9 @@ Login / Register
 
 <div class="center">
 <h2>👑 Admin / Staff Panel</h2>
+<p class="narrow">
+OUMJYOTI administration, members, staff और feedback management
+</p>
 </div>
 
 <div id="adminContent"></div>
@@ -1225,30 +1644,49 @@ Login / Register
 </footer>
 
 
-
-<!-- LOGIN / REGISTER MODAL -->
+<!-- ================================= -->
+<!-- PREMIUM LOGIN / REGISTER MODAL -->
+<!-- ================================= -->
 
 <div id="authModal" class="modal">
 
-<div class="modalbox">
+<div class="auth-modalbox">
 
-<button class="close"
+<button
+class="auth-close"
 onclick="closeModal('authModal')">
 ×
 </button>
 
-<div class="tabs">
+<div class="auth-head">
+
+<div class="auth-om">ॐ</div>
+
+<div class="auth-title">
+OUMJYOTI Member
+</div>
+
+<div class="auth-subtitle">
+भक्ति • सेवा • मानवता
+</div>
+
+</div>
+
+
+<div class="auth-body">
+
+<div class="auth-tabs">
 
 <button
-class="tab active"
+class="auth-tab active"
 onclick="showAuth('login')">
-Login
+🔐 Login
 </button>
 
 <button
-class="tab"
+class="auth-tab"
 onclick="showAuth('register')">
-Register
+✨ Register
 </button>
 
 </div>
@@ -1256,74 +1694,109 @@ Register
 
 <div id="loginBox">
 
-<h2>Member Login</h2>
+<h2 class="auth-form-title">
+Member Login
+</h2>
 
 <form id="loginForm">
 
-<label>Mobile Number</label>
+<div class="auth-field">
+
+<label>📱 Mobile Number</label>
 
 <input
 id="loginMobile"
 inputmode="numeric"
 maxlength="10"
+placeholder="10 digit mobile number"
 required>
 
-<label>Password</label>
+</div>
+
+<div class="auth-field">
+
+<label>🔑 Password</label>
 
 <input
 id="loginPassword"
 type="password"
+placeholder="Enter your password"
 required>
 
-<button class="btn gold">
-Login
+</div>
+
+<button
+class="btn gold auth-submit">
+🔐 Secure Login
 </button>
 
-<div id="loginMsg"></div>
+<div id="loginMsg" class="auth-msg"></div>
 
 </form>
 
 </div>
 
 
-
 <div id="registerBox" class="hide">
 
-<h2>Member Registration</h2>
+<h2 class="auth-form-title">
+Create Member Account
+</h2>
 
 <form id="registerForm">
 
-<label>Name</label>
+<div class="auth-field">
+
+<label>👤 Name</label>
 
 <input
 id="rName"
+placeholder="Your full name"
 required>
 
+</div>
 
-<label>Place</label>
+
+<div class="auth-field">
+
+<label>📍 Place</label>
 
 <input
 id="rPlace"
+placeholder="City / Place"
 required>
 
+</div>
 
-<label>Email</label>
+
+<div class="auth-field">
+
+<label>✉️ Email</label>
 
 <input
 id="rEmail"
 type="email"
+placeholder="your@email.com"
 required>
 
+</div>
 
-<label>PAN Card</label>
+
+<div class="auth-field">
+
+<label>🪪 PAN Card</label>
 
 <input
 id="rPan"
 maxlength="10"
 placeholder="ABCDE1234F">
 
+</div>
 
-<label>Aadhaar No</label>
+
+<div class="auth-field">
+
+<label>🆔 Aadhaar No</label>
 
 <input
 id="rAadhaar"
@@ -1331,42 +1804,62 @@ inputmode="numeric"
 maxlength="12"
 placeholder="12 digit Aadhaar">
 
+</div>
 
-<label>User ID — Mobile No</label>
+
+<div class="auth-field">
+
+<label>📱 User ID — Mobile No</label>
 
 <input
 id="rMobile"
 inputmode="numeric"
 maxlength="10"
+placeholder="10 digit mobile number"
 required>
 
+</div>
 
-<label>Password (minimum 8 characters)</label>
+
+<div class="auth-field">
+
+<label>🔑 Password — minimum 8 characters</label>
 
 <input
 id="rPassword"
 type="password"
 minlength="8"
+placeholder="Create a secure password"
 required>
 
+</div>
 
-<button class="btn gold">
-Register
+
+<button
+class="btn gold auth-submit">
+✨ Create Member Account
 </button>
 
-<div id="regMsg"></div>
+<div id="regMsg" class="auth-msg"></div>
 
 </form>
 
+<div class="auth-note">
+आपकी existing OUMJYOTI registration system के माध्यम से account बनाया जाएगा।
 </div>
 
 </div>
 
 </div>
 
+</div>
+
+</div>
 
 
+<!-- ================================= -->
 <!-- FEEDBACK MODAL -->
+<!-- ================================= -->
 
 <div id="feedbackModal" class="modal">
 
@@ -1381,7 +1874,7 @@ onclick="closeModal('feedbackModal')">
 
 <form id="feedbackForm">
 
-<label>Mobile No</label>
+<label>📱 Mobile No</label>
 
 <input
 id="fMobile"
@@ -1390,7 +1883,7 @@ maxlength="10"
 required>
 
 
-<label>Email</label>
+<label>✉️ Email</label>
 
 <input
 id="fEmail"
@@ -1398,7 +1891,7 @@ type="email"
 required>
 
 
-<label>Message</label>
+<label>💬 Message</label>
 
 <textarea
 id="fMessage"
@@ -1420,8 +1913,9 @@ Send Feedback
 </div>
 
 
-
+<!-- ================================= -->
 <!-- MEMBER PROFILE MODAL -->
+<!-- ================================= -->
 
 <div id="profileModal" class="modal">
 
@@ -1440,8 +1934,9 @@ onclick="closeModal('profileModal')">
 </div>
 
 
-
+<!-- ================================= -->
 <!-- FEEDBACK VIEW MODAL -->
+<!-- ================================= -->
 
 <div id="feedbackViewModal" class="modal">
 
@@ -1460,11 +1955,14 @@ onclick="closeModal('feedbackViewModal')">
 </div>
 
 
-
 <script>
 
 const $=id=>document.getElementById(id);
 
+
+/* ================================= */
+/* API HELPER */
+/* ================================= */
 
 const api=async(path,opt={})=>{
 
@@ -1493,6 +1991,9 @@ return d;
 };
 
 
+/* ================================= */
+/* MODALS */
+/* ================================= */
 
 function openModal(id){
 $(id).classList.add('show')
@@ -1503,6 +2004,10 @@ function closeModal(id){
 $(id).classList.remove('show')
 }
 
+
+/* ================================= */
+/* AUTH SWITCH */
+/* ================================= */
 
 function showAuth(mode){
 
@@ -1517,7 +2022,7 @@ mode!=='register'
 );
 
 document
-.querySelectorAll('#authModal .tab')
+.querySelectorAll('#authModal .auth-tab')
 .forEach((b,i)=>
 b.classList.toggle(
 'active',
@@ -1527,6 +2032,9 @@ b.classList.toggle(
 }
 
 
+/* ================================= */
+/* ESCAPE HTML */
+/* ================================= */
 
 function esc(s){
 
@@ -1545,8 +2053,36 @@ c=>({
 }
 
 
+/* ================================= */
+/* DATE FORMAT */
+/* ================================= */
 
+function formatDate(value){
+
+if(!value)return '—';
+
+const d=new Date(value);
+
+if(Number.isNaN(d.getTime()))
+return esc(value);
+
+return d.toLocaleString(
+'hi-IN',
+{
+day:'2-digit',
+month:'short',
+year:'numeric',
+hour:'2-digit',
+minute:'2-digit'
+}
+);
+
+}
+
+
+/* ================================= */
 /* REGISTER */
+/* ================================= */
 
 $('registerForm').onsubmit=async e=>{
 
@@ -1598,8 +2134,9 @@ esc(x.message)+
 };
 
 
-
+/* ================================= */
 /* LOGIN */
+/* ================================= */
 
 $('loginForm').onsubmit=async e=>{
 
@@ -1609,7 +2146,7 @@ $('loginMsg').innerHTML='Logging in...';
 
 try{
 
-const d=await api(
+await api(
 '/api/login',
 {
 method:'POST',
@@ -1642,8 +2179,9 @@ esc(x.message)+
 };
 
 
-
+/* ================================= */
 /* FEEDBACK FORM */
+/* ================================= */
 
 $('feedbackForm').onsubmit=async e=>{
 
@@ -1653,7 +2191,7 @@ $('feedMsg').innerHTML='Sending...';
 
 try{
 
-const d=await api(
+await api(
 '/api/feedback',
 {
 method:'POST',
@@ -1684,8 +2222,9 @@ esc(x.message)+
 };
 
 
-
+/* ================================= */
 /* LOAD USER */
+/* ================================= */
 
 async function loadMe(){
 
@@ -1718,8 +2257,9 @@ $('adminPanel').classList.add('hide');
 }
 
 
-
+/* ================================= */
 /* MEMBER DASHBOARD */
+/* ================================= */
 
 function renderDashboard(u){
 
@@ -1765,8 +2305,9 @@ esc(u.mobile)+
 }
 
 
-
+/* ================================= */
 /* ADMIN PANEL */
+/* ================================= */
 
 async function renderAdmin(u){
 
@@ -1776,19 +2317,23 @@ $('adminContent').innerHTML=
 
 '<div class="tabs">'+
 
-'<button class="tab active" onclick="adminMembers()">'+
-'Members / Staff'+
+'<button id="adminTabOverview" class="tab active" onclick="adminOverview()">'+
+'📊 Overview'+
 '</button>'+
 
-'<button class="tab" onclick="adminFeedback()">'+
-'Feedback'+
+'<button id="adminTabMembers" class="tab" onclick="adminMembers()">'+
+'👥 Members / Staff'+
+'</button>'+
+
+'<button id="adminTabFeedback" class="tab" onclick="adminFeedback()">'+
+'💬 Feedback'+
 '</button>'+
 
 (
 u.role==='admin'
 ?
-'<button class="tab" onclick="showAddStaff()">'+
-'Add Staff'+
+'<button id="adminTabStaff" class="tab" onclick="showAddStaff()">'+
+'➕ Add Staff'+
 '</button>'
 :
 ''
@@ -1798,26 +2343,382 @@ u.role==='admin'
 
 '<div id="adminArea"></div>';
 
-adminMembers();
+adminOverview();
 
 }
 
 
+/* ================================= */
+/* ADMIN TAB HELPER */
+/* ================================= */
+
+function setAdminTab(activeId){
+
+document
+.querySelectorAll('#adminContent .tabs .tab')
+.forEach(x=>x.classList.remove('active'));
+
+const el=$(activeId);
+
+if(el)el.classList.add('active');
+
+}
+
 
 /* ================================= */
-/* MEMBERS / STAFF + SEARCH + FILTER */
+/* ADMIN OVERVIEW */
 /* ================================= */
 
-let allAdminMembers=[];
+async function adminOverview(){
 
+setAdminTab('adminTabOverview');
+
+$('adminArea').innerHTML=
+'<div class="msg">⏳ Dashboard loading...</div>';
+
+try{
+
+const [membersData,feedbackData]=await Promise.all([
+
+api('/api/admin/members'),
+
+api('/api/admin/feedback')
+
+]);
+
+
+allAdminMembers=
+Array.isArray(membersData.members)
+? membersData.members
+: [];
+
+allAdminFeedback=
+Array.isArray(feedbackData.feedback)
+? feedbackData.feedback
+: [];
+
+
+renderAdminOverview();
+
+}catch(e){
+
+$('adminArea').innerHTML=
+'<div class="msg">❌ '+
+esc(e.message)+
+'</div>';
+
+}
+
+}
+
+
+/* ================================= */
+/* RENDER ADMIN OVERVIEW */
+/* ================================= */
+
+function renderAdminOverview(){
+
+const members=allAdminMembers;
+
+const feedback=allAdminFeedback;
+
+
+const totalMembers=
+members.filter(x=>x.role==='member').length;
+
+const totalStaff=
+members.filter(x=>x.role==='staff').length;
+
+const active=
+members.filter(x=>x.status==='active').length;
+
+const disabled=
+members.filter(x=>x.status!=='active').length;
+
+const totalFeedback=
+feedback.length;
+
+const newFeedback=
+feedback.filter(
+x=>String(x.status||'').toLowerCase()==='new'
+).length;
+
+
+const recentMembers=
+[...members]
+.filter(x=>x.role==='member')
+.sort(
+(a,b)=>
+new Date(b.created_at||0)-
+new Date(a.created_at||0)
+)
+.slice(0,5);
+
+
+const recentFeedback=
+[...feedback]
+.sort(
+(a,b)=>
+new Date(b.created_at||0)-
+new Date(a.created_at||0)
+)
+.slice(0,5);
+
+
+const disabledMembers=
+members
+.filter(x=>x.status!=='active')
+.slice(0,5);
+
+
+$('adminArea').innerHTML=
+
+'<div class="admin-overview">'+
+
+
+'<div class="overview-welcome">'+
+
+'<h3>👑 OUMJYOTI Admin Dashboard</h3>'+
+
+'<p>'+
+'Members, Staff, Feedback और सेवा platform की मुख्य जानकारी यहाँ से manage करें।'+
+'</p>'+
+
+'</div>'+
+
+
+'<div class="overview-stats">'+
+
+'<div class="overview-stat">'+
+'<span class="overview-stat-icon">👥</span>'+
+'<span class="overview-stat-number">'+
+totalMembers+
+'</span>'+
+'<span class="overview-stat-label">Total Members</span>'+
+'</div>'+
+
+'<div class="overview-stat">'+
+'<span class="overview-stat-icon">👨‍💼</span>'+
+'<span class="overview-stat-number">'+
+totalStaff+
+'</span>'+
+'<span class="overview-stat-label">Total Staff</span>'+
+'</div>'+
+
+'<div class="overview-stat">'+
+'<span class="overview-stat-icon">🟢</span>'+
+'<span class="overview-stat-number">'+
+active+
+'</span>'+
+'<span class="overview-stat-label">Active Accounts</span>'+
+'</div>'+
+
+'<div class="overview-stat">'+
+'<span class="overview-stat-icon">🔴</span>'+
+'<span class="overview-stat-number">'+
+disabled+
+'</span>'+
+'<span class="overview-stat-label">Disabled Accounts</span>'+
+'</div>'+
+
+'<div class="overview-stat">'+
+'<span class="overview-stat-icon">💬</span>'+
+'<span class="overview-stat-number">'+
+totalFeedback+
+'</span>'+
+'<span class="overview-stat-label">Total Feedback</span>'+
+'</div>'+
+
+'<div class="overview-stat">'+
+'<span class="overview-stat-icon">🆕</span>'+
+'<span class="overview-stat-number">'+
+newFeedback+
+'</span>'+
+'<span class="overview-stat-label">New Feedback</span>'+
+'</div>'+
+
+'</div>'+
+
+
+'<div class="overview-columns">'+
+
+
+'<div class="overview-panel">'+
+
+'<h3>👥 Recent Members</h3>'+
+
+(
+recentMembers.length
+?
+
+recentMembers.map(x=>
+
+'<div class="activity-item">'+
+
+'<div class="activity-icon">👤</div>'+
+
+'<div class="activity-content">'+
+
+'<div class="activity-title">'+
+esc(x.name||'Member')+
+' joined OUMJYOTI'+
+'</div>'+
+
+'<div class="activity-date">'+
+formatDate(x.created_at)+
+' • '+
+esc(x.place||'—')+
+'</div>'+
+
+'</div>'+
+
+'</div>'
+
+).join('')
+
+:
+
+'<div class="overview-empty">अभी कोई Member activity नहीं है।</div>'
+
+)+
+
+'</div>'+
+
+
+'<div class="overview-panel">'+
+
+'<h3>💬 Recent Feedback</h3>'+
+
+(
+recentFeedback.length
+?
+
+recentFeedback.map(x=>
+
+'<div class="activity-item">'+
+
+'<div class="activity-icon">💬</div>'+
+
+'<div class="activity-content">'+
+
+'<div class="activity-title">'+
+esc(x.member_name||'Guest')+
+' ने feedback भेजा'+
+'</div>'+
+
+'<div class="activity-date">'+
+formatDate(x.created_at)+
+' • '+
+(
+String(x.status||'').toLowerCase()==='new'
+?
+'🆕 New'
+:
+'✅ Read'
+)+
+'</div>'+
+
+'</div>'+
+
+'</div>'
+
+).join('')
+
+:
+
+'<div class="overview-empty">अभी कोई Feedback नहीं है।</div>'
+
+)+
+
+'</div>'+
+
+
+'<div class="overview-panel">'+
+
+'<h3>🔔 Account Status</h3>'+
+
+(
+disabledMembers.length
+?
+
+disabledMembers.map(x=>
+
+'<div class="activity-item">'+
+
+'<div class="activity-icon">🔴</div>'+
+
+'<div class="activity-content">'+
+
+'<div class="activity-title">'+
+esc(x.name||'Account')+
+' — Disabled'+
+'</div>'+
+
+'<div class="activity-date">'+
+esc(x.mobile||'—')+
+' • '+
+esc(x.role||'member')+
+'</div>'+
+
+'</div>'+
+
+'</div>'
+
+).join('')
+
+:
+
+'<div class="overview-empty">सभी accounts currently active हैं।</div>'
+
+)+
+
+'</div>'+
+
+
+'<div class="overview-panel">'+
+
+'<h3>⚡ Quick Actions</h3>'+
+
+'<div class="quick-actions">'+
+
+'<button class="quick-action" onclick="adminMembers()">'+
+'👥<br>Members'+
+'</button>'+
+
+'<button class="quick-action" onclick="adminFeedback()">'+
+'💬<br>Feedback'+
+'</button>'+
+
+'<button class="quick-action" onclick="showAddStaff()">'+
+'👨‍💼<br>Add Staff'+
+'</button>'+
+
+'</div>'+
+
+'</div>'+
+
+
+'</div>'+
+
+'</div>';
+
+}
+
+
+/* ================================= */
+/* MEMBERS / STAFF */
+/* ================================= */
 
 async function adminMembers(){
+
+setAdminTab('adminTabMembers');
 
 try{
 
 const d=await api('/api/admin/members');
 
-allAdminMembers=Array.isArray(d.members)
+allAdminMembers=
+Array.isArray(d.members)
 ? d.members
 : [];
 
@@ -1833,7 +2734,6 @@ return;
 
 }
 
-
 renderMemberManager();
 
 }catch(e){
@@ -1848,8 +2748,9 @@ esc(e.message)+
 }
 
 
-
+/* ================================= */
 /* MEMBER MANAGER */
+/* ================================= */
 
 function renderMemberManager(){
 
@@ -1876,67 +2777,51 @@ $('adminArea').innerHTML=
 
 '<div class="admin-members">'+
 
-
-/* STATISTICS */
-
 '<div class="admin-stats">'+
 
 '<div class="admin-stat">'+
 '<span class="admin-stat-icon">👥</span>'+
-'<span class="admin-stat-number">'+
-total+
-'</span>'+
+'<span class="admin-stat-number">'+total+'</span>'+
 '<span class="admin-stat-label">Total</span>'+
 '</div>'+
 
 '<div class="admin-stat">'+
 '<span class="admin-stat-icon">🤝</span>'+
-'<span class="admin-stat-number">'+
-members+
-'</span>'+
+'<span class="admin-stat-number">'+members+'</span>'+
 '<span class="admin-stat-label">Members</span>'+
 '</div>'+
 
 '<div class="admin-stat">'+
 '<span class="admin-stat-icon">👨‍💼</span>'+
-'<span class="admin-stat-number">'+
-staff+
-'</span>'+
+'<span class="admin-stat-number">'+staff+'</span>'+
 '<span class="admin-stat-label">Staff</span>'+
 '</div>'+
 
 '<div class="admin-stat">'+
 '<span class="admin-stat-icon">🟢</span>'+
-'<span class="admin-stat-number">'+
-active+
-'</span>'+
+'<span class="admin-stat-number">'+active+'</span>'+
 '<span class="admin-stat-label">Active</span>'+
 '</div>'+
 
 '<div class="admin-stat">'+
 '<span class="admin-stat-icon">🔴</span>'+
-'<span class="admin-stat-number">'+
-disabled+
-'</span>'+
+'<span class="admin-stat-number">'+disabled+'</span>'+
 '<span class="admin-stat-label">Disabled</span>'+
 '</div>'+
 
 '</div>'+
 
 
-/* SEARCH + FILTER */
-
 '<div class="member-tools">'+
 
 '<div class="member-tools-title">'+
-'🔎 Member Search & Filter'+
+'🔎 Member & Staff Search / Filter'+
 '</div>'+
 
 '<div class="member-filters">'+
 
-'<input id="memberSearch" '+
-'type="search" '+
-'placeholder="नाम, Mobile या Email खोजें..." '+
+'<input id="memberSearch" type="search" '+
+'placeholder="नाम, Mobile, Email, Place या Staff Role..." '+
 'oninput="filterMembers()">'+
 
 '<select id="memberRoleFilter" onchange="filterMembers()">'+
@@ -1952,9 +2837,7 @@ disabled+
 '<option value="disabled">🔴 Disabled</option>'+
 '</select>'+
 
-'<button class="reset-btn" onclick="resetMemberFilters()">'+
-'↻ Reset'+
-'</button>'+
+'<button class="reset-btn" onclick="resetMemberFilters()">↻ Reset</button>'+
 
 '</div>'+
 
@@ -1962,19 +2845,18 @@ disabled+
 
 '</div>'+
 
-
 '<div id="memberList"></div>'+
 
 '</div>';
-
 
 filterMembers();
 
 }
 
 
-
+/* ================================= */
 /* FILTER MEMBERS */
+/* ================================= */
 
 function filterMembers(){
 
@@ -2029,8 +2911,9 @@ renderFilteredMembers(filtered);
 }
 
 
-
-/* RESET */
+/* ================================= */
+/* RESET MEMBERS */
+/* ================================= */
 
 function resetMemberFilters(){
 
@@ -2048,17 +2931,14 @@ filterMembers();
 }
 
 
-
-/* RENDER FILTERED MEMBERS */
+/* ================================= */
+/* RENDER MEMBERS */
+/* ================================= */
 
 function renderFilteredMembers(list){
 
-const result=
-$('memberFilterResult');
-
-const container=
-$('memberList');
-
+const result=$('memberFilterResult');
+const container=$('memberList');
 
 if(!container)return;
 
@@ -2080,15 +2960,10 @@ if(!list.length){
 container.innerHTML=
 
 '<div class="no-result">'+
-
 '<div style="font-size:32px">🔍</div>'+
-
-'<b>कोई Member नहीं मिला</b>'+
-
+'<b>कोई Member या Staff नहीं मिला</b>'+
 '<br>'+
-
 '<span>Search या Filter बदलकर फिर प्रयास करें।</span>'+
-
 '</div>';
 
 return;
@@ -2098,70 +2973,53 @@ return;
 
 container.innerHTML=list.map(x=>{
 
-
 const role=
 
-x.role === 'admin'
+x.role==='admin'
 
 ?
 
-'<span class="role-badge role-admin">'+
-'👑 Admin'+
+'<span class="role-badge role-admin">👑 Admin</span>'
+
+:
+
+x.role==='staff'
+
+?
+
+'<span class="role-badge role-staff">👨‍💼 Staff'+
+(x.staff_role?' — '+esc(x.staff_role):'')+
 '</span>'
 
 :
 
-x.role === 'staff'
-
-?
-
-'<span class="role-badge role-staff">'+
-'👨‍💼 Staff'+
-(
-x.staff_role
-?
-' — '+esc(x.staff_role)
-:
-''
-)+
-'</span>'
-
-:
-
-'<span class="role-badge role-member">'+
-'🤝 Member'+
-'</span>';
+'<span class="role-badge role-member">🤝 Member</span>';
 
 
 const status=
 
-x.status === 'active'
+x.status==='active'
 
 ?
 
-'<span class="status-badge status-active">'+
-'🟢 Active'+
-'</span>'
+'<span class="status-badge status-active">🟢 Active</span>'
 
 :
 
-'<span class="status-badge status-disabled">'+
-'🔴 Disabled'+
-'</span>';
+'<span class="status-badge status-disabled">🔴 Disabled</span>';
+
+
+const profileButton=
+
+'<button class="view-btn" onclick="viewMemberProfile(\''+
+x.id+
+'\')">👁️ View Profile</button>';
 
 
 let action='';
 
 
-const profileButton=
-'<button class="view-btn" onclick="viewMemberProfile(\''+
-x.id+
-'\')">'+
-'👁️ View Profile'+
-'</button>';
-
-
-if(x.role !== 'admin'){
+if(x.role!=='admin'){
 
 action=
 
@@ -2172,22 +3030,12 @@ profileButton+
 '<button class="small-btn" onclick="toggleMember(\''+
 x.id+
 '\',\''+
-(
-x.status === 'active'
-?
-'disabled'
-:
-'active'
-)+
+(x.status==='active'?'disabled':'active')+
 '\')">'+
 
-(
-x.status === 'active'
-?
-'🔴 Disable Account'
-:
-'🟢 Enable Account'
-)+
+(x.status==='active'
+?'🔴 Disable Account'
+:'🟢 Enable Account')+
 
 '</button>'+
 
@@ -2201,9 +3049,7 @@ action=
 
 profileButton+
 
-'<span class="admin-note">'+
-'🔐 Admin Account — Protected'+
-'</span>'+
+'<span class="admin-note">🔐 Admin Account — Protected</span>'+
 
 '</div>';
 
@@ -2216,39 +3062,21 @@ return(
 
 '<div class="member-top">'+
 
-'<div class="member-name">'+
-'👤 '+
-esc(x.name)+
-'</div>'+
+'<div class="member-name">👤 '+esc(x.name)+'</div>'+
 
-'<div>'+
-role+
-status+
-'</div>'+
+'<div>'+role+status+'</div>'+
 
 '</div>'+
 
 '<div class="member-info">'+
 
-'<div>'+
-'📱 <b>Mobile:</b> '+
-esc(x.mobile)+
-'</div>'+
+'<div>📱 <b>Mobile:</b> '+esc(x.mobile)+'</div>'+
 
-'<div>'+
-'✉️ <b>Email:</b> '+
-esc(x.email)+
-'</div>'+
+'<div>✉️ <b>Email:</b> '+esc(x.email)+'</div>'+
 
-'<div>'+
-'📍 <b>Place:</b> '+
-esc(x.place)+
-'</div>'+
+'<div>📍 <b>Place:</b> '+esc(x.place)+'</div>'+
 
-'<div>'+
-'📅 <b>Joined:</b> '+
-esc(x.created_at)+
-'</div>'+
+'<div>📅 <b>Joined:</b> '+formatDate(x.created_at)+'</div>'+
 
 '</div>'+
 
@@ -2261,7 +3089,6 @@ action+
 }).join('');
 
 }
-
 
 
 /* ================================= */
@@ -2290,7 +3117,7 @@ member.role==='admin'
 member.role==='staff'
 ?
 '<span class="role-badge role-staff">👨‍💼 Staff'+
-(member.staff_role ? ' — '+esc(member.staff_role) : '')+
+(member.staff_role?' — '+esc(member.staff_role):'')+
 '</span>'
 :
 '<span class="role-badge role-member">🤝 Member</span>';
@@ -2302,13 +3129,6 @@ member.status==='active'
 '<span class="status-badge status-active">🟢 Active</span>'
 :
 '<span class="status-badge status-disabled">🔴 Disabled</span>';
-
-
-let staffRole='—';
-
-if(member.staff_role){
-staffRole=esc(member.staff_role);
-}
 
 
 $('profileContent').innerHTML=
@@ -2361,7 +3181,7 @@ esc(member.role)+
 '<div class="profile-item">'+
 '<div class="profile-item-label">👨‍💼 Staff Role</div>'+
 '<div class="profile-item-value">'+
-staffRole+
+esc(member.staff_role||'—')+
 '</div>'+
 '</div>'+
 
@@ -2375,7 +3195,7 @@ staffRole+
 '<div class="profile-item">'+
 '<div class="profile-item-label">📅 Joined</div>'+
 '<div class="profile-item-value">'+
-esc(member.created_at)+
+formatDate(member.created_at)+
 '</div>'+
 '</div>'+
 
@@ -2406,20 +3226,18 @@ member.id+
 '<span class="admin-note">🔐 Admin Account — Protected</span>'
 )+
 
-'<button class="view-btn" onclick="closeModal(\'profileModal\')">'+
-'Close'+
-'</button>'+
+'<button class="view-btn" onclick="closeModal(\'profileModal\')">Close</button>'+
 
 '</div>';
-
 
 openModal('profileModal');
 
 }
 
 
-
+/* ================================= */
 /* ENABLE / DISABLE MEMBER */
+/* ================================= */
 
 async function toggleMember(id,status){
 
@@ -2444,7 +3262,7 @@ body:JSON.stringify({status})
 }
 );
 
-adminMembers();
+await adminMembers();
 
 }catch(e){
 
@@ -2455,17 +3273,16 @@ alert(e.message);
 }
 
 
-
 /* ================================= */
-/* PROFESSIONAL FEEDBACK MANAGEMENT */
+/* FEEDBACK MANAGEMENT */
 /* ================================= */
 
 let allAdminFeedback=[];
 
 
-/* LOAD FEEDBACK */
-
 async function adminFeedback(){
+
+setAdminTab('adminTabFeedback');
 
 try{
 
@@ -2490,8 +3307,9 @@ esc(e.message)+
 }
 
 
-
+/* ================================= */
 /* FEEDBACK MANAGER */
+/* ================================= */
 
 function renderFeedbackManager(){
 
@@ -2513,39 +3331,28 @@ $('adminArea').innerHTML=
 
 '<div class="admin-members">'+
 
-
-/* STATISTICS */
-
 '<div class="feedback-stats">'+
 
 '<div class="feedback-stat">'+
 '<span class="feedback-stat-icon">💬</span>'+
-'<span class="feedback-stat-number">'+
-total+
-'</span>'+
+'<span class="feedback-stat-number">'+total+'</span>'+
 '<span class="feedback-stat-label">Total Feedback</span>'+
 '</div>'+
 
 '<div class="feedback-stat">'+
 '<span class="feedback-stat-icon">🆕</span>'+
-'<span class="feedback-stat-number">'+
-newFeedback+
-'</span>'+
+'<span class="feedback-stat-number">'+newFeedback+'</span>'+
 '<span class="feedback-stat-label">New Feedback</span>'+
 '</div>'+
 
 '<div class="feedback-stat">'+
 '<span class="feedback-stat-icon">✅</span>'+
-'<span class="feedback-stat-number">'+
-readFeedback+
-'</span>'+
+'<span class="feedback-stat-number">'+readFeedback+'</span>'+
 '<span class="feedback-stat-label">Read Feedback</span>'+
 '</div>'+
 
 '</div>'+
 
-
-/* SEARCH + FILTER */
 
 '<div class="feedback-tools">'+
 
@@ -2555,8 +3362,7 @@ readFeedback+
 
 '<div class="feedback-filters">'+
 
-'<input id="feedbackSearch" '+
-'type="search" '+
+'<input id="feedbackSearch" type="search" '+
 'placeholder="नाम, Mobile, Email या Message खोजें..." '+
 'oninput="filterFeedback()">'+
 
@@ -2566,9 +3372,7 @@ readFeedback+
 '<option value="read">✅ Read</option>'+
 '</select>'+
 
-'<button class="reset-btn" onclick="resetFeedbackFilters()">'+
-'↻ Reset'+
-'</button>'+
+'<button class="reset-btn" onclick="resetFeedbackFilters()">↻ Reset</button>'+
 
 '</div>'+
 
@@ -2576,19 +3380,18 @@ readFeedback+
 
 '</div>'+
 
-
 '<div id="feedbackList"></div>'+
 
 '</div>';
-
 
 filterFeedback();
 
 }
 
 
-
+/* ================================= */
 /* FILTER FEEDBACK */
+/* ================================= */
 
 function filterFeedback(){
 
@@ -2616,9 +3419,7 @@ String(x.status||'')
 
 
 const searchMatch=
-!search ||
-text.includes(search);
-
+!search||text.includes(search);
 
 const currentStatus=
 String(x.status||'').toLowerCase();
@@ -2627,19 +3428,13 @@ String(x.status||'').toLowerCase();
 const statusMatch=
 
 status==='all'
-
 ||
-
-(status==='new' &&
-currentStatus==='new')
-
+(status==='new'&&currentStatus==='new')
 ||
-
-(status==='read' &&
-currentStatus!=='new');
+(status==='read'&&currentStatus!=='new');
 
 
-return searchMatch && statusMatch;
+return searchMatch&&statusMatch;
 
 });
 
@@ -2649,8 +3444,9 @@ renderFilteredFeedback(filtered);
 }
 
 
-
-/* RESET FEEDBACK FILTER */
+/* ================================= */
+/* RESET FEEDBACK */
+/* ================================= */
 
 function resetFeedbackFilters(){
 
@@ -2665,43 +3461,25 @@ filterFeedback();
 }
 
 
-
-/* DATE FORMAT */
+/* ================================= */
+/* FEEDBACK DATE */
+/* ================================= */
 
 function formatFeedbackDate(value){
 
-if(!value)return '—';
-
-const d=new Date(value);
-
-if(Number.isNaN(d.getTime()))
-return esc(value);
-
-return d.toLocaleString(
-'hi-IN',
-{
-day:'2-digit',
-month:'short',
-year:'numeric',
-hour:'2-digit',
-minute:'2-digit'
-}
-);
+return formatDate(value);
 
 }
 
 
-
+/* ================================= */
 /* RENDER FEEDBACK */
+/* ================================= */
 
 function renderFilteredFeedback(list){
 
-const result=
-$('feedbackFilterResult');
-
-const container=
-$('feedbackList');
-
+const result=$('feedbackFilterResult');
+const container=$('feedbackList');
 
 if(!container)return;
 
@@ -2730,9 +3508,7 @@ container.innerHTML=
 
 '<br>'+
 
-'<span>'+
-'Search या Filter बदलकर फिर प्रयास करें।'+
-'</span>'+
+'<span>Search या Filter बदलकर फिर प्रयास करें।</span>'+
 
 '</div>';
 
@@ -2744,7 +3520,6 @@ return;
 container.innerHTML=
 list.map(x=>{
 
-
 const isNew=
 String(x.status||'').toLowerCase()==='new';
 
@@ -2754,26 +3529,20 @@ const statusBadge=
 isNew
 
 ?
-
-'<span class="status-badge feedback-new">'+
-'🆕 New'+
-'</span>'
+'<span class="status-badge feedback-new">🆕 New</span>'
 
 :
-
-'<span class="status-badge feedback-read">'+
-'✅ Read'+
-'</span>';
+'<span class="status-badge feedback-read">✅ Read</span>';
 
 
-const message=
-String(x.message||'');
-
+const message=String(x.message||'');
 
 const preview=
 message.length>180
-? message.substring(0,180)+'…'
-: message;
+?
+message.substring(0,180)+'…'
+:
+message;
 
 
 return(
@@ -2782,59 +3551,37 @@ return(
 
 '<div class="feedback-top">'+
 
-'<div class="feedback-name">'+
-'👤 '+
+'<div class="feedback-name">👤 '+
 esc(x.member_name||'Guest')+
 '</div>'+
 
-'<div>'+
-statusBadge+
-'</div>'+
+'<div>'+statusBadge+'</div>'+
 
 '</div>'+
-
 
 '<div class="feedback-meta">'+
 
-'<div>'+
-'📱 <b>Mobile:</b> '+
-esc(x.mobile||'—')+
-'</div>'+
+'<div>📱 <b>Mobile:</b> '+esc(x.mobile||'—')+'</div>'+
 
-'<div>'+
-'✉️ <b>Email:</b> '+
-esc(x.email||'—')+
-'</div>'+
+'<div>✉️ <b>Email:</b> '+esc(x.email||'—')+'</div>'+
 
-'<div>'+
-'📅 <b>Date:</b> '+
-formatFeedbackDate(x.created_at)+
-'</div>'+
+'<div>📅 <b>Date:</b> '+formatFeedbackDate(x.created_at)+'</div>'+
 
-'<div>'+
-'🆔 <b>ID:</b> '+
-esc(x.id||'—')+
-'</div>'+
+'<div>🆔 <b>ID:</b> '+esc(x.id||'—')+'</div>'+
 
 '</div>'+
-
 
 '<div class="feedback-message">'+
 
-'<div class="feedback-message-label">'+
-'💬 Message'+
-'</div>'+
+'<div class="feedback-message-label">💬 Message</div>'+
 
 esc(preview)+
 
 '</div>'+
 
-
 '<div class="feedback-actions">'+
 
-'<button '+
-'class="view-btn" '+
-'onclick="viewFeedback(\''+
+'<button class="view-btn" onclick="viewFeedback(\''+
 x.id+
 '\')">'+
 '👁️ View Full Feedback'+
@@ -2846,16 +3593,13 @@ isNew
 
 ?
 
-'<button '+
-'class="small-btn" '+
-'onclick="markFeedbackRead(\''+
+'<button class="small-btn" onclick="markFeedbackRead(\''+
 x.id+
 '\')">'+
 '✅ Mark as Read'+
 '</button>'
 
 :
-
 ''
 
 )+
@@ -2871,8 +3615,9 @@ x.id+
 }
 
 
-
-/* VIEW FULL FEEDBACK */
+/* ================================= */
+/* VIEW FEEDBACK */
+/* ================================= */
 
 function viewFeedback(id){
 
@@ -2900,11 +3645,9 @@ const statusBadge=
 isNew
 
 ?
-
 '<span class="status-badge feedback-new">🆕 New</span>'
 
 :
-
 '<span class="status-badge feedback-read">✅ Read</span>';
 
 
@@ -2912,8 +3655,7 @@ $('feedbackViewContent').innerHTML=
 
 '<div class="feedback-detail-header">'+
 
-'<div class="feedback-detail-name">'+
-'👤 '+
+'<div class="feedback-detail-name">👤 '+
 esc(feedback.member_name||'Guest')+
 '</div>'+
 
@@ -2922,7 +3664,6 @@ statusBadge+
 '</div>'+
 
 '</div>'+
-
 
 '<div class="feedback-detail-grid">'+
 
@@ -2956,7 +3697,6 @@ esc(feedback.id||'—')+
 
 '</div>'+
 
-
 '<div class="feedback-full-message">'+
 
 '<div style="color:var(--gold);font-weight:700;margin-bottom:8px">'+
@@ -2967,7 +3707,6 @@ esc(feedback.message||'')+
 
 '</div>'+
 
-
 '<div class="feedback-detail-footer">'+
 
 (
@@ -2976,9 +3715,7 @@ isNew
 
 ?
 
-'<button '+
-'class="small-btn" '+
-'onclick="markFeedbackReadFromModal(\''+
+'<button class="small-btn" onclick="markFeedbackReadFromModal(\''+
 feedback.id+
 '\')">'+
 '✅ Mark as Read'+
@@ -2990,22 +3727,20 @@ feedback.id+
 
 )+
 
-'<button '+
-'class="view-btn" '+
-'onclick="closeModal(\'feedbackViewModal\')">'+
+'<button class="view-btn" onclick="closeModal(\'feedbackViewModal\')">'+
 'Close'+
 '</button>'+
 
 '</div>';
-
 
 openModal('feedbackViewModal');
 
 }
 
 
-
+/* ================================= */
 /* MARK FEEDBACK READ */
+/* ================================= */
 
 async function markFeedbackRead(id){
 
@@ -3025,7 +3760,8 @@ await api(
 {
 method:'POST',
 body:JSON.stringify({
-id:id
+id:id,
+status:'read'
 })
 }
 );
@@ -3041,8 +3777,9 @@ alert(e.message);
 }
 
 
-
+/* ================================= */
 /* MARK READ FROM MODAL */
+/* ================================= */
 
 async function markFeedbackReadFromModal(id){
 
@@ -3053,32 +3790,45 @@ closeModal('feedbackViewModal');
 }
 
 
-
+/* ================================= */
 /* ADD STAFF */
+/* ================================= */
 
 function showAddStaff(){
 
+setAdminTab('adminTabStaff');
+
 $('adminArea').innerHTML=
 
-'<div class="panel">'+
+'<div class="panel staff-panel">'+
 
-'<h3>➕ Add Staff</h3>'+
+'<h3>👨‍💼 Add Staff</h3>'+
+
+'<div class="staff-security">'+
+'🔐 केवल authorized Admin account से Staff बनाया जा सकता है।'+
+'</div>'+
 
 '<form id="staffForm">'+
 
+'<label>Staff Name</label>'+
 '<input id="sName" placeholder="Staff Name" required>'+
 
+'<label>Place</label>'+
 '<input id="sPlace" placeholder="Place" required>'+
 
+'<label>Email</label>'+
 '<input id="sEmail" type="email" placeholder="Email" required>'+
 
-'<input id="sMobile" maxlength="10" placeholder="Mobile" required>'+
+'<label>Mobile</label>'+
+'<input id="sMobile" maxlength="10" inputmode="numeric" placeholder="Mobile" required>'+
 
-'<input id="sRole" placeholder="Staff Role e.g. Seva Coordinator">'+
+'<label>Staff Role</label>'+
+'<input id="sRole" placeholder="e.g. Seva Coordinator">'+
 
-'<input id="sPass" type="password" minlength="8" placeholder="Temporary Password (8+)" required>'+
+'<label>Temporary Password</label>'+
+'<input id="sPass" type="password" minlength="8" placeholder="8+ characters" required>'+
 
-'<button class="btn gold">Create Staff</button>'+
+'<button class="btn gold">➕ Create Staff</button>'+
 
 '<div id="staffMsg"></div>'+
 
@@ -3090,6 +3840,8 @@ $('adminArea').innerHTML=
 $('staffForm').onsubmit=async e=>{
 
 e.preventDefault();
+
+$('staffMsg').innerHTML='Creating staff...';
 
 try{
 
@@ -3112,7 +3864,7 @@ staffRole:$('sRole').value
 );
 
 $('staffMsg').innerHTML=
-'<div class="msg">✅ Staff created.</div>';
+'<div class="msg">✅ Staff created successfully.</div>';
 
 e.target.reset();
 
@@ -3125,13 +3877,14 @@ esc(x.message)+
 
 }
 
-}
+};
 
 }
 
 
-
+/* ================================= */
 /* LOGOUT */
+/* ================================= */
 
 async function logout(){
 
@@ -3147,7 +3900,9 @@ location.reload();
 }
 
 
+/* ================================= */
 /* INITIAL LOAD */
+/* ================================= */
 
 loadMe();
 
