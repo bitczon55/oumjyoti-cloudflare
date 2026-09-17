@@ -343,7 +343,13 @@ footer strong{
   border:1px solid var(--line);
   border-radius:15px;
   padding:16px;
-  margin-bottom:12px
+  margin-bottom:12px;
+  transition:.2s
+}
+
+.member-card:hover{
+  border-color:rgba(243,186,47,.55);
+  transform:translateY(-1px)
 }
 
 .member-top{
@@ -528,6 +534,111 @@ footer strong{
 }
 
 
+/* ============================= */
+/* MEMBER PROFILE */
+/* ============================= */
+
+.profile-modalbox{
+  width:min(620px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#16080c;
+  border:1px solid var(--gold);
+  border-radius:22px;
+  padding:25px
+}
+
+.profile-header{
+  text-align:center;
+  padding:10px 5px 20px;
+  border-bottom:1px solid var(--line)
+}
+
+.profile-avatar{
+  width:82px;
+  height:82px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:#281218;
+  border:2px solid var(--gold);
+  font-size:40px
+}
+
+.profile-name{
+  font-size:25px;
+  font-weight:800;
+  color:var(--light)
+}
+
+.profile-badges{
+  margin-top:6px
+}
+
+.profile-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:18px
+}
+
+.profile-item{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:13px;
+  padding:12px
+}
+
+.profile-item-label{
+  color:#999;
+  font-size:12px;
+  margin-bottom:3px
+}
+
+.profile-item-value{
+  color:#f5f5f5;
+  font-size:14px;
+  font-weight:600;
+  word-break:break-word
+}
+
+.profile-footer{
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:center
+}
+
+.view-btn{
+  padding:8px 14px;
+  border-radius:20px;
+  border:1px solid var(--gold);
+  background:#281218;
+  color:var(--light);
+  cursor:pointer;
+  font-weight:700
+}
+
+.view-btn:hover{
+  background:var(--gold);
+  color:#241000
+}
+
+.profile-close-btn{
+  float:right;
+  background:none;
+  border:0;
+  color:white;
+  font-size:28px;
+  cursor:pointer
+}
+
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -581,6 +692,14 @@ footer strong{
 
   .reset-btn{
     width:100%
+  }
+
+  .profile-grid{
+    grid-template-columns:1fr
+  }
+
+  .profile-modalbox{
+    padding:20px
   }
 
 }
@@ -1049,6 +1168,26 @@ Send Feedback
 <div id="feedMsg"></div>
 
 </form>
+
+</div>
+
+</div>
+
+
+
+<!-- MEMBER PROFILE MODAL -->
+
+<div id="profileModal" class="modal">
+
+<div class="profile-modalbox">
+
+<button
+class="profile-close-btn"
+onclick="closeModal('profileModal')">
+×
+</button>
+
+<div id="profileContent"></div>
 
 </div>
 
@@ -1748,11 +1887,23 @@ x.status === 'active'
 let action='';
 
 
+/* VIEW PROFILE BUTTON */
+
+const profileButton=
+'<button class="view-btn" onclick="viewMemberProfile(\''+
+x.id+
+'\')">'+
+'👁️ View Profile'+
+'</button>';
+
+
 if(x.role !== 'admin'){
 
 action=
 
 '<div class="member-actions">'+
+
+profileButton+
 
 '<button class="small-btn" onclick="toggleMember(\''+
 x.id+
@@ -1783,6 +1934,8 @@ x.status === 'active'
 action=
 
 '<div class="member-actions">'+
+
+profileButton+
 
 '<span class="admin-note">'+
 '🔐 Admin Account — Protected'+
@@ -1842,6 +1995,161 @@ action+
 );
 
 }).join('');
+
+}
+
+
+
+/* ================================= */
+/* MEMBER PROFILE */
+/* ================================= */
+
+function viewMemberProfile(id){
+
+const member=
+allAdminMembers.find(x=>String(x.id)===String(id));
+
+if(!member){
+
+alert('Member information not found.');
+
+return;
+
+}
+
+
+const role=
+member.role==='admin'
+?
+'<span class="role-badge role-admin">👑 Admin</span>'
+:
+member.role==='staff'
+?
+'<span class="role-badge role-staff">👨‍💼 Staff'+
+(member.staff_role ? ' — '+esc(member.staff_role) : '')+
+'</span>'
+:
+'<span class="role-badge role-member">🤝 Member</span>';
+
+
+const status=
+member.status==='active'
+?
+'<span class="status-badge status-active">🟢 Active</span>'
+:
+'<span class="status-badge status-disabled">🔴 Disabled</span>';
+
+
+let staffRole='—';
+
+if(member.staff_role){
+staffRole=esc(member.staff_role);
+}
+
+
+$('profileContent').innerHTML=
+
+'<div class="profile-header">'+
+
+'<div class="profile-avatar">👤</div>'+
+
+'<div class="profile-name">'+
+esc(member.name)+
+'</div>'+
+
+'<div class="profile-badges">'+
+role+
+status+
+'</div>'+
+
+'</div>'+
+
+'<div class="profile-grid">'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">📱 Mobile Number</div>'+
+'<div class="profile-item-value">'+
+esc(member.mobile)+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">✉️ Email Address</div>'+
+'<div class="profile-item-value">'+
+esc(member.email)+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">📍 Place</div>'+
+'<div class="profile-item-value">'+
+esc(member.place)+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">👤 Account Role</div>'+
+'<div class="profile-item-value">'+
+esc(member.role)+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">👨‍💼 Staff Role</div>'+
+'<div class="profile-item-value">'+
+staffRole+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">🟢 Account Status</div>'+
+'<div class="profile-item-value">'+
+(member.status==='active'?'Active':'Disabled')+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">📅 Joined</div>'+
+'<div class="profile-item-value">'+
+esc(member.created_at)+
+'</div>'+
+'</div>'+
+
+'<div class="profile-item">'+
+'<div class="profile-item-label">🔐 Account ID</div>'+
+'<div class="profile-item-value">'+
+esc(member.id)+
+'</div>'+
+'</div>'+
+
+'</div>'+
+
+'<div class="profile-footer">'+
+
+(
+member.role!=='admin'
+?
+'<button class="small-btn" onclick="closeModal(\'profileModal\');toggleMember(\''+
+member.id+
+'\',\''+
+(member.status==='active'?'disabled':'active')+
+'\')">'+
+(member.status==='active'
+?'🔴 Disable Account'
+:'🟢 Enable Account')+
+'</button>'
+:
+'<span class="admin-note">🔐 Admin Account — Protected</span>'
+)+
+
+'<button class="view-btn" onclick="closeModal(\'profileModal\')">'+
+'Close'+
+'</button>'+
+
+'</div>';
+
+
+openModal('profileModal');
 
 }
 
