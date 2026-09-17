@@ -639,6 +639,228 @@ footer strong{
 }
 
 
+/* ============================= */
+/* PROFESSIONAL FEEDBACK MANAGER */
+/* ============================= */
+
+.feedback-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin:15px 0
+}
+
+.feedback-stat{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:15px 10px;
+  text-align:center
+}
+
+.feedback-stat-icon{
+  font-size:24px
+}
+
+.feedback-stat-number{
+  display:block;
+  font-size:26px;
+  font-weight:800;
+  color:var(--gold);
+  line-height:1.2
+}
+
+.feedback-stat-label{
+  display:block;
+  color:#bbb;
+  font-size:12px;
+  margin-top:3px
+}
+
+.feedback-tools{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:15px;
+  margin-bottom:15px
+}
+
+.feedback-tools-title{
+  color:var(--light);
+  font-weight:700;
+  margin-bottom:8px
+}
+
+.feedback-filters{
+  display:grid;
+  grid-template-columns:2fr 1fr auto;
+  gap:10px;
+  align-items:center
+}
+
+.feedback-filters input,
+.feedback-filters select{
+  margin:0
+}
+
+.feedback-result{
+  color:#aaa;
+  font-size:13px;
+  margin-top:10px
+}
+
+.feedback-card{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:17px;
+  margin-bottom:12px;
+  transition:.2s
+}
+
+.feedback-card:hover{
+  border-color:rgba(243,186,47,.55);
+  transform:translateY(-1px)
+}
+
+.feedback-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:10px;
+  flex-wrap:wrap
+}
+
+.feedback-name{
+  font-size:18px;
+  font-weight:700;
+  color:var(--light)
+}
+
+.feedback-meta{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:7px;
+  margin-top:12px;
+  color:#ccc;
+  font-size:13px
+}
+
+.feedback-message{
+  margin-top:12px;
+  padding:13px;
+  background:#160b0f;
+  border:1px solid #392027;
+  border-radius:12px;
+  color:#ddd;
+  line-height:1.6;
+  word-break:break-word
+}
+
+.feedback-message-label{
+  color:var(--gold);
+  font-size:12px;
+  font-weight:700;
+  margin-bottom:5px
+}
+
+.feedback-actions{
+  margin-top:12px;
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.feedback-new{
+  background:#4a3210;
+  color:#ffe898
+}
+
+.feedback-read{
+  background:#163b20;
+  color:#8ff0a1
+}
+
+.feedback-empty{
+  text-align:center;
+  padding:30px 20px;
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:15px;
+  color:#bbb
+}
+
+.feedback-modalbox{
+  width:min(650px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:#16080c;
+  border:1px solid var(--gold);
+  border-radius:22px;
+  padding:25px
+}
+
+.feedback-detail-header{
+  text-align:center;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--line)
+}
+
+.feedback-detail-name{
+  font-size:24px;
+  font-weight:800;
+  color:var(--light)
+}
+
+.feedback-detail-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  margin-top:18px
+}
+
+.feedback-detail-item{
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:12px
+}
+
+.feedback-detail-label{
+  color:#999;
+  font-size:12px;
+  margin-bottom:3px
+}
+
+.feedback-detail-value{
+  color:#f5f5f5;
+  font-size:14px;
+  font-weight:600;
+  word-break:break-word
+}
+
+.feedback-full-message{
+  margin-top:15px;
+  background:#211015;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  color:#eee;
+  white-space:pre-wrap;
+  word-break:break-word
+}
+
+.feedback-detail-footer{
+  margin-top:18px;
+  padding-top:15px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:center
+}
+
+
 /* MOBILE */
 
 @media(max-width:900px){
@@ -699,6 +921,30 @@ footer strong{
   }
 
   .profile-modalbox{
+    padding:20px
+  }
+
+  .feedback-stats{
+    grid-template-columns:1fr
+  }
+
+  .feedback-filters{
+    grid-template-columns:1fr
+  }
+
+  .feedback-filters button{
+    width:100%
+  }
+
+  .feedback-meta{
+    grid-template-columns:1fr
+  }
+
+  .feedback-detail-grid{
+    grid-template-columns:1fr
+  }
+
+  .feedback-modalbox{
     padding:20px
   }
 
@@ -1195,6 +1441,26 @@ onclick="closeModal('profileModal')">
 
 
 
+<!-- FEEDBACK VIEW MODAL -->
+
+<div id="feedbackViewModal" class="modal">
+
+<div class="feedback-modalbox">
+
+<button
+class="close"
+onclick="closeModal('feedbackViewModal')">
+×
+</button>
+
+<div id="feedbackViewContent"></div>
+
+</div>
+
+</div>
+
+
+
 <script>
 
 const $=id=>document.getElementById(id);
@@ -1377,7 +1643,7 @@ esc(x.message)+
 
 
 
-/* FEEDBACK */
+/* FEEDBACK FORM */
 
 $('feedbackForm').onsubmit=async e=>{
 
@@ -1887,8 +2153,6 @@ x.status === 'active'
 let action='';
 
 
-/* VIEW PROFILE BUTTON */
-
 const profileButton=
 '<button class="view-btn" onclick="viewMemberProfile(\''+
 x.id+
@@ -2192,7 +2456,14 @@ alert(e.message);
 
 
 
-/* ADMIN FEEDBACK */
+/* ================================= */
+/* PROFESSIONAL FEEDBACK MANAGEMENT */
+/* ================================= */
+
+let allAdminFeedback=[];
+
+
+/* LOAD FEEDBACK */
 
 async function adminFeedback(){
 
@@ -2200,56 +2471,12 @@ try{
 
 const d=await api('/api/admin/feedback');
 
-$('adminArea').innerHTML=
+allAdminFeedback=
+Array.isArray(d.feedback)
+? d.feedback
+: [];
 
-'<div class="tablewrap">'+
-
-'<table>'+
-
-'<tr>'+
-'<th>Member</th>'+
-'<th>Mobile</th>'+
-'<th>Email</th>'+
-'<th>Message</th>'+
-'<th>Status</th>'+
-'<th>Date</th>'+
-'</tr>'+
-
-d.feedback.map(x=>
-
-'<tr>'+
-
-'<td>'+
-esc(x.member_name||'Guest')+
-'</td>'+
-
-'<td>'+
-esc(x.mobile)+
-'</td>'+
-
-'<td>'+
-esc(x.email)+
-'</td>'+
-
-'<td>'+
-esc(x.message)+
-'</td>'+
-
-'<td>'+
-esc(x.status)+
-'</td>'+
-
-'<td>'+
-esc(x.created_at)+
-'</td>'+
-
-'</tr>'
-
-).join('')+
-
-'</table>'+
-
-'</div>';
+renderFeedbackManager();
 
 }catch(e){
 
@@ -2259,6 +2486,569 @@ esc(e.message)+
 '</div>';
 
 }
+
+}
+
+
+
+/* FEEDBACK MANAGER */
+
+function renderFeedbackManager(){
+
+const total=
+allAdminFeedback.length;
+
+const newFeedback=
+allAdminFeedback.filter(
+x=>String(x.status||'').toLowerCase()==='new'
+).length;
+
+const readFeedback=
+allAdminFeedback.filter(
+x=>String(x.status||'').toLowerCase()!=='new'
+).length;
+
+
+$('adminArea').innerHTML=
+
+'<div class="admin-members">'+
+
+
+/* STATISTICS */
+
+'<div class="feedback-stats">'+
+
+'<div class="feedback-stat">'+
+'<span class="feedback-stat-icon">💬</span>'+
+'<span class="feedback-stat-number">'+
+total+
+'</span>'+
+'<span class="feedback-stat-label">Total Feedback</span>'+
+'</div>'+
+
+'<div class="feedback-stat">'+
+'<span class="feedback-stat-icon">🆕</span>'+
+'<span class="feedback-stat-number">'+
+newFeedback+
+'</span>'+
+'<span class="feedback-stat-label">New Feedback</span>'+
+'</div>'+
+
+'<div class="feedback-stat">'+
+'<span class="feedback-stat-icon">✅</span>'+
+'<span class="feedback-stat-number">'+
+readFeedback+
+'</span>'+
+'<span class="feedback-stat-label">Read Feedback</span>'+
+'</div>'+
+
+'</div>'+
+
+
+/* SEARCH + FILTER */
+
+'<div class="feedback-tools">'+
+
+'<div class="feedback-tools-title">'+
+'🔎 Feedback Search & Filter'+
+'</div>'+
+
+'<div class="feedback-filters">'+
+
+'<input id="feedbackSearch" '+
+'type="search" '+
+'placeholder="नाम, Mobile, Email या Message खोजें..." '+
+'oninput="filterFeedback()">'+
+
+'<select id="feedbackStatusFilter" onchange="filterFeedback()">'+
+'<option value="all">सभी Feedback</option>'+
+'<option value="new">🆕 New</option>'+
+'<option value="read">✅ Read</option>'+
+'</select>'+
+
+'<button class="reset-btn" onclick="resetFeedbackFilters()">'+
+'↻ Reset'+
+'</button>'+
+
+'</div>'+
+
+'<div id="feedbackFilterResult" class="feedback-result"></div>'+
+
+'</div>'+
+
+
+'<div id="feedbackList"></div>'+
+
+'</div>';
+
+
+filterFeedback();
+
+}
+
+
+
+/* FILTER FEEDBACK */
+
+function filterFeedback(){
+
+const search=
+($('feedbackSearch')?.value||'')
+.trim()
+.toLowerCase();
+
+const status=
+$('feedbackStatusFilter')?.value||'all';
+
+
+const filtered=
+allAdminFeedback.filter(x=>{
+
+const text=(
+
+String(x.member_name||'Guest')+' '+
+String(x.mobile||'')+' '+
+String(x.email||'')+' '+
+String(x.message||'')+' '+
+String(x.status||'')
+
+).toLowerCase();
+
+
+const searchMatch=
+!search ||
+text.includes(search);
+
+
+const currentStatus=
+String(x.status||'').toLowerCase();
+
+
+const statusMatch=
+
+status==='all'
+
+||
+
+(status==='new' &&
+currentStatus==='new')
+
+||
+
+(status==='read' &&
+currentStatus!=='new');
+
+
+return searchMatch && statusMatch;
+
+});
+
+
+renderFilteredFeedback(filtered);
+
+}
+
+
+
+/* RESET FEEDBACK FILTER */
+
+function resetFeedbackFilters(){
+
+if($('feedbackSearch'))
+$('feedbackSearch').value='';
+
+if($('feedbackStatusFilter'))
+$('feedbackStatusFilter').value='all';
+
+filterFeedback();
+
+}
+
+
+
+/* DATE FORMAT */
+
+function formatFeedbackDate(value){
+
+if(!value)return '—';
+
+const d=new Date(value);
+
+if(Number.isNaN(d.getTime()))
+return esc(value);
+
+return d.toLocaleString(
+'hi-IN',
+{
+day:'2-digit',
+month:'short',
+year:'numeric',
+hour:'2-digit',
+minute:'2-digit'
+}
+);
+
+}
+
+
+
+/* RENDER FEEDBACK */
+
+function renderFilteredFeedback(list){
+
+const result=
+$('feedbackFilterResult');
+
+const container=
+$('feedbackList');
+
+
+if(!container)return;
+
+
+if(result){
+
+result.innerHTML=
+'दिखाए जा रहे हैं: <b>'+
+list.length+
+'</b> / '+
+allAdminFeedback.length+
+' Feedback';
+
+}
+
+
+if(!list.length){
+
+container.innerHTML=
+
+'<div class="feedback-empty">'+
+
+'<div style="font-size:38px">💬</div>'+
+
+'<b>कोई Feedback नहीं मिला</b>'+
+
+'<br>'+
+
+'<span>'+
+'Search या Filter बदलकर फिर प्रयास करें।'+
+'</span>'+
+
+'</div>';
+
+return;
+
+}
+
+
+container.innerHTML=
+list.map(x=>{
+
+
+const isNew=
+String(x.status||'').toLowerCase()==='new';
+
+
+const statusBadge=
+
+isNew
+
+?
+
+'<span class="status-badge feedback-new">'+
+'🆕 New'+
+'</span>'
+
+:
+
+'<span class="status-badge feedback-read">'+
+'✅ Read'+
+'</span>';
+
+
+const message=
+String(x.message||'');
+
+
+const preview=
+message.length>180
+? message.substring(0,180)+'…'
+: message;
+
+
+return(
+
+'<div class="feedback-card">'+
+
+'<div class="feedback-top">'+
+
+'<div class="feedback-name">'+
+'👤 '+
+esc(x.member_name||'Guest')+
+'</div>'+
+
+'<div>'+
+statusBadge+
+'</div>'+
+
+'</div>'+
+
+
+'<div class="feedback-meta">'+
+
+'<div>'+
+'📱 <b>Mobile:</b> '+
+esc(x.mobile||'—')+
+'</div>'+
+
+'<div>'+
+'✉️ <b>Email:</b> '+
+esc(x.email||'—')+
+'</div>'+
+
+'<div>'+
+'📅 <b>Date:</b> '+
+formatFeedbackDate(x.created_at)+
+'</div>'+
+
+'<div>'+
+'🆔 <b>ID:</b> '+
+esc(x.id||'—')+
+'</div>'+
+
+'</div>'+
+
+
+'<div class="feedback-message">'+
+
+'<div class="feedback-message-label">'+
+'💬 Message'+
+'</div>'+
+
+esc(preview)+
+
+'</div>'+
+
+
+'<div class="feedback-actions">'+
+
+'<button '+
+'class="view-btn" '+
+'onclick="viewFeedback(\''+
+x.id+
+'\')">'+
+'👁️ View Full Feedback'+
+'</button>'+
+
+(
+
+isNew
+
+?
+
+'<button '+
+'class="small-btn" '+
+'onclick="markFeedbackRead(\''+
+x.id+
+'\')">'+
+'✅ Mark as Read'+
+'</button>'
+
+:
+
+''
+
+)+
+
+'</div>'+
+
+'</div>'
+
+);
+
+}).join('');
+
+}
+
+
+
+/* VIEW FULL FEEDBACK */
+
+function viewFeedback(id){
+
+const feedback=
+allAdminFeedback.find(
+x=>String(x.id)===String(id)
+);
+
+
+if(!feedback){
+
+alert('Feedback information not found.');
+
+return;
+
+}
+
+
+const isNew=
+String(feedback.status||'').toLowerCase()==='new';
+
+
+const statusBadge=
+
+isNew
+
+?
+
+'<span class="status-badge feedback-new">🆕 New</span>'
+
+:
+
+'<span class="status-badge feedback-read">✅ Read</span>';
+
+
+$('feedbackViewContent').innerHTML=
+
+'<div class="feedback-detail-header">'+
+
+'<div class="feedback-detail-name">'+
+'👤 '+
+esc(feedback.member_name||'Guest')+
+'</div>'+
+
+'<div style="margin-top:8px">'+
+statusBadge+
+'</div>'+
+
+'</div>'+
+
+
+'<div class="feedback-detail-grid">'+
+
+'<div class="feedback-detail-item">'+
+'<div class="feedback-detail-label">📱 Mobile Number</div>'+
+'<div class="feedback-detail-value">'+
+esc(feedback.mobile||'—')+
+'</div>'+
+'</div>'+
+
+'<div class="feedback-detail-item">'+
+'<div class="feedback-detail-label">✉️ Email Address</div>'+
+'<div class="feedback-detail-value">'+
+esc(feedback.email||'—')+
+'</div>'+
+'</div>'+
+
+'<div class="feedback-detail-item">'+
+'<div class="feedback-detail-label">📅 Submitted</div>'+
+'<div class="feedback-detail-value">'+
+formatFeedbackDate(feedback.created_at)+
+'</div>'+
+'</div>'+
+
+'<div class="feedback-detail-item">'+
+'<div class="feedback-detail-label">🆔 Feedback ID</div>'+
+'<div class="feedback-detail-value">'+
+esc(feedback.id||'—')+
+'</div>'+
+'</div>'+
+
+'</div>'+
+
+
+'<div class="feedback-full-message">'+
+
+'<div style="color:var(--gold);font-weight:700;margin-bottom:8px">'+
+'💬 पूरा Feedback Message'+
+'</div>'+
+
+esc(feedback.message||'')+
+
+'</div>'+
+
+
+'<div class="feedback-detail-footer">'+
+
+(
+
+isNew
+
+?
+
+'<button '+
+'class="small-btn" '+
+'onclick="markFeedbackReadFromModal(\''+
+feedback.id+
+'\')">'+
+'✅ Mark as Read'+
+'</button>'
+
+:
+
+'<span class="admin-note">✅ यह Feedback पढ़ा जा चुका है</span>'
+
+)+
+
+'<button '+
+'class="view-btn" '+
+'onclick="closeModal(\'feedbackViewModal\')">'+
+'Close'+
+'</button>'+
+
+'</div>';
+
+
+openModal('feedbackViewModal');
+
+}
+
+
+
+/* MARK FEEDBACK READ */
+
+async function markFeedbackRead(id){
+
+if(
+!confirm(
+'इस Feedback को Read के रूप में Mark करें?'
+)
+){
+return;
+}
+
+
+try{
+
+await api(
+'/api/admin/feedback/read',
+{
+method:'POST',
+body:JSON.stringify({
+id:id
+})
+}
+);
+
+await adminFeedback();
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+}
+
+
+
+/* MARK READ FROM MODAL */
+
+async function markFeedbackReadFromModal(id){
+
+await markFeedbackRead(id);
+
+closeModal('feedbackViewModal');
 
 }
 
