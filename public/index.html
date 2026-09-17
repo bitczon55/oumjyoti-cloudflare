@@ -6,11 +6,12 @@
 
 <title>OUMJYOTI — भक्ति • सेवा • मानवता</title>
 
-<meta name="description" content="OUMJYOTI — भक्ति, सेवा और मानवता का संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।">
+<meta name="description"
+content="OUMJYOTI — भक्ति, सेवा और मानवता का संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।">
 
 <meta name="theme-color" content="#0f0508">
 
-<link rel="icon" type="image/png" href="/oumjyoti-logo.png">
+<link rel="icon" type="image/png" href="/images/oumjyoti-logo.png">
 
 <style>
 :root{
@@ -21,18 +22,19 @@
   --gold:#f3ba2f;
   --gold2:#ffe898;
   --text:#f5f5f5;
+  --light:#f5f5f5;
   --muted:#aaa;
   --orange:#ff6b00;
   --line:rgba(243,186,47,.24);
   --success:#8ff0a1;
   --danger:#ffaaaa;
   --blue:#9fe7ff;
-  --shadow:0 15px 50px rgba(0,0,0,.35)
+  --shadow:0 15px 50px rgba(0,0,0,.35);
 }
 
 *{
   box-sizing:border-box;
-  scroll-behavior:smooth
+  scroll-behavior:smooth;
 }
 
 body{
@@ -43,7 +45,7 @@ body{
     radial-gradient(circle at 0% 40%,rgba(255,107,0,.04),transparent 30%),
     var(--bg);
   color:var(--text);
-  line-height:1.65
+  line-height:1.65;
 }
 
 body:before{
@@ -54,20 +56,21 @@ body:before{
   background:
     linear-gradient(rgba(255,255,255,.012) 1px,transparent 1px);
   background-size:100% 5px;
-  opacity:.12
+  opacity:.12;
+  z-index:0;
 }
 
 a{
   color:inherit;
-  text-decoration:none
+  text-decoration:none;
 }
 
 button,input,textarea,select{
-  font-family:inherit
+  font-family:inherit;
 }
 
 button{
-  -webkit-tap-highlight-color:transparent
+  -webkit-tap-highlight-color:transparent;
 }
 
 header{
@@ -77,7 +80,7 @@ header{
   background:rgba(15,5,8,.94);
   backdrop-filter:blur(16px);
   border-bottom:1px solid var(--line);
-  box-shadow:0 8px 30px rgba(0,0,0,.22)
+  box-shadow:0 8px 30px rgba(0,0,0,.22);
 }
 
 nav{
@@ -88,14 +91,14 @@ nav{
   align-items:center;
   justify-content:space-between;
   gap:12px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
 .brand{
   display:flex;
   align-items:center;
   gap:10px;
-  min-width:180px
+  min-width:180px;
 }
 
 .logo-img{
@@ -105,7 +108,7 @@ nav{
   border-radius:50%;
   border:1px solid rgba(243,186,47,.5);
   background:#18090d;
-  box-shadow:0 0 20px rgba(243,186,47,.10)
+  box-shadow:0 0 20px rgba(243,186,47,.10);
 }
 
 .logo-fallback{
@@ -118,28 +121,28 @@ nav{
   background:#18090d;
   border:1px solid rgba(243,186,47,.5);
   color:var(--gold);
-  font-size:25px
+  font-size:25px;
 }
 
 .logo-text{
   font-weight:900;
   color:var(--gold);
   font-size:20px;
-  letter-spacing:1px
+  letter-spacing:1px;
 }
 
 .logo-sub{
   display:block;
   color:#888;
   font-size:10px;
-  letter-spacing:1px
+  letter-spacing:1px;
 }
 
 .links{
   display:flex;
   gap:6px;
   align-items:center;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
 .nav-link{
@@ -148,12 +151,12 @@ nav{
   color:#ddd;
   font-size:13px;
   transition:.2s;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .nav-link:hover{
   color:var(--gold);
-  background:rgba(243,186,47,.07)
+  background:rgba(243,186,47,.07);
 }
 
 .nav-login{
@@ -164,43 +167,43 @@ nav{
   background:linear-gradient(135deg,#ffe898,#f3ba2f);
   font-weight:800;
   cursor:pointer;
-  box-shadow:0 5px 18px rgba(243,186,47,.12)
+  box-shadow:0 5px 18px rgba(243,186,47,.12);
 }
 
 .hero{
   text-align:center;
   padding:82px 20px 70px;
   background:
-    radial-gradient(circle at center,rgba(243,186,47,.15),transparent 43%)
+    radial-gradient(circle at center,rgba(243,186,47,.15),transparent 43%);
 }
 
 .om{
   font-size:76px;
   color:var(--gold);
-  text-shadow:0 0 35px rgba(243,186,47,.22)
+  text-shadow:0 0 35px rgba(243,186,47,.22);
 }
 
 h1{
   font-size:clamp(42px,8vw,78px);
   color:var(--gold);
   margin:5px 0;
-  letter-spacing:4px
+  letter-spacing:4px;
 }
 
 h2{
   color:var(--gold);
-  font-size:32px
+  font-size:32px;
 }
 
 .hero h2{
   color:var(--gold2);
-  font-size:25px
+  font-size:25px;
 }
 
 .hero p,.narrow{
   max-width:800px;
   margin:auto;
-  color:#ddd
+  color:#ddd;
 }
 
 .btn{
@@ -213,22 +216,22 @@ h2{
   cursor:pointer;
   transition:.22s;
   background:transparent;
-  color:var(--light)
+  color:var(--light);
 }
 
 .btn:hover{
   transform:translateY(-2px);
-  box-shadow:0 8px 25px rgba(243,186,47,.14)
+  box-shadow:0 8px 25px rgba(243,186,47,.14);
 }
 
 .gold{
   background:linear-gradient(135deg,#ffe898,#f3ba2f,#d99513);
   color:#241000;
-  border-color:#ffe898
+  border-color:#ffe898;
 }
 
 .dark{
-  color:var(--gold2)
+  color:var(--gold2);
 }
 
 .auth-premium{
@@ -240,62 +243,62 @@ h2{
   box-shadow:
     0 0 0 1px rgba(243,186,47,.08),
     0 8px 28px rgba(243,186,47,.10);
-  min-width:220px
+  min-width:220px;
 }
 
 .auth-premium:hover{
   background:
     linear-gradient(135deg,#ffe898,#f3ba2f) padding-box,
     linear-gradient(135deg,#ffe898,#f3ba2f,#ff6b00) border-box;
-  color:#241000
+  color:#241000;
 }
 
 section{
   max-width:1200px;
   margin:auto;
-  padding:65px 18px
+  padding:65px 18px;
 }
 
 .center{
-  text-align:center
+  text-align:center;
 }
 
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:18px
+  gap:18px;
 }
 
 .card,.panel{
   background:linear-gradient(145deg,rgba(33,16,21,.98),rgba(28,14,18,.98));
   border:1px solid var(--line);
   border-radius:18px;
-  padding:24px
+  padding:24px;
 }
 
 .card{
   text-align:center;
   transition:.22s;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .card:hover{
   transform:translateY(-4px);
   border-color:rgba(243,186,47,.55);
-  box-shadow:var(--shadow)
+  box-shadow:var(--shadow);
 }
 
 .icon{
-  font-size:45px
+  font-size:45px;
 }
 
 .card h3{
-  color:var(--gold2)
+  color:var(--gold2);
 }
 
 .card-touch{
   position:relative;
-  overflow:hidden
+  overflow:hidden;
 }
 
 .card-touch:after{
@@ -303,27 +306,16 @@ section{
   display:block;
   color:#8c7540;
   font-size:11px;
-  margin-top:10px
-}
-
-.quote{
-  margin:28px auto;
-  padding:22px;
-  border-left:3px solid var(--gold);
-  border-right:3px solid var(--gold);
-  max-width:850px;
-  color:var(--gold2);
-  font-size:21px;
-  text-align:center
+  margin-top:10px;
 }
 
 .hide{
-  display:none!important
+  display:none!important;
 }
 
 .interface{
   min-height:65vh;
-  animation:fadeIn .25s ease
+  animation:fadeIn .25s ease;
 }
 
 @keyframes fadeIn{
@@ -333,15 +325,15 @@ section{
 
 .interface-head{
   text-align:center;
-  margin-bottom:25px
+  margin-bottom:25px;
 }
 
 .interface-head .big-icon{
-  font-size:52px
+  font-size:52px;
 }
 
 .interface-head h2{
-  margin:5px 0
+  margin:5px 0;
 }
 
 .back-btn{
@@ -355,18 +347,18 @@ section{
   color:var(--gold2);
   cursor:pointer;
   font-weight:700;
-  margin-bottom:18px
+  margin-bottom:18px;
 }
 
 .back-btn:hover{
   background:var(--gold);
-  color:#241000
+  color:#241000;
 }
 
 .detail-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:15px
+  gap:15px;
 }
 
 .detail-card{
@@ -375,22 +367,34 @@ section{
   border:1px solid var(--line);
   background:#211015;
   text-align:center;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .detail-card:hover{
-  border-color:var(--gold)
+  border-color:var(--gold);
 }
 
 footer{
   text-align:center;
   padding:38px 18px;
   border-top:1px solid var(--line);
-  color:#999
+  color:#999;
+  position:relative;
+  z-index:1;
 }
 
 footer strong{
-  color:var(--gold)
+  color:var(--gold);
+}
+
+.footer-logo{
+  width:60px;
+  height:60px;
+  object-fit:contain;
+  border-radius:50%;
+  border:1px solid rgba(243,186,47,.45);
+  background:#18090d;
+  margin-bottom:10px;
 }
 
 .footer-links{
@@ -398,18 +402,18 @@ footer strong{
   justify-content:center;
   flex-wrap:wrap;
   gap:8px;
-  margin:14px 0
+  margin:14px 0;
 }
 
 .footer-links button{
   background:none;
   border:0;
   color:#aaa;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .footer-links button:hover{
-  color:var(--gold)
+  color:var(--gold);
 }
 
 /* MODAL */
@@ -423,11 +427,11 @@ footer strong{
   justify-content:center;
   z-index:100;
   padding:18px;
-  backdrop-filter:blur(6px)
+  backdrop-filter:blur(6px);
 }
 
 .modal.show{
-  display:flex
+  display:flex;
 }
 
 .modalbox,
@@ -442,7 +446,7 @@ footer strong{
   border:1px solid var(--gold);
   border-radius:22px;
   padding:25px;
-  box-shadow:0 20px 70px rgba(0,0,0,.6)
+  box-shadow:0 20px 70px rgba(0,0,0,.6);
 }
 
 .close,.profile-close-btn{
@@ -451,7 +455,7 @@ footer strong{
   border:0;
   color:white;
   font-size:28px;
-  cursor:pointer
+  cursor:pointer;
 }
 
 input,textarea,select{
@@ -462,24 +466,24 @@ input,textarea,select{
   border:1px solid #553a20;
   background:#0c0608;
   color:#fff;
-  outline:none
+  outline:none;
 }
 
 input:focus,textarea:focus,select:focus{
   border-color:var(--gold);
-  box-shadow:0 0 0 3px rgba(243,186,47,.08)
+  box-shadow:0 0 0 3px rgba(243,186,47,.08);
 }
 
 label{
   font-size:14px;
-  color:var(--gold2)
+  color:var(--gold2);
 }
 
 .msg{
   padding:10px;
   border-radius:10px;
   background:#2a171b;
-  margin:8px 0
+  margin:8px 0;
 }
 
 /* AUTH */
@@ -493,12 +497,13 @@ label{
     radial-gradient(circle at top,rgba(243,186,47,.13),transparent 42%),
     linear-gradient(145deg,#19090e,#0f0508);
   border:1px solid rgba(243,186,47,.55);
-  border-radius:26px
+  border-radius:26px;
+  position:relative;
 }
 
 .auth-head{
   text-align:center;
-  padding:30px 25px 18px
+  padding:30px 25px 18px;
 }
 
 .auth-om{
@@ -512,19 +517,19 @@ label{
   border:1px solid rgba(243,186,47,.55);
   background:rgba(243,186,47,.07);
   color:var(--gold);
-  font-size:40px
+  font-size:40px;
 }
 
 .auth-title{
   color:var(--gold2);
   font-size:25px;
   font-weight:800;
-  margin-top:10px
+  margin-top:10px;
 }
 
 .auth-subtitle{
   color:#aaa;
-  font-size:13px
+  font-size:13px;
 }
 
 .auth-close{
@@ -539,11 +544,11 @@ label{
   height:38px;
   color:white;
   font-size:24px;
-  cursor:pointer
+  cursor:pointer;
 }
 
 .auth-body{
-  padding:0 25px 25px
+  padding:0 25px 25px;
 }
 
 .auth-tabs{
@@ -554,7 +559,7 @@ label{
   margin-bottom:22px;
   background:#0b0507;
   border:1px solid rgba(243,186,47,.14);
-  border-radius:14px
+  border-radius:14px;
 }
 
 .auth-tab{
@@ -564,32 +569,32 @@ label{
   padding:11px;
   border-radius:10px;
   cursor:pointer;
-  font-weight:800
+  font-weight:800;
 }
 
 .auth-tab.active{
   background:linear-gradient(135deg,#ffe898,#f3ba2f);
-  color:#241000
+  color:#241000;
 }
 
 .auth-form-title{
   color:var(--gold2);
   margin:0 0 14px;
-  font-size:21px
+  font-size:21px;
 }
 
 .auth-submit{
   width:100%;
   margin:8px 0 4px;
   padding:13px;
-  border-radius:13px
+  border-radius:13px;
 }
 
 .auth-note{
   text-align:center;
   color:#888;
   font-size:12px;
-  margin-top:12px
+  margin-top:12px;
 }
 
 /* DASHBOARD */
@@ -597,7 +602,7 @@ label{
 .dash{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:15px
+  gap:15px;
 }
 
 .stat{
@@ -605,12 +610,12 @@ label{
   background:#211015;
   border:1px solid var(--line);
   border-radius:15px;
-  text-align:center
+  text-align:center;
 }
 
 .stat b{
   font-size:30px;
-  color:var(--gold)
+  color:var(--gold);
 }
 
 /* ADMIN */
@@ -620,7 +625,7 @@ label{
   gap:8px;
   justify-content:center;
   flex-wrap:wrap;
-  margin-bottom:20px
+  margin-bottom:20px;
 }
 
 .tab{
@@ -630,12 +635,12 @@ label{
   padding:10px 16px;
   border-radius:20px;
   cursor:pointer;
-  font-weight:700
+  font-weight:700;
 }
 
 .tab.active{
   background:linear-gradient(135deg,#ffe898,#f3ba2f);
-  color:#241000
+  color:#241000;
 }
 
 .admin-stats,
@@ -643,7 +648,7 @@ label{
   display:grid;
   grid-template-columns:repeat(6,1fr);
   gap:10px;
-  margin:15px 0
+  margin:15px 0;
 }
 
 .admin-stat,.overview-stat{
@@ -651,24 +656,24 @@ label{
   border:1px solid var(--line);
   border-radius:14px;
   padding:14px 8px;
-  text-align:center
+  text-align:center;
 }
 
 .admin-stat-icon,.overview-stat-icon{
-  font-size:22px
+  font-size:22px;
 }
 
 .admin-stat-number,.overview-stat-number{
   display:block;
   font-size:25px;
   font-weight:800;
-  color:var(--gold)
+  color:var(--gold);
 }
 
 .admin-stat-label,.overview-stat-label{
   display:block;
   color:#bbb;
-  font-size:12px
+  font-size:12px;
 }
 
 .member-tools,.feedback-tools{
@@ -676,32 +681,32 @@ label{
   border:1px solid var(--line);
   border-radius:15px;
   padding:15px;
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
 .member-tools-title,.feedback-tools-title{
   color:var(--gold2);
   font-weight:700;
-  margin-bottom:8px
+  margin-bottom:8px;
 }
 
 .member-filters{
   display:grid;
   grid-template-columns:2fr 1fr 1fr auto;
-  gap:10px
+  gap:10px;
 }
 
 .feedback-filters{
   display:grid;
   grid-template-columns:2fr 1fr auto;
-  gap:10px
+  gap:10px;
 }
 
 .member-filters input,
 .member-filters select,
 .feedback-filters input,
 .feedback-filters select{
-  margin:0
+  margin:0;
 }
 
 .reset-btn,.small-btn,.view-btn{
@@ -711,12 +716,12 @@ label{
   background:#281218;
   color:var(--gold2);
   cursor:pointer;
-  font-weight:700
+  font-weight:700;
 }
 
 .reset-btn:hover,.small-btn:hover,.view-btn:hover{
   background:var(--gold);
-  color:#241000
+  color:#241000;
 }
 
 .member-card,.feedback-card{
@@ -724,7 +729,7 @@ label{
   border:1px solid var(--line);
   border-radius:15px;
   padding:16px;
-  margin-bottom:12px
+  margin-bottom:12px;
 }
 
 .member-top,.feedback-top{
@@ -732,13 +737,13 @@ label{
   justify-content:space-between;
   align-items:center;
   gap:12px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
 .member-name,.feedback-name{
   font-size:18px;
   font-weight:700;
-  color:var(--gold2)
+  color:var(--gold2);
 }
 
 .role-badge,.status-badge{
@@ -747,16 +752,43 @@ label{
   border-radius:20px;
   font-size:12px;
   font-weight:700;
-  margin:3px
+  margin:3px;
 }
 
-.role-admin{background:#5b3b00;color:#ffe898}
-.role-staff{background:#173b4a;color:#9fe7ff}
-.role-member{background:#253b25;color:#b9f5b9}
-.status-active{background:#163b20;color:#8ff0a1}
-.status-disabled{background:#4a1717;color:#ffaaaa}
-.feedback-new{background:#4a3210;color:#ffe898}
-.feedback-read{background:#163b20;color:#8ff0a1}
+.role-admin{
+  background:#5b3b00;
+  color:#ffe898;
+}
+
+.role-staff{
+  background:#173b4a;
+  color:#9fe7ff;
+}
+
+.role-member{
+  background:#253b25;
+  color:#b9f5b9;
+}
+
+.status-active{
+  background:#163b20;
+  color:#8ff0a1;
+}
+
+.status-disabled{
+  background:#4a1717;
+  color:#ffaaaa;
+}
+
+.feedback-new{
+  background:#4a3210;
+  color:#ffe898;
+}
+
+.feedback-read{
+  background:#163b20;
+  color:#8ff0a1;
+}
 
 .member-info,.feedback-meta{
   display:grid;
@@ -764,35 +796,35 @@ label{
   gap:8px;
   margin-top:12px;
   color:#ccc;
-  font-size:13px
+  font-size:13px;
 }
 
 .member-actions,.feedback-actions{
   margin-top:12px;
   display:flex;
   gap:8px;
-  flex-wrap:wrap
+  flex-wrap:wrap;
 }
 
 .admin-note{
   color:#aaa;
   font-size:13px;
-  margin:10px 0
+  margin:10px 0;
 }
 
 .filter-result,.feedback-result{
   color:#aaa;
   font-size:13px;
-  margin-top:10px
+  margin-top:10px;
 }
 
-.no-result,.feedback-empty{
+.no-result,.feedback-empty,.overview-empty{
   text-align:center;
   padding:28px;
   background:#211015;
   border:1px solid var(--line);
   border-radius:15px;
-  color:#bbb
+  color:#bbb;
 }
 
 /* OVERVIEW */
@@ -804,42 +836,42 @@ label{
   border:1px solid var(--line);
   border-radius:18px;
   padding:20px;
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
 .overview-welcome h3{
   color:var(--gold2);
-  margin:0 0 5px
+  margin:0 0 5px;
 }
 
 .overview-welcome p{
   color:#aaa;
-  margin:0
+  margin:0;
 }
 
 .overview-columns{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:15px
+  gap:15px;
 }
 
 .overview-panel{
   background:#211015;
   border:1px solid var(--line);
   border-radius:16px;
-  padding:17px
+  padding:17px;
 }
 
 .overview-panel h3{
   color:var(--gold2);
-  margin-top:0
+  margin-top:0;
 }
 
 .activity-item{
   padding:11px 0;
   border-bottom:1px solid #392027;
   display:flex;
-  gap:10px
+  gap:10px;
 }
 
 .activity-icon{
@@ -851,24 +883,24 @@ label{
   justify-content:center;
   border-radius:50%;
   background:#281218;
-  border:1px solid var(--line)
+  border:1px solid var(--line);
 }
 
 .activity-title{
   color:#eee;
   font-size:14px;
-  font-weight:700
+  font-weight:700;
 }
 
 .activity-date{
   color:#888;
-  font-size:11px
+  font-size:11px;
 }
 
 .quick-actions{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:10px
+  gap:10px;
 }
 
 .quick-action{
@@ -879,12 +911,12 @@ label{
   color:var(--gold2);
   cursor:pointer;
   text-align:center;
-  font-weight:700
+  font-weight:700;
 }
 
 .quick-action:hover{
   background:var(--gold);
-  color:#241000
+  color:#241000;
 }
 
 /* PROFILE */
@@ -892,7 +924,7 @@ label{
 .profile-header,.feedback-detail-header{
   text-align:center;
   padding-bottom:16px;
-  border-bottom:1px solid var(--line)
+  border-bottom:1px solid var(--line);
 }
 
 .profile-avatar{
@@ -905,39 +937,39 @@ label{
   justify-content:center;
   background:#281218;
   border:2px solid var(--gold);
-  font-size:40px
+  font-size:40px;
 }
 
 .profile-name,.feedback-detail-name{
   font-size:24px;
   font-weight:800;
-  color:var(--gold2)
+  color:var(--gold2);
 }
 
 .profile-grid,.feedback-detail-grid{
   display:grid;
   grid-template-columns:repeat(2,1fr);
   gap:10px;
-  margin-top:18px
+  margin-top:18px;
 }
 
 .profile-item,.feedback-detail-item{
   background:#211015;
   border:1px solid var(--line);
   border-radius:13px;
-  padding:12px
+  padding:12px;
 }
 
 .profile-item-label,.feedback-detail-label{
   color:#999;
-  font-size:12px
+  font-size:12px;
 }
 
 .profile-item-value,.feedback-detail-value{
   color:#f5f5f5;
   font-size:14px;
   font-weight:600;
-  word-break:break-word
+  word-break:break-word;
 }
 
 .profile-footer,.feedback-detail-footer{
@@ -947,7 +979,7 @@ label{
   display:flex;
   gap:8px;
   flex-wrap:wrap;
-  justify-content:center
+  justify-content:center;
 }
 
 .feedback-message{
@@ -957,13 +989,13 @@ label{
   border:1px solid #392027;
   border-radius:12px;
   color:#ddd;
-  word-break:break-word
+  word-break:break-word;
 }
 
 .feedback-message-label{
   color:var(--gold);
   font-size:12px;
-  font-weight:700
+  font-weight:700;
 }
 
 .feedback-full-message{
@@ -973,16 +1005,16 @@ label{
   border-radius:14px;
   padding:16px;
   color:#eee;
-  white-space:pre-wrap
+  white-space:pre-wrap;
 }
 
 .staff-panel{
   max-width:650px;
-  margin:auto
+  margin:auto;
 }
 
 .staff-panel h3{
-  color:var(--gold2)
+  color:var(--gold2);
 }
 
 .staff-security{
@@ -992,91 +1024,93 @@ label{
   padding:12px;
   color:#aaa;
   font-size:13px;
-  margin-bottom:15px
+  margin-bottom:15px;
 }
 
 /* MOBILE */
 
 @media(max-width:1000px){
-  .overview-stats,.admin-stats{
-    grid-template-columns:repeat(3,1fr)
+  .overview-stats,
+  .admin-stats{
+    grid-template-columns:repeat(3,1fr);
   }
 }
 
 @media(max-width:900px){
   .grid{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:1fr 1fr;
   }
 
   .detail-grid{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:1fr 1fr;
   }
 
   .member-filters{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:1fr 1fr;
   }
 
   .overview-columns{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 }
 
 @media(max-width:650px){
+
   nav{
-    justify-content:center
+    justify-content:center;
   }
 
   .brand{
     width:100%;
-    justify-content:center
+    justify-content:center;
   }
 
   .links{
-    justify-content:center
+    justify-content:center;
   }
 
   .nav-link{
     font-size:12px;
-    padding:7px 9px
+    padding:7px 9px;
   }
 
   .hero{
-    padding-top:50px
+    padding-top:50px;
   }
 
   .grid,
   .dash,
   .detail-grid{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .overview-stats,
   .admin-stats{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:1fr 1fr;
   }
 
   .member-filters,
   .feedback-filters{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .reset-btn{
-    width:100%
+    width:100%;
   }
 
   .member-info,
   .feedback-meta,
   .profile-grid,
   .feedback-detail-grid{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .quick-actions{
-    grid-template-columns:1fr
+    grid-template-columns:1fr;
   }
 
   .auth-modalbox{
-    border-radius:20px
+    border-radius:20px;
   }
 }
 </style>
@@ -1095,11 +1129,7 @@ src="/images/oumjyoti-logo.png"
 alt="OUMJyoti Logo"
 onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
 
-<span
-class="logo-fallback"
-style="display:none">
-ॐ
-</span>
+<span class="logo-fallback" style="display:none">ॐ</span>
 
 <span>
 <span class="logo-text">OUMJYOTI</span>
@@ -1139,10 +1169,7 @@ onclick="openModal('authModal')">
 </nav>
 </header>
 
-
 <main id="mainContent">
-
-<!-- HOME -->
 
 <div id="homeView">
 
@@ -1178,7 +1205,6 @@ onclick="openModal('authModal')">
 
 </section>
 
-
 <section>
 
 <div class="center">
@@ -1207,7 +1233,6 @@ OUMJYOTI का उद्देश्य भक्ति और मानव स
 
 </div>
 
-
 <div class="card card-touch"
 onclick="openInterface('seva')">
 
@@ -1220,7 +1245,6 @@ onclick="openInterface('seva')">
 </p>
 
 </div>
-
 
 <div class="card card-touch"
 onclick="openInterface('about')">
@@ -1235,7 +1259,6 @@ onclick="openInterface('about')">
 
 </div>
 
-
 <div class="card card-touch"
 onclick="openInterface('feedback')">
 
@@ -1249,7 +1272,6 @@ onclick="openInterface('feedback')">
 
 </div>
 
-
 <div class="card card-touch"
 onclick="openModal('authModal')">
 
@@ -1262,7 +1284,6 @@ Login या Register करके Member Area में जाएँ।
 </p>
 
 </div>
-
 
 <div class="card card-touch"
 onclick="openInterface('contact')">
@@ -1283,13 +1304,7 @@ OUMJYOTI से संपर्क और सहायता के लिए �
 
 </div>
 
-
-<!-- DYNAMIC INTERFACE -->
-
 <div id="interfaceView" class="interface hide"></div>
-
-
-<!-- MEMBER DASHBOARD -->
 
 <section id="dashboard" class="hide">
 
@@ -1300,9 +1315,6 @@ OUMJYOTI से संपर्क और सहायता के लिए �
 <div id="dashboardContent"></div>
 
 </section>
-
-
-<!-- ADMIN PANEL -->
 
 <section id="adminPanel" class="hide">
 
@@ -1322,15 +1334,14 @@ OUMJYOTI administration, members, staff और feedback management
 
 </main>
 
-
 <footer>
 
 <div>
 
 <img
-src="/oumjyoti-logo.png"
-alt="OUMJyoti"
-style="width:60px;height:60px;object-fit:contain;border-radius:50%"
+class="footer-logo"
+src="/images/oumjyoti-logo.png"
+alt="OUMJyoti Logo"
 onerror="this.style.display='none'">
 
 </div>
@@ -1366,7 +1377,6 @@ Contact
 “सेवा में ही सच्ची मानवता है।”
 
 </footer>
-
 
 <!-- AUTH MODAL -->
 
@@ -1412,7 +1422,6 @@ onclick="showAuth('register')">
 
 </div>
 
-
 <div id="loginBox">
 
 <h2 class="auth-form-title">
@@ -1447,7 +1456,6 @@ required>
 </form>
 
 </div>
-
 
 <div id="registerBox" class="hide">
 
@@ -1532,7 +1540,6 @@ required>
 
 </div>
 
-
 <!-- FEEDBACK MODAL -->
 
 <div id="feedbackModal" class="modal">
@@ -1583,7 +1590,6 @@ Send Feedback
 
 </div>
 
-
 <!-- PROFILE MODAL -->
 
 <div id="profileModal" class="modal">
@@ -1601,7 +1607,6 @@ onclick="closeModal('profileModal')">
 </div>
 
 </div>
-
 
 <!-- FEEDBACK VIEW MODAL -->
 
@@ -1621,11 +1626,13 @@ onclick="closeModal('feedbackViewModal')">
 
 </div>
 
-
 <script>
 
-const $=id=>document.getElementById(id);
+/* =============================== */
+/* HELPER */
+/* =============================== */
 
+const $=id=>document.getElementById(id);
 
 /* =============================== */
 /* API */
@@ -1659,7 +1666,6 @@ return d;
 
 };
 
-
 /* =============================== */
 /* MODAL */
 /* =============================== */
@@ -1682,6 +1688,21 @@ el.classList.remove('show');
 
 }
 
+/* =============================== */
+/* CLOSE MODAL ON BACKDROP */
+/* =============================== */
+
+document.querySelectorAll('.modal').forEach(modal=>{
+
+modal.addEventListener('click',e=>{
+
+if(e.target===modal){
+modal.classList.remove('show');
+}
+
+});
+
+});
 
 /* =============================== */
 /* AUTH */
@@ -1709,7 +1730,6 @@ mode==='login'?i===0:i===1
 
 }
 
-
 /* =============================== */
 /* ESCAPE */
 /* =============================== */
@@ -1729,7 +1749,6 @@ c=>({
 );
 
 }
-
 
 /* =============================== */
 /* DATE */
@@ -1757,9 +1776,8 @@ minute:'2-digit'
 
 }
 
-
 /* =============================== */
-/* INTERFACES */
+/* HOME */
 /* =============================== */
 
 function showHome(){
@@ -1781,6 +1799,9 @@ history.replaceState(null,'','#home');
 
 }
 
+/* =============================== */
+/* INTERFACES */
+/* =============================== */
 
 function openInterface(type){
 
@@ -1795,7 +1816,6 @@ const view=$('interfaceView');
 view.classList.remove('hide');
 
 let html='';
-
 
 if(type==='mission'){
 
@@ -1831,7 +1851,6 @@ html=
 
 }
 
-
 else if(type==='seva'){
 
 html=
@@ -1863,7 +1882,6 @@ sevaCard('🌳','वृक्षारोपण','प्रकृति सं�
 '</section>';
 
 }
-
 
 else if(type==='about'){
 
@@ -1900,7 +1918,6 @@ html=
 
 }
 
-
 else if(type==='feedback'){
 
 html=
@@ -1933,7 +1950,6 @@ html=
 
 }
 
-
 else if(type==='contact'){
 
 html=
@@ -1959,7 +1975,7 @@ html=
 '<div class="icon">▶️</div>'+
 '<h3>YouTube</h3>'+
 '<p>OUMJYOTI devotional content के लिए हमारा channel देखें।</p>'+
-'<a class="btn gold" target="_blank" href="https://www.youtube.com/@oumjyoti">YouTube</a>'+
+'<a class="btn gold" target="_blank" rel="noopener" href="https://www.youtube.com/@oumjyoti">YouTube</a>'+
 '</div>'+
 
 '<div class="detail-card">'+
@@ -1975,7 +1991,6 @@ html=
 
 }
 
-
 view.innerHTML=html;
 
 window.scrollTo({
@@ -1986,7 +2001,6 @@ behavior:'smooth'
 history.replaceState(null,'','#'+type);
 
 }
-
 
 function sevaCard(icon,title,text){
 
@@ -1999,7 +2013,6 @@ return(
 );
 
 }
-
 
 /* =============================== */
 /* REGISTER */
@@ -2019,12 +2032,12 @@ const d=await api(
 method:'POST',
 body:JSON.stringify({
 
-name:$('rName').value,
-place:$('rPlace').value,
-email:$('rEmail').value,
-pan:$('rPan').value,
-aadhaar:$('rAadhaar').value,
-mobile:$('rMobile').value,
+name:$('rName').value.trim(),
+place:$('rPlace').value.trim(),
+email:$('rEmail').value.trim(),
+pan:$('rPan').value.trim().toUpperCase(),
+aadhaar:$('rAadhaar').value.trim(),
+mobile:$('rMobile').value.trim(),
 password:$('rPassword').value
 
 })
@@ -2032,7 +2045,7 @@ password:$('rPassword').value
 );
 
 $('regMsg').innerHTML=
-'<div class="msg">✅ '+esc(d.message)+'</div>';
+'<div class="msg">✅ '+esc(d.message||'Registration successful.')+'</div>';
 
 e.target.reset();
 
@@ -2049,7 +2062,6 @@ $('regMsg').innerHTML=
 }
 
 };
-
 
 /* =============================== */
 /* LOGIN */
@@ -2069,7 +2081,7 @@ await api(
 method:'POST',
 body:JSON.stringify({
 
-mobile:$('loginMobile').value,
+mobile:$('loginMobile').value.trim(),
 password:$('loginPassword').value
 
 })
@@ -2093,7 +2105,6 @@ $('loginMsg').innerHTML=
 
 };
 
-
 /* =============================== */
 /* FEEDBACK */
 /* =============================== */
@@ -2112,9 +2123,9 @@ await api(
 method:'POST',
 body:JSON.stringify({
 
-mobile:$('fMobile').value,
-email:$('fEmail').value,
-message:$('fMessage').value
+mobile:$('fMobile').value.trim(),
+email:$('fEmail').value.trim(),
+message:$('fMessage').value.trim()
 
 })
 }
@@ -2134,7 +2145,6 @@ $('feedMsg').innerHTML=
 
 };
 
-
 /* =============================== */
 /* LOAD USER */
 /* =============================== */
@@ -2148,7 +2158,6 @@ const d=await api('/api/me');
 if(!d.authenticated){
 
 $('dashboard').classList.add('hide');
-
 $('adminPanel').classList.add('hide');
 
 return;
@@ -2162,10 +2171,13 @@ renderAdmin(d.user);
 else
 $('adminPanel').classList.add('hide');
 
-}catch(e){}
+}catch(e){
+
+console.log('Session check:',e.message);
 
 }
 
+}
 
 /* =============================== */
 /* MEMBER DASHBOARD */
@@ -2176,6 +2188,8 @@ function renderDashboard(u){
 $('homeView').classList.add('hide');
 
 $('interfaceView').classList.add('hide');
+
+$('adminPanel').classList.add('hide');
 
 $('dashboard').classList.remove('hide');
 
@@ -2203,15 +2217,12 @@ $('dashboardContent').innerHTML=
 
 }
 
-
 /* =============================== */
 /* ADMIN */
 /* =============================== */
 
 let allAdminMembers=[];
-
 let allAdminFeedback=[];
-
 
 async function renderAdmin(u){
 
@@ -2242,7 +2253,6 @@ adminOverview();
 
 }
 
-
 function setAdminTab(id){
 
 document
@@ -2255,7 +2265,6 @@ if(el)
 el.classList.add('active');
 
 }
-
 
 /* =============================== */
 /* ADMIN OVERVIEW */
@@ -2291,7 +2300,6 @@ $('adminArea').innerHTML=
 }
 
 }
-
 
 function renderAdminOverview(){
 
@@ -2334,7 +2342,6 @@ const recentFeedback=
 
 const disabledMembers=
 members.filter(x=>x.status!=='active').slice(0,5);
-
 
 $('adminArea').innerHTML=
 
@@ -2420,7 +2427,6 @@ esc(x.mobile||'—')+' • '+esc(x.role||'member')
 
 }
 
-
 function overviewStat(icon,num,label){
 
 return(
@@ -2432,7 +2438,6 @@ return(
 );
 
 }
-
 
 function activity(icon,title,date){
 
@@ -2447,7 +2452,6 @@ return(
 );
 
 }
-
 
 /* =============================== */
 /* MEMBERS */
@@ -2474,7 +2478,6 @@ $('adminArea').innerHTML=
 }
 
 }
-
 
 function renderMemberManager(){
 
@@ -2529,7 +2532,6 @@ filterMembers();
 
 }
 
-
 function adminStat(icon,num,label){
 
 return(
@@ -2541,7 +2543,6 @@ return(
 );
 
 }
-
 
 function filterMembers(){
 
@@ -2575,7 +2576,6 @@ renderFilteredMembers(list);
 
 }
 
-
 function resetMemberFilters(){
 
 if($('memberSearch'))$('memberSearch').value='';
@@ -2585,7 +2585,6 @@ if($('memberStatusFilter'))$('memberStatusFilter').value='all';
 filterMembers();
 
 }
-
 
 function renderFilteredMembers(list){
 
@@ -2693,7 +2692,6 @@ action+
 
 }
 
-
 /* =============================== */
 /* MEMBER PROFILE */
 /* =============================== */
@@ -2772,7 +2770,6 @@ openModal('profileModal');
 
 }
 
-
 function profileItem(label,value){
 
 return(
@@ -2783,7 +2780,6 @@ return(
 );
 
 }
-
 
 /* =============================== */
 /* ENABLE / DISABLE */
@@ -2802,7 +2798,7 @@ status==='disabled'
 try{
 
 await api(
-'/api/admin/members/'+id,
+'/api/admin/members/'+encodeURIComponent(id),
 {
 method:'PATCH',
 body:JSON.stringify({status})
@@ -2818,7 +2814,6 @@ alert(e.message);
 }
 
 }
-
 
 /* =============================== */
 /* FEEDBACK */
@@ -2845,7 +2840,6 @@ $('adminArea').innerHTML=
 }
 
 }
-
 
 function renderFeedbackManager(){
 
@@ -2898,7 +2892,6 @@ filterFeedback();
 
 }
 
-
 function filterFeedback(){
 
 const search=($('feedbackSearch')?.value||'').trim().toLowerCase();
@@ -2931,7 +2924,6 @@ renderFilteredFeedback(list);
 
 }
 
-
 function resetFeedbackFilters(){
 
 if($('feedbackSearch'))$('feedbackSearch').value='';
@@ -2940,7 +2932,6 @@ if($('feedbackStatusFilter'))$('feedbackStatusFilter').value='all';
 filterFeedback();
 
 }
-
 
 function renderFilteredFeedback(list){
 
@@ -3031,7 +3022,6 @@ x.id+
 
 }
 
-
 /* =============================== */
 /* VIEW FEEDBACK */
 /* =============================== */
@@ -3116,7 +3106,6 @@ openModal('feedbackViewModal');
 
 }
 
-
 async function markFeedbackRead(id){
 
 if(
@@ -3146,7 +3135,6 @@ alert(e.message);
 
 }
 
-
 async function markFeedbackReadFromModal(id){
 
 await markFeedbackRead(id);
@@ -3154,7 +3142,6 @@ await markFeedbackRead(id);
 closeModal('feedbackViewModal');
 
 }
-
 
 /* =============================== */
 /* ADD STAFF */
@@ -3216,13 +3203,13 @@ await api(
 method:'POST',
 body:JSON.stringify({
 
-name:$('sName').value,
-place:$('sPlace').value,
-email:$('sEmail').value,
-mobile:$('sMobile').value,
+name:$('sName').value.trim(),
+place:$('sPlace').value.trim(),
+email:$('sEmail').value.trim(),
+mobile:$('sMobile').value.trim(),
 password:$('sPass').value,
 role:'staff',
-staffRole:$('sRole').value
+staffRole:$('sRole').value.trim()
 
 })
 }
@@ -3244,12 +3231,13 @@ $('staffMsg').innerHTML=
 
 }
 
-
 /* =============================== */
 /* LOGOUT */
 /* =============================== */
 
 async function logout(){
+
+try{
 
 await fetch(
 '/api/logout',
@@ -3258,10 +3246,15 @@ method:'POST'
 }
 );
 
-location.reload();
+}catch(e){
+
+console.log(e);
 
 }
 
+location.reload();
+
+}
 
 /* =============================== */
 /* HASH NAVIGATION */
@@ -3272,14 +3265,26 @@ window.addEventListener('hashchange',()=>{
 const h=location.hash.replace('#','');
 
 if(h==='home'||!h){
+
 showHome();
+
 }
-else if(['mission','seva','about','feedback','contact'].includes(h)){
+
+else if(
+['mission','seva','about','feedback','contact'].includes(h)
+){
+
 openInterface(h);
+
+}
+
+else if(h==='dashboard'){
+
+loadMe();
+
 }
 
 });
-
 
 /* =============================== */
 /* INITIAL LOAD */
