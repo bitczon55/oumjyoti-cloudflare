@@ -51,7 +51,9 @@ async function randomB64(n = 32) {
 async function passwordHash(password, saltB64) {
   const salt = saltB64
     ? unb64(saltB64)
-    : crypto.getRandomValues(new Uint8Array(16));
+    : crypto.randomBytes
+      ? crypto.randomBytes(16)
+      : crypto.getRandomValues(new Uint8Array(16));
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -698,26 +700,41 @@ async function api(request, env) {
     path === "/api/seva" &&
     method === "GET"
   ) {
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          id,
-          title,
-          description,
-          image_url,
-          icon,
-          active,
-          sort_order,
-          created_at,
-          updated_at
-        FROM seva
-        WHERE active = 1
-        ORDER BY sort_order ASC, created_at ASC`
-      ).all();
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            title,
+            description,
+            image_url,
+            icon,
+            active,
+            sort_order,
+            created_at,
+            updated_at
+          FROM seva
+          WHERE active = 1
+          ORDER BY sort_order ASC, created_at ASC`
+        ).all();
 
-    return json({
-      seva: rows.results || []
-    });
+      return json({
+        seva: rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "PUBLIC_SEVA_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Seva service is not available"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
@@ -1069,116 +1086,3 @@ async function api(request, env) {
     ) {
       return json(
         {
-          error:
-            "Invalid details"
-        },
-        400
-      );
-    }
-
-    const p =
-      await passwordHash(password);
-
-    try {
-      await env.DB.prepare(
-        `INSERT INTO users
-        (
-          id,
-          role,
-          name,
-          place,
-          email,
-          mobile,
-          password_hash,
-          password_salt,
-          status,
-          staff_role,
-          created_at,
-          updated_at
-        )
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
-      )
-        .bind(
-          uid(),
-          role,
-          name,
-          place,
-          email,
-          mobile,
-          p.hash,
-          p.salt,
-          "active",
-          role === "staff"
-            ? staffRole
-            : null,
-          now(),
-          now()
-        )
-        .run();
-
-      return json(
-        { ok: true },
-        201
-      );
-    } catch (e) {
-      console.error(
-        "ADMIN_MEMBER_CREATE_ERROR:",
-        e
-      );
-
-      return json(
-        {
-          error:
-            "Email or mobile already exists"
-        },
-        409
-      );
-    }
-  }
-
-  /* =========================
-     ADMIN ENABLE / DISABLE
-  ========================== */
-
-  const memberMatch =
-    path.match(
-      /^\/api\/admin\/members\/([^/]+)$/
-    );
-
-  if (
-    memberMatch &&
-    method === "PATCH"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const id =
-      memberMatch[1];
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const status =
-      b.status === "disabled"
-        ? "disabled"
-        : "active";
-
-    if (
-      id === u.id &&
-      status === "disabled"
-    ) {
-      return json(
-        {
-          error:
-            "You cannot disable your own admin account"
-        },
-        400
-      );
-    }
-
-    await env.DB.prepare(
-      `UPDATE
