@@ -8,12 +8,12 @@
 
   <meta
     name="description"
-    content="OUMJYOTI — भक्ति, सेवा और मानवता का संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।"
+    content="OUMJYOTI — भक्ति, सेवा और मानवता का दिव्य संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।"
   />
 
   <meta
     name="keywords"
-    content="OUMJYOTI, सेवा, गौ सेवा, अन्न दान, मानवता, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता, आपदा राहत, भक्ति"
+    content="OUMJYOTI, OUM Jyoti, Bhakti, Seva, Sanatan, Gau Seva, Anna Daan, Education, Health Help, Human Service"
   />
 
   <meta name="theme-color" content="#0f0508" />
@@ -29,6 +29,8 @@
       --text: #f5f5f5;
       --muted: #c8b9b9;
       --orange: #ff6b00;
+      --green: #7dffb2;
+      --red: #ff9d9d;
       --line: rgba(243, 186, 47, 0.24);
       --shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
     }
@@ -44,24 +46,23 @@
     }
 
     body {
-      font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans Devanagari",
-        sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(243,186,47,.08), transparent 35%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
       min-height: 100vh;
+      background:
+        radial-gradient(circle at top, rgba(243, 186, 47, 0.08), transparent 35%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color: var(--text);
+      font-family:
+        Arial,
+        "Noto Sans Devanagari",
+        "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
     }
 
     button,
     input,
-    textarea {
+    textarea,
+    select {
       font: inherit;
     }
 
@@ -79,22 +80,23 @@
       display: block;
     }
 
-    /* =========================
-       HEADER
-    ========================== */
+    .container {
+      width: min(1180px, 92%);
+      margin: 0 auto;
+    }
+
+    /* ================= HEADER ================= */
 
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
       background: rgba(15, 5, 8, 0.94);
-      backdrop-filter: blur(14px);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--line);
     }
 
     .nav {
-      width: min(1180px, 94%);
-      margin: auto;
       min-height: 74px;
       display: flex;
       align-items: center;
@@ -114,141 +116,157 @@
       height: 52px;
       object-fit: contain;
       border-radius: 50%;
+      border: 1px solid rgba(243, 186, 47, 0.35);
+      background: #18090d;
     }
 
-    .brand-text strong {
-      display: block;
+    .brand-text {
+      min-width: 0;
+    }
+
+    .brand-title {
       color: var(--gold);
-      font-size: 1.25rem;
+      font-size: 20px;
+      font-weight: 800;
       letter-spacing: 1px;
     }
 
-    .brand-text span {
+    .brand-subtitle {
       color: var(--muted);
-      font-size: 0.75rem;
+      font-size: 11px;
     }
 
-    nav {
+    .nav-links {
       display: flex;
       align-items: center;
-      gap: 7px;
+      gap: 6px;
       flex-wrap: wrap;
       justify-content: flex-end;
     }
 
-    nav a,
-    nav button {
+    .nav-links button {
+      border: 0;
       background: transparent;
       color: var(--text);
-      border: 0;
-      padding: 8px 10px;
+      padding: 9px 11px;
       border-radius: 9px;
-      font-size: 0.9rem;
-      transition: 0.25s;
+      transition: 0.2s;
     }
 
-    nav a:hover,
-    nav button:hover {
+    .nav-links button:hover {
       color: var(--gold);
       background: rgba(243, 186, 47, 0.08);
     }
 
-    /* =========================
-       HERO
-    ========================== */
+    .nav-login {
+      border: 1px solid var(--gold) !important;
+      color: var(--gold) !important;
+    }
+
+    /* ================= HERO ================= */
 
     .hero {
-      width: min(1180px, 94%);
-      margin: auto;
-      min-height: 590px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 75px 0 55px;
       text-align: center;
-      padding: 80px 20px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .hero-inner {
-      max-width: 850px;
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      background: rgba(243, 186, 47, 0.08);
+      filter: blur(60px);
+      left: 50%;
+      top: -180px;
+      transform: translateX(-50%);
+      pointer-events: none;
     }
 
-    .om {
-      font-size: clamp(4rem, 10vw, 8rem);
-      color: var(--gold);
-      line-height: 1;
-      text-shadow: 0 0 35px rgba(243,186,47,.25);
-      margin-bottom: 12px;
+    .hero-logo {
+      width: 115px;
+      height: 115px;
+      object-fit: contain;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      filter: drop-shadow(0 0 25px rgba(243, 186, 47, 0.16));
     }
 
     .hero h1 {
-      font-size: clamp(2.3rem, 6vw, 5rem);
       color: var(--gold);
-      letter-spacing: 4px;
-      margin-bottom: 8px;
+      font-size: clamp(32px, 6vw, 60px);
+      line-height: 1.15;
+      margin-bottom: 15px;
     }
 
-    .hero .tagline {
-      font-size: clamp(1.1rem, 2.5vw, 1.7rem);
+    .hero h2 {
       color: var(--gold2);
-      font-weight: 700;
-      margin-bottom: 20px;
+      font-size: clamp(19px, 3vw, 28px);
+      margin-bottom: 15px;
     }
 
     .hero p {
-      color: var(--muted);
       max-width: 760px;
-      margin: auto;
-      font-size: 1.05rem;
+      margin: 0 auto;
+      color: var(--muted);
+      font-size: 17px;
     }
 
-    .hero-buttons {
+    .hero-actions {
       display: flex;
       justify-content: center;
       gap: 12px;
       flex-wrap: wrap;
-      margin-top: 30px;
+      margin-top: 28px;
     }
+
+    /* ================= BUTTONS ================= */
 
     .btn {
       border: 1px solid var(--gold);
-      background: linear-gradient(135deg, #f3ba2f, #d99818);
-      color: #1b0d05;
-      padding: 12px 20px;
-      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), #c78b13);
+      color: #190b00;
+      padding: 11px 18px;
+      border-radius: 10px;
       font-weight: 800;
-      box-shadow: 0 8px 25px rgba(243,186,47,.15);
-      transition: 0.25s;
+      transition: 0.2s;
+      box-shadow: 0 5px 18px rgba(243, 186, 47, 0.12);
     }
 
     .btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(243,186,47,.25);
+      box-shadow: 0 8px 22px rgba(243, 186, 47, 0.2);
     }
 
     .btn.secondary {
       background: transparent;
-      color: var(--gold2);
+      color: var(--gold);
     }
 
-    /* =========================
-       COMMON
-    ========================== */
+    .btn.danger {
+      border-color: #ff7070;
+      background: transparent;
+      color: #ff9d9d;
+    }
+
+    /* ================= MAIN CARDS ================= */
 
     .section {
-      width: min(1180px, 94%);
-      margin: auto;
-      padding: 35px 0 80px;
+      padding: 35px 0;
     }
 
     .section-title {
       text-align: center;
-      margin-bottom: 35px;
+      margin-bottom: 28px;
     }
 
     .section-title h2 {
       color: var(--gold);
-      font-size: clamp(1.8rem, 4vw, 2.7rem);
-      margin-bottom: 8px;
+      font-size: clamp(26px, 4vw, 38px);
+      margin-bottom: 7px;
     }
 
     .section-title p {
@@ -262,27 +280,25 @@
     }
 
     .main-card {
-      background:
-        linear-gradient(
-          145deg,
-          rgba(243,186,47,.04),
-          rgba(255,255,255,.01)
-        ),
-        var(--card);
+      background: linear-gradient(
+        145deg,
+        rgba(33, 16, 21, 0.96),
+        rgba(28, 14, 18, 0.96)
+      );
       border: 1px solid var(--line);
-      border-radius: 18px;
+      border-radius: 17px;
       padding: 25px;
       box-shadow: var(--shadow);
       transition: 0.25s;
     }
 
     .main-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(243,186,47,.5);
+      transform: translateY(-4px);
+      border-color: rgba(243, 186, 47, 0.5);
     }
 
     .main-card .icon {
-      font-size: 2.4rem;
+      font-size: 38px;
       margin-bottom: 12px;
     }
 
@@ -293,77 +309,11 @@
 
     .main-card p {
       color: var(--muted);
-      font-size: 0.94rem;
-      margin-bottom: 18px;
     }
 
-    .card-btn {
-      border: 1px solid var(--gold);
-      color: var(--gold2);
-      background: transparent;
-      border-radius: 9px;
-      padding: 8px 13px;
-      font-size: 0.88rem;
-    }
+    /* ================= SEVA ================= */
 
-    .card-btn:hover {
-      background: rgba(243,186,47,.1);
-    }
-
-    /* =========================
-       INTERFACE
-    ========================== */
-
-    #interfaceArea {
-      width: min(1180px, 94%);
-      margin: 0 auto 80px;
-    }
-
-    .interface {
-      background: var(--bg2);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-      animation: fadeIn .3s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .interface-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .interface-header h2 {
-      color: var(--gold);
-    }
-
-    .close-btn {
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--gold2);
-      padding: 8px 12px;
-      border-radius: 9px;
-    }
-
-    /* =========================
-       IMAGE SYSTEM
-    ========================== */
-
-    .detail-grid {
+    .seva-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 18px;
@@ -374,109 +324,101 @@
       border: 1px solid var(--line);
       border-radius: 17px;
       background: var(--card);
-      box-shadow: 0 8px 25px rgba(0,0,0,.25);
-      transition: .25s;
+      box-shadow: var(--shadow);
+      transition: 0.25s;
     }
 
     .seva-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(243,186,47,.55);
-    }
-
-    .seva-image-wrap {
-      position: relative;
-      width: 100%;
-      height: 190px;
-      overflow: hidden;
-      background:
-        radial-gradient(circle, rgba(243,186,47,.15), transparent 60%),
-        #241015;
+      transform: translateY(-4px);
+      border-color: rgba(243, 186, 47, 0.5);
     }
 
     .seva-image {
       width: 100%;
-      height: 100%;
+      height: 190px;
       object-fit: cover;
-      transition: transform .4s ease;
-    }
-
-    .seva-card:hover .seva-image {
-      transform: scale(1.05);
-    }
-
-    .image-fallback {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
       background:
-        radial-gradient(
-          circle at center,
-          rgba(243,186,47,.16),
-          transparent 65%
-        ),
-        linear-gradient(135deg, #211015, #12070a);
+        linear-gradient(
+          135deg,
+          rgba(243, 186, 47, 0.16),
+          rgba(255, 107, 0, 0.08)
+        );
     }
 
     .seva-content {
-      padding: 18px;
+      padding: 19px;
+    }
+
+    .seva-icon {
+      font-size: 30px;
+      margin-bottom: 8px;
     }
 
     .seva-content h3 {
       color: var(--gold2);
       margin-bottom: 7px;
-      font-size: 1.15rem;
     }
 
     .seva-content p {
       color: var(--muted);
-      font-size: .9rem;
+      font-size: 14px;
     }
 
-    .image-note {
-      margin-top: 20px;
-      padding: 12px 15px;
-      border: 1px dashed var(--line);
-      border-radius: 10px;
+    /* ================= INTERFACE ================= */
+
+    #interfaceArea {
+      width: min(1000px, 92%);
+      margin: 20px auto 45px;
+    }
+
+    .interface {
+      background: rgba(20, 7, 11, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .interface-header {
+      padding: 20px 22px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .interface-header h2 {
+      color: var(--gold);
+    }
+
+    .close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: transparent;
       color: var(--muted);
-      font-size: .85rem;
-      text-align: center;
+      padding: 8px 13px;
+      border-radius: 9px;
     }
 
-    /* =========================
-       ABOUT / MISSION
-    ========================== */
+    .close-btn:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
 
     .content-box {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 28px;
-      color: var(--muted);
+      padding: 25px;
     }
 
     .content-box h3 {
-      color: var(--gold);
+      color: var(--gold2);
       margin-bottom: 10px;
     }
 
     .content-box p {
-      margin-bottom: 12px;
+      color: var(--muted);
     }
 
-    .content-box ul {
-      padding-left: 22px;
-    }
-
-    .content-box li {
-      margin-bottom: 7px;
-    }
-
-    /* =========================
-       FORMS
-    ========================== */
+    /* ================= FORMS ================= */
 
     .form-grid {
       display: grid;
@@ -485,7 +427,7 @@
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 15px;
     }
 
     .form-group.full {
@@ -496,149 +438,133 @@
       display: block;
       color: var(--gold2);
       margin-bottom: 6px;
-      font-size: .9rem;
+      font-size: 14px;
     }
 
     .form-group input,
     .form-group textarea,
     .form-group select {
       width: 100%;
-      background: #100609;
+      border: 1px solid rgba(243, 186, 47, 0.22);
+      background: #10070a;
       color: var(--text);
-      border: 1px solid var(--line);
       border-radius: 10px;
-      padding: 12px;
+      padding: 12px 13px;
       outline: none;
     }
 
-    .form-group textarea {
-      min-height: 120px;
-      resize: vertical;
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(243, 186, 47, 0.08);
     }
 
-    .form-group input:focus,
-    .form-group textarea:focus {
-      border-color: var(--gold);
+    .form-group textarea {
+      min-height: 130px;
+      resize: vertical;
     }
 
     .form-actions {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
-      margin-top: 10px;
     }
 
     .message {
-      margin-top: 15px;
-      padding: 10px 13px;
-      border-radius: 9px;
       display: none;
+      margin-top: 15px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: rgba(243, 186, 47, 0.06);
     }
 
     .message.show {
       display: block;
     }
 
-    /* =========================
-       FOOTER
-    ========================== */
+    .small-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 7px;
+    }
+
+    /* ================= FOOTER ================= */
 
     footer {
+      margin-top: 50px;
       border-top: 1px solid var(--line);
-      background: #0a0305;
-      padding: 40px 20px 25px;
+      padding: 35px 0;
       text-align: center;
+      background: rgba(0, 0, 0, 0.12);
     }
 
-    .footer-logo {
-      width: 75px;
-      height: 75px;
-      object-fit: contain;
-      margin: 0 auto 12px;
-    }
-
-    footer h3 {
+    footer .footer-brand {
       color: var(--gold);
-      margin-bottom: 5px;
+      font-size: 23px;
+      font-weight: 800;
+      margin-bottom: 7px;
     }
 
     footer p {
       color: var(--muted);
-      font-size: .88rem;
-      margin-bottom: 6px;
+      font-size: 13px;
     }
 
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .footer-links a {
-      color: var(--gold2);
-      font-size: .88rem;
-    }
-
-    .copyright {
-      margin-top: 20px;
-      color: #8f7f82;
-      font-size: .78rem;
-    }
-
-    /* =========================
-       RESPONSIVE
-    ========================== */
+    /* ================= RESPONSIVE ================= */
 
     @media (max-width: 900px) {
       .main-grid,
-      .detail-grid {
+      .seva-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
       .nav {
+        padding: 10px 0;
+        align-items: flex-start;
         flex-direction: column;
-        padding: 12px 0;
       }
 
-      nav {
-        justify-content: center;
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 4px;
       }
     }
 
-    @media (max-width: 600px) {
-      .hero {
-        min-height: 500px;
-        padding: 60px 10px;
-      }
-
+    @media (max-width: 620px) {
       .main-grid,
-      .detail-grid,
+      .seva-grid,
       .form-grid {
         grid-template-columns: 1fr;
       }
 
-      .interface {
-        padding: 18px;
+      .form-group.full {
+        grid-column: auto;
+      }
+
+      .hero {
+        padding-top: 50px;
+      }
+
+      .hero-logo {
+        width: 90px;
+        height: 90px;
       }
 
       .interface-header {
         align-items: flex-start;
       }
 
-      .seva-image-wrap {
-        height: 210px;
+      .content-box {
+        padding: 18px;
       }
 
-      .brand-text span {
-        display: none;
-      }
-
-      nav a,
-      nav button {
-        font-size: .78rem;
-        padding: 7px;
+      .nav-links button {
+        padding: 8px 9px;
+        white-space: nowrap;
       }
     }
   </style>
@@ -646,71 +572,103 @@
 
 <body>
 
-  <!-- =========================
-       HEADER
-  ========================== -->
+  <!-- ================= HEADER ================= -->
 
   <header>
-    <div class="nav">
+    <div class="container nav">
 
-      <a href="#home" class="brand">
+      <div class="brand">
         <img
           src="/oumjyoti-logo.png"
-          alt="OUMJYOTI Logo"
-          onerror="this.style.display='none'"
+          alt="OUMJyoti Logo"
+          onerror="this.style.display='none';"
         />
 
         <div class="brand-text">
-          <strong>OUMJYOTI</strong>
-          <span>भक्ति • सेवा • मानवता</span>
+          <div class="brand-title">OUMJYOTI</div>
+          <div class="brand-subtitle">भक्ति • सेवा • मानवता</div>
         </div>
-      </a>
+      </div>
 
-      <nav>
-        <a href="#home">Home</a>
-        <button onclick="openInterface('mission')">Mission</button>
-        <button onclick="openInterface('seva')">Seva</button>
-        <button onclick="openInterface('about')">About</button>
-        <button onclick="openInterface('feedback')">Feedback</button>
-        <button onclick="openInterface('login')">Login</button>
+      <nav class="nav-links">
+
+        <button type="button" onclick="goHome()">
+          Home
+        </button>
+
+        <button type="button" onclick="openInterface('mission')">
+          Mission
+        </button>
+
+        <button type="button" onclick="openInterface('seva')">
+          Seva
+        </button>
+
+        <button type="button" onclick="openInterface('about')">
+          About
+        </button>
+
+        <button type="button" onclick="openInterface('feedback')">
+          Feedback
+        </button>
+
+        <button
+          type="button"
+          class="nav-login"
+          id="authButton"
+          onclick="handleAuthButton()"
+        >
+          Login
+        </button>
+
       </nav>
 
     </div>
   </header>
 
 
-  <!-- =========================
-       HERO
-  ========================== -->
+  <!-- ================= HERO ================= -->
 
   <main id="home">
 
     <section class="hero">
 
-      <div class="hero-inner">
+      <div class="container">
 
-        <div class="om">ॐ</div>
+        <img
+          class="hero-logo"
+          src="/oumjyoti-logo.png"
+          alt="OUMJyoti"
+          onerror="this.style.display='none';"
+        />
 
-        <h1>OUMJYOTI</h1>
+        <h1>ॐ OUMJYOTI</h1>
 
-        <div class="tagline">
-          भक्ति • सेवा • मानवता
-        </div>
+        <h2>भक्ति • सेवा • मानवता</h2>
 
         <p>
-          जहाँ भक्ति से सेवा जन्म लेती है और सेवा से मानवता मजबूत होती है।
-          OUMJYOTI का उद्देश्य जरूरतमंद लोगों, पशुओं और समाज के लिए
-          सेवा, सहयोग और सकारात्मक प्रयासों को एक साथ लाना है।
+          भक्ति की ज्योति, सेवा की भावना और मानवता के लिए एक सकारात्मक प्रयास।
+          OUMJYOTI का उद्देश्य आध्यात्मिकता के साथ समाज सेवा को जोड़ना है।
         </p>
 
-        <div class="hero-buttons">
-          <button class="btn" onclick="openInterface('seva')">
-            हमारी सेवा देखें
+        <div class="hero-actions">
+
+          <button
+            class="btn"
+            type="button"
+            onclick="openInterface('seva')"
+          >
+            🙏 हमारी सेवाएँ
           </button>
 
-          <button class="btn secondary" onclick="openInterface('about')">
-            OUMJYOTI के बारे में
+          <button
+            class="btn secondary"
+            type="button"
+            onclick="openInterface('mission')"
+          >
+            🌸 हमारा उद्देश्य
           </button>
+
         </div>
 
       </div>
@@ -718,145 +676,96 @@
     </section>
 
 
-    <!-- =========================
-         MAIN CARDS
-    ========================== -->
+    <!-- ================= MAIN CARDS ================= -->
 
     <section class="section">
 
-      <div class="section-title">
-        <h2>OUMJYOTI</h2>
-        <p>भक्ति से सेवा • सेवा से मानवता</p>
-      </div>
+      <div class="container">
 
-      <div class="main-grid">
-
-        <div class="main-card">
-          <div class="icon">🙏</div>
-          <h3>हमारा Mission</h3>
-          <p>
-            समाज में सेवा, सहयोग और मानवता की भावना को बढ़ावा देना।
-          </p>
-          <button class="card-btn" onclick="openInterface('mission')">
-            जानें
-          </button>
+        <div class="section-title">
+          <h2>OUMJYOTI का उद्देश्य</h2>
+          <p>भक्ति से सेवा और सेवा से मानवता की ओर</p>
         </div>
 
+        <div class="main-grid">
 
-        <div class="main-card">
-          <div class="icon">🤝</div>
-          <h3>Seva Mission</h3>
-          <p>
-            गौ सेवा, अन्न दान, शिक्षा, स्वास्थ्य और जरूरतमंदों की सहायता।
-          </p>
-          <button class="card-btn" onclick="openInterface('seva')">
-            सेवाएँ देखें
-          </button>
-        </div>
+          <div class="main-card">
+            <div class="icon">🙏</div>
+            <h3>भक्ति</h3>
+            <p>
+              सनातन संस्कृति, भक्ति, आध्यात्मिकता और सकारात्मक विचारों
+              को लोगों तक पहुँचाना।
+            </p>
+          </div>
 
+          <div class="main-card">
+            <div class="icon">🤝</div>
+            <h3>सेवा</h3>
+            <p>
+              जरूरतमंद लोगों और समाज के विभिन्न वर्गों की सहायता के लिए
+              सेवा कार्यों को बढ़ावा देना।
+            </p>
+          </div>
 
-        <div class="main-card">
-          <div class="icon">🕉️</div>
-          <h3>About OUMJYOTI</h3>
-          <p>
-            OUMJYOTI के उद्देश्य और हमारी सेवा यात्रा के बारे में जानें।
-          </p>
-          <button class="card-btn" onclick="openInterface('about')">
-            पढ़ें
-          </button>
-        </div>
+          <div class="main-card">
+            <div class="icon">❤️</div>
+            <h3>मानवता</h3>
+            <p>
+              प्रेम, करुणा, सहयोग और मानवता की भावना को समाज में मजबूत करना।
+            </p>
+          </div>
 
-
-        <div class="main-card">
-          <div class="icon">💬</div>
-          <h3>Members Feedback</h3>
-          <p>
-            सदस्य अपने विचार और सुझाव हमारे साथ साझा कर सकते हैं।
-          </p>
-          <button class="card-btn" onclick="openInterface('feedback')">
-            Feedback
-          </button>
-        </div>
-
-
-        <div class="main-card">
-          <div class="icon">👤</div>
-          <h3>Member Area</h3>
-          <p>
-            भविष्य में सदस्य यहाँ login करके अपनी जानकारी देख सकेंगे।
-          </p>
-          <button class="card-btn" onclick="openInterface('login')">
-            Login
-          </button>
-        </div>
-
-
-        <div class="main-card">
-          <div class="icon">📞</div>
-          <h3>Contact</h3>
-          <p>
-            OUMJYOTI से जुड़ें और सेवा के इस प्रयास का हिस्सा बनें।
-          </p>
-          <a
-            class="card-btn"
-            href="https://www.youtube.com/@oumjyoti"
-            target="_blank"
-            rel="noopener"
-          >
-            YouTube
-          </a>
         </div>
 
       </div>
 
     </section>
+
+
+    <!-- ================= SEVA SECTION ================= -->
+
+    <section class="section" id="sevaSection">
+
+      <div class="container">
+
+        <div class="section-title">
+          <h2>हमारी सेवा</h2>
+          <p>सेवा ही सबसे सुंदर साधना है</p>
+        </div>
+
+        <div id="sevaGrid" class="seva-grid"></div>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================= DYNAMIC INTERFACE ================= -->
+
+    <div id="interfaceArea"></div>
 
   </main>
 
 
-  <!-- =========================
-       DYNAMIC INTERFACE
-  ========================== -->
-
-  <div id="interfaceArea"></div>
-
-
-  <!-- =========================
-       FOOTER
-  ========================== -->
+  <!-- ================= FOOTER ================= -->
 
   <footer>
 
-    <img
-      class="footer-logo"
-      src="/oumjyoti-logo.png"
-      alt="OUMJYOTI"
-      onerror="this.style.display='none'"
-    />
+    <div class="container">
 
-    <h3>OUMJYOTI</h3>
+      <div class="footer-brand">
+        ॐ OUMJYOTI
+      </div>
 
-    <p>भक्ति • सेवा • मानवता</p>
+      <p>
+        भक्ति • सेवा • मानवता
+      </p>
 
-    <div class="footer-links">
-      <a href="#home">Home</a>
-      <a href="javascript:void(0)" onclick="openInterface('mission')">
-        Mission
-      </a>
-      <a href="javascript:void(0)" onclick="openInterface('seva')">
-        Seva
-      </a>
-      <a href="javascript:void(0)" onclick="openInterface('about')">
-        About
-      </a>
-      <a href="https://www.youtube.com/@oumjyoti" target="_blank">
-        YouTube
-      </a>
+      <p style="margin-top:8px;">
+        © 2026 OUMJYOTI. All Rights Reserved.
+      </p>
+
     </div>
-
-    <p class="copyright">
-      © 2026 OUMJYOTI. All Rights Reserved.
-    </p>
 
   </footer>
 
@@ -864,454 +773,167 @@
   <script>
 
     /* =========================================================
-       OUMJYOTI IMAGE SYSTEM
+       OUMJYOTI FRONTEND
+       ========================================================= */
 
-       Images folder:
-       public/Images/
 
-       Example files:
-       gau-seva.jpg
-       ann-daan.jpg
-       education.jpg
-       elderly-seva.jpg
-       health-help.jpg
-       disaster-relief.jpg
-       animal-seva.jpg
-       clothes-donation.jpg
-       tree-plantation.jpg
-    ========================================================= */
+    /* ================= SEVA DATA ================= */
 
     const sevaData = [
 
       {
-        icon: "🐄",
         title: "गौ सेवा",
+        description:
+          "गौ माता की सेवा, संरक्षण और उनके लिए आवश्यक सहायता।",
         image: "/Images/gau-seva.jpg",
-        text: "जरूरतमंद गौवंश की देखभाल, भोजन और सेवा के लिए प्रयास।"
+        icon: "🐄"
       },
 
       {
-        icon: "🍚",
         title: "अन्न दान",
-        image: "/Images/ann-daan.jpg",
-        text: "जरूरतमंद परिवारों और लोगों तक भोजन एवं राशन पहुँचाने का प्रयास।"
+        description:
+          "जरूरतमंद लोगों तक भोजन और आवश्यक खाद्य सामग्री पहुँचाने का प्रयास।",
+        image: "/Images/anna-daan.jpg",
+        icon: "🍚"
       },
 
       {
-        icon: "📚",
-        title: "गरीब बच्चों की शिक्षा",
+        title: "शिक्षा सहायता",
+        description:
+          "जरूरतमंद बच्चों की शिक्षा और अध्ययन में सहयोग।",
         image: "/Images/education.jpg",
-        text: "जरूरतमंद बच्चों को शिक्षा और सीखने के अवसर उपलब्ध कराने का प्रयास।"
+        icon: "📚"
       },
 
       {
-        icon: "👴",
         title: "बुजुर्ग सेवा",
-        image: "/Images/elderly-seva.jpg",
-        text: "जरूरतमंद बुजुर्गों के सम्मान, सहयोग और सहायता के लिए प्रयास।"
+        description:
+          "वरिष्ठ नागरिकों के सम्मान, सहयोग और आवश्यक सहायता के लिए प्रयास।",
+        image: "/Images/elderly-care.jpg",
+        icon: "❤️"
       },
 
       {
-        icon: "🏥",
         title: "स्वास्थ्य सहायता",
-        image: "/Images/health-help.jpg",
-        text: "जरूरतमंद लोगों को स्वास्थ्य संबंधी सहायता से जोड़ने का प्रयास।"
+        description:
+          "जरूरतमंद लोगों तक स्वास्थ्य संबंधी सहायता और जागरूकता पहुँचाने का प्रयास।",
+        image: "/Images/health.jpg",
+        icon: "🏥"
       },
 
       {
-        icon: "🌊",
         title: "आपदा राहत",
+        description:
+          "प्राकृतिक या अन्य आपदाओं के समय जरूरतमंद लोगों तक सहायता पहुँचाना।",
         image: "/Images/disaster-relief.jpg",
-        text: "आपदा या कठिन परिस्थिति में जरूरतमंद लोगों तक सहायता पहुँचाने का प्रयास।"
+        icon: "🤝"
       },
 
       {
-        icon: "🐕",
-        title: "पशु सेवा",
-        image: "/Images/animal-seva.jpg",
-        text: "बीमार, घायल और जरूरतमंद पशुओं की सहायता एवं सेवा।"
-      },
-
-      {
-        icon: "👕",
         title: "वस्त्र दान",
-        image: "/Images/clothes-donation.jpg",
-        text: "जरूरतमंद लोगों तक उपयोगी कपड़े और आवश्यक वस्तुएँ पहुँचाने का प्रयास।"
+        description:
+          "जरूरतमंद लोगों के लिए उपयोगी वस्त्र एवं आवश्यक सामग्री उपलब्ध कराने का प्रयास।",
+        image: "/Images/clothes.jpg",
+        icon: "👕"
       },
 
       {
-        icon: "🌳",
-        title: "वृक्षारोपण",
-        image: "/Images/tree-plantation.jpg",
-        text: "पर्यावरण संरक्षण और हरियाली बढ़ाने के लिए वृक्षारोपण का प्रयास।"
+        title: "मंदिर एवं आध्यात्मिक सेवा",
+        description:
+          "धार्मिक एवं आध्यात्मिक स्थलों से जुड़े सकारात्मक सेवा कार्यों में सहयोग।",
+        image: "/Images/temple-seva.jpg",
+        icon: "🛕"
+      },
+
+      {
+        title: "मानव सेवा",
+        description:
+          "जरूरतमंद लोगों की परिस्थिति के अनुसार यथासंभव सहायता और सहयोग।",
+        image: "/Images/human-service.jpg",
+        icon: "🙏"
       }
 
     ];
 
 
-    /* =========================================================
-       IMAGE CARD
-    ========================================================= */
+    /* ================= ESCAPE HTML ================= */
+
+    function escapeHtml(value) {
+
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ================= SEVA CARD ================= */
 
     function sevaCard(item) {
 
-      const safeImage = item.image.replace(/"/g, "&quot;");
-
       return `
+
         <article class="seva-card">
 
-          <div class="seva-image-wrap">
-
-            <img
-              class="seva-image"
-              src="${safeImage}"
-              alt="${item.title}"
-              loading="lazy"
-              onerror="
-                this.style.display='none';
-                this.nextElementSibling.style.display='flex';
-              "
-            />
-
-            <div
-              class="image-fallback"
-              style="display:none;"
-              aria-hidden="true"
-            >
-              ${item.icon}
-            </div>
-
-          </div>
+          <img
+            class="seva-image"
+            src="${escapeHtml(item.image)}"
+            alt="${escapeHtml(item.title)}"
+            loading="lazy"
+            onerror="this.style.display='none';"
+          />
 
           <div class="seva-content">
 
+            <div class="seva-icon">
+              ${escapeHtml(item.icon)}
+            </div>
+
             <h3>
-              ${item.icon} ${item.title}
+              ${escapeHtml(item.title)}
             </h3>
 
             <p>
-              ${item.text}
+              ${escapeHtml(item.description)}
             </p>
 
           </div>
 
         </article>
+
       `;
-    }
-
-
-    /* =========================================================
-       OPEN INTERFACES
-    ========================================================= */
-
-    function openInterface(type) {
-
-      const area = document.getElementById("interfaceArea");
-
-      let html = "";
-
-
-      /* =========================
-         MISSION
-      ========================== */
-
-      if (type === "mission") {
-
-        html = `
-          <div class="interface">
-
-            <div class="interface-header">
-              <h2>🙏 हमारा Mission</h2>
-              <button class="close-btn" onclick="closeInterface()">
-                ✕ Close
-              </button>
-            </div>
-
-            <div class="content-box">
-
-              <h3>भक्ति से सेवा • सेवा से मानवता</h3>
-
-              <p>
-                OUMJYOTI का उद्देश्य भक्ति और मानवता की भावना को
-                सेवा के कार्यों से जोड़ना है।
-              </p>
-
-              <p>
-                हमारा प्रयास है कि जरूरतमंद लोगों, पशुओं और समाज के
-                लिए छोटे-छोटे सकारात्मक कार्यों को एक साथ लाया जाए।
-              </p>
-
-              <ul>
-                <li>गौ सेवा</li>
-                <li>अन्न दान</li>
-                <li>गरीब बच्चों की शिक्षा</li>
-                <li>बुजुर्ग सेवा</li>
-                <li>स्वास्थ्य सहायता</li>
-                <li>आपदा राहत</li>
-                <li>पशु सेवा</li>
-                <li>वृक्षारोपण</li>
-              </ul>
-
-            </div>
-
-          </div>
-        `;
-      }
-
-
-      /* =========================
-         SEVA
-      ========================== */
-
-      else if (type === "seva") {
-
-        html = `
-          <div class="interface">
-
-            <div class="interface-header">
-
-              <div>
-                <h2>🤝 OUMJYOTI Seva Mission</h2>
-                <p style="color:var(--muted);margin-top:5px;">
-                  हमारी सेवा गतिविधियाँ
-                </p>
-              </div>
-
-              <button class="close-btn" onclick="closeInterface()">
-                ✕ Close
-              </button>
-
-            </div>
-
-            <div class="detail-grid">
-
-              ${sevaData.map(sevaCard).join("")}
-
-            </div>
-
-            <div class="image-note">
-              🖼️ Images folder में image डालने पर संबंधित image
-              अपने-आप यहाँ दिखाई देगी। Image न होने पर संबंधित
-              emoji fallback दिखाई देगा।
-            </div>
-
-          </div>
-        `;
-      }
-
-
-      /* =========================
-         ABOUT
-      ========================== */
-
-      else if (type === "about") {
-
-        html = `
-          <div class="interface">
-
-            <div class="interface-header">
-              <h2>🕉️ About OUMJYOTI</h2>
-
-              <button class="close-btn" onclick="closeInterface()">
-                ✕ Close
-              </button>
-            </div>
-
-            <div class="content-box">
-
-              <h3>OUMJYOTI क्या है?</h3>
-
-              <p>
-                OUMJYOTI एक ऐसा प्रयास है जहाँ भक्ति, सेवा और
-                मानवता को एक साथ जोड़ने की सोच रखी गई है।
-              </p>
-
-              <p>
-                हमारा उद्देश्य समाज के जरूरतमंद लोगों और पशुओं की
-                सहायता के लिए सेवा कार्यों को प्रोत्साहित करना है।
-              </p>
-
-              <p>
-                आने वाले समय में OUMJYOTI के माध्यम से सेवा से
-                संबंधित गतिविधियों, जानकारी और सकारात्मक कहानियों
-                को एक स्थान पर लाने का प्रयास किया जाएगा।
-              </p>
-
-            </div>
-
-          </div>
-        `;
-      }
-
-
-      /* =========================
-         FEEDBACK
-      ========================== */
-
-      else if (type === "feedback") {
-
-        html = `
-          <div class="interface">
-
-            <div class="interface-header">
-
-              <h2>💬 Members Feedback</h2>
-
-              <button class="close-btn" onclick="closeInterface()">
-                ✕ Close
-              </button>
-
-            </div>
-
-            <form
-              onsubmit="submitFeedback(event)"
-              class="content-box"
-            >
-
-              <div class="form-grid">
-
-                <div class="form-group">
-                  <label>नाम</label>
-                  <input
-                    type="text"
-                    id="feedbackName"
-                    required
-                    placeholder="अपना नाम"
-                  />
-                </div>
-
-                <div class="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    id="feedbackEmail"
-                    required
-                    placeholder="आपका Email"
-                  />
-                </div>
-
-                <div class="form-group full">
-                  <label>आपका Feedback</label>
-                  <textarea
-                    id="feedbackMessage"
-                    required
-                    placeholder="अपना सुझाव या विचार लिखें..."
-                  ></textarea>
-                </div>
-
-              </div>
-
-              <div class="form-actions">
-
-                <button class="btn" type="submit">
-                  Feedback भेजें
-                </button>
-
-              </div>
-
-              <div id="feedbackResult" class="message"></div>
-
-            </form>
-
-          </div>
-        `;
-      }
-
-
-      /* =========================
-         LOGIN
-      ========================== */
-
-      else if (type === "login") {
-
-        html = `
-          <div class="interface">
-
-            <div class="interface-header">
-
-              <h2>👤 Member Login</h2>
-
-              <button class="close-btn" onclick="closeInterface()">
-                ✕ Close
-              </button>
-
-            </div>
-
-            <form
-              onsubmit="loginUser(event)"
-              class="content-box"
-            >
-
-              <div class="form-grid">
-
-                <div class="form-group full">
-                  <label>Email / Mobile</label>
-
-                  <input
-                    type="text"
-                    id="loginIdentity"
-                    required
-                    placeholder="Email या Mobile"
-                  />
-                </div>
-
-                <div class="form-group full">
-                  <label>Password</label>
-
-                  <input
-                    type="password"
-                    id="loginPassword"
-                    required
-                    placeholder="Password"
-                  />
-                </div>
-
-              </div>
-
-              <div class="form-actions">
-
-                <button class="btn" type="submit">
-                  Login
-                </button>
-
-                <button
-                  class="btn secondary"
-                  type="button"
-                  onclick="showRegister()"
-                >
-                  New Member
-                </button>
-
-              </div>
-
-              <div id="loginResult" class="message"></div>
-
-            </form>
-
-          </div>
-        `;
-      }
-
-
-      area.innerHTML = html;
-
-      area.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
 
     }
 
 
-    /* =========================================================
-       CLOSE
-    ========================================================= */
+    /* ================= LOAD SEVA ================= */
 
-    function closeInterface() {
+    function loadSeva() {
 
-      const area = document.getElementById("interfaceArea");
+      const grid =
+        document.getElementById("sevaGrid");
 
-      area.innerHTML = "";
+      if (!grid) return;
+
+      grid.innerHTML =
+        sevaData.map(sevaCard).join("");
+
+    }
+
+
+    /* ================= HOME ================= */
+
+    function goHome() {
+
+      const area =
+        document.getElementById("interfaceArea");
+
+      if (area) {
+        area.innerHTML = "";
+      }
 
       window.scrollTo({
         top: 0,
@@ -1321,412 +943,1831 @@
     }
 
 
-    /* =========================================================
-       FEEDBACK API
-    ========================================================= */
+    /* ================= OPEN INTERFACE ================= */
 
-    async function submitFeedback(event) {
-
-      event.preventDefault();
-
-      const result =
-        document.getElementById("feedbackResult");
-
-      const data = {
-        name: document.getElementById("feedbackName").value.trim(),
-        email: document.getElementById("feedbackEmail").value.trim(),
-        message: document.getElementById("feedbackMessage").value.trim()
-      };
-
-      result.className = "message show";
-      result.textContent = "Feedback भेजा जा रहा है...";
-
-      try {
-
-        const response = await fetch("/api/feedback", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(data)
-        });
-
-        const json = await response.json().catch(() => ({}));
-
-        if (!response.ok) {
-          throw new Error(
-            json.message || "Feedback भेजने में समस्या हुई।"
-          );
-        }
-
-        result.textContent =
-          json.message ||
-          "धन्यवाद! आपका Feedback सफलतापूर्वक भेज दिया गया।";
-
-        result.style.color = "#ffe898";
-
-        event.target.reset();
-
-      } catch (error) {
-
-        result.textContent =
-          error.message ||
-          "अभी Feedback भेजना संभव नहीं है।";
-
-        result.style.color = "#ff9d9d";
-      }
-
-    }
-
-
-    /* =========================================================
-       LOGIN API
-    ========================================================= */
-
-    async function loginUser(event) {
-
-  event.preventDefault();
-
-  const result = document.getElementById("loginResult");
-
-  const identity =
-    document.getElementById("loginIdentity").value.trim();
-
-  const password =
-    document.getElementById("loginPassword").value;
-
-  result.className = "message show";
-  result.style.color = "#ffe898";
-  result.textContent = "Login हो रहा है...";
-
-  try {
-
-    const isMobile = /^[6-9]\d{9}$/.test(identity);
-
-    const response = await fetch("/api/login", {
-
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      credentials: "same-origin",
-
-      body: JSON.stringify({
-
-        identifier: identity,
-
-        mobile: isMobile ? identity : "",
-
-        email: isMobile ? "" : identity,
-
-        password: password
-
-      })
-
-    });
-
-    const data =
-      await response.json().catch(() => ({}));
-
-    console.log("LOGIN RESPONSE:", data);
-
-    if (!response.ok) {
-      throw new Error(
-        data.error ||
-        data.message ||
-        "Mobile/Email या Password गलत है।"
-      );
-    }
-
-    /*
-      Login successful.
-      अब session verify करें।
-    */
-
-    const meResponse = await fetch("/api/me", {
-      method: "GET",
-      credentials: "same-origin"
-    });
-
-    const me = await meResponse.json();
-
-    console.log("ME RESPONSE:", me);
-
-    if (!me.authenticated) {
-      throw new Error(
-        "Login हुआ लेकिन session verify नहीं हुआ।"
-      );
-    }
-
-    result.textContent = "Login सफल हो गया।";
-    result.style.color = "#7dffb2";
-
-    /*
-      थोड़ी देर बाद login screen बंद करें।
-    */
-
-    setTimeout(() => {
-
-      closeInterface();
-
-      /*
-        अगर dashboard function उपलब्ध है
-        तो dashboard खोलें।
-      */
-
-      if (typeof openDashboard === "function") {
-        openDashboard();
-      }
-
-    }, 500);
-
-  } catch (error) {
-
-    console.error("LOGIN ERROR:", error);
-
-    result.className = "message show";
-    result.style.color = "#ff9d9d";
-
-    result.textContent =
-      error.message ||
-      "Login में समस्या हुई।";
-  }
-}
-
-    /* =========================================================
-       REGISTER SCREEN
-    ========================================================= */
-
-    function showRegister() {
+    function openInterface(type) {
 
       const area =
         document.getElementById("interfaceArea");
 
+      if (!area) return;
+
+
+      let html = "";
+
+
+      /* ---------- MISSION ---------- */
+
+      if (type === "mission") {
+
+        html = `
+
+          <section class="interface">
+
+            <div class="interface-header">
+
+              <div>
+                <h2>🌸 हमारा उद्देश्य</h2>
+              </div>
+
+              <button
+                class="close-btn"
+                type="button"
+                onclick="closeInterface()"
+              >
+                ✕ Close
+              </button>
+
+            </div>
+
+            <div class="content-box">
+
+              <h3>भक्ति से सेवा की ओर</h3>
+
+              <p>
+                OUMJYOTI का उद्देश्य भक्ति, आध्यात्मिकता और मानव सेवा
+                को एक सकारात्मक दिशा में जोड़ना है।
+              </p>
+
+              <br />
+
+              <p>
+                हमारा प्रयास है कि समाज में जरूरतमंद लोगों,
+                गौ माता, बच्चों, बुजुर्गों और अन्य जरूरतमंद वर्गों
+                के लिए सेवा की भावना को बढ़ावा दिया जाए।
+              </p>
+
+              <br />
+
+              <p>
+                छोटे-छोटे अच्छे कार्य मिलकर समाज में बड़ा सकारात्मक
+                परिवर्तन ला सकते हैं।
+              </p>
+
+            </div>
+
+          </section>
+
+        `;
+
+      }
+
+
+      /* ---------- SEVA ---------- */
+
+      else if (type === "seva") {
+
+        html = `
+
+          <section class="interface">
+
+            <div class="interface-header">
+
+              <div>
+                <h2>🙏 OUMJYOTI Seva</h2>
+              </div>
+
+              <button
+                class="close-btn"
+                type="button"
+                onclick="closeInterface()"
+              >
+                ✕ Close
+              </button>
+
+            </div>
+
+            <div class="content-box">
+
+              <p>
+                OUMJYOTI के सेवा कार्यों की जानकारी नीचे दी गई है।
+              </p>
+
+              <div
+                class="seva-grid"
+                style="margin-top:22px;"
+              >
+
+                ${sevaData.map(sevaCard).join("")}
+
+              </div>
+
+            </div>
+
+          </section>
+
+        `;
+
+      }
+
+
+      /* ---------- ABOUT ---------- */
+
+      else if (type === "about") {
+
+        html = `
+
+          <section class="interface">
+
+            <div class="interface-header">
+
+              <div>
+                <h2>ॐ OUMJYOTI के बारे में</h2>
+              </div>
+
+              <button
+                class="close-btn"
+                type="button"
+                onclick="closeInterface()"
+              >
+                ✕ Close
+              </button>
+
+            </div>
+
+            <div class="content-box">
+
+              <h3>OUMJYOTI</h3>
+
+              <p>
+                OUMJYOTI एक ऐसा डिजिटल मंच है जिसका उद्देश्य
+                भक्ति, आध्यात्मिकता, सनातन संस्कृति और मानव सेवा
+                से जुड़े सकारात्मक कार्यों को लोगों तक पहुँचाना है।
+              </p>
+
+              <br />
+
+              <p>
+                हमारा विश्वास है कि भक्ति केवल पूजा तक सीमित नहीं,
+                बल्कि जरूरतमंद की सहायता और मानवता की सेवा भी
+                एक महत्वपूर्ण साधना है।
+              </p>
+
+              <br />
+
+              <p>
+                ॐ • भक्ति • सेवा • मानवता
+              </p>
+
+            </div>
+
+          </section>
+
+        `;
+
+      }
+
+
+      /* ---------- FEEDBACK ---------- */
+
+      else if (type === "feedback") {
+
+        html = `
+
+          <section class="interface">
+
+            <div class="interface-header">
+
+              <div>
+                <h2>💬 Feedback</h2>
+              </div>
+
+              <button
+                class="close-btn"
+                type="button"
+                onclick="closeInterface()"
+              >
+                ✕ Close
+              </button>
+
+            </div>
+
+            <div class="content-box">
+
+              <p style="margin-bottom:20px;">
+                आपके सुझाव और feedback हमारे लिए महत्वपूर्ण हैं।
+              </p>
+
+              <form
+                onsubmit="submitFeedback(event)"
+              >
+
+                <div class="form-grid">
+
+                  <div class="form-group">
+
+                    <label for="feedbackName">
+                      नाम
+                    </label>
+
+                    <input
+                      type="text"
+                      id="feedbackName"
+                      maxlength="100"
+                      required
+                      placeholder="अपना नाम"
+                    />
+
+                  </div>
+
+
+                  <div class="form-group">
+
+                    <label for="feedbackMobile">
+                      Mobile
+                    </label>
+
+                    <input
+                      type="tel"
+                      id="feedbackMobile"
+                      inputmode="numeric"
+                      maxlength="10"
+                      pattern="[6-9][0-9]{9}"
+                      required
+                      placeholder="10 digit mobile"
+                    />
+
+                  </div>
+
+
+                  <div class="form-group full">
+
+                    <label for="feedbackEmail">
+                      Email
+                    </label>
+
+                    <input
+                      type="email"
+                      id="feedbackEmail"
+                      maxlength="150"
+                      required
+                      placeholder="example@email.com"
+                    />
+
+                  </div>
+
+
+                  <div class="form-group full">
+
+                    <label for="feedbackMessage">
+                      आपका Feedback
+                    </label>
+
+                    <textarea
+                      id="feedbackMessage"
+                      maxlength="2000"
+                      required
+                      placeholder="अपना सुझाव या feedback लिखें..."
+                    ></textarea>
+
+                  </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                  <button
+                    class="btn"
+                    type="submit"
+                  >
+                    Feedback भेजें
+                  </button>
+
+                  <button
+                    class="btn secondary"
+                    type="button"
+                    onclick="closeInterface()"
+                  >
+                    Cancel
+                  </button>
+
+                </div>
+
+
+                <div
+                  id="feedbackResult"
+                  class="message"
+                ></div>
+
+              </form>
+
+            </div>
+
+          </section>
+
+        `;
+
+      }
+
+
+      /* ---------- LOGIN ---------- */
+
+      else if (type === "login") {
+
+        html = `
+
+          <section class="interface">
+
+            <div class="interface-header">
+
+              <div>
+                <h2>🔐 OUMJYOTI Login</h2>
+              </div>
+
+              <button
+                class="close-btn"
+                type="button"
+                onclick="closeInterface()"
+              >
+                ✕ Close
+              </button>
+
+            </div>
+
+            <div class="content-box">
+
+              <form
+                onsubmit="loginUser(event)"
+              >
+
+                <div class="form-group">
+
+                  <label for="loginIdentity">
+                    Email या Mobile
+                  </label>
+
+                  <input
+                    type="text"
+                    id="loginIdentity"
+                    required
+                    autocomplete="username"
+                    placeholder="Email या 10 digit Mobile"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="loginPassword">
+                    Password
+                  </label>
+
+                  <input
+                    type="password"
+                    id="loginPassword"
+                    minlength="8"
+                    maxlength="128"
+                    required
+                    autocomplete="current-password"
+                    placeholder="Password"
+                  />
+
+                </div>
+
+
+                <div class="form-actions">
+
+                  <button
+                    class="btn"
+                    type="submit"
+                  >
+                    Login
+                  </button>
+
+                  <button
+                    class="btn secondary"
+                    type="button"
+                    onclick="showRegister()"
+                  >
+                    नया Registration
+                  </button>
+
+                </div>
+
+
+                <div
+                  id="loginResult"
+                  class="message"
+                ></div>
+
+              </form>
+
+            </div>
+
+          </section>
+
+        `;
+
+      }
+
+
+      area.innerHTML = html;
+
+      /*
+        IMPORTANT:
+        यहाँ scrollIntoView() जानबूझकर नहीं है।
+
+        इसलिए Login/Feedback/Registration खोलने पर
+        browser automatic नीचे या ऊपर jump नहीं करेगा।
+      */
+
+    }
+
+
+    /* ================= CLOSE INTERFACE ================= */
+
+    function closeInterface() {
+
+      const area =
+        document.getElementById("interfaceArea");
+
+      if (area) {
+        area.innerHTML = "";
+      }
+
+      /*
+        यहाँ window.scrollTo() भी नहीं है।
+        इसलिए Close/Logout के बाद page अचानक ऊपर नहीं जाएगा।
+      */
+
+    }
+
+
+    /* ================= AUTH BUTTON ================= */
+
+    async function handleAuthButton() {
+
+      const button =
+        document.getElementById("authButton");
+
+      if (!button) return;
+
+
+      try {
+
+        const response =
+          await fetch("/api/me", {
+            method: "GET",
+            credentials: "same-origin"
+          });
+
+        const data =
+          await response.json().catch(() => ({}));
+
+
+        if (
+          response.ok &&
+          data.authenticated &&
+          data.user
+        ) {
+
+          openDashboard(data.user);
+
+        } else {
+
+          openInterface("login");
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "AUTH BUTTON ERROR:",
+          error
+        );
+
+        openInterface("login");
+
+      }
+
+    }
+
+
+    /* ================= LOGIN ================= */
+
+    async function loginUser(event) {
+
+      event.preventDefault();
+
+
+      const result =
+        document.getElementById("loginResult");
+
+
+      const identity =
+        document
+          .getElementById("loginIdentity")
+          .value
+          .trim();
+
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+
+      result.className = "message show";
+      result.style.color = "#ffe898";
+      result.textContent =
+        "Login हो रहा है...";
+
+
+      try {
+
+        const isMobile =
+          /^[6-9]\d{9}$/.test(identity);
+
+
+        const response =
+          await fetch("/api/login", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            credentials: "same-origin",
+
+            body: JSON.stringify({
+
+              identifier: identity,
+
+              mobile:
+                isMobile
+                  ? identity
+                  : "",
+
+              email:
+                isMobile
+                  ? ""
+                  : identity,
+
+              password:
+                password
+
+            })
+
+          });
+
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
+
+        console.log(
+          "LOGIN RESPONSE:",
+          data
+        );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            data.message ||
+            "Mobile/Email या Password गलत है।"
+          );
+
+        }
+
+
+        /*
+          Login के बाद backend session को verify करेंगे।
+        */
+
+        const meResponse =
+          await fetch("/api/me", {
+
+            method: "GET",
+
+            credentials:
+              "same-origin"
+
+          });
+
+
+        const me =
+          await meResponse
+            .json()
+            .catch(() => ({}));
+
+
+        console.log(
+          "ME RESPONSE:",
+          me
+        );
+
+
+        if (
+          !me.authenticated ||
+          !me.user
+        ) {
+
+          throw new Error(
+            "Login हुआ लेकिन session verify नहीं हुआ।"
+          );
+
+        }
+
+
+        result.textContent =
+          "Login सफल हो गया।";
+
+        result.style.color =
+          "#7dffb2";
+
+
+        /*
+          कोई scroll नहीं।
+          सीधे Dashboard खुलेगा।
+        */
+
+        setTimeout(() => {
+
+          openDashboard(me.user);
+
+        }, 300);
+
+
+      } catch (error) {
+
+        console.error(
+          "LOGIN ERROR:",
+          error
+        );
+
+
+        result.className =
+          "message show";
+
+        result.style.color =
+          "#ff9d9d";
+
+        result.textContent =
+          error.message ||
+          "Login में समस्या हुई।";
+
+      }
+
+    }
+
+
+    /* ================= DASHBOARD ================= */
+
+    function openDashboard(user) {
+
+      const area =
+        document.getElementById("interfaceArea");
+
+
+      if (!area || !user) {
+
+        return;
+
+      }
+
+
+      let roleText =
+        "👤 Member";
+
+
+      if (user.role === "admin") {
+
+        roleText =
+          "👑 Admin";
+
+      }
+
+      else if (user.role === "staff") {
+
+        roleText =
+          "🛡️ Staff";
+
+      }
+
+
       area.innerHTML = `
 
-        <div class="interface">
+        <section class="interface">
 
           <div class="interface-header">
 
-            <h2>📝 New Member Registration</h2>
+            <div>
+
+              <h2>
+                🙏 OUMJYOTI Dashboard
+              </h2>
+
+              <p
+                style="
+                  color:var(--muted);
+                  margin-top:5px;
+                "
+              >
+                ${roleText}
+              </p>
+
+            </div>
 
             <button
               class="close-btn"
-              onclick="openInterface('login')"
+              type="button"
+              onclick="logoutUser()"
+            >
+              Logout
+            </button>
+
+          </div>
+
+
+          <div class="content-box">
+
+            <h3>
+              नमस्ते,
+              ${escapeHtml(
+                user.name || "Member"
+              )}
+              🙏
+            </h3>
+
+            <p>
+              आपका OUMJYOTI account सफलतापूर्वक
+              login है।
+            </p>
+
+
+            <div
+              style="
+                margin-top:20px;
+                display:grid;
+                grid-template-columns:
+                  repeat(
+                    auto-fit,
+                    minmax(220px,1fr)
+                  );
+                gap:15px;
+              "
+            >
+
+              <div class="main-card">
+
+                <div class="icon">
+                  👤
+                </div>
+
+                <h3>
+                  नाम
+                </h3>
+
+                <p>
+                  ${escapeHtml(
+                    user.name || "-"
+                  )}
+                </p>
+
+              </div>
+
+
+              <div class="main-card">
+
+                <div class="icon">
+                  📍
+                </div>
+
+                <h3>
+                  स्थान
+                </h3>
+
+                <p>
+                  ${escapeHtml(
+                    user.place || "-"
+                  )}
+                </p>
+
+              </div>
+
+
+              <div class="main-card">
+
+                <div class="icon">
+                  📧
+                </div>
+
+                <h3>
+                  Email
+                </h3>
+
+                <p>
+                  ${escapeHtml(
+                    user.email || "-"
+                  )}
+                </p>
+
+              </div>
+
+
+              <div class="main-card">
+
+                <div class="icon">
+                  📱
+                </div>
+
+                <h3>
+                  Mobile
+                </h3>
+
+                <p>
+                  ${escapeHtml(
+                    user.mobile || "-"
+                  )}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            ${
+              user.role === "admin"
+                ? `
+
+                  <div
+                    style="
+                      margin-top:25px;
+                      padding:18px;
+                      border:1px solid var(--line);
+                      border-radius:15px;
+                      background:var(--card2);
+                    "
+                  >
+
+                    <h3
+                      style="
+                        color:var(--gold);
+                      "
+                    >
+                      👑 Admin Panel
+                    </h3>
+
+                    <p
+                      style="
+                        color:var(--muted);
+                        margin-top:8px;
+                      "
+                    >
+                      Admin account successfully
+                      authenticated.
+                    </p>
+
+                    <div
+                      style="
+                        margin-top:15px;
+                        padding:12px;
+                        border-radius:10px;
+                        background:
+                          rgba(
+                            243,
+                            186,
+                            47,
+                            0.05
+                          );
+                        border:
+                          1px solid var(--line);
+                      "
+                    >
+                      Admin features आपके
+                      backend API में सुरक्षित
+                      authentication के पीछे हैं।
+                    </div>
+
+                  </div>
+
+                `
+                : ""
+            }
+
+
+            ${
+              user.role === "staff"
+                ? `
+
+                  <div
+                    style="
+                      margin-top:25px;
+                      padding:18px;
+                      border:1px solid var(--line);
+                      border-radius:15px;
+                      background:var(--card2);
+                    "
+                  >
+
+                    <h3
+                      style="
+                        color:var(--gold);
+                      "
+                    >
+                      🛡️ Staff Panel
+                    </h3>
+
+                    <p
+                      style="
+                        color:var(--muted);
+                        margin-top:8px;
+                      "
+                    >
+                      Staff account successfully
+                      authenticated.
+                    </p>
+
+                  </div>
+
+                `
+                : ""
+            }
+
+
+            <div
+              class="form-actions"
+              style="margin-top:25px;"
+            >
+
+              <button
+                class="btn secondary"
+                type="button"
+                onclick="goHome()"
+              >
+                Home पर जाएँ
+              </button>
+
+              <button
+                class="btn"
+                type="button"
+                onclick="logoutUser()"
+              >
+                Logout
+              </button>
+
+            </div>
+
+
+            <div
+              id="dashboardResult"
+              class="message"
+            ></div>
+
+          </div>
+
+        </section>
+
+      `;
+
+
+      /*
+        यहाँ भी कोई scrollIntoView नहीं है।
+        इसलिए Login के बाद Dashboard खुलते समय
+        page automatic jump नहीं करेगा।
+      */
+
+    }
+
+
+    /* ================= LOGOUT ================= */
+
+    async function logoutUser() {
+
+      const result =
+        document.getElementById(
+          "dashboardResult"
+        );
+
+
+      if (result) {
+
+        result.className =
+          "message show";
+
+        result.style.color =
+          "#ffe898";
+
+        result.textContent =
+          "Logout हो रहा है...";
+
+      }
+
+
+      try {
+
+        const response =
+          await fetch("/api/logout", {
+
+            method: "POST",
+
+            credentials:
+              "same-origin"
+
+          });
+
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
+
+        console.log(
+          "LOGOUT RESPONSE:",
+          data
+        );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            "Logout failed"
+          );
+
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          "LOGOUT ERROR:",
+          error
+        );
+
+      }
+
+
+      /*
+        Dashboard हटेगा।
+        Page ऊपर नहीं जाएगा।
+      */
+
+      closeInterface();
+
+
+      /*
+        Header button फिर Login हो जाएगा।
+      */
+
+      updateAuthButton(false);
+
+    }
+
+
+    /* ================= UPDATE AUTH BUTTON ================= */
+
+    function updateAuthButton(
+      loggedIn,
+      user = null
+    ) {
+
+      const button =
+        document.getElementById(
+          "authButton"
+        );
+
+
+      if (!button) return;
+
+
+      if (loggedIn && user) {
+
+        button.textContent =
+          "Dashboard";
+
+        button.onclick =
+          function () {
+
+            openDashboard(user);
+
+          };
+
+      }
+
+      else {
+
+        button.textContent =
+          "Login";
+
+        button.onclick =
+          function () {
+
+            openInterface("login");
+
+          };
+
+      }
+
+    }
+
+
+    /* ================= CHECK LOGIN ================= */
+
+    async function checkCurrentUser() {
+
+      try {
+
+        const response =
+          await fetch("/api/me", {
+
+            method: "GET",
+
+            credentials:
+              "same-origin"
+
+          });
+
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
+
+        console.log(
+          "CURRENT USER:",
+          data
+        );
+
+
+        if (
+          response.ok &&
+          data.authenticated &&
+          data.user
+        ) {
+
+          updateAuthButton(
+            true,
+            data.user
+          );
+
+          return data.user;
+
+        }
+
+
+      } catch (error) {
+
+        console.error(
+          "CURRENT USER ERROR:",
+          error
+        );
+
+      }
+
+
+      updateAuthButton(false);
+
+      return null;
+
+    }
+
+
+    /* ================= REGISTER SCREEN ================= */
+
+    function showRegister() {
+
+      const area =
+        document.getElementById(
+          "interfaceArea"
+        );
+
+
+      if (!area) return;
+
+
+      area.innerHTML = `
+
+        <section class="interface">
+
+          <div class="interface-header">
+
+            <div>
+              <h2>📝 OUMJYOTI Registration</h2>
+            </div>
+
+            <button
+              class="close-btn"
+              type="button"
+              onclick="closeInterface()"
             >
               ✕ Close
             </button>
 
           </div>
 
-          <form
-            onsubmit="registerUser(event)"
-            class="content-box"
-          >
 
-            <div class="form-grid">
+          <div class="content-box">
 
-              <div class="form-group">
-                <label>पूरा नाम</label>
+            <p style="margin-bottom:20px;">
+              अपना OUMJYOTI account बनाने के लिए
+              नीचे जानकारी भरें।
+            </p>
 
-                <input
-                  type="text"
-                  id="regName"
-                  required
-                  placeholder="पूरा नाम"
-                />
+
+            <form
+              onsubmit="registerUser(event)"
+            >
+
+              <div class="form-grid">
+
+                <div class="form-group">
+
+                  <label for="regName">
+                    पूरा नाम
+                  </label>
+
+                  <input
+                    type="text"
+                    id="regName"
+                    maxlength="100"
+                    required
+                    autocomplete="name"
+                    placeholder="आपका नाम"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regPlace">
+                    स्थान
+                  </label>
+
+                  <input
+                    type="text"
+                    id="regPlace"
+                    maxlength="100"
+                    required
+                    placeholder="शहर / स्थान"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regEmail">
+                    Email
+                  </label>
+
+                  <input
+                    type="email"
+                    id="regEmail"
+                    maxlength="150"
+                    required
+                    autocomplete="email"
+                    placeholder="example@email.com"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regMobile">
+                    Mobile
+                  </label>
+
+                  <input
+                    type="tel"
+                    id="regMobile"
+                    inputmode="numeric"
+                    maxlength="10"
+                    pattern="[6-9][0-9]{9}"
+                    required
+                    autocomplete="tel"
+                    placeholder="10 digit mobile"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regPan">
+                    PAN
+                  </label>
+
+                  <input
+                    type="text"
+                    id="regPan"
+                    maxlength="10"
+                    autocomplete="off"
+                    placeholder="Optional"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regAadhaar">
+                    Aadhaar
+                  </label>
+
+                  <input
+                    type="text"
+                    id="regAadhaar"
+                    inputmode="numeric"
+                    maxlength="12"
+                    autocomplete="off"
+                    placeholder="Optional"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regPassword">
+                    Password
+                  </label>
+
+                  <input
+                    type="password"
+                    id="regPassword"
+                    minlength="8"
+                    maxlength="128"
+                    required
+                    autocomplete="new-password"
+                    placeholder="कम से कम 8 characters"
+                  />
+
+                </div>
+
+
+                <div class="form-group">
+
+                  <label for="regPassword2">
+                    Confirm Password
+                  </label>
+
+                  <input
+                    type="password"
+                    id="regPassword2"
+                    minlength="8"
+                    maxlength="128"
+                    required
+                    autocomplete="new-password"
+                    placeholder="Password दोबारा लिखें"
+                  />
+
+                </div>
+
               </div>
 
-              <div class="form-group">
-                <label>स्थान</label>
 
-                <input
-                  type="text"
-                  id="regPlace"
-                  required
-                  placeholder="शहर / स्थान"
-                />
+              <div class="small-note">
+                PAN और Aadhaar optional हैं। यदि भरते हैं
+                तो सही जानकारी ही दर्ज करें।
               </div>
 
-              <div class="form-group">
-                <label>Email</label>
 
-                <input
-                  type="email"
-                  id="regEmail"
-                  required
-                  placeholder="Email"
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Mobile</label>
-
-                <input
-                  type="tel"
-                  id="regMobile"
-                  required
-                  placeholder="Mobile Number"
-                />
-              </div>
-
-              <div class="form-group">
-                <label>PAN</label>
-
-                <input
-                  type="text"
-                  id="regPan"
-                  placeholder="PAN"
-                />
-              </div>
-
-              <div class="form-group">
-                <label>Aadhaar</label>
-
-                <input
-                  type="text"
-                  id="regAadhaar"
-                  placeholder="Aadhaar"
-                />
-              </div>
-
-              <div class="form-group full">
-                <label>Password</label>
-
-                <input
-                  type="password"
-                  id="regPassword"
-                  required
-                  placeholder="Password"
-                />
-              </div>
-
-            </div>
-
-            <div class="form-actions">
-
-              <button class="btn" type="submit">
-                Register
-              </button>
-
-              <button
-                class="btn secondary"
-                type="button"
-                onclick="openInterface('login')"
+              <div
+                class="form-actions"
+                style="margin-top:20px;"
               >
-                वापस Login
-              </button>
 
-            </div>
+                <button
+                  class="btn"
+                  type="submit"
+                >
+                  Registration करें
+                </button>
 
-            <div id="registerResult" class="message"></div>
+                <button
+                  class="btn secondary"
+                  type="button"
+                  onclick="openInterface('login')"
+                >
+                  वापस Login
+                </button>
 
-          </form>
+              </div>
 
-        </div>
+
+              <div
+                id="registerResult"
+                class="message"
+              ></div>
+
+            </form>
+
+          </div>
+
+        </section>
 
       `;
 
-      area.scrollIntoView({
-        behavior: "smooth"
-      });
+
+      /*
+        यहाँ भी scrollIntoView नहीं है।
+      */
 
     }
 
 
-    /* =========================================================
-       REGISTER API
-    ========================================================= */
+    /* ================= REGISTER ================= */
 
     async function registerUser(event) {
 
       event.preventDefault();
 
+
       const result =
-        document.getElementById("registerResult");
+        document.getElementById(
+          "registerResult"
+        );
 
-      const data = {
 
-        name:
-          document.getElementById("regName").value.trim(),
+      const name =
+        document.getElementById(
+          "regName"
+        ).value.trim();
 
-        place:
-          document.getElementById("regPlace").value.trim(),
 
-        email:
-          document.getElementById("regEmail").value.trim(),
+      const place =
+        document.getElementById(
+          "regPlace"
+        ).value.trim();
 
-        mobile:
-          document.getElementById("regMobile").value.trim(),
 
-        pan:
-          document.getElementById("regPan").value.trim(),
+      const email =
+        document.getElementById(
+          "regEmail"
+        ).value.trim()
+        .toLowerCase();
 
-        aadhaar:
-          document.getElementById("regAadhaar").value.trim(),
 
-        password:
-          document.getElementById("regPassword").value
+      const mobile =
+        document.getElementById(
+          "regMobile"
+        ).value.trim();
 
-      };
 
-      result.className = "message show";
-      result.textContent = "Registration हो रहा है...";
+      const pan =
+        document.getElementById(
+          "regPan"
+        ).value.trim()
+        .toUpperCase()
+        .replace(/\s/g, "");
+
+
+      const aadhaar =
+        document.getElementById(
+          "regAadhaar"
+        ).value.trim()
+        .replace(/\D/g, "");
+
+
+      const password =
+        document.getElementById(
+          "regPassword"
+        ).value;
+
+
+      const password2 =
+        document.getElementById(
+          "regPassword2"
+        ).value;
+
+
+      result.className =
+        "message show";
+
+      result.style.color =
+        "#ffe898";
+
+      result.textContent =
+        "Registration हो रहा है...";
+
 
       try {
 
-        const response = await fetch("/api/register", {
+        if (password !== password2) {
 
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify(data)
-
-        });
-
-        const json =
-          await response.json().catch(() => ({}));
-
-        if (!response.ok) {
           throw new Error(
-            json.message ||
-            "Registration failed."
+            "दोनों Password समान होने चाहिए।"
           );
+
         }
 
-        result.textContent =
-          json.message ||
-          "Registration सफल हुआ।";
 
-        result.style.color = "#ffe898";
+        if (password.length < 8) {
+
+          throw new Error(
+            "Password कम से कम 8 characters का होना चाहिए।"
+          );
+
+        }
+
+
+        if (
+          !/^[6-9]\d{9}$/.test(mobile)
+        ) {
+
+          throw new Error(
+            "Mobile number सही नहीं है।"
+          );
+
+        }
+
+
+        if (
+          pan &&
+          !/^[A-Z]{5}\d{4}[A-Z]$/.test(pan)
+        ) {
+
+          throw new Error(
+            "PAN format सही नहीं है।"
+          );
+
+        }
+
+
+        if (
+          aadhaar &&
+          !/^\d{12}$/.test(aadhaar)
+        ) {
+
+          throw new Error(
+            "Aadhaar में 12 digits होने चाहिए।"
+          );
+
+        }
+
+
+        const response =
+          await fetch("/api/register", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            credentials:
+              "same-origin",
+
+            body: JSON.stringify({
+
+              name,
+              place,
+              email,
+              mobile,
+              pan,
+              aadhaar,
+              password
+
+            })
+
+          });
+
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
+
+        console.log(
+          "REGISTER RESPONSE:",
+          data
+        );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            data.message ||
+            "Registration failed"
+          );
+
+        }
+
+
+        result.style.color =
+          "#7dffb2";
+
+        result.textContent =
+          data.message ||
+          "Registration successful.";
+
 
         event.target.reset();
 
+
+        setTimeout(() => {
+
+          openInterface("login");
+
+        }, 1200);
+
+
       } catch (error) {
+
+        console.error(
+          "REGISTER ERROR:",
+          error
+        );
+
+
+        result.style.color =
+          "#ff9d9d";
 
         result.textContent =
           error.message ||
           "Registration में समस्या हुई।";
-
-        result.style.color = "#ff9d9d";
 
       }
 
     }
 
 
-    /* =========================================================
-       STARTUP
-    ========================================================= */
+    /* ================= FEEDBACK ================= */
 
-    console.log("OUMJYOTI website loaded successfully.");
-    console.log("Image system ready.");
-    console.log("Images folder: /Images/");
+    async function submitFeedback(event) {
+
+      event.preventDefault();
+
+
+      const result =
+        document.getElementById(
+          "feedbackResult"
+        );
+
+
+      const name =
+        document.getElementById(
+          "feedbackName"
+        ).value.trim();
+
+
+      const mobile =
+        document.getElementById(
+          "feedbackMobile"
+        ).value.trim();
+
+
+      const email =
+        document.getElementById(
+          "feedbackEmail"
+        ).value.trim()
+        .toLowerCase();
+
+
+      const message =
+        document.getElementById(
+          "feedbackMessage"
+        ).value.trim();
+
+
+      result.className =
+        "message show";
+
+      result.style.color =
+        "#ffe898";
+
+      result.textContent =
+        "Feedback भेजा जा रहा है...";
+
+
+      try {
+
+        if (
+          !/^[6-9]\d{9}$/.test(mobile)
+        ) {
+
+          throw new Error(
+            "Mobile number सही नहीं है।"
+          );
+
+        }
+
+
+        const response =
+          await fetch("/api/feedback", {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/json"
+            },
+
+            credentials:
+              "same-origin",
+
+            body: JSON.stringify({
+
+              name,
+              mobile,
+              email,
+              message
+
+            })
+
+          });
+
+
+        const data =
+          await response
+            .json()
+            .catch(() => ({}));
+
+
+        console.log(
+          "FEEDBACK RESPONSE:",
+          data
+        );
+
+
+        if (!response.ok) {
+
+          throw new Error(
+            data.error ||
+            data.message ||
+            "Feedback submit नहीं हुआ।"
+          );
+
+        }
+
+
+        result.style.color =
+          "#7dffb2";
+
+        result.textContent =
+          data.message ||
+          "Feedback submitted successfully.";
+
+
+        event.target.reset();
+
+
+      } catch (error) {
+
+        console.error(
+          "FEEDBACK ERROR:",
+          error
+        );
+
+
+        result.style.color =
+          "#ff9d9d";
+
+        result.textContent =
+          error.message ||
+          "Feedback भेजने में समस्या हुई।";
+
+      }
+
+    }
+
+
+    /* ================= STARTUP ================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      async function () {
+
+        console.log(
+          "OUMJYOTI website loaded successfully."
+        );
+
+        console.log(
+          "Image system ready."
+        );
+
+        console.log(
+          "Images folder: /Images/"
+        );
+
+
+        loadSeva();
+
+
+        /*
+          Existing session check।
+          अगर पहले से login है तो Header में
+          Login की जगह Dashboard दिखेगा।
+        */
+
+        await checkCurrentUser();
+
+      }
+    );
 
   </script>
 
