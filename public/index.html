@@ -1401,6 +1401,8 @@
 
   try {
 
+    const isMobile = /^[6-9]\d{9}$/.test(identity);
+
     const response = await fetch("/api/login", {
 
       method: "POST",
@@ -1412,26 +1414,35 @@
       credentials: "same-origin",
 
       body: JSON.stringify({
+
         identifier: identity,
+
+        mobile: isMobile ? identity : "",
+
+        email: isMobile ? "" : identity,
+
         password: password
+
       })
 
     });
 
-    const json =
+    const data =
       await response.json().catch(() => ({}));
+
+    console.log("LOGIN RESPONSE:", data);
 
     if (!response.ok) {
       throw new Error(
-        json.error ||
-        json.message ||
-        "Login failed."
+        data.error ||
+        data.message ||
+        "Mobile/Email या Password गलत है।"
       );
     }
 
     /*
-      Login सफल है।
-      अब session को /api/me से verify करेंगे।
+      Login successful.
+      अब session verify करें।
     */
 
     const meResponse = await fetch("/api/me", {
@@ -1441,25 +1452,32 @@
 
     const me = await meResponse.json();
 
+    console.log("ME RESPONSE:", me);
+
     if (!me.authenticated) {
       throw new Error(
-        "Login हुआ, लेकिन session verify नहीं हो पाया।"
+        "Login हुआ लेकिन session verify नहीं हुआ।"
       );
     }
 
-    result.textContent = "Login सफल हुआ।";
+    result.textContent = "Login सफल हो गया।";
+    result.style.color = "#7dffb2";
 
     /*
-      Login interface बंद करके
-      dashboard खोलें।
+      थोड़ी देर बाद login screen बंद करें।
     */
 
     setTimeout(() => {
 
       closeInterface();
 
-      if (typeof openInterface === "function") {
-        openInterface("dashboard");
+      /*
+        अगर dashboard function उपलब्ध है
+        तो dashboard खोलें।
+      */
+
+      if (typeof openDashboard === "function") {
+        openDashboard();
       }
 
     }, 500);
@@ -1476,7 +1494,6 @@
       "Login में समस्या हुई।";
   }
 }
-
 
     /* =========================================================
        REGISTER SCREEN
