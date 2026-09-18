@@ -1,1166 +1,887 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <title>OUMJYOTI — भक्ति • सेवा • मानवता</title>
-
-  <meta name="description"
-    content="OUMJYOTI — भक्ति, सेवा और मानवता का संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।">
-
-  <meta name="keywords"
-    content="OUMJYOTI, सेवा, गौ सेवा, अन्न दान, मानवता, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता, आपदा राहत, भक्ति">
-
-  <meta name="theme-color" content="#0f0508">
-
-  <style>
-    :root {
-      --bg: #0f0508;
-      --bg2: #14070b;
-      --card: #1c0e12;
-      --card2: #211015;
-      --gold: #f3ba2f;
-      --gold2: #ffe898;
-      --text: #f5f5f5;
-      --muted: #c8b9b9;
-      --orange: #ff6b00;
-      --green: #55d68a;
-      --red: #ff7676;
-      --line: rgba(243,186,47,.24);
-      --shadow: 0 12px 35px rgba(0,0,0,.35);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family:
-        system-ui,
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "Noto Sans Devanagari",
-        sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(243,186,47,.08), transparent 35%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      min-height: 100vh;
-    }
-
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    img {
-      max-width: 100%;
-      display: block;
-    }
-
-    /* HEADER */
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      background: rgba(15,5,8,.95);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav {
-      width: min(1180px,94%);
-      margin: auto;
-      min-height: 74px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .brand img {
-      width: 52px;
-      height: 52px;
-      object-fit: contain;
-      border-radius: 50%;
-    }
-
-    .brand-text strong {
-      display: block;
-      color: var(--gold);
-      font-size: 1.25rem;
-      letter-spacing: 1px;
-    }
-
-    .brand-text span {
-      color: var(--muted);
-      font-size: .75rem;
-    }
-
-    nav {
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    nav a,
-    nav button {
-      background: transparent;
-      color: var(--text);
-      border: 0;
-      padding: 8px 10px;
-      border-radius: 9px;
-      font-size: .9rem;
-      transition: .25s;
-    }
-
-    nav a:hover,
-    nav button:hover {
-      color: var(--gold);
-      background: rgba(243,186,47,.08);
-    }
-
-    /* HERO */
-
-    .hero {
-      width: min(1180px,94%);
-      margin: auto;
-      min-height: 590px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 20px;
-    }
-
-    .hero-inner {
-      max-width: 850px;
-    }
-
-    .om {
-      font-size: clamp(4rem,10vw,8rem);
-      color: var(--gold);
-      line-height: 1;
-      text-shadow: 0 0 35px rgba(243,186,47,.25);
-      margin-bottom: 12px;
-    }
-
-    .hero h1 {
-      font-size: clamp(2.3rem,6vw,5rem);
-      color: var(--gold);
-      letter-spacing: 4px;
-      margin-bottom: 8px;
-    }
-
-    .hero .tagline {
-      font-size: clamp(1.1rem,2.5vw,1.7rem);
-      color: var(--gold2);
-      font-weight: 700;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      color: var(--muted);
-      max-width: 760px;
-      margin: auto;
-      font-size: 1.05rem;
-    }
-
-    .hero-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 30px;
-    }
-
-    .btn {
-      border: 1px solid var(--gold);
-      background: linear-gradient(135deg,#f3ba2f,#d99818);
-      color: #1b0d05;
-      padding: 12px 20px;
-      border-radius: 12px;
-      font-weight: 800;
-      box-shadow: 0 8px 25px rgba(243,186,47,.15);
-      transition: .25s;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(243,186,47,.25);
-    }
-
-    .btn.secondary {
-      background: transparent;
-      color: var(--gold2);
-    }
-
-    .btn.danger {
-      background: transparent;
-      border-color: var(--red);
-      color: #ffaaaa;
-    }
-
-    .btn.small {
-      padding: 8px 13px;
-      font-size: .84rem;
-      border-radius: 9px;
-    }
-
-    /* COMMON */
-
-    .section {
-      width: min(1180px,94%);
-      margin: auto;
-      padding: 35px 0 80px;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .section-title h2 {
-      color: var(--gold);
-      font-size: clamp(1.8rem,4vw,2.7rem);
-      margin-bottom: 8px;
-    }
-
-    .section-title p {
-      color: var(--muted);
-    }
-
-    .main-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 18px;
-    }
-
-    .main-card {
-      background:
-        linear-gradient(145deg,rgba(243,186,47,.04),rgba(255,255,255,.01)),
-        var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 25px;
-      box-shadow: var(--shadow);
-      transition: .25s;
-    }
-
-    .main-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(243,186,47,.5);
-    }
-
-    .main-card .icon {
-      font-size: 2.4rem;
-      margin-bottom: 12px;
-    }
-
-    .main-card h3 {
-      color: var(--gold2);
-      margin-bottom: 8px;
-    }
-
-    .main-card p {
-      color: var(--muted);
-      font-size: .94rem;
-      margin-bottom: 18px;
-    }
-
-    .card-btn {
-      border: 1px solid var(--gold);
-      color: var(--gold2);
-      background: transparent;
-      border-radius: 9px;
-      padding: 8px 13px;
-      font-size: .88rem;
-      cursor: pointer;
-    }
-
-    .card-btn:hover {
-      background: rgba(243,186,47,.1);
-    }
-
-    /* INTERFACE */
-
-    #interfaceArea {
-      width: min(1180px,94%);
-      margin: 0 auto 80px;
-    }
-
-    .interface {
-      background: var(--bg2);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 28px;
-      box-shadow: var(--shadow);
-      animation: fadeIn .3s ease;
-    }
-
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .interface-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .interface-header h2 {
-      color: var(--gold);
-    }
-
-    .close-btn {
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--gold2);
-      padding: 8px 12px;
-      border-radius: 9px;
-    }
-
-    /* IMAGE SYSTEM */
-
-    .detail-grid {
-      display: grid;
-      grid-template-columns: repeat(3,1fr);
-      gap: 18px;
-    }
-
-    .seva-card {
-      overflow: hidden;
-      border: 1px solid var(--line);
-      border-radius: 17px;
-      background: var(--card);
-      box-shadow: 0 8px 25px rgba(0,0,0,.25);
-      transition: .25s;
-    }
-
-    .seva-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(243,186,47,.55);
-    }
-
-    .seva-image-wrap {
-      position: relative;
-      width: 100%;
-      height: 190px;
-      overflow: hidden;
-      background:
-        radial-gradient(circle,rgba(243,186,47,.15),transparent 60%),
-        #241015;
-    }
-
-    .seva-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .4s ease;
-    }
-
-    .seva-card:hover .seva-image {
-      transform: scale(1.05);
-    }
-
-    .image-fallback {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      background:
-        radial-gradient(circle at center,rgba(243,186,47,.16),transparent 65%),
-        linear-gradient(135deg,#211015,#12070a);
-    }
-
-    .seva-content {
-      padding: 18px;
-    }
-
-    .seva-content h3 {
-      color: var(--gold2);
-      margin-bottom: 7px;
-      font-size: 1.15rem;
-    }
-
-    .seva-content p {
-      color: var(--muted);
-      font-size: .9rem;
-    }
-
-    .image-note {
-      margin-top: 20px;
-      padding: 12px 15px;
-      border: 1px dashed var(--line);
-      border-radius: 10px;
-      color: var(--muted);
-      font-size: .85rem;
-      text-align: center;
-    }
-
-    /* CONTENT */
-
-    .content-box {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 28px;
-      color: var(--muted);
-    }
-
-    .content-box h3 {
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
-
-    .content-box p {
-      margin-bottom: 12px;
-    }
-
-    .content-box ul {
-      padding-left: 22px;
-    }
-
-    .content-box li {
-      margin-bottom: 7px;
-    }
-
-    /* FORMS */
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2,1fr);
-      gap: 15px;
-    }
-
-    .form-group {
-      margin-bottom: 14px;
-    }
-
-    .form-group.full {
-      grid-column: 1 / -1;
-    }
-
-    .form-group label {
-      display: block;
-      color: var(--gold2);
-      margin-bottom: 6px;
-      font-size: .9rem;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      background: #100609;
-      color: var(--text);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: 12px;
-      outline: none;
-    }
-
-    .form-group textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--gold);
-    }
-
-    .form-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .message {
-      margin-top: 15px;
-      padding: 10px 13px;
-      border-radius: 9px;
-      display: none;
-      border: 1px solid var(--line);
-    }
-
-    .message.show {
-      display: block;
-    }
-
-    /* DASHBOARD */
-
-    .dashboard-top {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr 1fr;
-      gap: 15px;
-      margin-bottom: 22px;
-    }
-
-    .stat-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 18px;
-    }
-
-    .stat-card .stat-number {
-      font-size: 2rem;
-      color: var(--gold);
-      font-weight: 800;
-    }
-
-    .stat-card .stat-label {
-      color: var(--muted);
-      font-size: .85rem;
-    }
-
-    .user-welcome {
-      background:
-        linear-gradient(135deg,rgba(243,186,47,.10),transparent),
-        var(--card);
-      border: 1px solid var(--line);
-      border-radius: 15px;
-      padding: 18px;
-    }
-
-    .user-welcome h3 {
-      color: var(--gold2);
-      margin-bottom: 4px;
-    }
-
-    .role-badge {
-      display: inline-block;
-      margin-top: 8px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      border: 1px solid var(--gold);
-      color: var(--gold2);
-      font-size: .76rem;
-    }
-
-    .dashboard-menu {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 20px;
-    }
-
-    .dashboard-menu button {
-      border: 1px solid var(--line);
-      background: var(--card);
-      color: var(--gold2);
-      padding: 9px 13px;
-      border-radius: 9px;
-    }
-
-    .dashboard-menu button:hover,
-    .dashboard-menu button.active {
-      background: rgba(243,186,47,.12);
-      border-color: var(--gold);
-    }
-
-    .dashboard-content {
-      min-height: 120px;
-    }
-
-    /* TABLE */
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 760px;
-    }
-
-    th,
-    td {
-      padding: 11px 12px;
-      border-bottom: 1px solid rgba(243,186,47,.12);
-      text-align: left;
-      font-size: .84rem;
-    }
-
-    th {
-      color: var(--gold);
-      background: rgba(243,186,47,.05);
-    }
-
-    td {
-      color: var(--muted);
-    }
-
-    tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .status {
-      display: inline-block;
-      padding: 3px 8px;
-      border-radius: 20px;
-      font-size: .73rem;
-    }
-
-    .status.active {
-      color: #8ff0b5;
-      border: 1px solid rgba(85,214,138,.4);
-    }
-
-    .status.disabled {
-      color: #ff9d9d;
-      border: 1px solid rgba(255,118,118,.4);
-    }
-
-    .action-row {
-      display: flex;
-      gap: 5px;
-      flex-wrap: wrap;
-    }
-
-    .mini-btn {
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--gold2);
-      padding: 5px 8px;
-      border-radius: 7px;
-      font-size: .72rem;
-    }
-
-    .mini-btn:hover {
-      background: rgba(243,186,47,.1);
-    }
-
-    .mini-btn.red {
-      border-color: rgba(255,118,118,.5);
-      color: #ff9d9d;
-    }
-
-    /* FOOTER */
-
-    footer {
-      border-top: 1px solid var(--line);
-      background: #0a0305;
-      padding: 40px 20px 25px;
-      text-align: center;
-    }
-
-    .footer-logo {
-      width: 75px;
-      height: 75px;
-      object-fit: contain;
-      margin: 0 auto 12px;
-    }
-
-    footer h3 {
-      color: var(--gold);
-      margin-bottom: 5px;
-    }
-
-    footer p {
-      color: var(--muted);
-      font-size: .88rem;
-      margin-bottom: 6px;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin: 20px 0;
-    }
-
-    .footer-links a {
-      color: var(--gold2);
-      font-size: .88rem;
-    }
-
-    .copyright {
-      margin-top: 20px;
-      color: #8f7f82;
-      font-size: .78rem;
-    }
-
-    /* RESPONSIVE */
-
-    @media (max-width:900px) {
-      .main-grid,
-      .detail-grid {
-        grid-template-columns: repeat(2,1fr);
-      }
-
-      .dashboard-top {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .nav {
-        flex-direction: column;
-        padding: 12px 0;
-      }
-
-      nav {
-        justify-content: center;
-      }
-    }
-
-    @media (max-width:600px) {
-      .hero {
-        min-height: 500px;
-        padding: 60px 10px;
-      }
-
-      .main-grid,
-      .detail-grid,
-      .form-grid,
-      .dashboard-top {
-        grid-template-columns: 1fr;
-      }
-
-      .interface {
-        padding: 18px;
-      }
-
-      .interface-header {
-        align-items: flex-start;
-      }
-
-      .seva-image-wrap {
-        height: 210px;
-      }
-
-      .brand-text span {
-        display: none;
-      }
-
-      nav a,
-      nav button {
-        font-size: .78rem;
-        padding: 7px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>OUMJYOTI — भक्ति • सेवा • मानवता</title>
+
+<meta name="description"
+content="OUMJYOTI — भक्ति, सेवा और मानवता का संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।">
+
+<meta name="theme-color" content="#0f0508">
+
+<style>
+:root{
+  --bg:#0f0508;
+  --card:#1c0e12;
+  --card2:#241217;
+  --gold:#f3ba2f;
+  --gold2:#ffe898;
+  --text:#f5f5f5;
+  --muted:#c9b9bd;
+  --green:#38c172;
+  --red:#ef5350;
+  --blue:#42a5f5;
+  --border:rgba(243,186,47,.22);
+  --shadow:0 15px 40px rgba(0,0,0,.35);
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:
+    radial-gradient(circle at top,rgba(243,186,47,.08),transparent 35%),
+    var(--bg);
+  color:var(--text);
+  line-height:1.6;
+}
+
+button,
+input,
+textarea,
+select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+/* HEADER */
+
+header{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(15,5,8,.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+
+.navbar{
+  max-width:1200px;
+  margin:auto;
+  min-height:72px;
+  padding:10px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  min-width:180px;
+}
+
+.brand img{
+  width:52px;
+  height:52px;
+  object-fit:contain;
+  border-radius:50%;
+}
+
+.brand-text{
+  font-weight:bold;
+  color:var(--gold);
+  font-size:21px;
+  letter-spacing:.5px;
+}
+
+.nav-links{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.nav-links button{
+  background:transparent;
+  border:0;
+  color:var(--text);
+  padding:9px 12px;
+  border-radius:8px;
+}
+
+.nav-links button:hover{
+  background:rgba(243,186,47,.1);
+  color:var(--gold2);
+}
+
+.user-badge{
+  display:none;
+  color:var(--gold2);
+  font-size:13px;
+  border:1px solid var(--border);
+  padding:5px 9px;
+  border-radius:20px;
+}
+
+/* GENERAL */
+
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:0 18px;
+}
+
+section{
+  padding:70px 0;
+}
+
+.section-title{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.section-title h2{
+  color:var(--gold);
+  font-size:32px;
+  margin-bottom:8px;
+}
+
+.section-title p{
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  border-radius:9px;
+  padding:11px 18px;
+  font-weight:bold;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold),#d99612);
+  color:#1a0900;
+}
+
+.btn-dark{
+  background:#2a171c;
+  color:var(--text);
+  border:1px solid var(--border);
+}
+
+.btn-green{
+  background:var(--green);
+  color:#07150d;
+}
+
+.btn-red{
+  background:var(--red);
+  color:white;
+}
+
+.btn-blue{
+  background:var(--blue);
+  color:#07111b;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* HERO */
+
+.hero{
+  min-height:560px;
+  display:flex;
+  align-items:center;
+  text-align:center;
+  background:
+    linear-gradient(rgba(15,5,8,.60),rgba(15,5,8,.92)),
+    radial-gradient(circle at center,rgba(243,186,47,.12),transparent 45%);
+}
+
+.hero-content{
+  max-width:850px;
+  margin:auto;
+}
+
+.hero-logo{
+  width:125px;
+  height:125px;
+  object-fit:contain;
+  margin-bottom:15px;
+  filter:drop-shadow(0 0 20px rgba(243,186,47,.18));
+}
+
+.hero h1{
+  font-size:48px;
+  color:var(--gold);
+  margin-bottom:12px;
+}
+
+.hero h2{
+  font-size:22px;
+  color:var(--gold2);
+  margin-bottom:14px;
+}
+
+.hero p{
+  color:#e5dfe0;
+  max-width:700px;
+  margin:auto;
+}
+
+.hero-actions{
+  margin-top:28px;
+  display:flex;
+  gap:12px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(145deg,var(--card),var(--card2));
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:22px;
+  box-shadow:var(--shadow);
+}
+
+.card h3{
+  color:var(--gold);
+  margin-bottom:8px;
+}
+
+.card p{
+  color:var(--muted);
+}
+
+.seva-image{
+  width:100%;
+  height:180px;
+  object-fit:cover;
+  border-radius:11px;
+  margin-bottom:14px;
+  background:#291419;
+}
+
+.seva-icon{
+  font-size:42px;
+  margin-bottom:8px;
+}
+
+/* INTERFACE */
+
+#interfaceArea{
+  padding:30px 0 80px;
+}
+
+.interface-box{
+  max-width:1050px;
+  margin:auto;
+  background:linear-gradient(145deg,#16090d,#211015);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.interface-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+  margin-bottom:22px;
+  flex-wrap:wrap;
+}
+
+.interface-head h2{
+  color:var(--gold);
+}
+
+/* FORMS */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.form-group.full{
+  grid-column:1/-1;
+}
+
+.form-group label{
+  color:var(--gold2);
+  font-size:14px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select{
+  width:100%;
+  padding:12px 13px;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#10070a;
+  color:white;
+  outline:none;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus{
+  border-color:var(--gold);
+}
+
+.form-group textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+.form-actions{
+  margin-top:20px;
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+/* DASHBOARD */
+
+.dashboard-stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:15px;
+  margin-bottom:25px;
+}
+
+.stat{
+  background:#180b0f;
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:18px;
+}
+
+.stat-number{
+  font-size:30px;
+  font-weight:bold;
+  color:var(--gold);
+}
+
+.stat-label{
+  color:var(--muted);
+  font-size:14px;
+}
+
+.dashboard-menu{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:25px;
+}
+
+.dashboard-menu button{
+  background:#211116;
+  border:1px solid var(--border);
+  color:white;
+  border-radius:10px;
+  padding:14px 10px;
+}
+
+.dashboard-menu button:hover{
+  background:#2c171e;
+  color:var(--gold2);
+}
+
+/* TABLE */
+
+.table-wrap{
+  width:100%;
+  overflow-x:auto;
+  border:1px solid var(--border);
+  border-radius:12px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:720px;
+}
+
+th,
+td{
+  padding:12px 10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+  text-align:left;
+  font-size:14px;
+}
+
+th{
+  color:var(--gold);
+  background:#1b0d11;
+}
+
+td{
+  color:#e8dfe1;
+}
+
+tr:last-child td{
+  border-bottom:0;
+}
+
+.status{
+  display:inline-block;
+  padding:4px 9px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:bold;
+}
+
+.status.active{
+  background:rgba(56,193,114,.15);
+  color:#6be09a;
+}
+
+.status.inactive{
+  background:rgba(239,83,80,.15);
+  color:#ff8582;
+}
+
+.status.unread{
+  background:rgba(66,165,245,.15);
+  color:#7fc8ff;
+}
+
+.action-row{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.small-btn{
+  border:0;
+  border-radius:6px;
+  padding:6px 9px;
+  font-size:12px;
+}
+
+/* PROFILE */
+
+.profile-box{
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:25px;
+  align-items:start;
+}
+
+.profile-avatar{
+  width:150px;
+  height:150px;
+  border-radius:50%;
+  object-fit:contain;
+  border:2px solid var(--gold);
+  background:#12070a;
+  padding:12px;
+  margin:auto;
+}
+
+/* NOTICE */
+
+.notice{
+  padding:12px 15px;
+  border-radius:9px;
+  margin-bottom:18px;
+  display:none;
+}
+
+.notice.success{
+  display:block;
+  background:rgba(56,193,114,.12);
+  border:1px solid rgba(56,193,114,.35);
+  color:#83e7a7;
+}
+
+.notice.error{
+  display:block;
+  background:rgba(239,83,80,.12);
+  border:1px solid rgba(239,83,80,.35);
+  color:#ff9b99;
+}
+
+.loading{
+  color:var(--gold2);
+  padding:20px;
+  text-align:center;
+}
+
+/* FOOTER */
+
+footer{
+  border-top:1px solid var(--border);
+  padding:30px 18px;
+  text-align:center;
+  color:var(--muted);
+}
+
+footer strong{
+  color:var(--gold);
+}
+
+/* MOBILE */
+
+@media(max-width:900px){
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dashboard-stats{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .dashboard-menu{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .profile-box{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:650px){
+  .navbar{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+  .nav-links{
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .hero{
+    min-height:500px;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .hero h2{
+    font-size:18px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .form-group.full{
+    grid-column:auto;
+  }
+
+  .dashboard-stats{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .dashboard-menu{
+    grid-template-columns:1fr 1fr;
+  }
+
+  section{
+    padding:50px 0;
+  }
+
+  .interface-box{
+    padding:17px;
+  }
+
+  .brand-text{
+    font-size:18px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <div class="nav">
+  <div class="navbar">
 
-    <a href="#home" class="brand">
-      <img
-        src="/oumjyoti-logo.png"
-        alt="OUMJYOTI Logo"
-        onerror="this.style.display='none'"
-      >
-
-      <div class="brand-text">
-        <strong>OUMJYOTI</strong>
-        <span>भक्ति • सेवा • मानवता</span>
-      </div>
+    <a href="#" class="brand" onclick="showHome();return false;">
+      <img src="/oumjyoti-logo.png"
+           alt="OUMJYOTI Logo"
+           onerror="this.style.display='none'">
+      <span class="brand-text">OUMJYOTI</span>
     </a>
 
-    <nav>
-      <a href="#home">Home</a>
+    <div class="nav-links">
+      <button onclick="showHome()">Home</button>
+      <button onclick="scrollToSection('mission')">Mission</button>
+      <button onclick="scrollToSection('seva')">Seva</button>
+      <button onclick="scrollToSection('about')">About</button>
+      <button onclick="openFeedback()">Feedback</button>
 
-      <button onclick="openInterface('mission')">
-        Mission
-      </button>
+      <span id="userBadge" class="user-badge"></span>
 
-      <button onclick="openInterface('seva')">
-        Seva
-      </button>
-
-      <button onclick="openInterface('about')">
-        About
-      </button>
-
-      <button onclick="openInterface('feedback')">
-        Feedback
-      </button>
-
-      <button id="authNavButton" onclick="handleAuthButton()">
+      <button id="loginNavBtn"
+              class="btn btn-gold"
+              onclick="openLogin()">
         Login
       </button>
-    </nav>
+    </div>
 
   </div>
 </header>
 
 
-<main id="home">
+<main id="homeArea">
 
   <section class="hero">
+    <div class="container">
+      <div class="hero-content">
 
-    <div class="hero-inner">
+        <img src="/oumjyoti-logo.png"
+             class="hero-logo"
+             alt="OUMJYOTI"
+             onerror="this.style.display='none'">
 
-      <div class="om">ॐ</div>
+        <h1>OUMJYOTI</h1>
 
-      <h1>OUMJYOTI</h1>
+        <h2>भक्ति • सेवा • मानवता</h2>
 
-      <div class="tagline">
-        भक्ति • सेवा • मानवता
-      </div>
+        <p>
+          भक्ति के साथ सेवा, सेवा के साथ मानवता।
+          OUMJYOTI का उद्देश्य समाज में प्रेम, सहयोग,
+          सेवा और आध्यात्मिक चेतना को बढ़ावा देना है।
+        </p>
 
-      <p>
-        जहाँ भक्ति से सेवा जन्म लेती है और सेवा से मानवता मजबूत होती है।
-        OUMJYOTI का उद्देश्य जरूरतमंद लोगों, पशुओं और समाज के लिए
-        सेवा, सहयोग और सकारात्मक प्रयासों को एक साथ लाना है।
-      </p>
+        <div class="hero-actions">
+          <button class="btn btn-gold"
+                  onclick="scrollToSection('seva')">
+            सेवा देखें
+          </button>
 
-      <div class="hero-buttons">
-
-        <button
-          class="btn"
-          onclick="openInterface('seva')"
-        >
-          हमारी सेवा देखें
-        </button>
-
-        <button
-          class="btn secondary"
-          onclick="openInterface('about')"
-        >
-          OUMJYOTI के बारे में
-        </button>
+          <button class="btn btn-dark"
+                  onclick="openLogin()">
+            Member Login
+          </button>
+        </div>
 
       </div>
-
     </div>
-
   </section>
 
 
-  <section class="section">
+  <section id="mission">
+    <div class="container">
 
-    <div class="section-title">
-      <h2>OUMJYOTI</h2>
-      <p>भक्ति से सेवा • सेवा से मानवता</p>
-    </div>
-
-    <div class="main-grid">
-
-      <div class="main-card">
-        <div class="icon">🙏</div>
-        <h3>हमारा Mission</h3>
-        <p>
-          समाज में सेवा, सहयोग और मानवता की भावना को बढ़ावा देना।
-        </p>
-        <button
-          class="card-btn"
-          onclick="openInterface('mission')"
-        >
-          जानें
-        </button>
+      <div class="section-title">
+        <h2>हमारा मिशन</h2>
+        <p>सेवा, सहयोग और मानवता को आगे बढ़ाना</p>
       </div>
 
+      <div class="grid">
 
-      <div class="main-card">
-        <div class="icon">🤝</div>
-        <h3>Seva Mission</h3>
-        <p>
-          गौ सेवा, अन्न दान, शिक्षा, स्वास्थ्य और जरूरतमंदों की सहायता।
-        </p>
-        <button
-          class="card-btn"
-          onclick="openInterface('seva')"
-        >
-          सेवाएँ देखें
-        </button>
-      </div>
+        <div class="card">
+          <div class="seva-icon">🙏</div>
+          <h3>मानव सेवा</h3>
+          <p>
+            जरूरतमंद लोगों तक सहायता और सहयोग पहुँचाना।
+          </p>
+        </div>
 
+        <div class="card">
+          <div class="seva-icon">🐄</div>
+          <h3>गौ सेवा</h3>
+          <p>
+            गौ सेवा और पशु कल्याण के लिए सहयोग करना।
+          </p>
+        </div>
 
-      <div class="main-card">
-        <div class="icon">🕉️</div>
-        <h3>About OUMJYOTI</h3>
-        <p>
-          OUMJYOTI के उद्देश्य और हमारी सेवा यात्रा के बारे में जानें।
-        </p>
-        <button
-          class="card-btn"
-          onclick="openInterface('about')"
-        >
-          पढ़ें
-        </button>
-      </div>
+        <div class="card">
+          <div class="seva-icon">🌱</div>
+          <h3>समाज सेवा</h3>
+          <p>
+            शिक्षा, स्वास्थ्य, पर्यावरण और सामाजिक सहायता
+            के माध्यम से सकारात्मक बदलाव लाना।
+          </p>
+        </div>
 
-
-      <div class="main-card">
-        <div class="icon">💬</div>
-        <h3>Members Feedback</h3>
-        <p>
-          सदस्य अपने विचार और सुझाव हमारे साथ साझा कर सकते हैं।
-        </p>
-        <button
-          class="card-btn"
-          onclick="openInterface('feedback')"
-        >
-          Feedback
-        </button>
-      </div>
-
-
-      <div class="main-card">
-        <div class="icon">👤</div>
-        <h3>Member Area</h3>
-        <p>
-          Login करके अपना profile, password और feedback manage करें।
-        </p>
-        <button
-          class="card-btn"
-          onclick="handleMemberArea()"
-        >
-          Member Area
-        </button>
-      </div>
-
-
-      <div class="main-card">
-        <div class="icon">📞</div>
-        <h3>Contact</h3>
-        <p>
-          OUMJYOTI से जुड़ें और सेवा के इस प्रयास का हिस्सा बनें।
-        </p>
-        <a
-          class="card-btn"
-          href="https://www.youtube.com/@oumjyoti"
-          target="_blank"
-          rel="noopener"
-        >
-          YouTube
-        </a>
       </div>
 
     </div>
+  </section>
 
+
+  <section id="seva">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>हमारी सेवा</h2>
+        <p>समाज के विभिन्न क्षेत्रों में सेवा</p>
+      </div>
+
+      <div id="sevaGrid" class="grid"></div>
+
+    </div>
+  </section>
+
+
+  <section id="about">
+    <div class="container">
+
+      <div class="section-title">
+        <h2>OUMJYOTI के बारे में</h2>
+      </div>
+
+      <div class="card">
+
+        <p>
+          OUMJYOTI — भक्ति, सेवा और मानवता का संगम।
+          हमारा उद्देश्य गौ सेवा, अन्न दान, शिक्षा,
+          बुजुर्ग सेवा, स्वास्थ्य सहायता, पशु सेवा,
+          पर्यावरण संरक्षण और आपदा राहत जैसे
+          सेवा कार्यों को प्रोत्साहित करना है।
+        </p>
+
+        <br>
+
+        <p>
+          हमारा विश्वास है कि मानवता की सेवा ही
+          सबसे बड़ी सेवा है।
+        </p>
+
+      </div>
+
+    </div>
   </section>
 
 </main>
 
 
-<div id="interfaceArea"></div>
+<!-- DYNAMIC INTERFACE -->
+<section id="interfaceArea" class="hidden">
+  <div class="container">
+    <div id="interfaceContent"></div>
+  </div>
+</section>
 
 
 <footer>
-
-  <img
-    class="footer-logo"
-    src="/oumjyoti-logo.png"
-    alt="OUMJYOTI"
-    onerror="this.style.display='none'"
-  >
-
-  <h3>OUMJYOTI</h3>
-
-  <p>भक्ति • सेवा • मानवता</p>
-
-  <div class="footer-links">
-
-    <a href="#home">Home</a>
-
-    <a
-      href="javascript:void(0)"
-      onclick="openInterface('mission')"
-    >
-      Mission
-    </a>
-
-    <a
-      href="javascript:void(0)"
-      onclick="openInterface('seva')"
-    >
-      Seva
-    </a>
-
-    <a
-      href="javascript:void(0)"
-      onclick="openInterface('about')"
-    >
-      About
-    </a>
-
-    <a
-      href="https://www.youtube.com/@oumjyoti"
-      target="_blank"
-      rel="noopener"
-    >
-      YouTube
-    </a>
-
-  </div>
-
-  <p class="copyright">
-    © 2026 OUMJYOTI. All Rights Reserved.
+  <p>
+    © <span id="year"></span>
+    <strong>OUMJYOTI</strong> —
+    भक्ति • सेवा • मानवता
   </p>
-
 </footer>
 
 
 <script>
 
 /* =========================================================
-   OUMJYOTI DATA
-========================================================= */
+   OUMJYOTI FRONTEND SYSTEM
+   ========================================================= */
 
-const sevaData = [
-
-  {
-    icon:"🐄",
-    title:"गौ सेवा",
-    image:"/Images/gau-seva.jpg",
-    text:"जरूरतमंद गौवंश की देखभाल, भोजन और सेवा के लिए प्रयास।"
-  },
-
-  {
-    icon:"🍚",
-    title:"अन्न दान",
-    image:"/Images/ann-daan.jpg",
-    text:"जरूरतमंद परिवारों और लोगों तक भोजन एवं राशन पहुँचाने का प्रयास।"
-  },
-
-  {
-    icon:"📚",
-    title:"गरीब बच्चों की शिक्षा",
-    image:"/Images/education.jpg",
-    text:"जरूरतमंद बच्चों को शिक्षा और सीखने के अवसर उपलब्ध कराने का प्रयास।"
-  },
-
-  {
-    icon:"👴",
-    title:"बुजुर्ग सेवा",
-    image:"/Images/elderly-seva.jpg",
-    text:"जरूरतमंद बुजुर्गों के सम्मान, सहयोग और सहायता के लिए प्रयास।"
-  },
-
-  {
-    icon:"🏥",
-    title:"स्वास्थ्य सहायता",
-    image:"/Images/health-help.jpg",
-    text:"जरूरतमंद लोगों को स्वास्थ्य संबंधी सहायता से जोड़ने का प्रयास।"
-  },
-
-  {
-    icon:"🌊",
-    title:"आपदा राहत",
-    image:"/Images/disaster-relief.jpg",
-    text:"आपदा या कठिन परिस्थिति में जरूरतमंद लोगों तक सहायता पहुँचाने का प्रयास।"
-  },
-
-  {
-    icon:"🐕",
-    title:"पशु सेवा",
-    image:"/Images/animal-seva.jpg",
-    text:"बीमार, घायल और जरूरतमंद पशुओं की सहायता एवं सेवा।"
-  },
-
-  {
-    icon:"👕",
-    title:"वस्त्र दान",
-    image:"/Images/clothes-donation.jpg",
-    text:"जरूरतमंद लोगों तक उपयोगी कपड़े और आवश्यक वस्तुएँ पहुँचाने का प्रयास।"
-  },
-
-  {
-    icon:"🌳",
-    title:"वृक्षारोपण",
-    image:"/Images/tree-plantation.jpg",
-    text:"पर्यावरण संरक्षण और हरियाली बढ़ाने के लिए वृक्षारोपण का प्रयास।"
-  }
-
-];
-
-
-/* =========================================================
-   GLOBAL USER
-========================================================= */
+const API = "";
 
 let currentUser = null;
+let currentRole = null;
 
 
 /* =========================================================
-   API HELPER
-========================================================= */
+   BASIC HELPERS
+   ========================================================= */
 
-async function api(url, options = {}) {
+const $ = id => document.getElementById(id);
 
-  const config = {
-    credentials: "same-origin",
-    ...options,
-    headers: {
-      ...(options.headers || {})
-    }
-  };
+function escapeHTML(value){
+  if(value === null || value === undefined) return "";
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
 
-  if (
-    config.body &&
-    typeof config.body !== "string"
-  ) {
-    config.headers["Content-Type"] = "application/json";
-    config.body = JSON.stringify(config.body);
+function showNotice(message,type="success"){
+  const old = document.querySelector(".notice");
+
+  if(old) old.remove();
+
+  const box = document.createElement("div");
+  box.className = "notice " + type;
+  box.textContent = message;
+
+  const target = $("interfaceContent");
+
+  if(target){
+    target.prepend(box);
   }
 
-  const response = await fetch(url, config);
+  setTimeout(()=>{
+    if(box && box.parentNode){
+      box.remove();
+    }
+  },5000);
+}
+
+async function api(url,options={}){
+  const response = await fetch(API + url,{
+    credentials:"include",
+    headers:{
+      "Content-Type":"application/json",
+      ...(options.headers || {})
+    },
+    ...options
+  });
 
   let data = {};
 
-  try {
+  try{
     data = await response.json();
-  } catch {
+  }catch(e){
     data = {};
   }
 
-  if (!response.ok) {
+  if(!response.ok){
     throw new Error(
-      data.message ||
       data.error ||
-      `Request failed (${response.status})`
+      data.message ||
+      "Server error"
     );
   }
 
@@ -1169,556 +890,288 @@ async function api(url, options = {}) {
 
 
 /* =========================================================
-   ESCAPE HTML
-========================================================= */
+   YEAR
+   ========================================================= */
 
-function esc(value) {
-
-  return String(value ?? "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-}
+$("year").textContent = new Date().getFullYear();
 
 
 /* =========================================================
-   IMAGE CARD
-========================================================= */
+   HOME
+   ========================================================= */
 
-function sevaCard(item) {
+function showHome(){
 
-  return `
-    <article class="seva-card">
-
-      <div class="seva-image-wrap">
-
-        <img
-          class="seva-image"
-          src="${item.image}"
-          alt="${esc(item.title)}"
-          loading="lazy"
-          onerror="
-            this.style.display='none';
-            this.nextElementSibling.style.display='flex';
-          "
-        >
-
-        <div
-          class="image-fallback"
-          style="display:none;"
-          aria-hidden="true"
-        >
-          ${item.icon}
-        </div>
-
-      </div>
-
-      <div class="seva-content">
-
-        <h3>
-          ${item.icon} ${esc(item.title)}
-        </h3>
-
-        <p>
-          ${esc(item.text)}
-        </p>
-
-      </div>
-
-    </article>
-  `;
-}
-
-
-/* =========================================================
-   OPEN INTERFACE
-========================================================= */
-
-function openInterface(type) {
-
-  const area = document.getElementById("interfaceArea");
-
-  let html = "";
-
-
-  /* MISSION */
-
-  if(type === "mission") {
-
-    html = `
-      <div class="interface">
-
-        <div class="interface-header">
-
-          <h2>🙏 हमारा Mission</h2>
-
-          <button
-            class="close-btn"
-            onclick="closeInterface()"
-          >
-            ✕ Close
-          </button>
-
-        </div>
-
-        <div class="content-box">
-
-          <h3>भक्ति से सेवा • सेवा से मानवता</h3>
-
-          <p>
-            OUMJYOTI का उद्देश्य भक्ति और मानवता की भावना को
-            सेवा के कार्यों से जोड़ना है।
-          </p>
-
-          <p>
-            हमारा प्रयास है कि जरूरतमंद लोगों, पशुओं और समाज के
-            लिए छोटे-छोटे सकारात्मक कार्यों को एक साथ लाया जाए।
-          </p>
-
-          <ul>
-            <li>गौ सेवा</li>
-            <li>अन्न दान</li>
-            <li>गरीब बच्चों की शिक्षा</li>
-            <li>बुजुर्ग सेवा</li>
-            <li>स्वास्थ्य सहायता</li>
-            <li>आपदा राहत</li>
-            <li>पशु सेवा</li>
-            <li>वृक्षारोपण</li>
-          </ul>
-
-        </div>
-
-      </div>
-    `;
-  }
-
-
-  /* SEVA */
-
-  else if(type === "seva") {
-
-    html = `
-      <div class="interface">
-
-        <div class="interface-header">
-
-          <div>
-            <h2>🤝 OUMJYOTI Seva Mission</h2>
-
-            <p style="color:var(--muted);margin-top:5px;">
-              हमारी सेवा गतिविधियाँ
-            </p>
-          </div>
-
-          <button
-            class="close-btn"
-            onclick="closeInterface()"
-          >
-            ✕ Close
-          </button>
-
-        </div>
-
-        <div class="detail-grid">
-          ${sevaData.map(sevaCard).join("")}
-        </div>
-
-        <div class="image-note">
-          🖼️ Images folder में image डालने पर संबंधित image
-          अपने-आप यहाँ दिखाई देगी।
-        </div>
-
-      </div>
-    `;
-  }
-
-
-  /* ABOUT */
-
-  else if(type === "about") {
-
-    html = `
-      <div class="interface">
-
-        <div class="interface-header">
-
-          <h2>🕉️ About OUMJYOTI</h2>
-
-          <button
-            class="close-btn"
-            onclick="closeInterface()"
-          >
-            ✕ Close
-          </button>
-
-        </div>
-
-        <div class="content-box">
-
-          <h3>OUMJYOTI क्या है?</h3>
-
-          <p>
-            OUMJYOTI एक ऐसा प्रयास है जहाँ भक्ति, सेवा और
-            मानवता को एक साथ जोड़ने की सोच रखी गई है।
-          </p>
-
-          <p>
-            हमारा उद्देश्य समाज के जरूरतमंद लोगों और पशुओं की
-            सहायता के लिए सेवा कार्यों को प्रोत्साहित करना है।
-          </p>
-
-          <p>
-            आने वाले समय में OUMJYOTI के माध्यम से सेवा से
-            संबंधित गतिविधियों, जानकारी और सकारात्मक कहानियों
-            को एक स्थान पर लाने का प्रयास किया जाएगा।
-          </p>
-
-        </div>
-
-      </div>
-    `;
-  }
-
-
-  /* FEEDBACK */
-
-  else if(type === "feedback") {
-
-    if(!currentUser) {
-      openInterface("login");
-      return;
-    }
-
-    html = `
-      <div class="interface">
-
-        <div class="interface-header">
-
-          <h2>💬 Members Feedback</h2>
-
-          <button
-            class="close-btn"
-            onclick="closeInterface()"
-          >
-            ✕ Close
-          </button>
-
-        </div>
-
-        <form
-          onsubmit="submitFeedback(event)"
-          class="content-box"
-        >
-
-          <div class="form-grid">
-
-            <div class="form-group">
-              <label>नाम</label>
-
-              <input
-                type="text"
-                id="feedbackName"
-                value="${esc(currentUser?.name || "")}"
-                readonly
-              >
-            </div>
-
-            <div class="form-group">
-              <label>Email</label>
-
-              <input
-                type="email"
-                id="feedbackEmail"
-                value="${esc(currentUser?.email || "")}"
-                required
-              >
-            </div>
-
-            <div class="form-group full">
-
-              <label>आपका Feedback</label>
-
-              <textarea
-                id="feedbackMessage"
-                required
-                placeholder="अपना सुझाव या विचार लिखें..."
-              ></textarea>
-
-            </div>
-
-          </div>
-
-          <div class="form-actions">
-
-            <button
-              class="btn"
-              type="submit"
-            >
-              Feedback भेजें
-            </button>
-
-          </div>
-
-          <div
-            id="feedbackResult"
-            class="message"
-          ></div>
-
-        </form>
-
-      </div>
-    `;
-  }
-
-
-  /* LOGIN */
-
-  else if(type === "login") {
-
-    if(currentUser) {
-      openDashboard();
-      return;
-    }
-
-    html = `
-      <div class="interface">
-
-        <div class="interface-header">
-
-          <h2>👤 Member Login</h2>
-
-          <button
-            class="close-btn"
-            onclick="closeInterface()"
-          >
-            ✕ Close
-          </button>
-
-        </div>
-
-        <form
-          onsubmit="loginUser(event)"
-          class="content-box"
-        >
-
-          <div class="form-grid">
-
-            <div class="form-group full">
-
-              <label>Mobile Number</label>
-
-              <input
-                type="tel"
-                id="loginMobile"
-                required
-                autocomplete="username"
-                placeholder="अपना Mobile Number"
-              >
-
-            </div>
-
-            <div class="form-group full">
-
-              <label>Password</label>
-
-              <input
-                type="password"
-                id="loginPassword"
-                required
-                autocomplete="current-password"
-                placeholder="Password"
-              >
-
-            </div>
-
-          </div>
-
-          <div class="form-actions">
-
-            <button
-              class="btn"
-              type="submit"
-            >
-              Login
-            </button>
-
-            <button
-              class="btn secondary"
-              type="button"
-              onclick="showRegister()"
-            >
-              New Member
-            </button>
-
-          </div>
-
-          <div
-            id="loginResult"
-            class="message"
-          ></div>
-
-        </form>
-
-      </div>
-    `;
-  }
-
-
-  area.innerHTML = html;
-
-  area.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-
-}
-
-
-/* =========================================================
-   CLOSE
-========================================================= */
-
-function closeInterface() {
-
-  document.getElementById("interfaceArea").innerHTML = "";
+  $("interfaceArea").classList.add("hidden");
 
   window.scrollTo({
     top:0,
     behavior:"smooth"
   });
+}
+
+function scrollToSection(id){
+
+  $("interfaceArea").classList.add("hidden");
+
+  const el = $(id);
+
+  if(el){
+    el.scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  }
+}
+
+
+/* =========================================================
+   SEVA CARDS
+   ========================================================= */
+
+const sevaData = [
+
+  {
+    title:"गौ सेवा",
+    image:"/Images/gau-seva.jpg",
+    icon:"🐄",
+    text:"गौ सेवा और पशु कल्याण के लिए सहयोग।"
+  },
+
+  {
+    title:"अन्न दान",
+    image:"/Images/ann-daan.jpg",
+    icon:"🍚",
+    text:"जरूरतमंद लोगों तक भोजन पहुँचाने का प्रयास।"
+  },
+
+  {
+    title:"शिक्षा सेवा",
+    image:"/Images/education.jpg",
+    icon:"📚",
+    text:"जरूरतमंद बच्चों की शिक्षा में सहयोग।"
+  },
+
+  {
+    title:"बुजुर्ग सेवा",
+    image:"/Images/elderly-seva.jpg",
+    icon:"👴",
+    text:"बुजुर्गों के सम्मान और सहायता के लिए सेवा।"
+  },
+
+  {
+    title:"स्वास्थ्य सहायता",
+    image:"/Images/health-help.jpg",
+    icon:"🏥",
+    text:"जरूरतमंद लोगों के स्वास्थ्य में सहयोग।"
+  },
+
+  {
+    title:"आपदा राहत",
+    image:"/Images/disaster-relief.jpg",
+    icon:"🤝",
+    text:"आपदा के समय राहत और सहायता।"
+  },
+
+  {
+    title:"पशु सेवा",
+    image:"/Images/animal-seva.jpg",
+    icon:"🐕",
+    text:"जरूरतमंद पशुओं की देखभाल और सहायता।"
+  },
+
+  {
+    title:"वस्त्र दान",
+    image:"/Images/clothes-donation.jpg",
+    icon:"👕",
+    text:"जरूरतमंद लोगों को कपड़े उपलब्ध कराने का प्रयास।"
+  },
+
+  {
+    title:"वृक्षारोपण",
+    image:"/Images/tree-plantation.jpg",
+    icon:"🌳",
+    text:"पर्यावरण संरक्षण और वृक्षारोपण।"
+  }
+
+];
+
+function loadSeva(){
+
+  const grid = $("sevaGrid");
+
+  grid.innerHTML = sevaData.map(item => `
+
+    <div class="card">
+
+      <img
+        class="seva-image"
+        src="${item.image}"
+        alt="${escapeHTML(item.title)}"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+      >
+
+      <div
+        class="seva-icon"
+        style="display:none"
+      >
+        ${item.icon}
+      </div>
+
+      <h3>${escapeHTML(item.title)}</h3>
+
+      <p>${escapeHTML(item.text)}</p>
+
+    </div>
+
+  `).join("");
+}
+
+loadSeva();
+
+
+/* =========================================================
+   INTERFACE OPEN
+   ========================================================= */
+
+function openInterface(html){
+
+  $("interfaceContent").innerHTML = html;
+
+  $("interfaceArea").classList.remove("hidden");
+
+  setTimeout(()=>{
+    $("interfaceArea").scrollIntoView({
+      behavior:"smooth",
+      block:"start"
+    });
+  },50);
 }
 
 
 /* =========================================================
    LOGIN
-========================================================= */
+   ========================================================= */
 
-async function loginUser(event) {
+function openLogin(){
 
-  event.preventDefault();
+  if(currentUser){
+    openDashboard();
+    return;
+  }
 
-  const result =
-    document.getElementById("loginResult");
+  openInterface(`
 
-  const mobile =
-    document.getElementById("loginMobile").value.trim();
+    <div class="interface-box">
 
-  const password =
-    document.getElementById("loginPassword").value;
+      <div class="interface-head">
+        <h2>🔐 OUMJYOTI Login</h2>
 
-  result.className = "message show";
-  result.textContent = "Login हो रहा है...";
+        <button
+          class="btn btn-dark"
+          onclick="showHome()">
+          ✕ Close
+        </button>
+      </div>
 
-  try {
+      <div class="form-grid">
 
-    const data = await api("/api/login", {
+        <div class="form-group full">
+          <label>Mobile Number / Login ID</label>
+          <input
+            id="loginIdentity"
+            type="text"
+            placeholder="अपना mobile number डालें"
+            autocomplete="username">
+        </div>
 
+        <div class="form-group full">
+          <label>Password</label>
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Password"
+            autocomplete="current-password">
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="loginUser()">
+          Login
+        </button>
+
+        <button
+          class="btn btn-dark"
+          onclick="openRegister()">
+          New Registration
+        </button>
+
+      </div>
+
+      <p style="margin-top:15px;color:var(--muted);font-size:13px;">
+        Login के बाद आपका Dashboard आपके role के अनुसार खुलेगा।
+      </p>
+
+    </div>
+
+  `);
+}
+
+
+async function loginUser(){
+
+  const identity = $("loginIdentity").value.trim();
+  const password = $("loginPassword").value;
+
+  if(!identity || !password){
+    showNotice("Mobile/Login ID और Password दोनों भरें।","error");
+    return;
+  }
+
+  try{
+
+    const data = await api("/api/login",{
       method:"POST",
-
-      body:{
-        mobile,
-        password
-      }
-
+      body:JSON.stringify({
+        identity:identity,
+        email:identity,
+        mobile:identity,
+        password:password
+      })
     });
 
-    result.textContent =
-      data.message ||
-      "Login सफल हुआ।";
-
-    result.style.color = "#8ff0b5";
+    currentUser = data.user || data.member || data;
 
     await loadCurrentUser();
 
-    setTimeout(() => {
+    showNotice("Login सफल हुआ।","success");
 
-      openDashboard();
-
-    },500);
-
-  } catch(error) {
-
-    result.textContent =
-      error.message ||
-      "Login में समस्या हुई।";
-
-    result.style.color = "#ff9d9d";
-  }
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logoutUser() {
-
-  try {
-
-    await api("/api/logout", {
-      method:"POST"
-    });
-
-  } catch(error) {
-
-    console.warn("Logout API:",error);
-
-  }
-
-  currentUser = null;
-
-  updateAuthButton();
-
-  document.getElementById("interfaceArea").innerHTML = "";
-
-  alert("आप सफलतापूर्वक Logout हो गए हैं।");
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-}
-
-
-/* =========================================================
-   AUTH BUTTON
-========================================================= */
-
-function handleAuthButton() {
-
-  if(currentUser) {
-    logoutUser();
-  } else {
-    openInterface("login");
-  }
-}
-
-
-/* =========================================================
-   MEMBER AREA
-========================================================= */
-
-function handleMemberArea() {
-
-  if(currentUser) {
     openDashboard();
-  } else {
-    openInterface("login");
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Login failed",
+      "error"
+    );
+
   }
 }
 
 
 /* =========================================================
    CURRENT USER
-========================================================= */
+   ========================================================= */
 
-async function loadCurrentUser() {
+async function loadCurrentUser(){
 
-  try {
+  try{
 
-    const data = await api("/api/me", {
+    const data = await api("/api/me",{
       method:"GET"
     });
 
@@ -1727,46 +1180,297 @@ async function loadCurrentUser() {
       data.member ||
       data;
 
-    if(
-      !currentUser ||
-      !currentUser.id
-    ) {
-      currentUser = null;
-    }
+    currentRole =
+      currentUser.role ||
+      currentUser.user_role ||
+      "member";
 
-  } catch {
+    updateHeader();
+
+    return currentUser;
+
+  }catch(error){
 
     currentUser = null;
+    currentRole = null;
 
+    updateHeader();
+
+    return null;
   }
-
-  updateAuthButton();
 }
 
 
 /* =========================================================
-   AUTH NAV BUTTON
-========================================================= */
+   HEADER USER STATE
+   ========================================================= */
 
-function updateAuthButton() {
+function updateHeader(){
 
-  const button =
-    document.getElementById("authNavButton");
+  const badge = $("userBadge");
+  const loginBtn = $("loginNavBtn");
 
-  if(!button) return;
+  if(currentUser){
 
-  if(currentUser) {
+    const role =
+      currentUser.role ||
+      currentUser.user_role ||
+      "member";
 
-    button.textContent = "Logout";
+    currentRole = role;
 
-    button.title =
-      `${currentUser.name || "Member"} — Logout`;
+    const roleText =
+      role === "admin" ? "Admin" :
+      role === "staff" ? "Staff" :
+      "Member";
 
-  } else {
+    badge.textContent =
+      (currentUser.name || "User") +
+      " • " +
+      roleText;
 
-    button.textContent = "Login";
+    badge.style.display = "inline-block";
 
-    button.title = "Member Login";
+    loginBtn.textContent = "Dashboard";
+
+  }else{
+
+    badge.style.display = "none";
+
+    loginBtn.textContent = "Login";
+  }
+}
+
+
+/* =========================================================
+   REGISTER
+   ========================================================= */
+
+function openRegister(){
+
+  openInterface(`
+
+    <div class="interface-box">
+
+      <div class="interface-head">
+        <h2>📝 Member Registration</h2>
+
+        <button
+          class="btn btn-dark"
+          onclick="openLogin()">
+          ← Login
+        </button>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>पूरा नाम *</label>
+          <input id="regName" type="text">
+        </div>
+
+        <div class="form-group">
+          <label>Place / City *</label>
+          <input id="regPlace" type="text">
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input id="regEmail" type="email">
+        </div>
+
+        <div class="form-group">
+          <label>Mobile *</label>
+          <input id="regMobile" type="tel">
+        </div>
+
+        <div class="form-group">
+          <label>PAN</label>
+          <input id="regPan" type="text">
+        </div>
+
+        <div class="form-group">
+          <label>Aadhaar</label>
+          <input id="regAadhaar" type="text">
+        </div>
+
+        <div class="form-group">
+          <label>Password *</label>
+          <input id="regPassword" type="password">
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="registerUser()">
+          Register
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+async function registerUser(){
+
+  const payload = {
+    name:$("regName").value.trim(),
+    place:$("regPlace").value.trim(),
+    email:$("regEmail").value.trim(),
+    mobile:$("regMobile").value.trim(),
+    pan:$("regPan").value.trim(),
+    aadhaar:$("regAadhaar").value.trim(),
+    password:$("regPassword").value
+  };
+
+  if(
+    !payload.name ||
+    !payload.place ||
+    !payload.email ||
+    !payload.mobile ||
+    !payload.password
+  ){
+    showNotice(
+      "Name, Place, Email, Mobile और Password भरना जरूरी है।",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    await api("/api/register",{
+      method:"POST",
+      body:JSON.stringify(payload)
+    });
+
+    showNotice(
+      "Registration सफल हुआ। अब Login करें।",
+      "success"
+    );
+
+    setTimeout(openLogin,800);
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Registration failed",
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================================================
+   FEEDBACK
+   ========================================================= */
+
+function openFeedback(){
+
+  if(!currentUser){
+    openLogin();
+    return;
+  }
+
+  openInterface(`
+
+    <div class="interface-box">
+
+      <div class="interface-head">
+        <h2>💬 Feedback</h2>
+
+        <button
+          class="btn btn-dark"
+          onclick="openDashboard()">
+          Dashboard
+        </button>
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            id="feedbackName"
+            value="${escapeHTML(currentUser.name || "")}">
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            id="feedbackEmail"
+            value="${escapeHTML(currentUser.email || "")}">
+        </div>
+
+        <div class="form-group full">
+          <label>Message *</label>
+          <textarea
+            id="feedbackMessage"
+            placeholder="अपना feedback लिखें..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="sendFeedback()">
+          Send Feedback
+        </button>
+
+      </div>
+
+    </div>
+
+  `);
+}
+
+
+async function sendFeedback(){
+
+  const message =
+    $("feedbackMessage").value.trim();
+
+  if(!message){
+    showNotice(
+      "Feedback message लिखें।",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    await api("/api/feedback",{
+      method:"POST",
+      body:JSON.stringify({
+        name:$("feedbackName").value.trim(),
+        email:$("feedbackEmail").value.trim(),
+        message:message
+      })
+    });
+
+    showNotice(
+      "आपका feedback successfully भेज दिया गया।",
+      "success"
+    );
+
+    $("feedbackMessage").value = "";
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Feedback भेजा नहीं जा सका।",
+      "error"
+    );
 
   }
 }
@@ -1774,371 +1478,1187 @@ function updateAuthButton() {
 
 /* =========================================================
    DASHBOARD
-========================================================= */
+   ========================================================= */
 
-async function openDashboard() {
+async function openDashboard(){
 
-  if(!currentUser) {
+  if(!currentUser){
 
-    await loadCurrentUser();
+    const user = await loadCurrentUser();
 
+    if(!user){
+      openLogin();
+      return;
+    }
   }
 
-  if(!currentUser) {
+  const role =
+    currentUser.role ||
+    currentUser.user_role ||
+    "member";
 
-    openInterface("login");
+  currentRole = role;
 
-    return;
-  }
-
-  if(currentUser.role === "admin") {
-
+  if(role === "admin"){
     await renderAdminDashboard();
-
   }
-
-  else if(currentUser.role === "staff") {
-
+  else if(role === "staff"){
     await renderStaffDashboard();
-
   }
-
-  else {
-
-    renderMemberDashboard();
-
+  else{
+    await renderMemberDashboard();
   }
-
 }
 
 
 /* =========================================================
-   MEMBER DASHBOARD
-========================================================= */
+   ADMIN DASHBOARD
+   ========================================================= */
 
-function renderMemberDashboard() {
+async function renderAdminDashboard(){
 
-  const area =
-    document.getElementById("interfaceArea");
+  openInterface(`
 
-  area.innerHTML = `
+    <div class="interface-box">
 
-    <div class="interface">
-
-      <div class="interface-header">
+      <div class="interface-head">
 
         <div>
+          <h2>👑 Admin Dashboard</h2>
 
-          <h2>👤 Member Area</h2>
-
-          <p style="color:var(--muted);margin-top:5px;">
-            OUMJYOTI सदस्य क्षेत्र
+          <p style="color:var(--muted);">
+            Welcome,
+            <strong style="color:var(--gold2);">
+              ${escapeHTML(currentUser.name || "Admin")}
+            </strong>
           </p>
-
         </div>
 
         <button
-          class="btn danger small"
-          onclick="logoutUser()"
-        >
+          class="btn btn-red"
+          onclick="logoutUser()">
           Logout
         </button>
 
       </div>
 
+      <div id="adminStats"
+           class="dashboard-stats">
 
-      <div class="dashboard-top">
-
-        <div class="user-welcome">
-
-          <h3>
-            नमस्कार, ${esc(currentUser.name || "Member")} 🙏
-          </h3>
-
-          <p style="color:var(--muted);">
-            आपका OUMJYOTI Member Area
-          </p>
-
-          <span class="role-badge">
-            MEMBER
-          </span>
-
+        <div class="stat">
+          <div class="stat-number">—</div>
+          <div class="stat-label">Members</div>
         </div>
 
-        <div class="stat-card">
-
-          <div class="stat-number">
-            👤
-          </div>
-
-          <div class="stat-label">
-            Member Account
-          </div>
-
+        <div class="stat">
+          <div class="stat-number">—</div>
+          <div class="stat-label">Staff</div>
         </div>
 
-        <div class="stat-card">
+        <div class="stat">
+          <div class="stat-number">—</div>
+          <div class="stat-label">Feedback</div>
+        </div>
 
-          <div class="stat-number">
-            🙏
-          </div>
-
-          <div class="stat-label">
-            Seva • Humanity
-          </div>
-
+        <div class="stat">
+          <div class="stat-number">✓</div>
+          <div class="stat-label">Admin</div>
         </div>
 
       </div>
-
 
       <div class="dashboard-menu">
 
-        <button
-          class="active"
-          onclick="memberProfile()"
-        >
-          👤 My Profile
+        <button onclick="openAdminProfile()">
+          👤 Admin Profile
         </button>
 
-        <button onclick="memberPassword()">
-          🔑 Change Password
+        <button onclick="openPasswordChange()">
+          🔐 Password Change
         </button>
 
-        <button onclick="openInterface('feedback')">
+        <button onclick="openMembers()">
+          👥 Members
+        </button>
+
+        <button onclick="openAddMember()">
+          ➕ Add Member/Staff
+        </button>
+
+        <button onclick="openFeedbackManagement()">
           💬 Feedback
+        </button>
+
+        <button onclick="refreshAdminDashboard()">
+          🔄 Refresh
+        </button>
+
+        <button onclick="openHomeFromDashboard()">
+          🏠 Website Home
+        </button>
+
+        <button onclick="logoutUser()">
+          🚪 Logout
         </button>
 
       </div>
 
+      <div id="dashboardPanel">
 
-      <div
-        id="dashboardContent"
-        class="dashboard-content"
-      ></div>
+        <div class="card">
+
+          <h3>Admin Control Center</h3>
+
+          <p>
+            यहाँ से आप अपना profile edit कर सकते हैं,
+            password बदल सकते हैं, members/staff manage कर सकते हैं
+            और feedback देख सकते हैं।
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
-  `;
 
-  memberProfile();
+  `);
 
-  area.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+  loadAdminStats();
 }
 
 
 /* =========================================================
-   MEMBER PROFILE
-========================================================= */
+   ADMIN PROFILE EDIT
+   ========================================================= */
 
-function memberProfile() {
+function openAdminProfile(){
 
-  const box =
-    document.getElementById("dashboardContent");
+  const u = currentUser || {};
 
-  if(!box) return;
+  $("dashboardPanel").innerHTML = `
 
-  box.innerHTML = `
+    <div class="card">
 
-    <div class="content-box">
+      <div class="interface-head">
 
-      <h3>👤 My Profile</h3>
+        <h3>👤 Admin Profile</h3>
+
+        <button
+          class="btn btn-dark"
+          onclick="renderAdminDashboard()">
+          ← Dashboard
+        </button>
+
+      </div>
+
+      <div class="profile-box">
+
+        <div>
+          <img
+            src="/oumjyoti-logo.png"
+            class="profile-avatar"
+            alt="OUMJYOTI">
+        </div>
+
+        <div>
+
+          <div class="form-grid">
+
+            <div class="form-group">
+              <label>पूरा नाम</label>
+              <input
+                id="profileName"
+                value="${escapeHTML(u.name || "")}">
+            </div>
+
+            <div class="form-group">
+              <label>Mobile Number</label>
+              <input
+                id="profileMobile"
+                value="${escapeHTML(u.mobile || "")}">
+            </div>
+
+            <div class="form-group">
+              <label>Email</label>
+              <input
+                id="profileEmail"
+                type="email"
+                value="${escapeHTML(u.email || "")}">
+            </div>
+
+            <div class="form-group">
+              <label>Place / City</label>
+              <input
+                id="profilePlace"
+                value="${escapeHTML(u.place || "")}">
+            </div>
+
+          </div>
+
+          <div class="form-actions">
+
+            <button
+              class="btn btn-gold"
+              onclick="saveAdminProfile()">
+              💾 Save Changes
+            </button>
+
+            <button
+              class="btn btn-dark"
+              onclick="openPasswordChange()">
+              🔐 Change Password
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <p style="margin-top:20px;color:var(--muted);font-size:13px;">
+        Security के लिए PAN और Aadhaar यहाँ सामान्य profile edit में नहीं दिखाए गए हैं।
+      </p>
+
+    </div>
+
+  `;
+}
+
+
+async function saveAdminProfile(){
+
+  const payload = {
+    name:$("profileName").value.trim(),
+    mobile:$("profileMobile").value.trim(),
+    email:$("profileEmail").value.trim(),
+    place:$("profilePlace").value.trim()
+  };
+
+  if(!payload.name){
+    showNotice(
+      "Name खाली नहीं हो सकता।",
+      "error"
+    );
+    return;
+  }
+
+  try{
+
+    const data = await api("/api/me",{
+      method:"PUT",
+      body:JSON.stringify(payload)
+    });
+
+    currentUser =
+      data.user ||
+      data.member ||
+      {
+        ...currentUser,
+        ...payload
+      };
+
+    await loadCurrentUser();
+
+    updateHeader();
+
+    showNotice(
+      "Admin Profile successfully update हो गया।",
+      "success"
+    );
+
+    openAdminProfile();
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Profile update failed",
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================================================
+   PASSWORD CHANGE
+   ========================================================= */
+
+function openPasswordChange(){
+
+  $("dashboardPanel").innerHTML = `
+
+    <div class="card">
+
+      <div class="interface-head">
+
+        <h3>🔐 Change Password</h3>
+
+        <button
+          class="btn btn-dark"
+          onclick="openDashboard()">
+          ← Dashboard
+        </button>
+
+      </div>
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label>Current Password</label>
+          <input
+            id="oldPassword"
+            type="password"
+            autocomplete="current-password">
+        </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+          <input
+            id="newPassword"
+            type="password"
+            autocomplete="new-password">
+        </div>
+
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            autocomplete="new-password">
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="changePassword()">
+          🔐 Update Password
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+async function changePassword(){
+
+  const oldPassword =
+    $("oldPassword").value;
+
+  const newPassword =
+    $("newPassword").value;
+
+  const confirmPassword =
+    $("confirmPassword").value;
+
+  if(!oldPassword || !newPassword || !confirmPassword){
+
+    showNotice(
+      "सभी password fields भरें।",
+      "error"
+    );
+
+    return;
+  }
+
+  if(newPassword !== confirmPassword){
+
+    showNotice(
+      "New Password और Confirm Password अलग हैं।",
+      "error"
+    );
+
+    return;
+  }
+
+  if(newPassword.length < 6){
+
+    showNotice(
+      "New Password कम से कम 6 characters का रखें।",
+      "error"
+    );
+
+    return;
+  }
+
+  try{
+
+    await api("/api/password",{
+      method:"PUT",
+      body:JSON.stringify({
+        oldPassword:oldPassword,
+        newPassword:newPassword
+      })
+    });
+
+    showNotice(
+      "Password successfully change हो गया।",
+      "success"
+    );
+
+    $("oldPassword").value = "";
+    $("newPassword").value = "";
+    $("confirmPassword").value = "";
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Password change failed",
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================================================
+   MEMBERS
+   ========================================================= */
+
+async function openMembers(){
+
+  const panel = $("dashboardPanel");
+
+  panel.innerHTML = `
+
+    <div class="card">
+
+      <div class="interface-head">
+
+        <h3>👥 Members Management</h3>
+
+        <div class="action-row">
+
+          <button
+            class="btn btn-gold"
+            onclick="openAddMember()">
+            ➕ Add
+          </button>
+
+          <button
+            class="btn btn-dark"
+            onclick="openDashboard()">
+            ← Dashboard
+          </button>
+
+        </div>
+
+      </div>
+
+      <div id="membersContent"
+           class="loading">
+        Members loading...
+      </div>
+
+    </div>
+
+  `;
+
+  try{
+
+    const data =
+      await api("/api/admin/members",{
+        method:"GET"
+      });
+
+    const members =
+      data.members ||
+      data.users ||
+      data.data ||
+      [];
+
+    renderMembersTable(members);
+
+  }catch(error){
+
+    $("membersContent").innerHTML = `
+      <div class="notice error" style="display:block">
+        ${escapeHTML(error.message)}
+      </div>
+    `;
+
+  }
+}
+
+
+function renderMembersTable(members){
+
+  if(!members.length){
+
+    $("membersContent").innerHTML = `
+      <div class="card">
+        <p>No members found.</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  $("membersContent").innerHTML = `
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Name</th>
+            <th>Mobile</th>
+            <th>Email</th>
+            <th>Place</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${members.map(member => {
+
+            const role =
+              member.role ||
+              member.user_role ||
+              "member";
+
+            const active =
+              member.active !== false &&
+              member.status !== "inactive";
+
+            return `
+
+              <tr>
+
+                <td>
+                  ${escapeHTML(member.name || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(member.mobile || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(member.email || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(member.place || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(role)}
+                </td>
+
+                <td>
+
+                  <span class="status ${active ? "active" : "inactive"}">
+                    ${active ? "Active" : "Inactive"}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <div class="action-row">
+
+                    <button
+                      class="small-btn btn-dark"
+                      onclick='editMember(${JSON.stringify(member).replace(/'/g,"&#39;")})'>
+                      Edit
+                    </button>
+
+                    <button
+                      class="small-btn ${active ? "btn-red" : "btn-green"}"
+                      onclick="toggleMember('${escapeHTML(member.id || "")}',${active})">
+                      ${active ? "Disable" : "Activate"}
+                    </button>
+
+                  </div>
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+}
+
+
+/* =========================================================
+   ADD MEMBER / STAFF
+   ========================================================= */
+
+function openAddMember(){
+
+  $("dashboardPanel").innerHTML = `
+
+    <div class="card">
+
+      <div class="interface-head">
+
+        <h3>➕ Add Member / Staff</h3>
+
+        <button
+          class="btn btn-dark"
+          onclick="openMembers()">
+          ← Members
+        </button>
+
+      </div>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>नाम</label>
-          <input
-            value="${esc(currentUser.name || "")}"
-            readonly
-          >
+          <label>Name *</label>
+          <input id="addName">
         </div>
 
         <div class="form-group">
-          <label>Mobile</label>
+          <label>Place</label>
+          <input id="addPlace">
+        </div>
+
+        <div class="form-group">
+          <label>Email *</label>
+          <input id="addEmail" type="email">
+        </div>
+
+        <div class="form-group">
+          <label>Mobile *</label>
+          <input id="addMobile" type="tel">
+        </div>
+
+        <div class="form-group">
+          <label>Role *</label>
+
+          <select id="addRole">
+
+            <option value="member">
+              Member
+            </option>
+
+            <option value="staff">
+              Staff
+            </option>
+
+          </select>
+
+        </div>
+
+        <div class="form-group">
+          <label>Password *</label>
+          <input id="addPassword" type="password">
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="addMember()">
+          Create Account
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+async function addMember(){
+
+  const payload = {
+    name:$("addName").value.trim(),
+    place:$("addPlace").value.trim(),
+    email:$("addEmail").value.trim(),
+    mobile:$("addMobile").value.trim(),
+    role:$("addRole").value,
+    password:$("addPassword").value
+  };
+
+  if(
+    !payload.name ||
+    !payload.email ||
+    !payload.mobile ||
+    !payload.password
+  ){
+
+    showNotice(
+      "Name, Email, Mobile और Password भरना जरूरी है।",
+      "error"
+    );
+
+    return;
+  }
+
+  try{
+
+    await api("/api/admin/members",{
+      method:"POST",
+      body:JSON.stringify(payload)
+    });
+
+    showNotice(
+      "New account successfully create हो गया।",
+      "success"
+    );
+
+    openMembers();
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Account create failed",
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================================================
+   EDIT MEMBER
+   ========================================================= */
+
+function editMember(member){
+
+  $("dashboardPanel").innerHTML = `
+
+    <div class="card">
+
+      <div class="interface-head">
+
+        <h3>✏️ Edit Member</h3>
+
+        <button
+          class="btn btn-dark"
+          onclick="openMembers()">
+          ← Members
+        </button>
+
+      </div>
+
+      <input
+        id="editMemberId"
+        type="hidden"
+        value="${escapeHTML(member.id || "")}">
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Name</label>
           <input
-            value="${esc(currentUser.mobile || "")}"
-            readonly
-          >
+            id="editName"
+            value="${escapeHTML(member.name || "")}">
+        </div>
+
+        <div class="form-group">
+          <label>Place</label>
+          <input
+            id="editPlace"
+            value="${escapeHTML(member.place || "")}">
         </div>
 
         <div class="form-group">
           <label>Email</label>
           <input
-            value="${esc(currentUser.email || "")}"
-            readonly
-          >
+            id="editEmail"
+            value="${escapeHTML(member.email || "")}">
         </div>
 
         <div class="form-group">
-          <label>स्थान</label>
+          <label>Mobile</label>
           <input
-            value="${esc(currentUser.place || "")}"
-            readonly
-          >
+            id="editMobile"
+            value="${escapeHTML(member.mobile || "")}">
         </div>
 
         <div class="form-group">
           <label>Role</label>
-          <input
-            value="${esc(currentUser.role || "member")}"
-            readonly
-          >
+
+          <select id="editRole">
+
+            <option value="member"
+              ${member.role==="member" ? "selected" : ""}>
+              Member
+            </option>
+
+            <option value="staff"
+              ${member.role==="staff" ? "selected" : ""}>
+              Staff
+            </option>
+
+            <option value="admin"
+              ${member.role==="admin" ? "selected" : ""}>
+              Admin
+            </option>
+
+          </select>
+
         </div>
 
         <div class="form-group">
           <label>Status</label>
-          <input
-            value="${esc(currentUser.status || "active")}"
-            readonly
-          >
+
+          <select id="editActive">
+
+            <option value="true"
+              ${member.active !== false ? "selected" : ""}>
+              Active
+            </option>
+
+            <option value="false"
+              ${member.active === false ? "selected" : ""}>
+              Inactive
+            </option>
+
+          </select>
+
         </div>
 
       </div>
 
-    </div>
-  `;
-}
+      <div class="form-actions">
 
-
-/* =========================================================
-   MEMBER PASSWORD
-========================================================= */
-
-function memberPassword() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  if(!box) return;
-
-  box.innerHTML = `
-
-    <div class="content-box">
-
-      <h3>🔑 Change Password</h3>
-
-      <form onsubmit="changePassword(event)">
-
-        <div class="form-group">
-
-          <label>Current Password</label>
-
-          <input
-            type="password"
-            id="oldPassword"
-            required
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label>New Password</label>
-
-          <input
-            type="password"
-            id="newPassword"
-            required
-            minlength="6"
-          >
-
-        </div>
-
-        <div class="form-group">
-
-          <label>Confirm New Password</label>
-
-          <input
-            type="password"
-            id="confirmPassword"
-            required
-            minlength="6"
-          >
-
-        </div>
-
-        <button class="btn">
-          Password बदलें
+        <button
+          class="btn btn-gold"
+          onclick="saveMemberEdit()">
+          💾 Save
         </button>
 
-        <div
-          id="passwordResult"
-          class="message"
-        ></div>
-
-      </form>
+      </div>
 
     </div>
+
   `;
 }
 
 
-/* =========================================================
-   CHANGE PASSWORD
-========================================================= */
+async function saveMemberEdit(){
 
-async function changePassword(event) {
+  const id =
+    $("editMemberId").value;
 
-  event.preventDefault();
+  if(!id){
 
-  const result =
-    document.getElementById("passwordResult");
-
-  const oldPassword =
-    document.getElementById("oldPassword").value;
-
-  const newPassword =
-    document.getElementById("newPassword").value;
-
-  const confirmPassword =
-    document.getElementById("confirmPassword").value;
-
-  result.className = "message show";
-
-  if(newPassword !== confirmPassword) {
-
-    result.textContent =
-      "New Password और Confirm Password समान नहीं हैं।";
-
-    result.style.color = "#ff9d9d";
+    showNotice(
+      "Member ID missing.",
+      "error"
+    );
 
     return;
   }
 
-  result.textContent =
-    "Password बदला जा रहा है...";
+  const payload = {
+    name:$("editName").value.trim(),
+    place:$("editPlace").value.trim(),
+    email:$("editEmail").value.trim(),
+    mobile:$("editMobile").value.trim(),
+    role:$("editRole").value,
+    active:$("editActive").value === "true"
+  };
 
-  try {
+  try{
 
-    const data = await api("/api/password", {
-
-      method:"PUT",
-
-      body:{
-        oldPassword,
-        newPassword
+    await api(
+      "/api/admin/members/" +
+      encodeURIComponent(id),
+      {
+        method:"PATCH",
+        body:JSON.stringify(payload)
       }
+    );
 
+    showNotice(
+      "Member successfully updated।",
+      "success"
+    );
+
+    openMembers();
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Member update failed",
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================================================
+   TOGGLE MEMBER
+   ========================================================= */
+
+async function toggleMember(id,active){
+
+  if(!id){
+    showNotice(
+      "Member ID missing.",
+      "error"
+    );
+    return;
+  }
+
+  const action =
+    active ? "disable" : "activate";
+
+  if(!confirm(
+    `क्या आप इस account को ${action} करना चाहते हैं?`
+  )){
+    return;
+  }
+
+  try{
+
+    await api(
+      "/api/admin/members/" +
+      encodeURIComponent(id),
+      {
+        method:"PATCH",
+        body:JSON.stringify({
+          active:!active
+        })
+      }
+    );
+
+    showNotice(
+      active
+        ? "Account disabled हो गया।"
+        : "Account activated हो गया।",
+      "success"
+    );
+
+    openMembers();
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Status update failed",
+      "error"
+    );
+
+  }
+}
+
+
+/* =========================================================
+   FEEDBACK MANAGEMENT
+   ========================================================= */
+
+async function openFeedbackManagement(){
+
+  $("dashboardPanel").innerHTML = `
+
+    <div class="card">
+
+      <div class="interface-head">
+
+        <h3>💬 Feedback Management</h3>
+
+        <button
+          class="btn btn-dark"
+          onclick="openDashboard()">
+          ← Dashboard
+        </button>
+
+      </div>
+
+      <div id="feedbackManagementContent"
+           class="loading">
+        Feedback loading...
+      </div>
+
+    </div>
+
+  `;
+
+  try{
+
+    const data =
+      await api("/api/admin/feedback",{
+        method:"GET"
+      });
+
+    const feedback =
+      data.feedback ||
+      data.items ||
+      data.data ||
+      [];
+
+    renderFeedbackTable(feedback);
+
+  }catch(error){
+
+    $("feedbackManagementContent").innerHTML = `
+      <div class="notice error" style="display:block">
+        ${escapeHTML(error.message)}
+      </div>
+    `;
+
+  }
+}
+
+
+function renderFeedbackTable(items){
+
+  if(!items.length){
+
+    $("feedbackManagementContent").innerHTML = `
+      <div class="card">
+        <p>अभी कोई feedback नहीं है।</p>
+      </div>
+    `;
+
+    return;
+  }
+
+  $("feedbackManagementContent").innerHTML = `
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${items.map(item => {
+
+            const read =
+              item.read === true ||
+              item.is_read === true ||
+              item.status === "read";
+
+            return `
+
+              <tr>
+
+                <td>
+                  ${escapeHTML(
+                    item.created_at ||
+                    item.createdAt ||
+                    "-"
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHTML(item.name || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(item.email || "-")}
+                </td>
+
+                <td style="max-width:350px;">
+                  ${escapeHTML(item.message || "-")}
+                </td>
+
+                <td>
+
+                  <span class="status ${read ? "active" : "unread"}">
+                    ${read ? "Read" : "Unread"}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  ${
+                    read
+                    ? "-"
+                    : `
+                      <button
+                        class="small-btn btn-blue"
+                        onclick="markFeedbackRead('${escapeHTML(item.id || "")}')">
+                        Mark Read
+                      </button>
+                    `
+                  }
+
+                </td>
+
+              </tr>
+
+            `;
+
+          }).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  `;
+}
+
+
+async function markFeedbackRead(id){
+
+  if(!id){
+
+    showNotice(
+      "Feedback ID missing.",
+      "error"
+    );
+
+    return;
+  }
+
+  try{
+
+    await api("/api/admin/feedback/read",{
+      method:"POST",
+      body:JSON.stringify({
+        id:id
+      })
     });
 
-    result.textContent =
-      data.message ||
-      "Password सफलतापूर्वक बदल दिया गया।";
+    showNotice(
+      "Feedback marked as read.",
+      "success"
+    );
 
-    result.style.color = "#8ff0b5";
+    openFeedbackManagement();
 
-    event.target.reset();
+  }catch(error){
 
-  } catch(error) {
-
-    result.textContent =
-      error.message ||
-      "Password बदलने में समस्या हुई।";
-
-    result.style.color = "#ff9d9d";
+    showNotice(
+      error.message || "Feedback update failed",
+      "error"
+    );
 
   }
 }
@@ -2146,556 +2666,302 @@ async function changePassword(event) {
 
 /* =========================================================
    STAFF DASHBOARD
-========================================================= */
+   ========================================================= */
 
-async function renderStaffDashboard() {
+async function renderStaffDashboard(){
 
-  const area =
-    document.getElementById("interfaceArea");
+  openInterface(`
 
-  area.innerHTML = `
+    <div class="interface-box">
 
-    <div class="interface">
-
-      <div class="interface-header">
+      <div class="interface-head">
 
         <div>
 
-          <h2>👨‍💼 Staff Area</h2>
+          <h2>🧑‍💼 Staff Dashboard</h2>
 
           <p style="color:var(--muted);">
-            OUMJYOTI Staff Management Area
+            Welcome,
+            <strong style="color:var(--gold2);">
+              ${escapeHTML(currentUser.name || "Staff")}
+            </strong>
           </p>
 
         </div>
 
         <button
-          class="btn danger small"
-          onclick="logoutUser()"
-        >
+          class="btn btn-red"
+          onclick="logoutUser()">
           Logout
         </button>
 
       </div>
 
-
-      <div class="dashboard-top">
-
-        <div class="user-welcome">
-
-          <h3>
-            नमस्कार, ${esc(currentUser.name || "Staff")} 🙏
-          </h3>
-
-          <p style="color:var(--muted);">
-            Staff Member
-          </p>
-
-          <span class="role-badge">
-            STAFF
-          </span>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div
-            id="staffMemberCount"
-            class="stat-number"
-          >
-            ...
-          </div>
-
-          <div class="stat-label">
-            Members
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-number">
-            💬
-          </div>
-
-          <div class="stat-label">
-            Feedback
-          </div>
-
-        </div>
-
-      </div>
-
-
       <div class="dashboard-menu">
 
-        <button
-          class="active"
-          onclick="loadStaffMembers()"
-        >
-          👥 Members
-        </button>
-
-        <button onclick="loadStaffFeedback()">
-          💬 Feedback
-        </button>
-
-        <button onclick="staffProfile()">
+        <button onclick="openStaffProfile()">
           👤 My Profile
         </button>
 
+        <button onclick="openPasswordChangeStaff()">
+          🔐 Password
+        </button>
+
+        <button onclick="openMembersStaff()">
+          👥 Members
+        </button>
+
+        <button onclick="openFeedbackStaff()">
+          💬 Feedback
+        </button>
+
+        <button onclick="openFeedback()">
+          ✍️ Send Feedback
+        </button>
+
+        <button onclick="openHomeFromDashboard()">
+          🏠 Website Home
+        </button>
+
+        <button onclick="logoutUser()">
+          🚪 Logout
+        </button>
+
       </div>
 
+      <div id="staffPanel">
 
-      <div
-        id="dashboardContent"
-        class="dashboard-content"
-      >
-        Loading...
+        <div class="card">
+
+          <h3>Staff Control Center</h3>
+
+          <p>
+            यहाँ से आप members और feedback देख सकते हैं
+            तथा अपना profile manage कर सकते हैं।
+          </p>
+
+        </div>
+
       </div>
 
     </div>
-  `;
 
-  await loadStaffMembers();
-
-  area.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
+  `);
 }
 
 
-/* =========================================================
-   STAFF MEMBERS
-========================================================= */
+function openStaffProfile(){
 
-async function loadStaffMembers() {
+  $("staffPanel").innerHTML = `
 
-  const box =
-    document.getElementById("dashboardContent");
-
-  if(!box) return;
-
-  box.innerHTML =
-    `<div class="content-box">Members loading...</div>`;
-
-  try {
-
-    const data =
-      await api("/api/admin/members");
-
-    const members =
-      data.members ||
-      data.users ||
-      [];
-
-    const count =
-      document.getElementById("staffMemberCount");
-
-    if(count) {
-      count.textContent = members.length;
-    }
-
-    box.innerHTML = `
-
-      <div class="content-box">
-
-        <h3>👥 Members</h3>
-
-        ${membersTable(members,false)}
-
-      </div>
-    `;
-
-  } catch(error) {
-
-    box.innerHTML = `
-
-      <div class="content-box">
-
-        <h3>👥 Members</h3>
-
-        <p style="color:#ff9d9d;">
-          ${esc(error.message)}
-        </p>
-
-      </div>
-    `;
-  }
-}
-
-
-/* =========================================================
-   STAFF FEEDBACK
-========================================================= */
-
-async function loadStaffFeedback() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  if(!box) return;
-
-  box.innerHTML =
-    `<div class="content-box">Feedback loading...</div>`;
-
-  try {
-
-    const data =
-      await api("/api/admin/feedback");
-
-    const feedback =
-      data.feedback ||
-      data.items ||
-      [];
-
-    box.innerHTML = `
-
-      <div class="content-box">
-
-        <h3>💬 Feedback</h3>
-
-        ${feedbackTable(feedback)}
-
-      </div>
-    `;
-
-  } catch(error) {
-
-    box.innerHTML = `
-
-      <div class="content-box">
-
-        <h3>💬 Feedback</h3>
-
-        <p style="color:#ff9d9d;">
-          ${esc(error.message)}
-        </p>
-
-      </div>
-    `;
-  }
-}
-
-
-/* =========================================================
-   STAFF PROFILE
-========================================================= */
-
-function staffProfile() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  box.innerHTML = `
-
-    <div class="content-box">
+    <div class="card">
 
       <h3>👤 My Profile</h3>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>नाम</label>
+          <label>Name</label>
           <input
-            value="${esc(currentUser.name || "")}"
-            readonly
-          >
+            id="staffProfileName"
+            value="${escapeHTML(currentUser.name || "")}">
         </div>
 
         <div class="form-group">
           <label>Mobile</label>
           <input
-            value="${esc(currentUser.mobile || "")}"
-            readonly
-          >
+            id="staffProfileMobile"
+            value="${escapeHTML(currentUser.mobile || "")}">
         </div>
 
         <div class="form-group">
           <label>Email</label>
           <input
-            value="${esc(currentUser.email || "")}"
-            readonly
-          >
+            id="staffProfileEmail"
+            value="${escapeHTML(currentUser.email || "")}">
         </div>
 
         <div class="form-group">
-          <label>Role</label>
+          <label>Place</label>
           <input
-            value="staff"
-            readonly
-          >
+            id="staffProfilePlace"
+            value="${escapeHTML(currentUser.place || "")}">
         </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="saveStaffProfile()">
+          💾 Save
+        </button>
 
       </div>
 
     </div>
+
   `;
 }
 
 
-/* =========================================================
-   ADMIN DASHBOARD
-========================================================= */
+async function saveStaffProfile(){
 
-async function renderAdminDashboard() {
+  const payload = {
+    name:$("staffProfileName").value.trim(),
+    mobile:$("staffProfileMobile").value.trim(),
+    email:$("staffProfileEmail").value.trim(),
+    place:$("staffProfilePlace").value.trim()
+  };
 
-  const area =
-    document.getElementById("interfaceArea");
+  try{
 
-  area.innerHTML = `
+    const data = await api("/api/me",{
+      method:"PUT",
+      body:JSON.stringify(payload)
+    });
 
-    <div class="interface">
+    currentUser =
+      data.user ||
+      data.member ||
+      {
+        ...currentUser,
+        ...payload
+      };
 
-      <div class="interface-header">
+    await loadCurrentUser();
 
-        <div>
+    showNotice(
+      "Profile updated successfully.",
+      "success"
+    );
 
-          <h2>👑 Admin Panel</h2>
+    openStaffProfile();
 
-          <p style="color:var(--muted);">
-            OUMJYOTI Administration
-          </p>
+  }catch(error){
 
+    showNotice(
+      error.message || "Profile update failed",
+      "error"
+    );
+
+  }
+}
+
+
+function openPasswordChangeStaff(){
+
+  $("staffPanel").innerHTML = `
+
+    <div class="card">
+
+      <h3>🔐 Change Password</h3>
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label>Current Password</label>
+          <input id="staffOldPassword" type="password">
         </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+          <input id="staffNewPassword" type="password">
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input id="staffConfirmPassword" type="password">
+        </div>
+
+      </div>
+
+      <div class="form-actions">
 
         <button
-          class="btn danger small"
-          onclick="logoutUser()"
-        >
-          Logout
+          class="btn btn-gold"
+          onclick="changeStaffPassword()">
+          Update Password
         </button>
 
       </div>
 
+    </div>
 
-      <div class="dashboard-top">
-
-        <div class="user-welcome">
-
-          <h3>
-            नमस्कार, ${esc(currentUser.name || "Admin")} 🙏
-          </h3>
-
-          <p style="color:var(--muted);">
-            Full Administration Access
-          </p>
-
-          <span class="role-badge">
-            ADMIN
-          </span>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div
-            id="adminMemberCount"
-            class="stat-number"
-          >
-            ...
-          </div>
-
-          <div class="stat-label">
-            Total Members
-          </div>
-
-        </div>
-
-        <div class="stat-card">
-
-          <div class="stat-number">
-            👑
-          </div>
-
-          <div class="stat-label">
-            Administrator
-          </div>
-
-        </div>
-
-      </div>
+  `;
+}
 
 
-      <div class="dashboard-menu">
+async function changeStaffPassword(){
 
-        <button
-          class="active"
-          onclick="loadAdminMembers()"
-        >
-          👥 Members
-        </button>
+  const oldPassword =
+    $("staffOldPassword").value;
 
-        <button onclick="showAddMember()">
-          ➕ Add Member
-        </button>
+  const newPassword =
+    $("staffNewPassword").value;
 
-        <button onclick="showAddStaff()">
-          👨‍💼 Add Staff
-        </button>
+  const confirmPassword =
+    $("staffConfirmPassword").value;
 
-        <button onclick="loadAdminFeedback()">
-          💬 Feedback
-        </button>
+  if(newPassword !== confirmPassword){
 
-        <button onclick="adminProfile()">
-          👤 My Profile
-        </button>
+    showNotice(
+      "New password और confirm password अलग हैं।",
+      "error"
+    );
+
+    return;
+  }
+
+  try{
+
+    await api("/api/password",{
+      method:"PUT",
+      body:JSON.stringify({
+        oldPassword,
+        newPassword
+      })
+    });
+
+    showNotice(
+      "Password updated successfully.",
+      "success"
+    );
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Password update failed",
+      "error"
+    );
+
+  }
+}
+
+
+async function openMembersStaff(){
+
+  $("staffPanel").innerHTML = `
+
+    <div class="card">
+
+      <div class="interface-head">
+
+        <h3>👥 Members</h3>
 
       </div>
 
-
-      <div
-        id="dashboardContent"
-        class="dashboard-content"
-      >
+      <div id="staffMembersContent"
+           class="loading">
         Loading...
       </div>
 
     </div>
+
   `;
 
-  await loadAdminMembers();
-
-  area.scrollIntoView({
-    behavior:"smooth",
-    block:"start"
-  });
-}
-
-
-/* =========================================================
-   MEMBERS TABLE
-========================================================= */
-
-function membersTable(members, admin = false) {
-
-  if(!members.length) {
-
-    return `
-      <p style="color:var(--muted);margin-top:15px;">
-        अभी कोई member नहीं मिला।
-      </p>
-    `;
-  }
-
-  return `
-
-    <div class="table-wrap" style="margin-top:15px;">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>Name</th>
-            <th>Mobile</th>
-            <th>Email</th>
-            <th>Role</th>
-            <th>Status</th>
-
-            ${admin ? "<th>Action</th>" : ""}
-
-          </tr>
-
-        </thead>
-
-        <tbody>
-
-          ${members.map(member => `
-
-            <tr>
-
-              <td>
-                ${esc(member.name || "-")}
-              </td>
-
-              <td>
-                ${esc(member.mobile || "-")}
-              </td>
-
-              <td>
-                ${esc(member.email || "-")}
-              </td>
-
-              <td>
-                ${esc(member.role || "member")}
-              </td>
-
-              <td>
-
-                <span class="status ${
-                  member.status === "active"
-                  ? "active"
-                  : "disabled"
-                }">
-
-                  ${esc(member.status || "unknown")}
-
-                </span>
-
-              </td>
-
-              ${
-                admin
-                ?
-                `
-                <td>
-
-                  <div class="action-row">
-
-                    <button
-                      class="mini-btn"
-                      onclick="toggleMemberStatus(
-                        '${esc(member.id)}',
-                        '${member.status === "active" ? "disabled" : "active"}'
-                      )"
-                    >
-                      ${
-                        member.status === "active"
-                        ? "Disable"
-                        : "Activate"
-                      }
-                    </button>
-
-                  </div>
-
-                </td>
-                `
-                :
-                ""
-              }
-
-            </tr>
-
-          `).join("")}
-
-        </tbody>
-
-      </table>
-
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   ADMIN MEMBERS
-========================================================= */
-
-async function loadAdminMembers() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  if(!box) return;
-
-  box.innerHTML =
-    `<div class="content-box">Members loading...</div>`;
-
-  try {
+  try{
 
     const data =
       await api("/api/admin/members");
@@ -2703,785 +2969,677 @@ async function loadAdminMembers() {
     const members =
       data.members ||
       data.users ||
+      data.data ||
       [];
 
-    const count =
-      document.getElementById("adminMemberCount");
+    const box =
+      $("staffMembersContent");
 
-    if(count) {
-      count.textContent = members.length;
+    if(!members.length){
+
+      box.innerHTML =
+        "<p>No members found.</p>";
+
+      return;
     }
 
     box.innerHTML = `
 
-      <div class="content-box">
+      <div class="table-wrap">
 
-        <h3>👥 Members Management</h3>
+        <table>
 
-        ${membersTable(members,true)}
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Status</th>
+            </tr>
+          </thead>
 
+          <tbody>
+
+            ${members.map(m => {
+
+              const active =
+                m.active !== false &&
+                m.status !== "inactive";
+
+              return `
+
+                <tr>
+
+                  <td>
+                    ${escapeHTML(m.name || "-")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(m.mobile || "-")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(m.email || "-")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(m.role || "member")}
+                  </td>
+
+                  <td>
+                    <span class="status ${active ? "active" : "inactive"}">
+                      ${active ? "Active" : "Inactive"}
+                    </span>
+                  </td>
+
+                </tr>
+
+              `;
+
+            }).join("")}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    $("staffMembersContent").innerHTML = `
+      <div class="notice error" style="display:block">
+        ${escapeHTML(error.message)}
       </div>
     `;
 
-  } catch(error) {
+  }
+}
 
-    box.innerHTML = `
 
-      <div class="content-box">
+async function openFeedbackStaff(){
 
-        <h3>👥 Members Management</h3>
+  $("staffPanel").innerHTML = `
 
-        <p style="color:#ff9d9d;">
-          ${esc(error.message)}
-        </p>
+    <div class="card">
 
+      <h3>💬 Feedback</h3>
+
+      <div id="staffFeedbackContent"
+           class="loading">
+        Loading...
       </div>
-    `;
-  }
-}
-
-
-/* =========================================================
-   TOGGLE MEMBER STATUS
-========================================================= */
-
-async function toggleMemberStatus(id,status) {
-
-  if(!id) return;
-
-  const action =
-    status === "active"
-    ? "Activate"
-    : "Disable";
-
-  if(!confirm(`${action} करना है?`)) {
-    return;
-  }
-
-  try {
-
-    await api(
-      `/api/admin/members/${encodeURIComponent(id)}`,
-      {
-        method:"PATCH",
-        body:{
-          status
-        }
-      }
-    );
-
-    await loadAdminMembers();
-
-  } catch(error) {
-
-    alert(
-      error.message ||
-      "Member status बदलने में समस्या हुई।"
-    );
-
-  }
-}
-
-
-/* =========================================================
-   ADD MEMBER
-========================================================= */
-
-function showAddMember() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  box.innerHTML = memberForm("member");
-
-}
-
-
-/* =========================================================
-   ADD STAFF
-========================================================= */
-
-function showAddStaff() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  box.innerHTML = memberForm("staff");
-
-}
-
-
-/* =========================================================
-   MEMBER FORM
-========================================================= */
-
-function memberForm(role) {
-
-  const title =
-    role === "staff"
-    ? "👨‍💼 Add Staff"
-    : "➕ Add Member";
-
-  return `
-
-    <div class="content-box">
-
-      <h3>${title}</h3>
-
-      <form onsubmit="createMember(event,'${role}')">
-
-        <div class="form-grid">
-
-          <div class="form-group">
-            <label>पूरा नाम</label>
-            <input
-              id="newName"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <label>स्थान</label>
-            <input
-              id="newPlace"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>Mobile</label>
-            <input
-              id="newMobile"
-              type="tel"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <label>Email</label>
-            <input
-              id="newEmail"
-              type="email"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <label>PAN</label>
-            <input
-              id="newPan"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>Aadhaar</label>
-            <input
-              id="newAadhaar"
-            >
-          </div>
-
-          <div class="form-group full">
-            <label>Password</label>
-            <input
-              id="newPassword"
-              type="password"
-              minlength="6"
-              required
-            >
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            class="btn"
-            type="submit"
-          >
-            ${role === "staff" ? "Staff बनाएं" : "Member बनाएं"}
-          </button>
-
-        </div>
-
-        <div
-          id="createMemberResult"
-          class="message"
-        ></div>
-
-      </form>
 
     </div>
+
   `;
-}
 
-
-/* =========================================================
-   CREATE MEMBER / STAFF
-========================================================= */
-
-async function createMember(event,role) {
-
-  event.preventDefault();
-
-  const result =
-    document.getElementById("createMemberResult");
-
-  const data = {
-
-    name:
-      document.getElementById("newName").value.trim(),
-
-    place:
-      document.getElementById("newPlace").value.trim(),
-
-    mobile:
-      document.getElementById("newMobile").value.trim(),
-
-    email:
-      document.getElementById("newEmail").value.trim(),
-
-    pan:
-      document.getElementById("newPan").value.trim(),
-
-    aadhaar:
-      document.getElementById("newAadhaar").value.trim(),
-
-    password:
-      document.getElementById("newPassword").value,
-
-    role
-
-  };
-
-  result.className = "message show";
-  result.textContent = "Account बनाया जा रहा है...";
-
-  try {
-
-    const response =
-      await api("/api/admin/members", {
-
-        method:"POST",
-
-        body:data
-
-      });
-
-    result.textContent =
-      response.message ||
-      "Account सफलतापूर्वक बनाया गया।";
-
-    result.style.color = "#8ff0b5";
-
-    event.target.reset();
-
-  } catch(error) {
-
-    result.textContent =
-      error.message ||
-      "Account बनाने में समस्या हुई।";
-
-    result.style.color = "#ff9d9d";
-  }
-}
-
-
-/* =========================================================
-   ADMIN FEEDBACK
-========================================================= */
-
-async function loadAdminFeedback() {
-
-  const box =
-    document.getElementById("dashboardContent");
-
-  if(!box) return;
-
-  box.innerHTML =
-    `<div class="content-box">Feedback loading...</div>`;
-
-  try {
+  try{
 
     const data =
       await api("/api/admin/feedback");
 
-    const feedback =
+    const items =
       data.feedback ||
       data.items ||
+      data.data ||
       [];
 
-    box.innerHTML = `
+    const box =
+      $("staffFeedbackContent");
 
-      <div class="content-box">
+    if(!items.length){
 
-        <h3>💬 Feedback Management</h3>
+      box.innerHTML =
+        "<p>No feedback found.</p>";
 
-        ${feedbackTable(feedback)}
-
-      </div>
-    `;
-
-  } catch(error) {
+      return;
+    }
 
     box.innerHTML = `
 
-      <div class="content-box">
+      <div class="table-wrap">
 
-        <h3>💬 Feedback Management</h3>
+        <table>
 
-        <p style="color:#ff9d9d;">
-          ${esc(error.message)}
-        </p>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${items.map(item => `
+
+              <tr>
+
+                <td>
+                  ${escapeHTML(
+                    item.created_at ||
+                    item.createdAt ||
+                    "-"
+                  )}
+                </td>
+
+                <td>
+                  ${escapeHTML(item.name || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(item.email || "-")}
+                </td>
+
+                <td>
+                  ${escapeHTML(item.message || "-")}
+                </td>
+
+              </tr>
+
+            `).join("")}
+
+          </tbody>
+
+        </table>
 
       </div>
+
     `;
+
+  }catch(error){
+
+    $("staffFeedbackContent").innerHTML = `
+      <div class="notice error" style="display:block">
+        ${escapeHTML(error.message)}
+      </div>
+    `;
+
   }
 }
 
 
 /* =========================================================
-   FEEDBACK TABLE
-========================================================= */
+   MEMBER DASHBOARD
+   ========================================================= */
 
-function feedbackTable(items) {
+async function renderMemberDashboard(){
 
-  if(!items.length) {
+  openInterface(`
 
-    return `
-      <p style="color:var(--muted);margin-top:15px;">
-        अभी कोई feedback नहीं मिला।
-      </p>
-    `;
-  }
+    <div class="interface-box">
 
-  return `
+      <div class="interface-head">
 
-    <div class="table-wrap" style="margin-top:15px;">
+        <div>
 
-      <table>
+          <h2>👤 Member Dashboard</h2>
 
-        <thead>
+          <p style="color:var(--muted);">
+            Welcome,
+            <strong style="color:var(--gold2);">
+              ${escapeHTML(currentUser.name || "Member")}
+            </strong>
+          </p>
 
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Message</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
+        </div>
 
-        </thead>
+        <button
+          class="btn btn-red"
+          onclick="logoutUser()">
+          Logout
+        </button>
 
-        <tbody>
+      </div>
 
-          ${items.map(item => `
+      <div class="dashboard-menu">
 
-            <tr>
+        <button onclick="openMemberProfile()">
+          👤 My Profile
+        </button>
 
-              <td>
-                ${esc(item.name || "-")}
-              </td>
+        <button onclick="openMemberPassword()">
+          🔐 Password
+        </button>
 
-              <td>
-                ${esc(item.email || "-")}
-              </td>
+        <button onclick="openFeedback()">
+          💬 Send Feedback
+        </button>
 
-              <td style="max-width:350px;">
-                ${esc(item.message || "-")}
-              </td>
+        <button onclick="openHomeFromDashboard()">
+          🏠 Website Home
+        </button>
 
-              <td>
-                ${esc(
-                  item.created_at ||
-                  item.createdAt ||
-                  item.date ||
-                  "-"
-                )}
-              </td>
+        <button onclick="logoutUser()">
+          🚪 Logout
+        </button>
 
-              <td>
-                ${esc(
-                  item.status ||
-                  (item.read ? "read" : "new")
-                )}
-              </td>
+      </div>
 
-            </tr>
+      <div id="memberPanel">
 
-          `).join("")}
+        <div class="card">
 
-        </tbody>
+          <h3>🙏 OUMJYOTI Member Area</h3>
 
-      </table>
+          <p>
+            आपका account successfully active है।
+            यहाँ से आप अपना profile और password manage कर सकते हैं।
+          </p>
+
+        </div>
+
+      </div>
 
     </div>
-  `;
+
+  `);
 }
 
 
-/* =========================================================
-   ADMIN PROFILE
-========================================================= */
+function openMemberProfile(){
 
-function adminProfile() {
+  $("memberPanel").innerHTML = `
 
-  const box =
-    document.getElementById("dashboardContent");
+    <div class="card">
 
-  box.innerHTML = `
-
-    <div class="content-box">
-
-      <h3>👑 Admin Profile</h3>
+      <h3>👤 My Profile</h3>
 
       <div class="form-grid">
 
         <div class="form-group">
-          <label>नाम</label>
+          <label>Name</label>
           <input
-            value="${esc(currentUser.name || "")}"
-            readonly
-          >
+            id="memberProfileName"
+            value="${escapeHTML(currentUser.name || "")}">
         </div>
 
         <div class="form-group">
           <label>Mobile</label>
           <input
-            value="${esc(currentUser.mobile || "")}"
-            readonly
-          >
+            id="memberProfileMobile"
+            value="${escapeHTML(currentUser.mobile || "")}">
         </div>
 
         <div class="form-group">
           <label>Email</label>
           <input
-            value="${esc(currentUser.email || "")}"
-            readonly
-          >
+            id="memberProfileEmail"
+            value="${escapeHTML(currentUser.email || "")}">
         </div>
 
         <div class="form-group">
-          <label>Role</label>
+          <label>Place</label>
           <input
-            value="admin"
-            readonly
-          >
+            id="memberProfilePlace"
+            value="${escapeHTML(currentUser.place || "")}">
         </div>
 
       </div>
 
-    </div>
-  `;
-}
-
-
-/* =========================================================
-   FEEDBACK SUBMIT
-========================================================= */
-
-async function submitFeedback(event) {
-
-  event.preventDefault();
-
-  const result =
-    document.getElementById("feedbackResult");
-
-  const data = {
-
-    name:
-      currentUser?.name ||
-      document.getElementById("feedbackName").value.trim(),
-
-    email:
-      document.getElementById("feedbackEmail").value.trim(),
-
-    mobile:
-      currentUser?.mobile || "",
-
-    message:
-      document.getElementById("feedbackMessage").value.trim()
-
-  };
-
-  result.className = "message show";
-  result.textContent =
-    "Feedback भेजा जा रहा है...";
-
-  try {
-
-    const response =
-      await api("/api/feedback", {
-
-        method:"POST",
-
-        body:data
-
-      });
-
-    result.textContent =
-      response.message ||
-      "धन्यवाद! आपका Feedback सफलतापूर्वक भेज दिया गया।";
-
-    result.style.color = "#8ff0b5";
-
-    event.target.reset();
-
-  } catch(error) {
-
-    result.textContent =
-      error.message ||
-      "Feedback भेजने में समस्या हुई।";
-
-    result.style.color = "#ff9d9d";
-  }
-}
-
-
-/* =========================================================
-   REGISTER SCREEN
-========================================================= */
-
-function showRegister() {
-
-  const area =
-    document.getElementById("interfaceArea");
-
-  area.innerHTML = `
-
-    <div class="interface">
-
-      <div class="interface-header">
-
-        <h2>📝 New Member Registration</h2>
+      <div class="form-actions">
 
         <button
-          class="close-btn"
-          onclick="openInterface('login')"
-        >
-          ✕ Close
+          class="btn btn-gold"
+          onclick="saveMemberProfile()">
+          💾 Save Changes
         </button>
 
       </div>
 
-      <form
-        onsubmit="registerUser(event)"
-        class="content-box"
-      >
-
-        <div class="form-grid">
-
-          <div class="form-group">
-            <label>पूरा नाम</label>
-
-            <input
-              type="text"
-              id="regName"
-              required
-              placeholder="पूरा नाम"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>स्थान</label>
-
-            <input
-              type="text"
-              id="regPlace"
-              required
-              placeholder="शहर / स्थान"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>Email</label>
-
-            <input
-              type="email"
-              id="regEmail"
-              required
-              placeholder="Email"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>Mobile</label>
-
-            <input
-              type="tel"
-              id="regMobile"
-              required
-              placeholder="Mobile Number"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>PAN</label>
-
-            <input
-              type="text"
-              id="regPan"
-              placeholder="PAN"
-            >
-          </div>
-
-          <div class="form-group">
-            <label>Aadhaar</label>
-
-            <input
-              type="text"
-              id="regAadhaar"
-              placeholder="Aadhaar"
-            >
-          </div>
-
-          <div class="form-group full">
-            <label>Password</label>
-
-            <input
-              type="password"
-              id="regPassword"
-              required
-              minlength="6"
-              placeholder="Password"
-            >
-          </div>
-
-        </div>
-
-        <div class="form-actions">
-
-          <button
-            class="btn"
-            type="submit"
-          >
-            Register
-          </button>
-
-          <button
-            class="btn secondary"
-            type="button"
-            onclick="openInterface('login')"
-          >
-            वापस Login
-          </button>
-
-        </div>
-
-        <div
-          id="registerResult"
-          class="message"
-        ></div>
-
-      </form>
-
     </div>
-  `;
 
-  area.scrollIntoView({
-    behavior:"smooth"
-  });
+  `;
 }
 
 
-/* =========================================================
-   REGISTER API
-========================================================= */
+async function saveMemberProfile(){
 
-async function registerUser(event) {
-
-  event.preventDefault();
-
-  const result =
-    document.getElementById("registerResult");
-
-  const data = {
-
-    name:
-      document.getElementById("regName").value.trim(),
-
-    place:
-      document.getElementById("regPlace").value.trim(),
-
-    email:
-      document.getElementById("regEmail").value.trim(),
-
-    mobile:
-      document.getElementById("regMobile").value.trim(),
-
-    pan:
-      document.getElementById("regPan").value.trim(),
-
-    aadhaar:
-      document.getElementById("regAadhaar").value.trim(),
-
-    password:
-      document.getElementById("regPassword").value
-
+  const payload = {
+    name:$("memberProfileName").value.trim(),
+    mobile:$("memberProfileMobile").value.trim(),
+    email:$("memberProfileEmail").value.trim(),
+    place:$("memberProfilePlace").value.trim()
   };
 
-  result.className = "message show";
-  result.textContent =
-    "Registration हो रहा है...";
+  try{
 
-  try {
-
-    const response =
-      await api("/api/register", {
-
-        method:"POST",
-
-        body:data
-
+    const data =
+      await api("/api/me",{
+        method:"PUT",
+        body:JSON.stringify(payload)
       });
 
-    result.textContent =
-      response.message ||
-      "Registration सफल हुआ।";
+    currentUser =
+      data.user ||
+      data.member ||
+      {
+        ...currentUser,
+        ...payload
+      };
 
-    result.style.color = "#8ff0b5";
+    await loadCurrentUser();
 
-    event.target.reset();
+    showNotice(
+      "Profile successfully updated.",
+      "success"
+    );
 
-  } catch(error) {
+    openMemberProfile();
 
-    result.textContent =
-      error.message ||
-      "Registration में समस्या हुई।";
+  }catch(error){
 
-    result.style.color = "#ff9d9d";
+    showNotice(
+      error.message || "Profile update failed",
+      "error"
+    );
+
+  }
+}
+
+
+function openMemberPassword(){
+
+  $("memberPanel").innerHTML = `
+
+    <div class="card">
+
+      <h3>🔐 Change Password</h3>
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label>Current Password</label>
+          <input id="memberOldPassword" type="password">
+        </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+          <input id="memberNewPassword" type="password">
+        </div>
+
+        <div class="form-group">
+          <label>Confirm Password</label>
+          <input id="memberConfirmPassword" type="password">
+        </div>
+
+      </div>
+
+      <div class="form-actions">
+
+        <button
+          class="btn btn-gold"
+          onclick="changeMemberPassword()">
+          Update Password
+        </button>
+
+      </div>
+
+    </div>
+
+  `;
+}
+
+
+async function changeMemberPassword(){
+
+  const oldPassword =
+    $("memberOldPassword").value;
+
+  const newPassword =
+    $("memberNewPassword").value;
+
+  const confirmPassword =
+    $("memberConfirmPassword").value;
+
+  if(!oldPassword || !newPassword || !confirmPassword){
+
+    showNotice(
+      "सभी fields भरें।",
+      "error"
+    );
+
+    return;
+  }
+
+  if(newPassword !== confirmPassword){
+
+    showNotice(
+      "New password और confirm password अलग हैं।",
+      "error"
+    );
+
+    return;
+  }
+
+  try{
+
+    await api("/api/password",{
+      method:"PUT",
+      body:JSON.stringify({
+        oldPassword,
+        newPassword
+      })
+    });
+
+    showNotice(
+      "Password successfully updated.",
+      "success"
+    );
+
+  }catch(error){
+
+    showNotice(
+      error.message || "Password update failed",
+      "error"
+    );
+
   }
 }
 
 
 /* =========================================================
-   STARTUP
-========================================================= */
+   ADMIN STATS
+   ========================================================= */
 
-document.addEventListener("DOMContentLoaded", async () => {
+async function loadAdminStats(){
 
-  console.log("OUMJYOTI website loaded.");
+  try{
 
-  console.log("Image system ready.");
+    const data =
+      await api("/api/admin/members");
 
-  console.log("Authentication system starting...");
+    const members =
+      data.members ||
+      data.users ||
+      data.data ||
+      [];
 
-  await loadCurrentUser();
+    const totalMembers =
+      members.filter(m =>
+        (m.role || "member") === "member"
+      ).length;
 
-  if(currentUser) {
+    const totalStaff =
+      members.filter(m =>
+        (m.role || "") === "staff"
+      ).length;
 
-    console.log(
-      "Logged in:",
-      currentUser.role
-    );
+    let feedbackCount = "—";
 
-  } else {
+    try{
 
-    console.log(
-      "No active login session."
-    );
+      const feedbackData =
+        await api("/api/admin/feedback");
+
+      const feedback =
+        feedbackData.feedback ||
+        feedbackData.items ||
+        feedbackData.data ||
+        [];
+
+      feedbackCount =
+        feedback.length;
+
+    }catch(e){}
+
+    const stats =
+      $("adminStats");
+
+    if(stats){
+
+      stats.innerHTML = `
+
+        <div class="stat">
+          <div class="stat-number">
+            ${totalMembers}
+          </div>
+          <div class="stat-label">
+            Members
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number">
+            ${totalStaff}
+          </div>
+          <div class="stat-label">
+            Staff
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number">
+            ${feedbackCount}
+          </div>
+          <div class="stat-label">
+            Feedback
+          </div>
+        </div>
+
+        <div class="stat">
+          <div class="stat-number">
+            ✓
+          </div>
+          <div class="stat-label">
+            Admin
+          </div>
+        </div>
+
+      `;
+
+    }
+
+  }catch(error){
+
+    console.log("Stats:",error);
+
+  }
+}
+
+
+async function refreshAdminDashboard(){
+
+  await renderAdminDashboard();
+
+}
+
+
+/* =========================================================
+   LOGOUT
+   ========================================================= */
+
+async function logoutUser(){
+
+  try{
+
+    await api("/api/logout",{
+      method:"POST",
+      body:JSON.stringify({})
+    });
+
+  }catch(error){
+
+    console.log("Logout:",error);
 
   }
 
-});
+  currentUser = null;
+  currentRole = null;
+
+  updateHeader();
+
+  showHome();
+
+  showNoticeOutside(
+    "आप successfully Logout हो गए।"
+  );
+}
+
+
+/* =========================================================
+   NOTICE OUTSIDE INTERFACE
+   ========================================================= */
+
+function showNoticeOutside(message){
+
+  const box = document.createElement("div");
+
+  box.className = "notice success";
+
+  box.style.position = "fixed";
+  box.style.top = "85px";
+  box.style.right = "20px";
+  box.style.zIndex = "2000";
+  box.style.maxWidth = "350px";
+
+  box.textContent = message;
+
+  document.body.appendChild(box);
+
+  setTimeout(()=>{
+    box.remove();
+  },3500);
+}
+
+
+/* =========================================================
+   HOME FROM DASHBOARD
+   ========================================================= */
+
+function openHomeFromDashboard(){
+
+  $("interfaceArea").classList.add("hidden");
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================================================
+   INITIAL AUTH CHECK
+   ========================================================= */
+
+(async function init(){
+
+  try{
+
+    await loadCurrentUser();
+
+  }catch(error){
+
+    console.log("Initial auth check:",error);
+
+  }
+
+})();
 
 </script>
 
