@@ -51,9 +51,7 @@ async function randomB64(n = 32) {
 async function passwordHash(password, saltB64) {
   const salt = saltB64
     ? unb64(saltB64)
-    : crypto.randomBytes
-      ? crypto.randomBytes(16)
-      : crypto.getRandomValues(new Uint8Array(16));
+    : crypto.getRandomValues(new Uint8Array(16));
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -951,38 +949,53 @@ async function api(request, env) {
       );
     }
 
-    await env.DB.prepare(
-      `INSERT INTO feedback
-      (
-        id,
-        user_id,
-        mobile,
-        email,
-        message,
-        status,
-        created_at
+    try {
+      await env.DB.prepare(
+        `INSERT INTO feedback
+        (
+          id,
+          user_id,
+          mobile,
+          email,
+          message,
+          status,
+          created_at
+        )
+        VALUES (?,?,?,?,?,?,?)`
       )
-      VALUES (?,?,?,?,?,?,?)`
-    )
-      .bind(
-        uid(),
-        u.id,
-        mobile,
-        email,
-        message,
-        "new",
-        now()
-      )
-      .run();
+        .bind(
+          uid(),
+          u.id,
+          mobile,
+          email,
+          message,
+          "new",
+          now()
+        )
+        .run();
 
-    return json(
-      {
-        ok: true,
-        message:
-          "Feedback submitted"
-      },
-      201
-    );
+      return json(
+        {
+          ok: true,
+          message:
+            "Feedback submitted"
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "FEEDBACK_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to submit feedback"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
@@ -1005,27 +1018,43 @@ async function api(request, env) {
       );
     }
 
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          id,
-          role,
-          name,
-          place,
-          email,
-          mobile,
-          status,
-          staff_role,
-          created_at
-        FROM users
-        ORDER BY created_at DESC
-        LIMIT 500`
-      ).all();
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            role,
+            name,
+            place,
+            email,
+            mobile,
+            status,
+            staff_role,
+            created_at,
+            updated_at
+          FROM users
+          ORDER BY created_at DESC
+          LIMIT 500`
+        ).all();
 
-    return json({
-      members:
-        rows.results || []
-    });
+      return json({
+        members:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBERS_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load members"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
@@ -1093,6 +1122,19 @@ async function api(request, env) {
       );
     }
 
+    if (
+      role === "staff" &&
+      !staffRole
+    ) {
+      return json(
+        {
+          error:
+            "Staff role is required"
+        },
+        400
+      );
+    }
+
     const p =
       await passwordHash(password);
 
@@ -1134,12 +1176,16 @@ async function api(request, env) {
         .run();
 
       return json(
-        { ok: true },
+        {
+          ok: true,
+          message:
+            `${role === "staff" ? "Staff" : "Member"} created successfully`
+        },
         201
       );
     } catch (e) {
       console.error(
-        "ADMIN_MEMBER_CREATE_ERROR:",
+        "ADMIN_CREATE_MEMBER_ERROR:",
         e
       );
 
@@ -1154,16 +1200,11 @@ async function api(request, env) {
   }
 
   /* =========================
-     ADMIN ENABLE / DISABLE
+     ADMIN MEMBER STATUS
   ========================== */
 
-  const memberMatch =
-    path.match(
-      /^\/api\/admin\/members\/([^/]+)$/
-    );
-
   if (
-    memberMatch &&
+    path.startsWith("/api/admin/members/") &&
     method === "PATCH"
   ) {
     if (u.role !== "admin") {
@@ -1174,57 +1215,159 @@ async function api(request, env) {
     }
 
     const id =
-      memberMatch[1];
+      decodeURIComponent(
+        path.split("/").pop()
+      );
 
-    const b =
-      await request.json().catch(() => ({}));
-
-    const status =
-      b.status === "disabled"
-        ? "disabled"
-        : "active";
-
-    if (
-      id === u.id &&
-      status === "disabled"
-    ) {
+    if (!id) {
       return json(
         {
-          error:
-            "You cannot disable your own admin account"
+          error: "Member ID is required"
         },
         400
       );
     }
 
-    const result =
-      await env.DB.prepare(
-        `UPDATE users
-         SET status=?,
-             updated_at=?
-         WHERE id=?`
-      )
-        .bind(
-          status,
-          now(),
-          id
-        )
-        .run();
+    const b =
+      await request.json().catch(() => ({}));
 
-    if (!result.meta?.changes) {
+    const status =
+      ["active", "disabled"].includes(
+        b.status
+      )
+        ? b.status
+        : null;
+
+    if (!status) {
       return json(
         {
           error:
-            "Member not found"
+            "Status must be active or disabled"
         },
-        404
+        400
       );
     }
 
-    return json({
-      ok: true,
-      status
-    });
+    try {
+      const result =
+        await env.DB.prepare(
+          `UPDATE users
+           SET status=?,
+               updated_at=?
+           WHERE id=?`
+        )
+          .bind(
+            status,
+            now(),
+            id
+          )
+          .run();
+
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Member not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true,
+        status
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_STATUS_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update account status"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN MEMBER PROFILE
+  ========================== */
+
+  if (
+    path.startsWith("/api/admin/members/") &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        { error: "Forbidden" },
+        403
+      );
+    }
+
+    const id =
+      decodeURIComponent(
+        path.split("/").pop()
+      );
+
+    try {
+      const member =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            role,
+            name,
+            place,
+            email,
+            mobile,
+            status,
+            staff_role,
+            created_at,
+            updated_at
+          FROM users
+          WHERE id=?`
+        )
+          .bind(id)
+          .first();
+
+      if (!member) {
+        return json(
+          {
+            error:
+              "Member not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        member
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_PROFILE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load member"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
@@ -1235,49 +1378,74 @@ async function api(request, env) {
     path === "/api/admin/feedback" &&
     method === "GET"
   ) {
-    if (u.role !== "admin") {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
       return json(
-        { error: "Admin only" },
+        { error: "Forbidden" },
         403
       );
     }
 
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          f.id,
-          f.user_id,
-          f.mobile,
-          f.email,
-          f.message,
-          f.status,
-          f.created_at,
-          u.name,
-          u.role
-        FROM feedback f
-        LEFT JOIN users u
-          ON u.id = f.user_id
-        ORDER BY f.created_at DESC
-        LIMIT 500`
-      ).all();
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            b.id,
+            b.user_id,
+            b.mobile,
+            b.email,
+            b.message,
+            b.status,
+            b.created_at,
+            u.name,
+            u.place
+          FROM feedback b
+          LEFT JOIN users u
+            ON u.id = b.user_id
+          ORDER BY b.created_at DESC
+          LIMIT 500`
+        ).all();
 
-    return json({
-      feedback:
-        rows.results || []
-    });
+      return json({
+        feedback:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_FEEDBACK_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load feedback"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
-     ADMIN MARK FEEDBACK READ
+     ADMIN FEEDBACK READ
   ========================== */
 
   if (
     path === "/api/admin/feedback/read" &&
     method === "POST"
   ) {
-    if (u.role !== "admin") {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
       return json(
-        { error: "Admin only" },
+        { error: "Forbidden" },
         403
       );
     }
@@ -1286,29 +1454,68 @@ async function api(request, env) {
       await request.json().catch(() => ({}));
 
     const id =
-      input(b.id, 100);
+      input(b.id, 200);
+
+    const status =
+      ["new", "read", "resolved"].includes(
+        b.status
+      )
+        ? b.status
+        : "read";
 
     if (!id) {
       return json(
         {
           error:
-            "Feedback ID required"
+            "Feedback ID is required"
         },
         400
       );
     }
 
-    await env.DB.prepare(
-      `UPDATE feedback
-       SET status='read'
-       WHERE id=?`
-    )
-      .bind(id)
-      .run();
+    try {
+      const result =
+        await env.DB.prepare(
+          `UPDATE feedback
+           SET status=?
+           WHERE id=?`
+        )
+          .bind(
+            status,
+            id
+          )
+          .run();
 
-    return json({
-      ok: true
-    });
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Feedback not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_FEEDBACK_READ_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update feedback"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
@@ -1319,37 +1526,57 @@ async function api(request, env) {
     path === "/api/admin/seva" &&
     method === "GET"
   ) {
-    if (u.role !== "admin") {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
       return json(
-        { error: "Admin only" },
+        { error: "Forbidden" },
         403
       );
     }
 
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          id,
-          title,
-          description,
-          image_url,
-          icon,
-          active,
-          sort_order,
-          created_at,
-          updated_at
-        FROM seva
-        ORDER BY sort_order ASC, created_at ASC`
-      ).all();
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            title,
+            description,
+            image_url,
+            icon,
+            active,
+            sort_order,
+            created_at,
+            updated_at
+          FROM seva
+          ORDER BY sort_order ASC, created_at ASC`
+        ).all();
 
-    return json({
-      seva:
-        rows.results || []
-    });
+      return json({
+        seva:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load seva"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
-     ADMIN ADD SEVA
+     ADMIN CREATE SEVA
   ========================== */
 
   if (
@@ -1367,7 +1594,7 @@ async function api(request, env) {
       await request.json().catch(() => ({}));
 
     const title =
-      input(b.title, 150);
+      input(b.title, 200);
 
     const description =
       input(b.description, 2000);
@@ -1379,89 +1606,84 @@ async function api(request, env) {
       input(b.icon || "🕉️", 20);
 
     const active =
-      b.active === false ||
-      b.active === 0 ||
-      b.active === "0"
+      Number(b.active) === 0
         ? 0
         : 1;
 
-    let sortOrder =
+    const sortOrder =
       Number.isFinite(
         Number(b.sort_order)
       )
         ? Number(b.sort_order)
         : 0;
 
-    sortOrder =
-      Math.max(
-        0,
-        Math.min(
-          999999,
-          Math.floor(sortOrder)
-        )
-      );
-
     if (!title) {
       return json(
         {
           error:
-            "Seva name/title is required"
+            "Seva title is required"
         },
         400
       );
     }
 
-    const id =
-      uid();
-
-    await env.DB.prepare(
-      `INSERT INTO seva
-      (
-        id,
-        title,
-        description,
-        image_url,
-        icon,
-        active,
-        sort_order,
-        created_at,
-        updated_at
+    try {
+      await env.DB.prepare(
+        `INSERT INTO seva
+        (
+          id,
+          title,
+          description,
+          image_url,
+          icon,
+          active,
+          sort_order,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)`
       )
-      VALUES (?,?,?,?,?,?,?,?,?)`
-    )
-      .bind(
-        id,
-        title,
-        description,
-        imageUrl,
-        icon,
-        active,
-        sortOrder,
-        now(),
-        now()
-      )
-      .run();
+        .bind(
+          uid(),
+          title,
+          description,
+          imageUrl,
+          icon,
+          active,
+          sortOrder,
+          now(),
+          now()
+        )
+        .run();
 
-    return json(
-      {
-        ok: true,
-        id
-      },
-      201
-    );
+      return json(
+        {
+          ok: true
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_CREATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to create seva"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
-     ADMIN EDIT SEVA
+     ADMIN UPDATE SEVA
   ========================== */
 
-  const sevaMatch =
-    path.match(
-      /^\/api\/admin\/seva\/([^/]+)$/
-    );
-
   if (
-    sevaMatch &&
+    path.startsWith("/api/admin/seva/") &&
     method === "PATCH"
   ) {
     if (u.role !== "admin") {
@@ -1472,24 +1694,17 @@ async function api(request, env) {
     }
 
     const id =
-      sevaMatch[1];
+      decodeURIComponent(
+        path.split("/").pop()
+      );
 
-    const existing =
-      await env.DB.prepare(
-        `SELECT *
-         FROM seva
-         WHERE id=?`
-      )
-        .bind(id)
-        .first();
-
-    if (!existing) {
+    if (!id) {
       return json(
         {
           error:
-            "Seva not found"
+            "Seva ID is required"
         },
-        404
+        400
       );
     }
 
@@ -1497,91 +1712,94 @@ async function api(request, env) {
       await request.json().catch(() => ({}));
 
     const title =
-      b.title !== undefined
-        ? input(b.title, 150)
-        : existing.title;
+      input(b.title, 200);
 
     const description =
-      b.description !== undefined
-        ? input(b.description, 2000)
-        : existing.description;
+      input(b.description, 2000);
 
     const imageUrl =
-      b.image_url !== undefined
-        ? input(b.image_url, 1000)
-        : existing.image_url;
+      input(b.image_url, 1000);
 
     const icon =
-      b.icon !== undefined
-        ? input(b.icon, 20)
-        : existing.icon;
+      input(b.icon || "🕉️", 20);
 
     const active =
-      b.active !== undefined
-        ? (
-            b.active === false ||
-            b.active === 0 ||
-            b.active === "0"
-              ? 0
-              : 1
-          )
-        : Number(existing.active);
+      Number(b.active) === 0
+        ? 0
+        : 1;
 
-    let sortOrder =
-      b.sort_order !== undefined
+    const sortOrder =
+      Number.isFinite(
+        Number(b.sort_order)
+      )
         ? Number(b.sort_order)
-        : Number(existing.sort_order);
-
-    if (!Number.isFinite(sortOrder)) {
-      sortOrder = Number(existing.sort_order) || 0;
-    }
-
-    sortOrder =
-      Math.max(
-        0,
-        Math.min(
-          999999,
-          Math.floor(sortOrder)
-        )
-      );
+        : 0;
 
     if (!title) {
       return json(
         {
           error:
-            "Seva name/title is required"
+            "Seva title is required"
         },
         400
       );
     }
 
-    await env.DB.prepare(
-      `UPDATE seva
-       SET title=?,
-           description=?,
-           image_url=?,
-           icon=?,
-           active=?,
-           sort_order=?,
-           updated_at=?
-       WHERE id=?`
-    )
-      .bind(
-        title,
-        description,
-        imageUrl,
-        icon,
-        active,
-        sortOrder,
-        now(),
-        id
-      )
-      .run();
+    try {
+      const result =
+        await env.DB.prepare(
+          `UPDATE seva
+           SET title=?,
+               description=?,
+               image_url=?,
+               icon=?,
+               active=?,
+               sort_order=?,
+               updated_at=?
+           WHERE id=?`
+        )
+          .bind(
+            title,
+            description,
+            imageUrl,
+            icon,
+            active,
+            sortOrder,
+            now(),
+            id
+          )
+          .run();
 
-    return json({
-      ok: true,
-      id
-    });
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Seva not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_UPDATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update seva"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
@@ -1589,7 +1807,7 @@ async function api(request, env) {
   ========================== */
 
   if (
-    sevaMatch &&
+    path.startsWith("/api/admin/seva/") &&
     method === "DELETE"
   ) {
     if (u.role !== "admin") {
@@ -1600,112 +1818,109 @@ async function api(request, env) {
     }
 
     const id =
-      sevaMatch[1];
+      decodeURIComponent(
+        path.split("/").pop()
+      );
 
-    const existing =
-      await env.DB.prepare(
-        `SELECT id
-         FROM seva
-         WHERE id=?`
-      )
-        .bind(id)
-        .first();
-
-    if (!existing) {
+    if (!id) {
       return json(
         {
           error:
-            "Seva not found"
+            "Seva ID is required"
         },
-        404
+        400
       );
     }
 
-    await env.DB.prepare(
-      `DELETE FROM seva
-       WHERE id=?`
-    )
-      .bind(id)
-      .run();
+    try {
+      const result =
+        await env.DB.prepare(
+          "DELETE FROM seva WHERE id=?"
+        )
+          .bind(id)
+          .run();
 
-    return json({
-      ok: true
-    });
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Seva not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_DELETE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to delete seva"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
      UNKNOWN API
   ========================== */
 
-  return json(
-    {
-      error:
-        "API route not found"
-    },
-    404
-  );
+  if (path.startsWith("/api/")) {
+    return json(
+      {
+        error: "API route not found"
+      },
+      404
+    );
+  }
+
+  return null;
 }
 
 /* =========================
-   WORKER
+   WORKER ENTRY
 ========================= */
 
 export default {
-  async fetch(request, env) {
-    const url =
-      new URL(request.url);
-
+  async fetch(request, env, ctx) {
     try {
-      if (
-        url.pathname.startsWith("/api/")
-      ) {
+      const url = new URL(request.url);
+
+      if (url.pathname.startsWith("/api/")) {
         return await api(
           request,
           env
         );
       }
 
-      if (
-        env.ASSETS &&
-        typeof env.ASSETS.fetch === "function"
-      ) {
-        return await env.ASSETS.fetch(
-          request
-        );
-      }
+      return await env.ASSETS.fetch(
+        request
+      );
+    } catch (e) {
+      console.error(
+        "WORKER_ERROR:",
+        e
+      );
 
       return new Response(
-        "OUMJYOTI website is running.",
+        "OUMJYOTI Worker Error",
         {
-          status: 200,
+          status: 500,
           headers: {
             "content-type":
               "text/plain; charset=utf-8"
           }
-        }
-      );
-    } catch (error) {
-      console.error(
-        "WORKER_ERROR:",
-        error
-      );
-
-      if (
-        url.pathname.startsWith("/api/")
-      ) {
-        return json(
-          {
-            error:
-              "Internal server error"
-          },
-          500
-        );
-      }
-
-      return new Response(
-        "Internal Server Error",
-        {
-          status: 500
         }
       );
     }
