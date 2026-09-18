@@ -158,7 +158,9 @@ async function decryptText(payload, env) {
 }
 
 function cookie(name, value, maxAge) {
-  return `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+  return `${name}=${encodeURIComponent(
+    value
+  )}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
 function clearCookie(name) {
@@ -166,7 +168,9 @@ function clearCookie(name) {
 }
 
 function input(v, max = 500) {
-  return String(v ?? "").trim().slice(0, max);
+  return String(v ?? "")
+    .trim()
+    .slice(0, max);
 }
 
 function validEmail(v) {
@@ -194,7 +198,8 @@ function maskPan(v) {
 }
 
 function getSessionToken(request) {
-  const cookieHeader = request.headers.get("Cookie") || "";
+  const cookieHeader =
+    request.headers.get("Cookie") || "";
 
   const match = cookieHeader.match(
     /(?:^|;\s*)session=([^;]+)/
@@ -519,7 +524,6 @@ async function api(request, env) {
         },
         201
       );
-
     } catch (e) {
       console.error(
         "REGISTER_ERROR:",
@@ -605,7 +609,6 @@ async function api(request, env) {
     return json(
       {
         ok: true,
-
         user: {
           id: u.id,
           role: u.role,
@@ -675,7 +678,6 @@ async function api(request, env) {
 
     return json({
       authenticated: true,
-
       user: {
         id: currentUser.id,
         role: currentUser.role,
@@ -685,6 +687,36 @@ async function api(request, env) {
         mobile: currentUser.mobile,
         staffRole: currentUser.staff_role
       }
+    });
+  }
+
+  /* =========================
+     PUBLIC SEVA
+  ========================== */
+
+  if (
+    path === "/api/seva" &&
+    method === "GET"
+  ) {
+    const rows =
+      await env.DB.prepare(
+        `SELECT
+          id,
+          title,
+          description,
+          image_url,
+          icon,
+          active,
+          sort_order,
+          created_at,
+          updated_at
+        FROM seva
+        WHERE active = 1
+        ORDER BY sort_order ASC, created_at ASC`
+      ).all();
+
+    return json({
+      seva: rows.results || []
     });
   }
 
@@ -757,7 +789,6 @@ async function api(request, env) {
       return json({
         ok: true
       });
-
     } catch (e) {
       console.error(
         "PROFILE_UPDATE_ERROR:",
@@ -1089,7 +1120,6 @@ async function api(request, env) {
         { ok: true },
         201
       );
-
     } catch (e) {
       console.error(
         "ADMIN_MEMBER_CREATE_ERROR:",
@@ -1107,7 +1137,7 @@ async function api(request, env) {
   }
 
   /* =========================
-     ADMIN ENABLE/DISABLE
+     ADMIN ENABLE / DISABLE
   ========================== */
 
   const memberMatch =
@@ -1151,261 +1181,4 @@ async function api(request, env) {
     }
 
     await env.DB.prepare(
-      `UPDATE users
-       SET status=?,
-           updated_at=?
-       WHERE id=?`
-    )
-      .bind(
-        status,
-        now(),
-        id
-      )
-      .run();
-
-    await env.DB.prepare(
-      "DELETE FROM sessions WHERE user_id=?"
-    )
-      .bind(id)
-      .run();
-
-    return json({
-      ok: true
-    });
-  }
-
-  /* =========================
-     ADMIN / STAFF FEEDBACK
-  ========================== */
-
-  if (
-    path === "/api/admin/feedback" &&
-    method === "GET"
-  ) {
-    if (
-      !requireRole(u, [
-        "admin",
-        "staff"
-      ])
-    ) {
-      return json(
-        { error: "Forbidden" },
-        403
-      );
-    }
-
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          f.id,
-          f.mobile,
-          f.email,
-          f.message,
-          f.status,
-          f.created_at,
-          u.name AS member_name
-        FROM feedback f
-        LEFT JOIN users u
-          ON u.id=f.user_id
-        ORDER BY f.created_at DESC
-        LIMIT 500`
-      ).all();
-
-    return json({
-      feedback:
-        rows.results || []
-    });
-  }
-
-  /* =========================
-     MARK FEEDBACK
-  ========================== */
-
-  if (
-    path ===
-      "/api/admin/feedback/read" &&
-    method === "POST"
-  ) {
-    if (
-      !requireRole(u, [
-        "admin",
-        "staff"
-      ])
-    ) {
-      return json(
-        { error: "Forbidden" },
-        403
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const status =
-      [
-        "new",
-        "read",
-        "resolved"
-      ].includes(b.status)
-        ? b.status
-        : "read";
-
-    if (!b.id) {
-      return json(
-        {
-          error:
-            "Feedback ID is required"
-        },
-        400
-      );
-    }
-
-    const result =
-      await env.DB.prepare(
-        `UPDATE feedback
-         SET status=?
-         WHERE id=?`
-      )
-        .bind(
-          status,
-          b.id
-        )
-        .run();
-
-    if (!result.meta?.changes) {
-      return json(
-        {
-          error:
-            "Feedback not found"
-        },
-        404
-      );
-    }
-
-    return json({
-      ok: true
-    });
-  }
-
-  /* =========================
-     ADMIN SENSITIVE DATA
-  ========================== */
-
-  if (
-    path ===
-      "/api/admin/member-sensitive" &&
-    method === "POST"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    if (!b.id) {
-      return json(
-        {
-          error:
-            "Member ID is required"
-        },
-        400
-      );
-    }
-
-    const row =
-      await env.DB.prepare(
-        `SELECT
-          pan_enc,
-          aadhaar_enc
-        FROM users
-        WHERE id=?`
-      )
-        .bind(b.id)
-        .first();
-
-    if (!row) {
-      return json(
-        {
-          error:
-            "Member not found"
-        },
-        404
-      );
-    }
-
-    let pan = "";
-    let aadhaar = "";
-
-    if (row.pan_enc) {
-      pan = maskPan(
-        await decryptText(
-          row.pan_enc,
-          env
-        )
-      );
-    }
-
-    if (row.aadhaar_enc) {
-      aadhaar = maskAadhaar(
-        await decryptText(
-          row.aadhaar_enc,
-          env
-        )
-      );
-    }
-
-    return json({
-      pan,
-      aadhaar
-    });
-  }
-
-  return json(
-    { error: "Not found" },
-    404
-  );
-}
-
-export default {
-  async fetch(
-    request,
-    env,
-    ctx
-  ) {
-    const url =
-      new URL(request.url);
-
-    if (
-      url.pathname.startsWith("/api/")
-    ) {
-      try {
-        return await api(
-          request,
-          env
-        );
-      } catch (e) {
-        console.error(
-          "API_ERROR:",
-          e
-        );
-
-        return json(
-          {
-            error: "API_ERROR",
-            details:
-              String(
-                e?.message || e
-              )
-          },
-          500
-        );
-      }
-    }
-
-    return env.ASSETS.fetch(request);
-  }
-};
+      `UPDATE
