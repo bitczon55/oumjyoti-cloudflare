@@ -51,9 +51,7 @@ async function randomB64(n = 32) {
 async function passwordHash(password, saltB64) {
   const salt = saltB64
     ? unb64(saltB64)
-    : crypto.randomBytes
-      ? crypto.randomBytes(16)
-      : crypto.getRandomValues(new Uint8Array(16));
+    : crypto.getRandomValues(new Uint8Array(16));
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -160,9 +158,7 @@ async function decryptText(payload, env) {
 }
 
 function cookie(name, value, maxAge) {
-  return `${name}=${encodeURIComponent(
-    value
-  )}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+  return `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
 function clearCookie(name) {
@@ -170,9 +166,7 @@ function clearCookie(name) {
 }
 
 function input(v, max = 500) {
-  return String(v ?? "")
-    .trim()
-    .slice(0, max);
+  return String(v ?? "").trim().slice(0, max);
 }
 
 function validEmail(v) {
@@ -200,8 +194,7 @@ function maskPan(v) {
 }
 
 function getSessionToken(request) {
-  const cookieHeader =
-    request.headers.get("Cookie") || "";
+  const cookieHeader = request.headers.get("Cookie") || "";
 
   const match = cookieHeader.match(
     /(?:^|;\s*)session=([^;]+)/
@@ -526,6 +519,7 @@ async function api(request, env) {
         },
         201
       );
+
     } catch (e) {
       console.error(
         "REGISTER_ERROR:",
@@ -611,6 +605,7 @@ async function api(request, env) {
     return json(
       {
         ok: true,
+
         user: {
           id: u.id,
           role: u.role,
@@ -680,6 +675,7 @@ async function api(request, env) {
 
     return json({
       authenticated: true,
+
       user: {
         id: currentUser.id,
         role: currentUser.role,
@@ -690,51 +686,6 @@ async function api(request, env) {
         staffRole: currentUser.staff_role
       }
     });
-  }
-
-  /* =========================
-     PUBLIC SEVA
-  ========================== */
-
-  if (
-    path === "/api/seva" &&
-    method === "GET"
-  ) {
-    try {
-      const rows =
-        await env.DB.prepare(
-          `SELECT
-            id,
-            title,
-            description,
-            image_url,
-            icon,
-            active,
-            sort_order,
-            created_at,
-            updated_at
-          FROM seva
-          WHERE active = 1
-          ORDER BY sort_order ASC, created_at ASC`
-        ).all();
-
-      return json({
-        seva: rows.results || []
-      });
-    } catch (e) {
-      console.error(
-        "PUBLIC_SEVA_ERROR:",
-        e
-      );
-
-      return json(
-        {
-          error:
-            "Seva service is not available"
-        },
-        500
-      );
-    }
   }
 
   /* =========================
@@ -806,6 +757,7 @@ async function api(request, env) {
       return json({
         ok: true
       });
+
     } catch (e) {
       console.error(
         "PROFILE_UPDATE_ERROR:",
@@ -1137,6 +1089,7 @@ async function api(request, env) {
         { ok: true },
         201
       );
+
     } catch (e) {
       console.error(
         "ADMIN_MEMBER_CREATE_ERROR:",
@@ -1154,7 +1107,7 @@ async function api(request, env) {
   }
 
   /* =========================
-     ADMIN ENABLE / DISABLE
+     ADMIN ENABLE/DISABLE
   ========================== */
 
   const memberMatch =
@@ -1197,47 +1150,46 @@ async function api(request, env) {
       );
     }
 
-    const result =
-      await env.DB.prepare(
-        `UPDATE users
-         SET status=?,
-             updated_at=?
-         WHERE id=?`
+    await env.DB.prepare(
+      `UPDATE users
+       SET status=?,
+           updated_at=?
+       WHERE id=?`
+    )
+      .bind(
+        status,
+        now(),
+        id
       )
-        .bind(
-          status,
-          now(),
-          id
-        )
-        .run();
+      .run();
 
-    if (!result.meta?.changes) {
-      return json(
-        {
-          error:
-            "Member not found"
-        },
-        404
-      );
-    }
+    await env.DB.prepare(
+      "DELETE FROM sessions WHERE user_id=?"
+    )
+      .bind(id)
+      .run();
 
     return json({
-      ok: true,
-      status
+      ok: true
     });
   }
 
   /* =========================
-     ADMIN FEEDBACK LIST
+     ADMIN / STAFF FEEDBACK
   ========================== */
 
   if (
     path === "/api/admin/feedback" &&
     method === "GET"
   ) {
-    if (u.role !== "admin") {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
       return json(
-        { error: "Admin only" },
+        { error: "Forbidden" },
         403
       );
     }
@@ -1246,17 +1198,15 @@ async function api(request, env) {
       await env.DB.prepare(
         `SELECT
           f.id,
-          f.user_id,
           f.mobile,
           f.email,
           f.message,
           f.status,
           f.created_at,
-          u.name,
-          u.role
+          u.name AS member_name
         FROM feedback f
         LEFT JOIN users u
-          ON u.id = f.user_id
+          ON u.id=f.user_id
         ORDER BY f.created_at DESC
         LIMIT 500`
       ).all();
@@ -1268,11 +1218,82 @@ async function api(request, env) {
   }
 
   /* =========================
-     ADMIN MARK FEEDBACK READ
+     MARK FEEDBACK
   ========================== */
 
   if (
-    path === "/api/admin/feedback/read" &&
+    path ===
+      "/api/admin/feedback/read" &&
+    method === "POST"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        { error: "Forbidden" },
+        403
+      );
+    }
+
+    const b =
+      await request.json().catch(() => ({}));
+
+    const status =
+      [
+        "new",
+        "read",
+        "resolved"
+      ].includes(b.status)
+        ? b.status
+        : "read";
+
+    if (!b.id) {
+      return json(
+        {
+          error:
+            "Feedback ID is required"
+        },
+        400
+      );
+    }
+
+    const result =
+      await env.DB.prepare(
+        `UPDATE feedback
+         SET status=?
+         WHERE id=?`
+      )
+        .bind(
+          status,
+          b.id
+        )
+        .run();
+
+    if (!result.meta?.changes) {
+      return json(
+        {
+          error:
+            "Feedback not found"
+        },
+        404
+      );
+    }
+
+    return json({
+      ok: true
+    });
+  }
+
+  /* =========================
+     ADMIN SENSITIVE DATA
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/member-sensitive" &&
     method === "POST"
   ) {
     if (u.role !== "admin") {
@@ -1285,429 +1306,106 @@ async function api(request, env) {
     const b =
       await request.json().catch(() => ({}));
 
-    const id =
-      input(b.id, 100);
-
-    if (!id) {
+    if (!b.id) {
       return json(
         {
           error:
-            "Feedback ID required"
+            "Member ID is required"
         },
         400
       );
     }
 
-    await env.DB.prepare(
-      `UPDATE feedback
-       SET status='read'
-       WHERE id=?`
-    )
-      .bind(id)
-      .run();
-
-    return json({
-      ok: true
-    });
-  }
-
-  /* =========================
-     ADMIN SEVA LIST
-  ========================== */
-
-  if (
-    path === "/api/admin/seva" &&
-    method === "GET"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const rows =
+    const row =
       await env.DB.prepare(
         `SELECT
-          id,
-          title,
-          description,
-          image_url,
-          icon,
-          active,
-          sort_order,
-          created_at,
-          updated_at
-        FROM seva
-        ORDER BY sort_order ASC, created_at ASC`
-      ).all();
-
-    return json({
-      seva:
-        rows.results || []
-    });
-  }
-
-  /* =========================
-     ADMIN ADD SEVA
-  ========================== */
-
-  if (
-    path === "/api/admin/seva" &&
-    method === "POST"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const title =
-      input(b.title, 150);
-
-    const description =
-      input(b.description, 2000);
-
-    const imageUrl =
-      input(b.image_url, 1000);
-
-    const icon =
-      input(b.icon || "🕉️", 20);
-
-    const active =
-      b.active === false ||
-      b.active === 0 ||
-      b.active === "0"
-        ? 0
-        : 1;
-
-    let sortOrder =
-      Number.isFinite(
-        Number(b.sort_order)
+          pan_enc,
+          aadhaar_enc
+        FROM users
+        WHERE id=?`
       )
-        ? Number(b.sort_order)
-        : 0;
-
-    sortOrder =
-      Math.max(
-        0,
-        Math.min(
-          999999,
-          Math.floor(sortOrder)
-        )
-      );
-
-    if (!title) {
-      return json(
-        {
-          error:
-            "Seva name/title is required"
-        },
-        400
-      );
-    }
-
-    const id =
-      uid();
-
-    await env.DB.prepare(
-      `INSERT INTO seva
-      (
-        id,
-        title,
-        description,
-        image_url,
-        icon,
-        active,
-        sort_order,
-        created_at,
-        updated_at
-      )
-      VALUES (?,?,?,?,?,?,?,?,?)`
-    )
-      .bind(
-        id,
-        title,
-        description,
-        imageUrl,
-        icon,
-        active,
-        sortOrder,
-        now(),
-        now()
-      )
-      .run();
-
-    return json(
-      {
-        ok: true,
-        id
-      },
-      201
-    );
-  }
-
-  /* =========================
-     ADMIN EDIT SEVA
-  ========================== */
-
-  const sevaMatch =
-    path.match(
-      /^\/api\/admin\/seva\/([^/]+)$/
-    );
-
-  if (
-    sevaMatch &&
-    method === "PATCH"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const id =
-      sevaMatch[1];
-
-    const existing =
-      await env.DB.prepare(
-        `SELECT *
-         FROM seva
-         WHERE id=?`
-      )
-        .bind(id)
+        .bind(b.id)
         .first();
 
-    if (!existing) {
+    if (!row) {
       return json(
         {
           error:
-            "Seva not found"
+            "Member not found"
         },
         404
       );
     }
 
-    const b =
-      await request.json().catch(() => ({}));
+    let pan = "";
+    let aadhaar = "";
 
-    const title =
-      b.title !== undefined
-        ? input(b.title, 150)
-        : existing.title;
-
-    const description =
-      b.description !== undefined
-        ? input(b.description, 2000)
-        : existing.description;
-
-    const imageUrl =
-      b.image_url !== undefined
-        ? input(b.image_url, 1000)
-        : existing.image_url;
-
-    const icon =
-      b.icon !== undefined
-        ? input(b.icon, 20)
-        : existing.icon;
-
-    const active =
-      b.active !== undefined
-        ? (
-            b.active === false ||
-            b.active === 0 ||
-            b.active === "0"
-              ? 0
-              : 1
-          )
-        : Number(existing.active);
-
-    let sortOrder =
-      b.sort_order !== undefined
-        ? Number(b.sort_order)
-        : Number(existing.sort_order);
-
-    if (!Number.isFinite(sortOrder)) {
-      sortOrder = Number(existing.sort_order) || 0;
-    }
-
-    sortOrder =
-      Math.max(
-        0,
-        Math.min(
-          999999,
-          Math.floor(sortOrder)
+    if (row.pan_enc) {
+      pan = maskPan(
+        await decryptText(
+          row.pan_enc,
+          env
         )
       );
-
-    if (!title) {
-      return json(
-        {
-          error:
-            "Seva name/title is required"
-        },
-        400
-      );
     }
 
-    await env.DB.prepare(
-      `UPDATE seva
-       SET title=?,
-           description=?,
-           image_url=?,
-           icon=?,
-           active=?,
-           sort_order=?,
-           updated_at=?
-       WHERE id=?`
-    )
-      .bind(
-        title,
-        description,
-        imageUrl,
-        icon,
-        active,
-        sortOrder,
-        now(),
-        id
-      )
-      .run();
+    if (row.aadhaar_enc) {
+      aadhaar = maskAadhaar(
+        await decryptText(
+          row.aadhaar_enc,
+          env
+        )
+      );
+    }
 
     return json({
-      ok: true,
-      id
+      pan,
+      aadhaar
     });
   }
-
-  /* =========================
-     ADMIN DELETE SEVA
-  ========================== */
-
-  if (
-    sevaMatch &&
-    method === "DELETE"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const id =
-      sevaMatch[1];
-
-    const existing =
-      await env.DB.prepare(
-        `SELECT id
-         FROM seva
-         WHERE id=?`
-      )
-        .bind(id)
-        .first();
-
-    if (!existing) {
-      return json(
-        {
-          error:
-            "Seva not found"
-        },
-        404
-      );
-    }
-
-    await env.DB.prepare(
-      `DELETE FROM seva
-       WHERE id=?`
-    )
-      .bind(id)
-      .run();
-
-    return json({
-      ok: true
-    });
-  }
-
-  /* =========================
-     UNKNOWN API
-  ========================== */
 
   return json(
-    {
-      error:
-        "API route not found"
-    },
+    { error: "Not found" },
     404
   );
 }
 
-/* =========================
-   WORKER
-========================= */
-
 export default {
-  async fetch(request, env) {
+  async fetch(
+    request,
+    env,
+    ctx
+  ) {
     const url =
       new URL(request.url);
 
-    try {
-      if (
-        url.pathname.startsWith("/api/")
-      ) {
+    if (
+      url.pathname.startsWith("/api/")
+    ) {
+      try {
         return await api(
           request,
           env
         );
-      }
-
-      if (
-        env.ASSETS &&
-        typeof env.ASSETS.fetch === "function"
-      ) {
-        return await env.ASSETS.fetch(
-          request
+      } catch (e) {
+        console.error(
+          "API_ERROR:",
+          e
         );
-      }
 
-      return new Response(
-        "OUMJYOTI website is running.",
-        {
-          status: 200,
-          headers: {
-            "content-type":
-              "text/plain; charset=utf-8"
-          }
-        }
-      );
-    } catch (error) {
-      console.error(
-        "WORKER_ERROR:",
-        error
-      );
-
-      if (
-        url.pathname.startsWith("/api/")
-      ) {
         return json(
           {
-            error:
-              "Internal server error"
+            error: "API_ERROR",
+            details:
+              String(
+                e?.message || e
+              )
           },
           500
         );
       }
-
-      return new Response(
-        "Internal Server Error",
-        {
-          status: 500
-        }
-      );
     }
+
+    return env.ASSETS.fetch(request);
   }
 };
