@@ -588,4 +588,2060 @@ async function api(
         .toUpperCase()
         .replace(/\s/g, "");
 
-    const
+    const aadhaar =
+      input(
+        b.aadhaar,
+        20
+      ).replace(/\D/g, "");
+
+    if (
+      !name ||
+      !place ||
+      !validEmail(email) ||
+      !validMobile(mobile) ||
+      !validPassword(password)
+    ) {
+      return json(
+        {
+          error:
+            "Please enter valid registration details. Password must be at least 8 characters."
+        },
+        400
+      );
+    }
+
+    if (
+      pan &&
+      !/^[A-Z]{5}\d{4}[A-Z]$/.test(
+        pan
+      )
+    ) {
+      return json(
+        {
+          error:
+            "PAN format is invalid"
+        },
+        400
+      );
+    }
+
+    if (
+      aadhaar &&
+      !/^\d{12}$/.test(
+        aadhaar
+      )
+    ) {
+      return json(
+        {
+          error:
+            "Aadhaar must contain 12 digits"
+        },
+        400
+      );
+    }
+
+    const p =
+      await passwordHash(
+        password
+      );
+
+    try {
+      const panEnc =
+        pan
+          ? await encryptText(
+              pan,
+              env
+            )
+          : null;
+
+      const aadhaarEnc =
+        aadhaar
+          ? await encryptText(
+              aadhaar,
+              env
+            )
+          : null;
+
+      await env.DB.prepare(
+        `INSERT INTO users
+        (
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          pan_enc,
+          aadhaar_enc,
+          status,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
+        .bind(
+          uid(),
+          "member",
+          name,
+          place,
+          email,
+          mobile,
+          p.hash,
+          p.salt,
+          panEnc,
+          aadhaarEnc,
+          "active",
+          now(),
+          now()
+        )
+        .run();
+
+      return json(
+        {
+          ok: true,
+          message:
+            "Registration successful. You can now login."
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "REGISTER_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Email or mobile already exists"
+        },
+        409
+      );
+    }
+  }
+
+  /* =========================
+     LOGIN
+     MOBILE OR EMAIL
+  ========================== */
+
+  if (
+    path === "/api/login" &&
+    method === "POST"
+  ) {
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const identifier =
+      input(
+        b.identifier ||
+          b.mobile ||
+          b.email,
+        150
+      ).toLowerCase();
+
+    const password =
+      b.password;
+
+    if (
+      !identifier ||
+      !validPassword(password)
+    ) {
+      return json(
+        {
+          error:
+            "Invalid login details"
+        },
+        400
+      );
+    }
+
+    let u = null;
+
+    if (
+      validMobile(identifier)
+    ) {
+      u =
+        await env.DB.prepare(
+          `SELECT
+             id,
+             role,
+             name,
+             place,
+             email,
+             mobile,
+             password_hash,
+             password_salt,
+             status,
+             staff_role
+           FROM users
+           WHERE mobile=?`
+        )
+          .bind(identifier)
+          .first();
+    } else if (
+      validEmail(identifier)
+    ) {
+      u =
+        await env.DB.prepare(
+          `SELECT
+             id,
+             role,
+             name,
+             place,
+             email,
+             mobile,
+             password_hash,
+             password_salt,
+             status,
+             staff_role
+           FROM users
+           WHERE email=?`
+        )
+          .bind(identifier)
+          .first();
+    }
+
+    if (
+      !u ||
+      u.status !== "active" ||
+      !(await verifyPassword(
+        password,
+        u.password_hash,
+        u.password_salt
+      ))
+    ) {
+      return json(
+        {
+          error:
+            "Mobile/email or password is incorrect"
+        },
+        401
+      );
+    }
+
+    const token =
+      await createSession(
+        u.id,
+        env
+      );
+
+    return json(
+      {
+        ok: true,
+        user: {
+          id: u.id,
+          role: u.role,
+          name: u.name,
+          place: u.place,
+          email: u.email,
+          mobile: u.mobile,
+          staffRole:
+            u.staff_role
+        }
+      },
+      200,
+      {
+        "set-cookie":
+          cookie(
+            "session",
+            token,
+            60 * 60 * 24 * 7
+          )
+      }
+    );
+  }
+
+  /* =========================
+     LOGOUT
+  ========================== */
+
+  if (
+    path === "/api/logout" &&
+    method === "POST"
+  ) {
+    const token =
+      getSessionToken(request);
+
+    if (token) {
+      await env.DB.prepare(
+        "DELETE FROM sessions WHERE token_hash=?"
+      )
+        .bind(
+          await sha256(token)
+        )
+        .run();
+    }
+
+    return json(
+      { ok: true },
+      200,
+      {
+        "set-cookie":
+          clearCookie(
+            "session"
+          )
+      }
+    );
+  }
+
+  /* =========================
+     CURRENT USER
+  ========================== */
+
+  if (
+    path === "/api/me" &&
+    method === "GET"
+  ) {
+    const currentUser =
+      await auth(
+        request,
+        env
+      );
+
+    if (!currentUser) {
+      return json({
+        authenticated: false
+      });
+    }
+
+    return json({
+      authenticated: true,
+      user: {
+        id:
+          currentUser.id,
+        role:
+          currentUser.role,
+        name:
+          currentUser.name,
+        place:
+          currentUser.place,
+        email:
+          currentUser.email,
+        mobile:
+          currentUser.mobile,
+        staffRole:
+          currentUser.staff_role
+      }
+    });
+  }
+
+  /* =========================
+     PUBLIC SEVA
+  ========================== */
+
+  if (
+    path === "/api/seva" &&
+    method === "GET"
+  ) {
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+             id,
+             title,
+             description,
+             image_url,
+             icon,
+             active,
+             sort_order,
+             created_at,
+             updated_at
+           FROM seva
+           WHERE active=1
+           ORDER BY
+             sort_order ASC,
+             created_at ASC`
+        ).all();
+
+      return json({
+        seva:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "PUBLIC_SEVA_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Seva service is not available"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     AUTH REQUIRED
+  ========================== */
+
+  const u =
+    await auth(
+      request,
+      env
+    );
+
+  if (!u) {
+    return json(
+      {
+        error:
+          "Authentication required"
+      },
+      401
+    );
+  }
+
+  /* =========================
+     UPDATE OWN PROFILE
+  ========================== */
+
+  if (
+    path === "/api/me" &&
+    method === "PUT"
+  ) {
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const name =
+      input(b.name, 100);
+
+    const place =
+      input(b.place, 100);
+
+    const email =
+      input(
+        b.email,
+        150
+      ).toLowerCase();
+
+    if (
+      !name ||
+      !place ||
+      !validEmail(email)
+    ) {
+      return json(
+        {
+          error:
+            "Invalid profile"
+        },
+        400
+      );
+    }
+
+    try {
+      await env.DB.prepare(
+        `UPDATE users
+         SET name=?,
+             place=?,
+             email=?,
+             updated_at=?
+         WHERE id=?`
+      )
+        .bind(
+          name,
+          place,
+          email,
+          now(),
+          u.id
+        )
+        .run();
+
+      return json({
+        ok: true,
+        message:
+          "Profile updated successfully"
+      });
+    } catch (e) {
+      console.error(
+        "PROFILE_UPDATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Email is already in use"
+        },
+        409
+      );
+    }
+  }
+
+  /* =========================
+     CHANGE PASSWORD
+  ========================== */
+
+  if (
+    path === "/api/password" &&
+    method === "PUT"
+  ) {
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const currentPassword =
+      b.currentPassword || "";
+
+    const newPassword =
+      b.newPassword;
+
+    if (
+      !validPassword(
+        currentPassword
+      ) ||
+      !validPassword(
+        newPassword
+      )
+    ) {
+      return json(
+        {
+          error:
+            "Password must be at least 8 characters"
+        },
+        400
+      );
+    }
+
+    const row =
+      await env.DB.prepare(
+        `SELECT
+           password_hash,
+           password_salt
+         FROM users
+         WHERE id=?`
+      )
+        .bind(u.id)
+        .first();
+
+    if (
+      !row ||
+      !(await verifyPassword(
+        currentPassword,
+        row.password_hash,
+        row.password_salt
+      ))
+    ) {
+      return json(
+        {
+          error:
+            "Current password is incorrect"
+        },
+        400
+      );
+    }
+
+    const p =
+      await passwordHash(
+        newPassword
+      );
+
+    await env.DB.prepare(
+      `UPDATE users
+       SET password_hash=?,
+           password_salt=?,
+           updated_at=?
+       WHERE id=?`
+    )
+      .bind(
+        p.hash,
+        p.salt,
+        now(),
+        u.id
+      )
+      .run();
+
+    await env.DB.prepare(
+      "DELETE FROM sessions WHERE user_id=?"
+    )
+      .bind(u.id)
+      .run();
+
+    return json(
+      {
+        ok: true,
+        message:
+          "Password changed. Please login again."
+      },
+      200,
+      {
+        "set-cookie":
+          clearCookie(
+            "session"
+          )
+      }
+    );
+  }
+
+  /* =========================
+     FEEDBACK
+  ========================== */
+
+  if (
+    path === "/api/feedback" &&
+    method === "POST"
+  ) {
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const mobile =
+      input(
+        b.mobile || u.mobile,
+        10
+      );
+
+    const email =
+      input(
+        b.email || u.email,
+        150
+      ).toLowerCase();
+
+    const message =
+      input(
+        b.message,
+        2000
+      );
+
+    if (
+      !validMobile(mobile) ||
+      !validEmail(email) ||
+      message.length < 3
+    ) {
+      return json(
+        {
+          error:
+            "Please provide valid email, mobile and message"
+        },
+        400
+      );
+    }
+
+    try {
+      await env.DB.prepare(
+        `INSERT INTO feedback
+        (
+          id,
+          user_id,
+          mobile,
+          email,
+          message,
+          status,
+          created_at
+        )
+        VALUES (?,?,?,?,?,?,?)`
+      )
+        .bind(
+          uid(),
+          u.id,
+          mobile,
+          email,
+          message,
+          "new",
+          now()
+        )
+        .run();
+
+      return json(
+        {
+          ok: true,
+          message:
+            "Feedback submitted"
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "FEEDBACK_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to submit feedback"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN / STAFF MEMBERS LIST
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/members" &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        {
+          error:
+            "Forbidden"
+        },
+        403
+      );
+    }
+
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+             id,
+             role,
+             name,
+             place,
+             email,
+             mobile,
+             status,
+             staff_role,
+             created_at,
+             updated_at
+           FROM users
+           ORDER BY created_at DESC
+           LIMIT 500`
+        ).all();
+
+      return json({
+        members:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBERS_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load members"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN CREATE MEMBER/STAFF
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/members" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const name =
+      input(
+        b.name,
+        100
+      );
+
+    const place =
+      input(
+        b.place,
+        100
+      );
+
+    const email =
+      input(
+        b.email,
+        150
+      ).toLowerCase();
+
+    const mobile =
+      input(
+        b.mobile,
+        10
+      );
+
+    const password =
+      b.password;
+
+    const role =
+      ["member", "staff"].includes(
+        b.role
+      )
+        ? b.role
+        : "member";
+
+    const staffRole =
+      input(
+        b.staffRole,
+        100
+      );
+
+    if (
+      !name ||
+      !place ||
+      !validEmail(email) ||
+      !validMobile(mobile) ||
+      !validPassword(password)
+    ) {
+      return json(
+        {
+          error:
+            "Invalid details"
+        },
+        400
+      );
+    }
+
+    if (
+      role === "staff" &&
+      !staffRole
+    ) {
+      return json(
+        {
+          error:
+            "Staff role is required"
+        },
+        400
+      );
+    }
+
+    const p =
+      await passwordHash(
+        password
+      );
+
+    try {
+      await env.DB.prepare(
+        `INSERT INTO users
+        (
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          status,
+          staff_role,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
+        .bind(
+          uid(),
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          p.hash,
+          p.salt,
+          "active",
+          role === "staff"
+            ? staffRole
+            : null,
+          now(),
+          now()
+        )
+        .run();
+
+      return json(
+        {
+          ok: true,
+          message:
+            `${
+              role === "staff"
+                ? "Staff"
+                : "Member"
+            } created successfully`
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "ADMIN_CREATE_MEMBER_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Email or mobile already exists"
+        },
+        409
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN UPDATE MEMBER PROFILE
+  ========================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/members/"
+    ) &&
+    method === "PUT"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const id =
+      decodeURIComponent(
+        path
+          .split("/")
+          .pop()
+      );
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Member ID is required"
+        },
+        400
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const name =
+      input(
+        b.name,
+        100
+      );
+
+    const place =
+      input(
+        b.place,
+        100
+      );
+
+    const email =
+      input(
+        b.email,
+        150
+      ).toLowerCase();
+
+    const mobile =
+      input(
+        b.mobile,
+        10
+      );
+
+    const staffRole =
+      input(
+        b.staffRole,
+        100
+      );
+
+    if (
+      !name ||
+      !place ||
+      !validEmail(email) ||
+      !validMobile(mobile)
+    ) {
+      return json(
+        {
+          error:
+            "Invalid member details"
+        },
+        400
+      );
+    }
+
+    try {
+      const existing =
+        await env.DB.prepare(
+          `SELECT role
+           FROM users
+           WHERE id=?`
+        )
+          .bind(id)
+          .first();
+
+      if (!existing) {
+        return json(
+          {
+            error:
+              "Member not found"
+          },
+          404
+        );
+      }
+
+      if (
+        existing.role === "admin"
+      ) {
+        return json(
+          {
+            error:
+              "Admin account must be updated from own profile"
+          },
+          400
+        );
+      }
+
+      const result =
+        await env.DB.prepare(
+          `UPDATE users
+           SET name=?,
+               place=?,
+               email=?,
+               mobile=?,
+               staff_role=?,
+               updated_at=?
+           WHERE id=?`
+        )
+          .bind(
+            name,
+            place,
+            email,
+            mobile,
+            existing.role ===
+              "staff"
+              ? staffRole ||
+                null
+              : null,
+            now(),
+            id
+          )
+          .run();
+
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Member not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true,
+        message:
+          "Member updated successfully"
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_UPDATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Email or mobile already exists"
+        },
+        409
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN MEMBER STATUS
+  ========================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/members/"
+    ) &&
+    method === "PATCH"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const id =
+      decodeURIComponent(
+        path
+          .split("/")
+          .pop()
+      );
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Member ID is required"
+        },
+        400
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const status =
+      [
+        "active",
+        "disabled"
+      ].includes(
+        b.status
+      )
+        ? b.status
+        : null;
+
+    if (!status) {
+      return json(
+        {
+          error:
+            "Status must be active or disabled"
+        },
+        400
+      );
+    }
+
+    if (
+      id === u.id &&
+      status === "disabled"
+    ) {
+      return json(
+        {
+          error:
+            "You cannot disable your own admin account"
+        },
+        400
+      );
+    }
+
+    try {
+      const result =
+        await env.DB.prepare(
+          `UPDATE users
+           SET status=?,
+               updated_at=?
+           WHERE id=?`
+        )
+          .bind(
+            status,
+            now(),
+            id
+          )
+          .run();
+
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Member not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true,
+        status
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_STATUS_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update account status"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN MEMBER PROFILE
+  ========================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/members/"
+    ) &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        {
+          error:
+            "Forbidden"
+        },
+        403
+      );
+    }
+
+    const id =
+      decodeURIComponent(
+        path
+          .split("/")
+          .pop()
+      );
+
+    try {
+      const member =
+        await env.DB.prepare(
+          `SELECT
+             id,
+             role,
+             name,
+             place,
+             email,
+             mobile,
+             status,
+             staff_role,
+             created_at,
+             updated_at
+           FROM users
+           WHERE id=?`
+        )
+          .bind(id)
+          .first();
+
+      if (!member) {
+        return json(
+          {
+            error:
+              "Member not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        member
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_PROFILE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load member"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN RESET MEMBER PASSWORD
+  ========================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/members/"
+    ) &&
+    path.endsWith(
+      "/password"
+    ) &&
+    method === "PUT"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const parts =
+      path.split("/");
+
+    const id =
+      decodeURIComponent(
+        parts[
+          parts.length - 2
+        ]
+      );
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const newPassword =
+      b.newPassword;
+
+    if (
+      !validPassword(
+        newPassword
+      )
+    ) {
+      return json(
+        {
+          error:
+            "New password must be at least 8 characters"
+        },
+        400
+      );
+    }
+
+    if (id === u.id) {
+      return json(
+        {
+          error:
+            "Use your own password change option"
+        },
+        400
+      );
+    }
+
+    const member =
+      await env.DB.prepare(
+        "SELECT id FROM users WHERE id=?"
+      )
+        .bind(id)
+        .first();
+
+    if (!member) {
+      return json(
+        {
+          error:
+            "Member not found"
+        },
+        404
+      );
+    }
+
+    const p =
+      await passwordHash(
+        newPassword
+      );
+
+    await env.DB.prepare(
+      `UPDATE users
+       SET password_hash=?,
+           password_salt=?,
+           updated_at=?
+       WHERE id=?`
+    )
+      .bind(
+        p.hash,
+        p.salt,
+        now(),
+        id
+      )
+      .run();
+
+    await env.DB.prepare(
+      "DELETE FROM sessions WHERE user_id=?"
+    )
+      .bind(id)
+      .run();
+
+    return json({
+      ok: true,
+      message:
+        "Member password reset successfully"
+    });
+  }
+
+  /* =========================
+     ADMIN FEEDBACK LIST
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/feedback" &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        {
+          error:
+            "Forbidden"
+        },
+        403
+      );
+    }
+
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+             b.id,
+             b.user_id,
+             b.mobile,
+             b.email,
+             b.message,
+             b.status,
+             b.created_at,
+             u.name,
+             u.place
+           FROM feedback b
+           LEFT JOIN users u
+             ON u.id=b.user_id
+           ORDER BY
+             b.created_at DESC
+           LIMIT 500`
+        ).all();
+
+      return json({
+        feedback:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_FEEDBACK_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load feedback"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN FEEDBACK STATUS
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/feedback/read" &&
+    method === "POST"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        {
+          error:
+            "Forbidden"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const id =
+      input(
+        b.id,
+        200
+      );
+
+    const status =
+      [
+        "new",
+        "read",
+        "resolved"
+      ].includes(
+        b.status
+      )
+        ? b.status
+        : "read";
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Feedback ID is required"
+        },
+        400
+      );
+    }
+
+    try {
+      const result =
+        await env.DB.prepare(
+          `UPDATE feedback
+           SET status=?
+           WHERE id=?`
+        )
+          .bind(
+            status,
+            id
+          )
+          .run();
+
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Feedback not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_FEEDBACK_READ_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update feedback"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN SEVA LIST
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/seva" &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        {
+          error:
+            "Forbidden"
+        },
+        403
+      );
+    }
+
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+             id,
+             title,
+             description,
+             image_url,
+             icon,
+             active,
+             sort_order,
+             created_at,
+             updated_at
+           FROM seva
+           ORDER BY
+             sort_order ASC,
+             created_at ASC`
+        ).all();
+
+      return json({
+        seva:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN CREATE SEVA
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/seva" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const title =
+      input(
+        b.title,
+        200
+      );
+
+    const description =
+      input(
+        b.description,
+        2000
+      );
+
+    const imageUrl =
+      input(
+        b.image_url,
+        1000
+      );
+
+    const icon =
+      input(
+        b.icon || "🕉️",
+        20
+      );
+
+    const active =
+      Number(
+        b.active
+      ) === 0
+        ? 0
+        : 1;
+
+    const sortOrder =
+      Number.isFinite(
+        Number(
+          b.sort_order
+        )
+      )
+        ? Number(
+            b.sort_order
+          )
+        : 0;
+
+    if (!title) {
+      return json(
+        {
+          error:
+            "Seva title is required"
+        },
+        400
+      );
+    }
+
+    try {
+      await env.DB.prepare(
+        `INSERT INTO seva
+        (
+          id,
+          title,
+          description,
+          image_url,
+          icon,
+          active,
+          sort_order,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)`
+      )
+        .bind(
+          uid(),
+          title,
+          description,
+          imageUrl,
+          icon,
+          active,
+          sortOrder,
+          now(),
+          now()
+        )
+        .run();
+
+      return json(
+        {
+          ok: true,
+          message:
+            "Seva created successfully"
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_CREATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to create seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN UPDATE SEVA
+  ========================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/seva/"
+    ) &&
+    method === "PATCH"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const id =
+      decodeURIComponent(
+        path
+          .split("/")
+          .pop()
+      );
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Seva ID is required"
+        },
+        400
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const title =
+      input(
+        b.title,
+        200
+      );
+
+    const description =
+      input(
+        b.description,
+        2000
+      );
+
+    const imageUrl =
+      input(
+        b.image_url,
+        1000
+      );
+
+    const icon =
+      input(
+        b.icon || "🕉️",
+        20
+      );
+
+    const active =
+      Number(
+        b.active
+      ) === 0
+        ? 0
+        : 1;
+
+    const sortOrder =
+      Number.isFinite(
+        Number(
+          b.sort_order
+        )
+      )
+        ? Number(
+            b.sort_order
+          )
+        : 0;
+
+    if (!title) {
+      return json(
+        {
+          error:
+            "Seva title is required"
+        },
+        400
+      );
+    }
+
+    try {
+      const result =
+        await env.DB.prepare(
+          `UPDATE seva
+           SET title=?,
+               description=?,
+               image_url=?,
+               icon=?,
+               active=?,
+               sort_order=?,
+               updated_at=?
+           WHERE id=?`
+        )
+          .bind(
+            title,
+            description,
+            imageUrl,
+            icon,
+            active,
+            sortOrder,
+            now(),
+            id
+          )
+          .run();
+
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Seva not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true,
+        message:
+          "Seva updated successfully"
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_UPDATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN DELETE SEVA
+  ========================== */
+
+  if (
+    path.startsWith(
+      "/api/admin/seva/"
+    ) &&
+    method === "DELETE"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const id =
+      decodeURIComponent(
+        path
+          .split("/")
+          .pop()
+      );
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Seva ID is required"
+        },
+        400
+      );
+    }
+
+    try {
+      const result =
+        await env.DB.prepare(
+          "DELETE FROM seva WHERE id=?"
+        )
+          .bind(id)
+          .run();
+
+      if (
+        !result.meta ||
+        result.meta.changes === 0
+      ) {
+        return json(
+          {
+            error:
+              "Seva not found"
+          },
+          404
+        );
+      }
+
+      return json({
+        ok: true,
+        message:
+          "Seva deleted successfully"
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_DELETE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to delete seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     UNKNOWN API
+  ========================== */
+
+  if (
+    path.startsWith("/api/")
+  ) {
+    return json(
+      {
+        error:
+          "API route not found"
+      },
+      404
+    );
+  }
+
+  return null;
+}
+
+/* =========================
+   WORKER ENTRY
+========================= */
+
+export default {
+  async fetch(
+    request,
+    env,
+    ctx
+  ) {
+    try {
+      const url =
+        new URL(request.url);
+
+      if (
+        url.pathname.startsWith(
+          "/api/"
+        )
+      ) {
+        return await api(
+          request,
+          env
+        );
+      }
+
+      return await env.ASSETS.fetch(
+        request
+      );
+    } catch (e) {
+      console.error(
+        "WORKER_ERROR:",
+        e
+      );
+
+      return new Response(
+        "OUMJYOTI Worker Error",
+        {
+          status: 500,
+          headers: {
+            "content-type":
+              "text/plain; charset=utf-8"
+          }
+        }
+      );
+    }
+  }
+}; === 
