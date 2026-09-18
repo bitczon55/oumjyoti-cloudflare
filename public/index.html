@@ -1385,64 +1385,97 @@
 
     async function loginUser(event) {
 
-      event.preventDefault();
+  event.preventDefault();
 
-      const result =
-        document.getElementById("loginResult");
+  const result = document.getElementById("loginResult");
 
-      const identity =
-        document.getElementById("loginIdentity").value.trim();
+  const identity =
+    document.getElementById("loginIdentity").value.trim();
 
-      const password =
-        document.getElementById("loginPassword").value;
+  const password =
+    document.getElementById("loginPassword").value;
 
-      result.className = "message show";
-      result.textContent = "Login हो रहा है...";
+  result.className = "message show";
+  result.style.color = "#ffe898";
+  result.textContent = "Login हो रहा है...";
 
-      try {
+  try {
 
-        const response = await fetch("/api/login", {
+    const response = await fetch("/api/login", {
 
-          method: "POST",
+      method: "POST",
 
-          headers: {
-            "Content-Type": "application/json"
-          },
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-          body: JSON.stringify({
-            identity,
-            email: identity,
-            mobile: identity,
-            password
-          })
+      credentials: "same-origin",
 
-        });
+      body: JSON.stringify({
+        identifier: identity,
+        password: password
+      })
 
-        const json =
-          await response.json().catch(() => ({}));
+    });
 
-        if (!response.ok) {
-          throw new Error(
-            json.message || "Login failed."
-          );
-        }
+    const json =
+      await response.json().catch(() => ({}));
 
-        result.textContent =
-          json.message ||
-          "Login सफल हुआ।";
+    if (!response.ok) {
+      throw new Error(
+        json.error ||
+        json.message ||
+        "Login failed."
+      );
+    }
 
-        result.style.color = "#ffe898";
+    /*
+      Login सफल है।
+      अब session को /api/me से verify करेंगे।
+    */
 
-      } catch (error) {
+    const meResponse = await fetch("/api/me", {
+      method: "GET",
+      credentials: "same-origin"
+    });
 
-        result.textContent =
-          error.message ||
-          "Login में समस्या हुई।";
+    const me = await meResponse.json();
 
-        result.style.color = "#ff9d9d";
+    if (!me.authenticated) {
+      throw new Error(
+        "Login हुआ, लेकिन session verify नहीं हो पाया।"
+      );
+    }
+
+    result.textContent = "Login सफल हुआ।";
+
+    /*
+      Login interface बंद करके
+      dashboard खोलें।
+    */
+
+    setTimeout(() => {
+
+      closeInterface();
+
+      if (typeof openInterface === "function") {
+        openInterface("dashboard");
       }
 
-    }
+    }, 500);
+
+  } catch (error) {
+
+    console.error("LOGIN ERROR:", error);
+
+    result.className = "message show";
+    result.style.color = "#ff9d9d";
+
+    result.textContent =
+      error.message ||
+      "Login में समस्या हुई।";
+  }
+}
 
 
     /* =========================================================
