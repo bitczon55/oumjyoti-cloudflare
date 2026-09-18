@@ -8,6 +8,7 @@ const json = (data, status = 200, headers = {}) =>
   });
 
 const now = () => new Date().toISOString();
+
 const uid = () => crypto.randomUUID();
 
 function b64(bytes) {
@@ -112,7 +113,10 @@ async function encryptText(plaintext, env) {
   const iv = crypto.getRandomValues(new Uint8Array(12));
 
   const ct = await crypto.subtle.encrypt(
-    { name: "AES-GCM", iv },
+    {
+      name: "AES-GCM",
+      iv
+    },
     key,
     new TextEncoder().encode(plaintext)
   );
@@ -125,11 +129,12 @@ async function decryptText(payload, env) {
 
   const parts = payload.split(".");
 
-  if (parts.length !== 2 || !parts[0] || !parts[1]) {
+  if (parts.length !== 2) {
     throw new Error("Invalid encrypted payload");
   }
 
   const [ivS, ctS] = parts;
+
   const keyBytes = getEncryptionKey(env);
 
   const key = await crypto.subtle.importKey(
@@ -141,7 +146,10 @@ async function decryptText(payload, env) {
   );
 
   const pt = await crypto.subtle.decrypt(
-    { name: "AES-GCM", iv: unb64(ivS) },
+    {
+      name: "AES-GCM",
+      iv: unb64(ivS)
+    },
     key,
     unb64(ctS)
   );
@@ -170,7 +178,11 @@ function validMobile(v) {
 }
 
 function validPassword(v) {
-  return typeof v === "string" && v.length >= 8 && v.length <= 128;
+  return (
+    typeof v === "string" &&
+    v.length >= 8 &&
+    v.length <= 128
+  );
 }
 
 function maskAadhaar(v) {
@@ -183,11 +195,14 @@ function maskPan(v) {
 
 function getSessionToken(request) {
   const cookieHeader = request.headers.get("Cookie") || "";
+
   const match = cookieHeader.match(
     /(?:^|;\s*)session=([^;]+)/
   );
 
-  return match ? decodeURIComponent(match[1]) : null;
+  return match
+    ? decodeURIComponent(match[1])
+    : null;
 }
 
 async function createSession(userId, env) {
@@ -199,9 +214,17 @@ async function createSession(userId, env) {
   ).toISOString();
 
   await env.DB.prepare(
-    "INSERT INTO sessions (id,user_id,token_hash,expires_at,created_at) VALUES (?,?,?,?,?)"
+    `INSERT INTO sessions
+     (id,user_id,token_hash,expires_at,created_at)
+     VALUES (?,?,?,?,?)`
   )
-    .bind(uid(), userId, hash, expires, now())
+    .bind(
+      uid(),
+      userId,
+      hash,
+      expires,
+      now()
+    )
     .run();
 
   return raw;
@@ -214,23 +237,23 @@ async function auth(request, env) {
 
   const tokenHash = await sha256(token);
 
-  const row = await env.DB.prepare(`
-    SELECT
-      u.id,
-      u.role,
-      u.name,
-      u.place,
-      u.email,
-      u.mobile,
-      u.status,
-      u.staff_role,
-      s.expires_at
-    FROM sessions s
-    JOIN users u ON u.id = s.user_id
-    WHERE s.token_hash = ?
-      AND s.expires_at > ?
-      AND u.status = 'active'
-  `)
+  const row = await env.DB.prepare(
+    `SELECT
+       u.id,
+       u.role,
+       u.name,
+       u.place,
+       u.email,
+       u.mobile,
+       u.status,
+       u.staff_role,
+       s.expires_at
+     FROM sessions s
+     JOIN users u ON u.id = s.user_id
+     WHERE s.token_hash = ?
+       AND s.expires_at > ?
+       AND u.status = 'active'`
+  )
     .bind(tokenHash, now())
     .first();
 
@@ -238,7 +261,9 @@ async function auth(request, env) {
 }
 
 function requireRole(user, roles) {
-  return Boolean(user && roles.includes(user.role));
+  return Boolean(
+    user && roles.includes(user.role)
+  );
 }
 
 async function api(request, env) {
@@ -246,33 +271,57 @@ async function api(request, env) {
   const path = url.pathname;
   const method = request.method;
 
-  // HEALTH
-  if (path === "/api/health" && method === "GET") {
+  /* =========================
+     HEALTH
+  ========================== */
+
+  if (
+    path === "/api/health" &&
+    method === "GET"
+  ) {
     return json({
       ok: true,
       service: "OUMJYOTI Seva"
     });
   }
 
-  // SETUP ADMIN
-  if (path === "/api/setup-admin" && method === "POST") {
-    const body = await request.json().catch(() => ({}));
+  /* =========================
+     SETUP ADMIN
+  ========================== */
 
-    if (!env.SETUP_KEY || body.setupKey !== env.SETUP_KEY) {
-      return json({ error: "Invalid setup key" }, 403);
+  if (
+    path === "/api/setup-admin" &&
+    method === "POST"
+  ) {
+    const body =
+      await request.json().catch(() => ({}));
+
+    if (
+      !env.SETUP_KEY ||
+      body.setupKey !== env.SETUP_KEY
+    ) {
+      return json(
+        { error: "Invalid setup key" },
+        403
+      );
     }
 
-    const existing = await env.DB.prepare(
-      "SELECT COUNT(*) AS n FROM users WHERE role='admin'"
-    ).first();
+    const existing =
+      await env.DB.prepare(
+        "SELECT COUNT(*) AS n FROM users WHERE role='admin'"
+      ).first();
 
     if (Number(existing?.n || 0) > 0) {
-      return json({ error: "Admin already exists" }, 409);
+      return json(
+        { error: "Admin already exists" },
+        409
+      );
     }
 
     const name = input(body.name, 100);
     const place = input(body.place, 100);
-    const email = input(body.email, 150).toLowerCase();
+    const email =
+      input(body.email, 150).toLowerCase();
     const mobile = input(body.mobile, 10);
     const password = body.password;
 
@@ -295,11 +344,23 @@ async function api(request, env) {
     const p = await passwordHash(password);
 
     try {
-      await env.DB.prepare(`
-        INSERT INTO users
-        (id,role,name,place,email,mobile,password_hash,password_salt,status,created_at,updated_at)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?)
-      `)
+      await env.DB.prepare(
+        `INSERT INTO users
+        (
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          status,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?)`
+      )
         .bind(
           uid(),
           "admin",
@@ -315,27 +376,42 @@ async function api(request, env) {
         )
         .run();
     } catch (e) {
-      console.error("SETUP_ADMIN_ERROR:", e);
+      console.error(
+        "SETUP_ADMIN_ERROR:",
+        e
+      );
 
       return json(
-        { error: "Email or mobile already exists" },
+        {
+          error:
+            "Email or mobile already exists"
+        },
         409
       );
     }
 
     return json({
       ok: true,
-      message: "Admin created. Remove or rotate SETUP_KEY after setup."
+      message:
+        "Admin created. Remove or rotate SETUP_KEY after setup."
     });
   }
 
-  // REGISTER
-  if (path === "/api/register" && method === "POST") {
-    const b = await request.json().catch(() => ({}));
+  /* =========================
+     REGISTER
+  ========================== */
+
+  if (
+    path === "/api/register" &&
+    method === "POST"
+  ) {
+    const b =
+      await request.json().catch(() => ({}));
 
     const name = input(b.name, 100);
     const place = input(b.place, 100);
-    const email = input(b.email, 150).toLowerCase();
+    const email =
+      input(b.email, 150).toLowerCase();
     const mobile = input(b.mobile, 10);
     const password = b.password;
 
@@ -362,18 +438,33 @@ async function api(request, env) {
       );
     }
 
-    if (pan && !/^[A-Z]{5}\d{4}[A-Z]$/.test(pan)) {
-      return json({ error: "PAN format is invalid" }, 400);
-    }
-
-    if (aadhaar && !/^\d{12}$/.test(aadhaar)) {
+    if (
+      pan &&
+      !/^[A-Z]{5}\d{4}[A-Z]$/.test(pan)
+    ) {
       return json(
-        { error: "Aadhaar must contain 12 digits" },
+        {
+          error: "PAN format is invalid"
+        },
         400
       );
     }
 
-    const p = await passwordHash(password);
+    if (
+      aadhaar &&
+      !/^\d{12}$/.test(aadhaar)
+    ) {
+      return json(
+        {
+          error:
+            "Aadhaar must contain 12 digits"
+        },
+        400
+      );
+    }
+
+    const p =
+      await passwordHash(password);
 
     try {
       const panEnc = pan
@@ -384,11 +475,25 @@ async function api(request, env) {
         ? await encryptText(aadhaar, env)
         : null;
 
-      await env.DB.prepare(`
-        INSERT INTO users
-        (id,role,name,place,email,mobile,password_hash,password_salt,pan_enc,aadhaar_enc,status,created_at,updated_at)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
-      `)
+      await env.DB.prepare(
+        `INSERT INTO users
+        (
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          pan_enc,
+          aadhaar_enc,
+          status,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
         .bind(
           uid(),
           "member",
@@ -409,50 +514,72 @@ async function api(request, env) {
       return json(
         {
           ok: true,
-          message: "Registration successful. You can now login."
+          message:
+            "Registration successful. You can now login."
         },
         201
       );
+
     } catch (e) {
-      console.error("REGISTER_ERROR:", e);
+      console.error(
+        "REGISTER_ERROR:",
+        e
+      );
 
       return json(
         {
-          error: "Email or mobile already exists"
+          error:
+            "Email or mobile already exists"
         },
         409
       );
     }
   }
 
-  // LOGIN
-  if (path === "/api/login" && method === "POST") {
-    const b = await request.json().catch(() => ({}));
+  /* =========================
+     LOGIN
+  ========================== */
 
-    const mobile = input(b.mobile, 10);
+  if (
+    path === "/api/login" &&
+    method === "POST"
+  ) {
+    const b =
+      await request.json().catch(() => ({}));
+
+    const mobile =
+      input(b.mobile, 10);
+
     const password = b.password;
 
-    if (!validMobile(mobile) || !validPassword(password)) {
-      return json({ error: "Invalid login" }, 400);
+    if (
+      !validMobile(mobile) ||
+      !validPassword(password)
+    ) {
+      return json(
+        { error: "Invalid login" },
+        400
+      );
     }
 
-    const u = await env.DB.prepare(`
-      SELECT
-        id,
-        role,
-        name,
-        place,
-        email,
-        mobile,
-        password_hash,
-        password_salt,
-        status,
-        staff_role
-      FROM users
-      WHERE mobile=?
-    `)
-      .bind(mobile)
-      .first();
+    const u =
+      await env.DB.prepare(
+        `SELECT
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          status,
+          staff_role
+        FROM users
+        WHERE mobile=?`
+      )
+        .bind(mobile)
+        .first();
 
     if (
       !u ||
@@ -464,16 +591,21 @@ async function api(request, env) {
       ))
     ) {
       return json(
-        { error: "Mobile number or password is incorrect" },
+        {
+          error:
+            "Mobile number or password is incorrect"
+        },
         401
       );
     }
 
-    const token = await createSession(u.id, env);
+    const token =
+      await createSession(u.id, env);
 
     return json(
       {
         ok: true,
+
         user: {
           id: u.id,
           role: u.role,
@@ -495,9 +627,16 @@ async function api(request, env) {
     );
   }
 
-  // LOGOUT
-  if (path === "/api/logout" && method === "POST") {
-    const token = getSessionToken(request);
+  /* =========================
+     LOGOUT
+  ========================== */
+
+  if (
+    path === "/api/logout" &&
+    method === "POST"
+  ) {
+    const token =
+      getSessionToken(request);
 
     if (token) {
       await env.DB.prepare(
@@ -510,20 +649,33 @@ async function api(request, env) {
     return json(
       { ok: true },
       200,
-      { "set-cookie": clearCookie("session") }
+      {
+        "set-cookie":
+          clearCookie("session")
+      }
     );
   }
 
-  // CURRENT USER
-  if (path === "/api/me" && method === "GET") {
-    const currentUser = await auth(request, env);
+  /* =========================
+     CURRENT USER
+  ========================== */
+
+  if (
+    path === "/api/me" &&
+    method === "GET"
+  ) {
+    const currentUser =
+      await auth(request, env);
 
     if (!currentUser) {
-      return json({ authenticated: false });
+      return json({
+        authenticated: false
+      });
     }
 
     return json({
       authenticated: true,
+
       user: {
         id: currentUser.id,
         role: currentUser.role,
@@ -536,51 +688,108 @@ async function api(request, env) {
     });
   }
 
-  // AUTH REQUIRED FOR BELOW ROUTES
-  const u = await auth(request, env);
+  /* =========================
+     AUTH REQUIRED BELOW
+  ========================== */
+
+  const u = await auth(
+    request,
+    env
+  );
 
   if (!u) {
     return json(
-      { error: "Authentication required" },
+      {
+        error:
+          "Authentication required"
+      },
       401
     );
   }
 
-  // UPDATE PROFILE
-  if (path === "/api/me" && method === "PUT") {
-    const b = await request.json().catch(() => ({}));
+  /* =========================
+     UPDATE PROFILE
+  ========================== */
+
+  if (
+    path === "/api/me" &&
+    method === "PUT"
+  ) {
+    const b =
+      await request.json().catch(() => ({}));
 
     const name = input(b.name, 100);
     const place = input(b.place, 100);
-    const email = input(b.email, 150).toLowerCase();
+    const email =
+      input(b.email, 150).toLowerCase();
 
-    if (!name || !place || !validEmail(email)) {
-      return json({ error: "Invalid profile" }, 400);
+    if (
+      !name ||
+      !place ||
+      !validEmail(email)
+    ) {
+      return json(
+        {
+          error: "Invalid profile"
+        },
+        400
+      );
     }
 
     try {
       await env.DB.prepare(
-        "UPDATE users SET name=?,place=?,email=?,updated_at=? WHERE id=?"
+        `UPDATE users
+         SET name=?,
+             place=?,
+             email=?,
+             updated_at=?
+         WHERE id=?`
       )
-        .bind(name, place, email, now(), u.id)
+        .bind(
+          name,
+          place,
+          email,
+          now(),
+          u.id
+        )
         .run();
 
-      return json({ ok: true });
+      return json({
+        ok: true
+      });
+
     } catch (e) {
-      console.error("PROFILE_UPDATE_ERROR:", e);
+      console.error(
+        "PROFILE_UPDATE_ERROR:",
+        e
+      );
 
       return json(
-        { error: "Email is already in use" },
+        {
+          error:
+            "Email is already in use"
+        },
         409
       );
     }
   }
 
-  // CHANGE PASSWORD
-  if (path === "/api/password" && method === "PUT") {
-    const b = await request.json().catch(() => ({}));
+  /* =========================
+     CHANGE PASSWORD
+  ========================== */
 
-    if (!validPassword(b.newPassword)) {
+  if (
+    path === "/api/password" &&
+    method === "PUT"
+  ) {
+    const b =
+      await request.json().catch(() => ({}));
+
+    if (
+      !validPassword(
+        b.newPassword
+      )
+    ) {
       return json(
         {
           error:
@@ -590,11 +799,16 @@ async function api(request, env) {
       );
     }
 
-    const row = await env.DB.prepare(
-      "SELECT password_hash,password_salt FROM users WHERE id=?"
-    )
-      .bind(u.id)
-      .first();
+    const row =
+      await env.DB.prepare(
+        `SELECT
+          password_hash,
+          password_salt
+         FROM users
+         WHERE id=?`
+      )
+        .bind(u.id)
+        .first();
 
     if (
       !row ||
@@ -605,17 +819,32 @@ async function api(request, env) {
       ))
     ) {
       return json(
-        { error: "Current password is incorrect" },
+        {
+          error:
+            "Current password is incorrect"
+        },
         400
       );
     }
 
-    const p = await passwordHash(b.newPassword);
+    const p =
+      await passwordHash(
+        b.newPassword
+      );
 
     await env.DB.prepare(
-      "UPDATE users SET password_hash=?,password_salt=?,updated_at=? WHERE id=?"
+      `UPDATE users
+       SET password_hash=?,
+           password_salt=?,
+           updated_at=?
+       WHERE id=?`
     )
-      .bind(p.hash, p.salt, now(), u.id)
+      .bind(
+        p.hash,
+        p.salt,
+        now(),
+        u.id
+      )
       .run();
 
     await env.DB.prepare(
@@ -627,17 +856,38 @@ async function api(request, env) {
     return json(
       { ok: true },
       200,
-      { "set-cookie": clearCookie("session") }
+      {
+        "set-cookie":
+          clearCookie("session")
+      }
     );
   }
 
-  // FEEDBACK
-  if (path === "/api/feedback" && method === "POST") {
-    const b = await request.json().catch(() => ({}));
+  /* =========================
+     FEEDBACK
+  ========================== */
 
-    const mobile = input(b.mobile, 10);
-    const email = input(b.email, 150).toLowerCase();
-    const message = input(b.message, 2000);
+  if (
+    path === "/api/feedback" &&
+    method === "POST"
+  ) {
+    const b =
+      await request.json().catch(() => ({}));
+
+    const mobile =
+      input(
+        b.mobile || u.mobile,
+        10
+      );
+
+    const email =
+      input(
+        b.email || u.email,
+        150
+      ).toLowerCase();
+
+    const message =
+      input(b.message, 2000);
 
     if (
       !validMobile(mobile) ||
@@ -647,17 +897,25 @@ async function api(request, env) {
       return json(
         {
           error:
-            "Please provide mobile, email and message"
+            "Please provide valid email, mobile and message"
         },
         400
       );
     }
 
-    await env.DB.prepare(`
-      INSERT INTO feedback
-      (id,user_id,mobile,email,message,status,created_at)
-      VALUES (?,?,?,?,?,?,?)
-    `)
+    await env.DB.prepare(
+      `INSERT INTO feedback
+      (
+        id,
+        user_id,
+        mobile,
+        email,
+        message,
+        status,
+        created_at
+      )
+      VALUES (?,?,?,?,?,?,?)`
+    )
       .bind(
         uid(),
         u.id,
@@ -672,56 +930,104 @@ async function api(request, env) {
     return json(
       {
         ok: true,
-        message: "Feedback submitted"
+        message:
+          "Feedback submitted"
       },
       201
     );
   }
 
-  // ADMIN / STAFF - MEMBERS LIST
-  if (path === "/api/admin/members" && method === "GET") {
-    if (!requireRole(u, ["admin", "staff"])) {
-      return json({ error: "Forbidden" }, 403);
+  /* =========================
+     ADMIN / STAFF MEMBERS
+  ========================== */
+
+  if (
+    path === "/api/admin/members" &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        { error: "Forbidden" },
+        403
+      );
     }
 
-    const rows = await env.DB.prepare(`
-      SELECT
-        id,
-        role,
-        name,
-        place,
-        email,
-        mobile,
-        status,
-        staff_role,
-        created_at
-      FROM users
-      ORDER BY created_at DESC
-      LIMIT 500
-    `).all();
+    const rows =
+      await env.DB.prepare(
+        `SELECT
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          status,
+          staff_role,
+          created_at
+        FROM users
+        ORDER BY created_at DESC
+        LIMIT 500`
+      ).all();
 
     return json({
-      members: rows.results || []
+      members:
+        rows.results || []
     });
   }
 
-  // ADMIN - CREATE MEMBER / STAFF
-  if (path === "/api/admin/members" && method === "POST") {
+  /* =========================
+     ADMIN CREATE MEMBER/STAFF
+  ========================== */
+
+  if (
+    path === "/api/admin/members" &&
+    method === "POST"
+  ) {
     if (u.role !== "admin") {
-      return json({ error: "Admin only" }, 403);
+      return json(
+        { error: "Admin only" },
+        403
+      );
     }
 
-    const b = await request.json().catch(() => ({}));
+    const b =
+      await request.json().catch(() => ({}));
 
-    const name = input(b.name, 100);
-    const place = input(b.place, 100);
-    const email = input(b.email, 150).toLowerCase();
-    const mobile = input(b.mobile, 10);
-    const password = b.password;
-    const role = ["member", "staff"].includes(b.role)
-      ? b.role
-      : "member";
-    const staffRole = input(b.staffRole, 100);
+    const name =
+      input(b.name, 100);
+
+    const place =
+      input(b.place, 100);
+
+    const email =
+      input(
+        b.email,
+        150
+      ).toLowerCase();
+
+    const mobile =
+      input(b.mobile, 10);
+
+    const password =
+      b.password;
+
+    const role =
+      ["member", "staff"].includes(
+        b.role
+      )
+        ? b.role
+        : "member";
+
+    const staffRole =
+      input(
+        b.staffRole,
+        100
+      );
 
     if (
       !name ||
@@ -731,19 +1037,36 @@ async function api(request, env) {
       !validPassword(password)
     ) {
       return json(
-        { error: "Invalid details" },
+        {
+          error:
+            "Invalid details"
+        },
         400
       );
     }
 
-    const p = await passwordHash(password);
+    const p =
+      await passwordHash(password);
 
     try {
-      await env.DB.prepare(`
-        INSERT INTO users
-        (id,role,name,place,email,mobile,password_hash,password_salt,status,staff_role,created_at,updated_at)
-        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
-      `)
+      await env.DB.prepare(
+        `INSERT INTO users
+        (
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          status,
+          staff_role,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
         .bind(
           uid(),
           role,
@@ -754,41 +1077,70 @@ async function api(request, env) {
           p.hash,
           p.salt,
           "active",
-          role === "staff" ? staffRole : null,
+          role === "staff"
+            ? staffRole
+            : null,
           now(),
           now()
         )
         .run();
 
-      return json({ ok: true }, 201);
+      return json(
+        { ok: true },
+        201
+      );
+
     } catch (e) {
-      console.error("ADMIN_MEMBER_CREATE_ERROR:", e);
+      console.error(
+        "ADMIN_MEMBER_CREATE_ERROR:",
+        e
+      );
 
       return json(
-        { error: "Email or mobile already exists" },
+        {
+          error:
+            "Email or mobile already exists"
+        },
         409
       );
     }
   }
 
-  // ADMIN - ENABLE / DISABLE MEMBER
-  const memberMatch =
-    path.match(/^\/api\/admin\/members\/([^/]+)$/);
+  /* =========================
+     ADMIN ENABLE/DISABLE
+  ========================== */
 
-  if (memberMatch && method === "PATCH") {
+  const memberMatch =
+    path.match(
+      /^\/api\/admin\/members\/([^/]+)$/
+    );
+
+  if (
+    memberMatch &&
+    method === "PATCH"
+  ) {
     if (u.role !== "admin") {
-      return json({ error: "Admin only" }, 403);
+      return json(
+        { error: "Admin only" },
+        403
+      );
     }
 
-    const id = memberMatch[1];
-    const b = await request.json().catch(() => ({}));
+    const id =
+      memberMatch[1];
+
+    const b =
+      await request.json().catch(() => ({}));
 
     const status =
       b.status === "disabled"
         ? "disabled"
         : "active";
 
-    if (id === u.id && status === "disabled") {
+    if (
+      id === u.id &&
+      status === "disabled"
+    ) {
       return json(
         {
           error:
@@ -799,9 +1151,16 @@ async function api(request, env) {
     }
 
     await env.DB.prepare(
-      "UPDATE users SET status=?,updated_at=? WHERE id=?"
+      `UPDATE users
+       SET status=?,
+           updated_at=?
+       WHERE id=?`
     )
-      .bind(status, now(), id)
+      .bind(
+        status,
+        now(),
+        id
+      )
       .run();
 
     await env.DB.prepare(
@@ -810,118 +1169,237 @@ async function api(request, env) {
       .bind(id)
       .run();
 
-    return json({ ok: true });
-  }
-
-  // ADMIN / STAFF - FEEDBACK LIST
-  if (path === "/api/admin/feedback" && method === "GET") {
-    if (!requireRole(u, ["admin", "staff"])) {
-      return json({ error: "Forbidden" }, 403);
-    }
-
-    const rows = await env.DB.prepare(`
-      SELECT
-        f.id,
-        f.mobile,
-        f.email,
-        f.message,
-        f.status,
-        f.created_at,
-        u.name AS member_name
-      FROM feedback f
-      LEFT JOIN users u ON u.id=f.user_id
-      ORDER BY f.created_at DESC
-      LIMIT 500
-    `).all();
-
     return json({
-      feedback: rows.results || []
+      ok: true
     });
   }
 
-  // ADMIN / STAFF - MARK FEEDBACK
-  if (path === "/api/admin/feedback/read" && method === "POST") {
-    if (!requireRole(u, ["admin", "staff"])) {
-      return json({ error: "Forbidden" }, 403);
+  /* =========================
+     ADMIN / STAFF FEEDBACK
+  ========================== */
+
+  if (
+    path === "/api/admin/feedback" &&
+    method === "GET"
+  ) {
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        { error: "Forbidden" },
+        403
+      );
     }
 
-    const b = await request.json().catch(() => ({}));
-    const status = ["new", "read", "resolved"].includes(b.status)
-      ? b.status
-      : "read";
+    const rows =
+      await env.DB.prepare(
+        `SELECT
+          f.id,
+          f.mobile,
+          f.email,
+          f.message,
+          f.status,
+          f.created_at,
+          u.name AS member_name
+        FROM feedback f
+        LEFT JOIN users u
+          ON u.id=f.user_id
+        ORDER BY f.created_at DESC
+        LIMIT 500`
+      ).all();
 
-    if (!b.id) {
-      return json({ error: "Feedback ID is required" }, 400);
-    }
-
-    const result = await env.DB.prepare(
-      "UPDATE feedback SET status=? WHERE id=?"
-    )
-      .bind(status, b.id)
-      .run();
-
-    if (!result.meta?.changes) {
-      return json({ error: "Feedback not found" }, 404);
-    }
-
-    return json({ ok: true });
+    return json({
+      feedback:
+        rows.results || []
+    });
   }
 
-  // ADMIN - VIEW MASKED SENSITIVE DATA
+  /* =========================
+     MARK FEEDBACK
+  ========================== */
+
   if (
-    path === "/api/admin/member-sensitive" &&
+    path ===
+      "/api/admin/feedback/read" &&
     method === "POST"
   ) {
-    if (u.role !== "admin") {
-      return json({ error: "Admin only" }, 403);
+    if (
+      !requireRole(u, [
+        "admin",
+        "staff"
+      ])
+    ) {
+      return json(
+        { error: "Forbidden" },
+        403
+      );
     }
 
-    const b = await request.json().catch(() => ({}));
+    const b =
+      await request.json().catch(() => ({}));
+
+    const status =
+      [
+        "new",
+        "read",
+        "resolved"
+      ].includes(b.status)
+        ? b.status
+        : "read";
 
     if (!b.id) {
-      return json({ error: "Member ID is required" }, 400);
+      return json(
+        {
+          error:
+            "Feedback ID is required"
+        },
+        400
+      );
     }
 
-    const row = await env.DB.prepare(
-      "SELECT pan_enc,aadhaar_enc FROM users WHERE id=?"
-    )
-      .bind(b.id)
-      .first();
+    const result =
+      await env.DB.prepare(
+        `UPDATE feedback
+         SET status=?
+         WHERE id=?`
+      )
+        .bind(
+          status,
+          b.id
+        )
+        .run();
 
-    if (!row) {
+    if (!result.meta?.changes) {
       return json(
-        { error: "Member not found" },
+        {
+          error:
+            "Feedback not found"
+        },
         404
       );
     }
 
     return json({
-      pan: maskPan(
-        await decryptText(row.pan_enc, env)
-      ),
-      aadhaar: maskAadhaar(
-        await decryptText(row.aadhaar_enc, env)
-      )
+      ok: true
     });
   }
 
-  return json({ error: "Not found" }, 404);
+  /* =========================
+     ADMIN SENSITIVE DATA
+  ========================== */
+
+  if (
+    path ===
+      "/api/admin/member-sensitive" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const b =
+      await request.json().catch(() => ({}));
+
+    if (!b.id) {
+      return json(
+        {
+          error:
+            "Member ID is required"
+        },
+        400
+      );
+    }
+
+    const row =
+      await env.DB.prepare(
+        `SELECT
+          pan_enc,
+          aadhaar_enc
+        FROM users
+        WHERE id=?`
+      )
+        .bind(b.id)
+        .first();
+
+    if (!row) {
+      return json(
+        {
+          error:
+            "Member not found"
+        },
+        404
+      );
+    }
+
+    let pan = "";
+    let aadhaar = "";
+
+    if (row.pan_enc) {
+      pan = maskPan(
+        await decryptText(
+          row.pan_enc,
+          env
+        )
+      );
+    }
+
+    if (row.aadhaar_enc) {
+      aadhaar = maskAadhaar(
+        await decryptText(
+          row.aadhaar_enc,
+          env
+        )
+      );
+    }
+
+    return json({
+      pan,
+      aadhaar
+    });
+  }
+
+  return json(
+    { error: "Not found" },
+    404
+  );
 }
 
 export default {
-  async fetch(request, env, ctx) {
-    const url = new URL(request.url);
+  async fetch(
+    request,
+    env,
+    ctx
+  ) {
+    const url =
+      new URL(request.url);
 
-    if (url.pathname.startsWith("/api/")) {
+    if (
+      url.pathname.startsWith("/api/")
+    ) {
       try {
-        return await api(request, env);
+        return await api(
+          request,
+          env
+        );
       } catch (e) {
-        console.error("API_ERROR:", e);
+        console.error(
+          "API_ERROR:",
+          e
+        );
 
         return json(
           {
             error: "API_ERROR",
-            details: String(e?.message || e)
+            details:
+              String(
+                e?.message || e
+              )
           },
           500
         );
