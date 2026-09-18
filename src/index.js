@@ -1086,3 +1086,628 @@ async function api(request, env) {
     ) {
       return json(
         {
+          error:
+            "Invalid details"
+        },
+        400
+      );
+    }
+
+    const p =
+      await passwordHash(password);
+
+    try {
+      await env.DB.prepare(
+        `INSERT INTO users
+        (
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          password_hash,
+          password_salt,
+          status,
+          staff_role,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?,?,?,?)`
+      )
+        .bind(
+          uid(),
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          p.hash,
+          p.salt,
+          "active",
+          role === "staff"
+            ? staffRole
+            : null,
+          now(),
+          now()
+        )
+        .run();
+
+      return json(
+        { ok: true },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_CREATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Email or mobile already exists"
+        },
+        409
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN ENABLE / DISABLE
+  ========================== */
+
+  const memberMatch =
+    path.match(
+      /^\/api\/admin\/members\/([^/]+)$/
+    );
+
+  if (
+    memberMatch &&
+    method === "PATCH"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const id =
+      memberMatch[1];
+
+    const b =
+      await request.json().catch(() => ({}));
+
+    const status =
+      b.status === "disabled"
+        ? "disabled"
+        : "active";
+
+    if (
+      id === u.id &&
+      status === "disabled"
+    ) {
+      return json(
+        {
+          error:
+            "You cannot disable your own admin account"
+        },
+        400
+      );
+    }
+
+    const result =
+      await env.DB.prepare(
+        `UPDATE users
+         SET status=?,
+             updated_at=?
+         WHERE id=?`
+      )
+        .bind(
+          status,
+          now(),
+          id
+        )
+        .run();
+
+    if (!result.meta?.changes) {
+      return json(
+        {
+          error:
+            "Member not found"
+        },
+        404
+      );
+    }
+
+    return json({
+      ok: true,
+      status
+    });
+  }
+
+  /* =========================
+     ADMIN FEEDBACK LIST
+  ========================== */
+
+  if (
+    path === "/api/admin/feedback" &&
+    method === "GET"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const rows =
+      await env.DB.prepare(
+        `SELECT
+          f.id,
+          f.user_id,
+          f.mobile,
+          f.email,
+          f.message,
+          f.status,
+          f.created_at,
+          u.name,
+          u.role
+        FROM feedback f
+        LEFT JOIN users u
+          ON u.id = f.user_id
+        ORDER BY f.created_at DESC
+        LIMIT 500`
+      ).all();
+
+    return json({
+      feedback:
+        rows.results || []
+    });
+  }
+
+  /* =========================
+     ADMIN MARK FEEDBACK READ
+  ========================== */
+
+  if (
+    path === "/api/admin/feedback/read" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const b =
+      await request.json().catch(() => ({}));
+
+    const id =
+      input(b.id, 100);
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Feedback ID required"
+        },
+        400
+      );
+    }
+
+    await env.DB.prepare(
+      `UPDATE feedback
+       SET status='read'
+       WHERE id=?`
+    )
+      .bind(id)
+      .run();
+
+    return json({
+      ok: true
+    });
+  }
+
+  /* =========================
+     ADMIN SEVA LIST
+  ========================== */
+
+  if (
+    path === "/api/admin/seva" &&
+    method === "GET"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const rows =
+      await env.DB.prepare(
+        `SELECT
+          id,
+          title,
+          description,
+          image_url,
+          icon,
+          active,
+          sort_order,
+          created_at,
+          updated_at
+        FROM seva
+        ORDER BY sort_order ASC, created_at ASC`
+      ).all();
+
+    return json({
+      seva:
+        rows.results || []
+    });
+  }
+
+  /* =========================
+     ADMIN ADD SEVA
+  ========================== */
+
+  if (
+    path === "/api/admin/seva" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const b =
+      await request.json().catch(() => ({}));
+
+    const title =
+      input(b.title, 150);
+
+    const description =
+      input(b.description, 2000);
+
+    const imageUrl =
+      input(b.image_url, 1000);
+
+    const icon =
+      input(b.icon || "🕉️", 20);
+
+    const active =
+      b.active === false ||
+      b.active === 0 ||
+      b.active === "0"
+        ? 0
+        : 1;
+
+    let sortOrder =
+      Number.isFinite(
+        Number(b.sort_order)
+      )
+        ? Number(b.sort_order)
+        : 0;
+
+    sortOrder =
+      Math.max(
+        0,
+        Math.min(
+          999999,
+          Math.floor(sortOrder)
+        )
+      );
+
+    if (!title) {
+      return json(
+        {
+          error:
+            "Seva name/title is required"
+        },
+        400
+      );
+    }
+
+    const id =
+      uid();
+
+    await env.DB.prepare(
+      `INSERT INTO seva
+      (
+        id,
+        title,
+        description,
+        image_url,
+        icon,
+        active,
+        sort_order,
+        created_at,
+        updated_at
+      )
+      VALUES (?,?,?,?,?,?,?,?,?)`
+    )
+      .bind(
+        id,
+        title,
+        description,
+        imageUrl,
+        icon,
+        active,
+        sortOrder,
+        now(),
+        now()
+      )
+      .run();
+
+    return json(
+      {
+        ok: true,
+        id
+      },
+      201
+    );
+  }
+
+  /* =========================
+     ADMIN EDIT SEVA
+  ========================== */
+
+  const sevaMatch =
+    path.match(
+      /^\/api\/admin\/seva\/([^/]+)$/
+    );
+
+  if (
+    sevaMatch &&
+    method === "PATCH"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const id =
+      sevaMatch[1];
+
+    const existing =
+      await env.DB.prepare(
+        `SELECT *
+         FROM seva
+         WHERE id=?`
+      )
+        .bind(id)
+        .first();
+
+    if (!existing) {
+      return json(
+        {
+          error:
+            "Seva not found"
+        },
+        404
+      );
+    }
+
+    const b =
+      await request.json().catch(() => ({}));
+
+    const title =
+      b.title !== undefined
+        ? input(b.title, 150)
+        : existing.title;
+
+    const description =
+      b.description !== undefined
+        ? input(b.description, 2000)
+        : existing.description;
+
+    const imageUrl =
+      b.image_url !== undefined
+        ? input(b.image_url, 1000)
+        : existing.image_url;
+
+    const icon =
+      b.icon !== undefined
+        ? input(b.icon, 20)
+        : existing.icon;
+
+    const active =
+      b.active !== undefined
+        ? (
+            b.active === false ||
+            b.active === 0 ||
+            b.active === "0"
+              ? 0
+              : 1
+          )
+        : Number(existing.active);
+
+    let sortOrder =
+      b.sort_order !== undefined
+        ? Number(b.sort_order)
+        : Number(existing.sort_order);
+
+    if (!Number.isFinite(sortOrder)) {
+      sortOrder = Number(existing.sort_order) || 0;
+    }
+
+    sortOrder =
+      Math.max(
+        0,
+        Math.min(
+          999999,
+          Math.floor(sortOrder)
+        )
+      );
+
+    if (!title) {
+      return json(
+        {
+          error:
+            "Seva name/title is required"
+        },
+        400
+      );
+    }
+
+    await env.DB.prepare(
+      `UPDATE seva
+       SET title=?,
+           description=?,
+           image_url=?,
+           icon=?,
+           active=?,
+           sort_order=?,
+           updated_at=?
+       WHERE id=?`
+    )
+      .bind(
+        title,
+        description,
+        imageUrl,
+        icon,
+        active,
+        sortOrder,
+        now(),
+        id
+      )
+      .run();
+
+    return json({
+      ok: true,
+      id
+    });
+  }
+
+  /* =========================
+     ADMIN DELETE SEVA
+  ========================== */
+
+  if (
+    sevaMatch &&
+    method === "DELETE"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        { error: "Admin only" },
+        403
+      );
+    }
+
+    const id =
+      sevaMatch[1];
+
+    const existing =
+      await env.DB.prepare(
+        `SELECT id
+         FROM seva
+         WHERE id=?`
+      )
+        .bind(id)
+        .first();
+
+    if (!existing) {
+      return json(
+        {
+          error:
+            "Seva not found"
+        },
+        404
+      );
+    }
+
+    await env.DB.prepare(
+      `DELETE FROM seva
+       WHERE id=?`
+    )
+      .bind(id)
+      .run();
+
+    return json({
+      ok: true
+    });
+  }
+
+  /* =========================
+     UNKNOWN API
+  ========================== */
+
+  return json(
+    {
+      error:
+        "API route not found"
+    },
+    404
+  );
+}
+
+/* =========================
+   WORKER
+========================= */
+
+export default {
+  async fetch(request, env) {
+    const url =
+      new URL(request.url);
+
+    try {
+      if (
+        url.pathname.startsWith("/api/")
+      ) {
+        return await api(
+          request,
+          env
+        );
+      }
+
+      if (
+        env.ASSETS &&
+        typeof env.ASSETS.fetch === "function"
+      ) {
+        return await env.ASSETS.fetch(
+          request
+        );
+      }
+
+      return new Response(
+        "OUMJYOTI website is running.",
+        {
+          status: 200,
+          headers: {
+            "content-type":
+              "text/plain; charset=utf-8"
+          }
+        }
+      );
+    } catch (error) {
+      console.error(
+        "WORKER_ERROR:",
+        error
+      );
+
+      if (
+        url.pathname.startsWith("/api/")
+      ) {
+        return json(
+          {
+            error:
+              "Internal server error"
+          },
+          500
+        );
+      }
+
+      return new Response(
+        "Internal Server Error",
+        {
+          status: 500
+        }
+      );
+    }
+  }
+};
