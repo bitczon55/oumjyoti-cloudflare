@@ -9,29 +9,29 @@
 <meta name="description"
 content="OUMJYOTI — भक्ति, सेवा और मानवता का संगम। गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा, स्वास्थ्य सहायता और आपदा राहत।">
 
+<meta name="keywords"
+content="OUMJYOTI, सेवा, गौ सेवा, अन्न दान, शिक्षा सेवा, बुजुर्ग सेवा, मानवता, भक्ति, सनातन">
+
 <meta name="theme-color" content="#0f0508">
 
 <style>
 :root{
-  --bg-dark:#0f0508;
-  --bg-card:#1c0e12;
-  --bg-card2:#241217;
+  --bg:#0f0508;
+  --card:#1c0e12;
+  --card2:#241217;
   --gold:#f3ba2f;
-  --gold-light:#ffe898;
-  --gold-soft:#e5b869;
-  --saffron:#ff6b00;
+  --gold2:#ffe898;
   --text:#f5f5f5;
-  --muted:#bcaeb2;
-  --green:#36d399;
-  --red:#ff6b6b;
-  --border:rgba(243,186,47,.20);
-  --shadow:0 12px 35px rgba(0,0,0,.35);
+  --muted:#c9b9bd;
+  --green:#38c172;
+  --red:#ef5350;
+  --blue:#42a5f5;
+  --border:rgba(243,186,47,.22);
+  --shadow:0 15px 40px rgba(0,0,0,.35);
 }
 
 *{
   box-sizing:border-box;
-  margin:0;
-  padding:0;
 }
 
 html{
@@ -39,11 +39,22 @@ html{
 }
 
 body{
-  font-family:Arial,"Noto Sans Devanagari",sans-serif;
+  margin:0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
   background:
-    radial-gradient(circle at top,#291018 0,#0f0508 45%);
+    radial-gradient(circle at top,#32151b 0,#0f0508 42%,#090305 100%);
   color:var(--text);
   line-height:1.6;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
 }
 
 button,
@@ -57,391 +68,424 @@ button{
   cursor:pointer;
 }
 
-a{
-  color:inherit;
-  text-decoration:none;
+.hidden{
+  display:none!important;
 }
 
-img{
-  max-width:100%;
+.container{
+  width:min(1180px,92%);
+  margin:auto;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 
 header{
   position:sticky;
   top:0;
   z-index:1000;
-  background:rgba(15,5,8,.94);
   backdrop-filter:blur(14px);
+  background:rgba(15,5,8,.92);
   border-bottom:1px solid var(--border);
 }
 
-.nav{
-  max-width:1200px;
-  margin:auto;
-  min-height:76px;
-  padding:10px 18px;
+.navbar{
+  min-height:72px;
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:20px;
+  gap:18px;
 }
 
 .brand{
   display:flex;
   align-items:center;
-  gap:12px;
-}
-
-.brand-logo{
-  width:56px;
-  height:56px;
-  min-width:56px;
-  flex:0 0 56px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-}
-
-.brand-logo img{
-  display:block!important;
-  visibility:visible!important;
-  opacity:1!important;
-  width:56px!important;
-  height:56px!important;
-  max-width:56px!important;
-  max-height:56px!important;
-  object-fit:contain;
-  object-position:center;
-  border:0;
-  border-radius:50%;
-  background:transparent;
-  box-shadow:0 0 20px rgba(243,186,47,.12);
-}
-
-.logo-fallback{
-  display:none;
-  width:56px;
-  height:56px;
-  align-items:center;
-  justify-content:center;
-  border:2px solid var(--gold);
-  border-radius:50%;
+  gap:10px;
+  font-weight:900;
   color:var(--gold);
-  font-size:30px;
+  font-size:1.15rem;
 }
 
-.brand-name{
-  font-size:23px;
-  font-weight:800;
-  letter-spacing:1px;
-  color:var(--gold-light);
+.brand img{
+  width:48px;
+  height:48px;
+  object-fit:contain;
+  border-radius:50%;
 }
 
-.brand-sub{
-  font-size:11px;
-  color:var(--muted);
-}
-
-.nav-links{
+.navlinks{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
   flex-wrap:wrap;
-  justify-content:flex-end;
 }
 
-.nav-links button{
-  background:transparent;
+.navlinks a,
+.navlinks button{
+  background:none;
   border:0;
   color:var(--text);
   padding:9px 11px;
-  border-radius:8px;
-}
-
-.nav-links button:hover{
-  background:rgba(243,186,47,.1);
-  color:var(--gold-light);
-}
-
-.btn{
-  border:1px solid var(--gold);
-  background:var(--gold);
-  color:#160a00;
-  padding:10px 17px;
   border-radius:9px;
-  font-weight:700;
+  transition:.2s;
 }
 
-.btn:hover{
-  filter:brightness(1.08);
+.navlinks a:hover,
+.navlinks button:hover{
+  background:rgba(243,186,47,.12);
+  color:var(--gold2);
 }
 
-.btn-outline{
-  background:transparent;
-  color:var(--gold-light);
+.user-badge{
+  border:1px solid var(--border);
+  padding:7px 10px;
+  border-radius:999px;
+  color:var(--gold2);
+  font-size:.88rem;
 }
 
-.btn-danger{
-  background:transparent;
-  border-color:var(--red);
-  color:var(--red);
-}
+/* =========================
+   COMMON
+========================= */
 
-.btn-success{
-  background:transparent;
-  border-color:var(--green);
-  color:var(--green);
-}
-
-.btn-small{
-  padding:7px 11px;
-  font-size:13px;
-}
-
-/* MAIN */
-
-main{
-  min-height:70vh;
-}
-
-.section{
-  max-width:1200px;
-  margin:auto;
-  padding:80px 18px;
-}
-
-.hero{
-  min-height:600px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  position:relative;
-  overflow:hidden;
-}
-
-.hero:before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(circle at center,rgba(243,186,47,.10),transparent 45%);
-  pointer-events:none;
-}
-
-.hero-content{
-  max-width:850px;
-  position:relative;
-  z-index:1;
-}
-
-.hero h1{
-  font-size:clamp(38px,7vw,76px);
-  color:var(--gold-light);
-  margin-bottom:18px;
-  text-shadow:0 0 30px rgba(243,186,47,.16);
-}
-
-.hero h2{
-  color:var(--gold);
-  font-size:clamp(22px,4vw,38px);
-  margin-bottom:18px;
-}
-
-.hero p{
-  color:var(--muted);
-  font-size:18px;
-  max-width:700px;
-  margin:0 auto 28px;
-}
-
-.hero-actions{
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  flex-wrap:wrap;
+section{
+  padding:72px 0;
 }
 
 .section-title{
   text-align:center;
-  margin-bottom:40px;
+  margin-bottom:38px;
 }
 
 .section-title h2{
-  color:var(--gold-light);
-  font-size:35px;
+  margin:0 0 8px;
+  color:var(--gold);
+  font-size:clamp(1.8rem,4vw,2.6rem);
 }
 
 .section-title p{
+  margin:0;
   color:var(--muted);
-  margin-top:7px;
 }
 
-/* CARDS */
+.card{
+  background:
+    linear-gradient(145deg,
+      rgba(255,255,255,.035),
+      rgba(255,255,255,.01));
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+}
 
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:20px;
+  gap:22px;
 }
 
-.card{
-  background:linear-gradient(145deg,var(--bg-card),var(--bg-card2));
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  min-height:650px;
+  display:flex;
+  align-items:center;
+  text-align:center;
+  background:
+    radial-gradient(circle at 50% 20%,
+      rgba(243,186,47,.16),
+      transparent 45%);
+}
+
+.hero-content{
+  max-width:900px;
+  margin:auto;
+}
+
+.hero-logo{
+  width:125px;
+  height:125px;
+  object-fit:contain;
+  border-radius:50%;
+  margin-bottom:18px;
+  filter:drop-shadow(0 0 22px rgba(243,186,47,.25));
+}
+
+.hero h1{
+  margin:0;
+  color:var(--gold);
+  font-size:clamp(2.2rem,7vw,4.5rem);
+  letter-spacing:2px;
+}
+
+.hero h2{
+  color:var(--gold2);
+  font-size:clamp(1.15rem,3vw,1.7rem);
+  margin:8px 0 18px;
+}
+
+.hero p{
+  max-width:760px;
+  margin:0 auto 28px;
+  color:var(--muted);
+  font-size:1.08rem;
+}
+
+.btn-row{
+  display:flex;
+  justify-content:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:11px 17px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,var(--gold),#d89413);
+  color:#1b0c00;
+}
+
+.btn-secondary{
+  background:rgba(243,186,47,.08);
+  color:var(--gold2);
   border:1px solid var(--border);
-  border-radius:16px;
-  padding:25px;
-  box-shadow:var(--shadow);
 }
 
-.card h3{
-  color:var(--gold-light);
-  margin-bottom:9px;
+.btn-danger{
+  background:rgba(239,83,80,.13);
+  color:#ff9d9a;
+  border:1px solid rgba(239,83,80,.3);
 }
 
-.card p{
+.btn-success{
+  background:rgba(56,193,114,.13);
+  color:#80e6aa;
+  border:1px solid rgba(56,193,114,.3);
+}
+
+.btn-blue{
+  background:rgba(66,165,245,.13);
+  color:#9bd2ff;
+  border:1px solid rgba(66,165,245,.3);
+}
+
+.btn-small{
+  padding:7px 10px;
+  font-size:.84rem;
+}
+
+/* =========================
+   MISSION
+========================= */
+
+.mission-card{
+  padding:28px;
+  text-align:center;
+}
+
+.mission-card .icon{
+  font-size:2.7rem;
+  margin-bottom:8px;
+}
+
+.mission-card h3{
+  color:var(--gold2);
+  margin:5px 0 10px;
+}
+
+.mission-card p{
+  color:var(--muted);
+  margin:0;
+}
+
+/* =========================
+   SEVA
+========================= */
+
+.seva-card{
+  overflow:hidden;
+}
+
+.seva-image-wrap{
+  position:relative;
+  aspect-ratio:16/9;
+  background:#12070a;
+  overflow:hidden;
+}
+
+.seva-image{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.3s;
+}
+
+.seva-card:hover .seva-image{
+  transform:scale(1.04);
+}
+
+.seva-body{
+  padding:20px;
+}
+
+.seva-icon{
+  font-size:2rem;
+}
+
+.seva-body h3{
+  margin:7px 0;
+  color:var(--gold);
+}
+
+.seva-body p{
+  color:var(--muted);
+  margin:0;
+}
+
+.seva-empty{
+  grid-column:1/-1;
+  padding:35px;
+  text-align:center;
   color:var(--muted);
 }
 
-.icon{
-  font-size:38px;
-  margin-bottom:10px;
-}
-
-/* VIDEO */
-
-.video-box{
-  max-width:900px;
-  margin:auto;
-  aspect-ratio:16/9;
-  border:1px solid var(--border);
-  border-radius:16px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
-  background:#000;
-}
-
-.video-box iframe{
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-/* ABOUT */
+/* =========================
+   ABOUT
+========================= */
 
 .about-box{
+  padding:35px;
+  text-align:center;
   max-width:900px;
   margin:auto;
-  text-align:center;
 }
 
 .about-box p{
   color:var(--muted);
-  font-size:17px;
-  margin-bottom:15px;
 }
 
-/* DASHBOARD */
+/* =========================
+   INTERFACE
+========================= */
 
-#dashboardView{
-  display:none;
+#interfaceArea{
+  border-top:1px solid var(--border);
+  background:
+    linear-gradient(180deg,
+      rgba(36,18,23,.45),
+      rgba(15,5,8,.8));
 }
 
 .dashboard{
-  max-width:1250px;
-  margin:auto;
-  padding:35px 18px 70px;
-}
-
-.dashboard-head{
-  background:linear-gradient(145deg,#201016,#13080b);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:24px;
-  margin-bottom:20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:15px;
-  flex-wrap:wrap;
-}
-
-.dashboard-head h2{
-  color:var(--gold-light);
-}
-
-.dashboard-head p{
-  color:var(--muted);
-}
-
-.dashboard-tabs{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:20px;
-}
-
-.tab-btn{
-  background:var(--bg-card);
-  border:1px solid var(--border);
-  color:var(--text);
-  padding:10px 15px;
-  border-radius:9px;
-}
-
-.tab-btn.active{
-  background:var(--gold);
-  color:#160a00;
-}
-
-.stats{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:25px;
+  grid-template-columns:240px 1fr;
+  gap:20px;
+  align-items:start;
 }
 
-.stat{
-  background:linear-gradient(145deg,var(--bg-card),var(--bg-card2));
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
+.sidebar{
+  position:sticky;
+  top:90px;
+  padding:15px;
 }
 
-.stat strong{
-  display:block;
-  font-size:31px;
-  color:var(--gold-light);
+.sidebar-title{
+  color:var(--gold);
+  font-weight:900;
+  padding:10px;
+  margin-bottom:5px;
 }
 
-.stat span{
+.side-btn{
+  width:100%;
+  text-align:left;
+  border:0;
+  background:transparent;
+  color:var(--text);
+  padding:11px 12px;
+  border-radius:9px;
+  margin:2px 0;
+}
+
+.side-btn:hover{
+  background:rgba(243,186,47,.1);
+  color:var(--gold2);
+}
+
+.side-btn.active{
+  background:rgba(243,186,47,.14);
+  color:var(--gold);
+}
+
+.dashboard-main{
+  min-width:0;
+}
+
+.panel{
+  padding:25px;
+  margin-bottom:20px;
+}
+
+.panel h2,
+.panel h3{
+  margin-top:0;
+  color:var(--gold);
+}
+
+.panel-subtitle{
   color:var(--muted);
+  margin-top:-8px;
 }
 
-.toolbar{
+/* =========================
+   FORMS
+========================= */
+
+.form-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:15px;
+}
+
+.form-group{
   display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:18px;
+  flex-direction:column;
+  gap:6px;
 }
 
-.toolbar input,
-.toolbar select{
-  flex:1;
-  min-width:180px;
+.form-group.full{
+  grid-column:1/-1;
+}
+
+label{
+  color:var(--gold2);
+  font-size:.9rem;
+  font-weight:700;
 }
 
 input,
 textarea,
 select{
   width:100%;
-  background:#10070a;
-  color:var(--text);
-  border:1px solid rgba(243,186,47,.25);
+  border:1px solid rgba(243,186,47,.2);
   border-radius:9px;
   padding:11px 12px;
+  background:#100609;
+  color:var(--text);
   outline:none;
 }
 
@@ -449,208 +493,315 @@ input:focus,
 textarea:focus,
 select:focus{
   border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(243,186,47,.08);
 }
 
 textarea{
-  min-height:120px;
+  min-height:110px;
   resize:vertical;
 }
 
-.list{
+.checkbox-row{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.checkbox-row input{
+  width:auto;
+}
+
+/* =========================
+   STATS
+========================= */
+
+.stats{
   display:grid;
-  gap:14px;
-}
-
-.member-card,
-.feedback-card,
-.seva-card{
-  background:linear-gradient(145deg,var(--bg-card),var(--bg-card2));
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:18px;
-}
-
-.row{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  flex-wrap:wrap;
-}
-
-.meta{
-  color:var(--muted);
-  font-size:14px;
-}
-
-.actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:13px;
-}
-
-.badge{
-  display:inline-block;
-  padding:4px 9px;
-  border-radius:30px;
-  font-size:12px;
-  border:1px solid var(--border);
-}
-
-.badge-new{
-  color:var(--gold);
-}
-
-.badge-read{
-  color:var(--green);
-}
-
-.badge-disabled{
-  color:var(--red);
-}
-
-.seva-image{
-  width:100%;
-  height:180px;
-  object-fit:cover;
-  border-radius:10px;
-  margin-bottom:12px;
-  background:#090305;
-}
-
-/* FOOTER */
-
-footer{
-  border-top:1px solid var(--border);
-  padding:40px 18px;
-  text-align:center;
-  background:#090305;
-}
-
-.footer-logo{
-  width:70px;
-  height:70px;
-  object-fit:contain;
-  border-radius:50%;
-  margin-bottom:10px;
-}
-
-footer p{
-  color:var(--muted);
-}
-
-/* MODAL */
-
-.modal{
-  display:none;
-  position:fixed;
-  inset:0;
-  z-index:2000;
-  background:rgba(0,0,0,.75);
-  padding:18px;
-  overflow:auto;
-}
-
-.modal-box{
-  max-width:560px;
-  margin:5vh auto;
-  background:linear-gradient(145deg,#211116,#12080b);
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:25px;
-  box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-
-.modal-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
   margin-bottom:20px;
 }
 
-.modal-head h3{
-  color:var(--gold-light);
-}
-
-.close{
-  background:transparent;
-  border:0;
-  color:var(--muted);
-  font-size:28px;
-}
-
-.form-group{
-  margin-bottom:14px;
-}
-
-.form-group label{
-  display:block;
-  margin-bottom:6px;
-  color:var(--gold-soft);
-  font-size:14px;
-}
-
-.form-actions{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
-}
-
-.notice{
-  padding:12px;
-  border-radius:9px;
-  margin-bottom:14px;
-  display:none;
-}
-
-.notice.error{
-  display:block;
-  color:#ffd0d0;
-  background:rgba(255,107,107,.1);
-  border:1px solid rgba(255,107,107,.25);
-}
-
-.notice.success{
-  display:block;
-  color:#c9ffe8;
-  background:rgba(54,211,153,.1);
-  border:1px solid rgba(54,211,153,.25);
-}
-
-.hidden{
-  display:none!important;
-}
-
-.empty{
-  padding:30px;
+.stat{
+  padding:20px;
   text-align:center;
+}
+
+.stat strong{
+  display:block;
+  color:var(--gold);
+  font-size:2rem;
+}
+
+.stat span{
   color:var(--muted);
-  border:1px dashed var(--border);
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.table-wrap{
+  overflow:auto;
+  border:1px solid var(--border);
   border-radius:12px;
 }
 
-/* RESPONSIVE */
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:760px;
+}
+
+th,
+td{
+  padding:11px 12px;
+  border-bottom:1px solid rgba(243,186,47,.1);
+  text-align:left;
+  vertical-align:top;
+}
+
+th{
+  color:var(--gold);
+  background:rgba(243,186,47,.06);
+}
+
+td{
+  color:#eadfe1;
+}
+
+.status{
+  display:inline-block;
+  padding:4px 8px;
+  border-radius:999px;
+  font-size:.76rem;
+  font-weight:800;
+}
+
+.status-active{
+  color:#86e9ac;
+  background:rgba(56,193,114,.1);
+}
+
+.status-disabled{
+  color:#ff9d9a;
+  background:rgba(239,83,80,.1);
+}
+
+.status-new{
+  color:#9bd2ff;
+  background:rgba(66,165,245,.1);
+}
+
+/* =========================
+   SEVA ADMIN CARDS
+========================= */
+
+.admin-seva-list{
+  display:grid;
+  gap:15px;
+}
+
+.admin-seva-item{
+  display:grid;
+  grid-template-columns:125px 1fr auto;
+  gap:16px;
+  align-items:center;
+  padding:15px;
+}
+
+.admin-seva-thumb{
+  width:125px;
+  height:90px;
+  object-fit:cover;
+  border-radius:10px;
+  border:1px solid var(--border);
+  background:#100609;
+}
+
+.admin-seva-info h3{
+  margin:0 0 4px;
+  color:var(--gold2);
+}
+
+.admin-seva-info p{
+  margin:0;
+  color:var(--muted);
+  font-size:.9rem;
+}
+
+.admin-actions{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+  gap:7px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  background:rgba(0,0,0,.78);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.modal-box{
+  width:min(650px,100%);
+  max-height:90vh;
+  overflow:auto;
+  padding:25px;
+  position:relative;
+}
+
+.modal-close{
+  position:absolute;
+  right:15px;
+  top:10px;
+  border:0;
+  background:none;
+  color:var(--muted);
+  font-size:1.7rem;
+}
+
+/* =========================
+   NOTICE
+========================= */
+
+.notice{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:3000;
+  width:min(380px,calc(100% - 36px));
+  padding:15px 17px;
+  border-radius:12px;
+  background:#241217;
+  border:1px solid var(--border);
+  box-shadow:var(--shadow);
+}
+
+.notice.success{
+  border-color:rgba(56,193,114,.5);
+}
+
+.notice.error{
+  border-color:rgba(239,83,80,.5);
+}
+
+.notice.info{
+  border-color:rgba(66,165,245,.5);
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+.auth-box{
+  max-width:520px;
+  margin:auto;
+  padding:28px;
+}
+
+.auth-tabs{
+  display:flex;
+  gap:8px;
+  margin-bottom:20px;
+}
+
+.auth-tab{
+  flex:1;
+  padding:10px;
+  border-radius:9px;
+  border:1px solid var(--border);
+  background:transparent;
+  color:var(--muted);
+}
+
+.auth-tab.active{
+  background:rgba(243,186,47,.12);
+  color:var(--gold);
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  border-top:1px solid var(--border);
+  padding:30px 0;
+  text-align:center;
+  color:var(--muted);
+}
+
+footer strong{
+  color:var(--gold);
+}
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:900px){
+
+  .navlinks{
+    display:none;
+  }
+
   .grid{
     grid-template-columns:repeat(2,1fr);
   }
 
-  .stats{
-    grid-template-columns:repeat(2,1fr);
+  .dashboard{
+    grid-template-columns:1fr;
   }
 
-  .nav-links{
-    display:none;
+  .sidebar{
+    position:static;
+  }
+
+  .side-btn{
+    display:inline-block;
+    width:auto;
+  }
+
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .stats{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .admin-seva-item{
+    grid-template-columns:90px 1fr;
+  }
+
+  .admin-seva-thumb{
+    width:90px;
+    height:75px;
+  }
+
+  .admin-actions{
+    grid-column:1/-1;
+    justify-content:flex-start;
   }
 }
 
 @media(max-width:600px){
-  .section{
-    padding:55px 14px;
+
+  section{
+    padding:52px 0;
+  }
+
+  .hero{
+    min-height:560px;
   }
 
   .grid{
@@ -658,15 +809,34 @@ footer p{
   }
 
   .stats{
-    grid-template-columns:1fr 1fr;
+    grid-template-columns:1fr;
   }
 
-  .dashboard{
-    padding:25px 12px 55px;
+  .panel{
+    padding:18px;
   }
 
-  .brand-name{
-    font-size:19px;
+  .navbar{
+    min-height:62px;
+  }
+
+  .brand img{
+    width:42px;
+    height:42px;
+  }
+
+  .hero-logo{
+    width:100px;
+    height:100px;
+  }
+
+  .admin-seva-item{
+    grid-template-columns:1fr;
+  }
+
+  .admin-seva-thumb{
+    width:100%;
+    height:150px;
   }
 }
 </style>
@@ -674,750 +844,359 @@ footer p{
 
 <body>
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
-  <div class="nav">
+  <div class="container navbar">
 
-    <div class="brand">
-      <span class="brand-logo">
-        <img
-          src="/oumjyoti-logo.png"
-          alt="OUMJyoti Logo"
-          onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
-        >
-        <span class="logo-fallback">ॐ</span>
-      </span>
+    <button
+      class="brand"
+      onclick="showHome()"
+      style="border:0;background:none;cursor:pointer;"
+    >
+      <img
+        src="/oumjyoti-logo.png"
+        alt="OUMJYOTI Logo"
+        onerror="this.style.display='none'"
+      >
+      <span>OUMJYOTI</span>
+    </button>
 
-      <div>
-        <div class="brand-name">OUMJYOTI</div>
-        <div class="brand-sub">भक्ति • सेवा • मानवता</div>
-      </div>
-    </div>
+    <nav class="navlinks">
 
-    <nav class="nav-links" id="siteNav">
-      <button onclick="showHome()">Home</button>
-      <button onclick="goTo('mission')">Mission</button>
-      <button onclick="goTo('seva')">Seva</button>
-      <button onclick="goTo('video')">Video</button>
-      <button onclick="goTo('about')">About</button>
-      <button onclick="openFeedback()">Feedback</button>
-      <button class="btn btn-small" onclick="openLogin()">Login</button>
+      <a href="#home">Home</a>
+      <a href="#mission">Mission</a>
+      <a href="#seva">Seva</a>
+      <a href="#about">About</a>
+      <a href="#feedback">Feedback</a>
+
+      <span
+        id="userBadge"
+        class="user-badge hidden"
+      ></span>
+
+      <button
+        id="loginNavBtn"
+        onclick="openLogin()"
+      >
+        Login
+      </button>
+
     </nav>
 
   </div>
 </header>
 
-<main id="siteView">
+<!-- =========================
+     HOME
+========================= -->
 
-  <!-- HERO -->
-  <section class="hero section" id="home">
-    <div class="hero-content">
-      <h1>OUMJYOTI</h1>
-      <h2>भक्ति • सेवा • मानवता</h2>
+<main id="home">
 
-      <p>
-        भक्ति की ज्योति से सेवा का प्रकाश फैलाने और
-        मानवता के लिए समर्पित एक सकारात्मक प्रयास।
-      </p>
+<section class="hero">
+  <div class="container hero-content">
 
-      <div class="hero-actions">
-        <button class="btn" onclick="openLogin()">Member Login</button>
-        <button class="btn btn-outline" onclick="openRegister()">Join OUMJYOTI</button>
-      </div>
+    <img
+      class="hero-logo"
+      src="/oumjyoti-logo.png"
+      alt="OUMJYOTI"
+      onerror="this.style.display='none'"
+    >
+
+    <h1>OUMJYOTI</h1>
+
+    <h2>भक्ति • सेवा • मानवता</h2>
+
+    <p>
+      भक्ति के साथ सेवा और मानवता की भावना को आगे बढ़ाने का एक छोटा सा प्रयास।
+      जरूरतमंद लोगों, पशुओं और समाज के लिए सहयोग एवं सेवा।
+    </p>
+
+    <div class="btn-row">
+      <button
+        class="btn btn-primary"
+        onclick="scrollToSection('seva')"
+      >
+        हमारी सेवाएँ
+      </button>
+
+      <button
+        class="btn btn-secondary"
+        onclick="openLogin()"
+      >
+        Member Login
+      </button>
     </div>
-  </section>
 
-  <!-- MISSION -->
-  <section class="section" id="mission">
+  </div>
+</section>
+
+<!-- =========================
+     MISSION
+========================= -->
+
+<section id="mission">
+
+  <div class="container">
+
     <div class="section-title">
       <h2>हमारा मिशन</h2>
-      <p>सेवा ही सबसे सुंदर साधना है</p>
+      <p>सेवा, सहयोग और मानवता</p>
     </div>
 
     <div class="grid">
 
-      <div class="card">
-        <div class="icon">🐄</div>
-        <h3>गौ सेवा</h3>
-        <p>गौ सेवा और जरूरतमंद जीवों की सहायता के लिए समर्पित प्रयास।</p>
+      <div class="card mission-card">
+        <div class="icon">🙏</div>
+        <h3>सेवा</h3>
+        <p>
+          जरूरतमंद लोगों और जीवों की सहायता के लिए सेवा कार्य।
+        </p>
       </div>
 
-      <div class="card">
-        <div class="icon">🍚</div>
-        <h3>अन्न दान</h3>
-        <p>जरूरतमंद लोगों तक भोजन और आवश्यक सहायता पहुँचाना।</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">📚</div>
-        <h3>शिक्षा</h3>
-        <p>शिक्षा और ज्ञान के माध्यम से समाज में सकारात्मक बदलाव लाना।</p>
-      </div>
-
-      <div class="card">
+      <div class="card mission-card">
         <div class="icon">❤️</div>
-        <h3>बुजुर्ग सेवा</h3>
-        <p>वरिष्ठ नागरिकों के सम्मान, सहयोग और सहायता के लिए प्रयास।</p>
+        <h3>मानवता</h3>
+        <p>
+          समाज में सहयोग, सम्मान और मानवता की भावना को बढ़ावा देना।
+        </p>
       </div>
 
-      <div class="card">
-        <div class="icon">🏥</div>
-        <h3>स्वास्थ्य सहायता</h3>
-        <p>जरूरतमंद लोगों को स्वास्थ्य संबंधी सहायता उपलब्ध कराने का प्रयास।</p>
-      </div>
-
-      <div class="card">
-        <div class="icon">🤝</div>
-        <h3>मानव सेवा</h3>
-        <p>आपदा, कठिन परिस्थिति और जरूरत के समय मानवता के साथ खड़े रहना।</p>
+      <div class="card mission-card">
+        <div class="icon">🕉️</div>
+        <h3>भक्ति</h3>
+        <p>
+          आध्यात्मिकता और सकारात्मक विचारों के माध्यम से समाज को जोड़ना।
+        </p>
       </div>
 
     </div>
-  </section>
-
-  <!-- SEVA -->
-  <section class="section" id="seva">
-    <div class="section-title">
-      <h2>हमारी सेवाएँ</h2>
-      <p>OUMJYOTI द्वारा संचालित सेवा गतिविधियाँ</p>
-    </div>
-
-    <div id="publicSevaList" class="grid">
-      <div class="empty">सेवा जानकारी लोड हो रही है...</div>
-    </div>
-  </section>
-
-  <!-- VIDEO -->
-  <section class="section" id="video">
-    <div class="section-title">
-      <h2>OUMJYOTI Video</h2>
-      <p>भक्ति और आध्यात्मिक प्रस्तुति</p>
-    </div>
-
-    <div class="video-box">
-      <iframe
-        src="https://www.youtube.com/embed/NlFdApvxXss"
-        title="OUMJYOTI"
-        allowfullscreen>
-      </iframe>
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section class="section" id="about">
-    <div class="section-title">
-      <h2>OUMJYOTI के बारे में</h2>
-    </div>
-
-    <div class="about-box">
-      <p>
-        OUMJYOTI भक्ति, सेवा और मानवता को एक साथ जोड़ने का
-        एक डिजिटल प्रयास है।
-      </p>
-
-      <p>
-        हमारा उद्देश्य आध्यात्मिक विचारों के साथ-साथ समाज
-        में सेवा और सहयोग की भावना को बढ़ावा देना है।
-      </p>
-    </div>
-  </section>
-
-</main>
-
-<!-- DASHBOARD -->
-<section id="dashboardView">
-
-  <div class="dashboard">
-
-    <div class="dashboard-head">
-      <div>
-        <h2 id="dashboardTitle">Dashboard</h2>
-        <p id="dashboardSubtitle">OUMJYOTI Member Area</p>
-      </div>
-
-      <div class="actions">
-        <button class="btn btn-outline btn-small" onclick="showHome()">
-          Main Website
-        </button>
-
-        <button class="btn btn-small" onclick="openMyProfile()">
-          My Profile
-        </button>
-
-        <button class="btn btn-danger btn-small" onclick="logout()">
-          Logout
-        </button>
-      </div>
-    </div>
-
-    <div class="dashboard-tabs" id="dashboardTabs">
-
-      <button
-        class="tab-btn active"
-        id="tab-overview"
-        onclick="openDashboardTab('overview')">
-        Overview
-      </button>
-
-      <button
-        class="tab-btn"
-        id="tab-members"
-        onclick="openDashboardTab('members')">
-        Members / Staff
-      </button>
-
-      <button
-        class="tab-btn"
-        id="tab-feedback"
-        onclick="openDashboardTab('feedback')">
-        Feedback
-      </button>
-
-      <button
-        class="tab-btn"
-        id="tab-staff"
-        onclick="openDashboardTab('staff')">
-        Add Staff
-      </button>
-
-      <button
-        class="tab-btn"
-        id="tab-seva"
-        onclick="openDashboardTab('seva')">
-        Seva Management
-      </button>
-
-    </div>
-
-    <div id="dashboardContent"></div>
 
   </div>
 
 </section>
 
+<!-- =========================
+     SEVA
+========================= -->
+
+<section id="seva">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>हमारी सेवाएँ</h2>
+      <p>
+        OUMJYOTI द्वारा किए जाने वाले सेवा कार्य
+      </p>
+    </div>
+
+    <div
+      id="sevaGrid"
+      class="grid"
+    ></div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     ABOUT
+========================= -->
+
+<section id="about">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>OUMJYOTI के बारे में</h2>
+      <p>भक्ति • सेवा • मानवता</p>
+    </div>
+
+    <div class="card about-box">
+
+      <p>
+        OUMJYOTI एक ऐसा मंच है जिसका उद्देश्य भक्ति,
+        सेवा और मानवता से जुड़े सकारात्मक कार्यों को
+        लोगों तक पहुँचाना है।
+      </p>
+
+      <p>
+        गौ सेवा, अन्न दान, शिक्षा, बुजुर्ग सेवा,
+        स्वास्थ्य सहायता, पशु सेवा, पर्यावरण संरक्षण
+        और जरूरतमंद लोगों की सहायता जैसे कार्यों को
+        प्रोत्साहित करना हमारा उद्देश्य है।
+      </p>
+
+      <p>
+        हमारा प्रयास है कि छोटे-छोटे सहयोग से समाज में
+        सकारात्मक बदलाव की भावना विकसित हो।
+      </p>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     FEEDBACK PUBLIC
+========================= -->
+
+<section id="feedback">
+
+  <div class="container">
+
+    <div class="section-title">
+      <h2>Feedback / संपर्क</h2>
+      <p>अपने सुझाव या संदेश हमें भेजें</p>
+    </div>
+
+    <div class="card auth-box">
+
+      <form
+        id="feedbackForm"
+        onsubmit="submitFeedback(event)"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              id="feedbackEmail"
+              type="email"
+              placeholder="आपका Email"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Mobile</label>
+            <input
+              id="feedbackMobile"
+              type="tel"
+              maxlength="10"
+              placeholder="10 digit mobile"
+              required
+            >
+          </div>
+
+          <div class="form-group full">
+            <label>Message</label>
+            <textarea
+              id="feedbackMessage"
+              placeholder="अपना संदेश लिखें..."
+              required
+            ></textarea>
+          </div>
+
+        </div>
+
+        <br>
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          संदेश भेजें
+        </button>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<!-- =========================
+     INTERFACE AREA
+========================= -->
+
+<section
+  id="interfaceArea"
+  class="hidden"
+>
+
+  <div class="container">
+
+    <div id="interfaceContent"></div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
-  <img
-    src="/oumjyoti-logo.png"
-    class="footer-logo"
-    alt="OUMJYOTI">
+  <div class="container">
 
-  <p>ॐ सर्वे भवन्तु सुखिनः</p>
+    <strong>OUMJYOTI</strong>
 
-  <p style="margin-top:8px">
-    © 2026 OUMJYOTI — भक्ति • सेवा • मानवता
-  </p>
+    <br>
+
+    भक्ति • सेवा • मानवता
+
+    <br><br>
+
+    © 2026 OUMJYOTI. All Rights Reserved.
+
+  </div>
 
 </footer>
 
+<!-- =========================
+     NOTICE
+========================= -->
 
-<!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
-  <div class="modal-box">
+<div
+  id="notice"
+  class="notice hidden"
+></div>
 
-    <div class="modal-head">
-      <h3>OUMJYOTI Login</h3>
-      <button class="close" onclick="closeModal('loginModal')">×</button>
-    </div>
+<!-- =========================
+     MODAL
+========================= -->
 
-    <div id="loginNotice" class="notice"></div>
-
-    <form onsubmit="login(event)">
-
-      <div class="form-group">
-        <label>Mobile या Email</label>
-        <input
-          id="loginIdentifier"
-          required
-          autocomplete="username"
-          placeholder="Mobile number या Email">
-      </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          id="loginPassword"
-          type="password"
-          required
-          autocomplete="current-password"
-          placeholder="Password">
-      </div>
-
-      <div class="form-actions">
-        <button class="btn" type="submit">Login</button>
-        <button
-          class="btn btn-outline"
-          type="button"
-          onclick="switchToRegister()">
-          New Registration
-        </button>
-      </div>
-
-    </form>
-
-  </div>
+<div
+  id="modal"
+  class="modal hidden"
+  onclick="closeModal(event)"
+>
+  <div
+    id="modalBox"
+    class="card modal-box"
+    onclick="event.stopPropagation()"
+  ></div>
 </div>
-
-
-<!-- REGISTER MODAL -->
-<div class="modal" id="registerModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>OUMJYOTI Registration</h3>
-      <button class="close" onclick="closeModal('registerModal')">×</button>
-    </div>
-
-    <div id="registerNotice" class="notice"></div>
-
-    <form onsubmit="registerUser(event)">
-
-      <div class="form-group">
-        <label>पूरा नाम</label>
-        <input id="regName" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>स्थान</label>
-        <input id="regPlace" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input id="regEmail" type="email" required maxlength="150">
-      </div>
-
-      <div class="form-group">
-        <label>Mobile</label>
-        <input
-          id="regMobile"
-          inputmode="numeric"
-          maxlength="10"
-          required
-          placeholder="10 digit mobile">
-      </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          id="regPassword"
-          type="password"
-          minlength="8"
-          maxlength="128"
-          required
-          placeholder="कम से कम 8 characters">
-      </div>
-
-      <div class="form-actions">
-        <button class="btn" type="submit">Register</button>
-        <button
-          class="btn btn-outline"
-          type="button"
-          onclick="switchToLogin()">
-          Already registered?
-        </button>
-      </div>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- FEEDBACK MODAL -->
-<div class="modal" id="feedbackModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>Feedback</h3>
-      <button class="close" onclick="closeModal('feedbackModal')">×</button>
-    </div>
-
-    <div id="feedbackNotice" class="notice"></div>
-
-    <form onsubmit="submitFeedback(event)">
-
-      <div class="form-group">
-        <label>Mobile</label>
-        <input
-          id="feedbackMobile"
-          inputmode="numeric"
-          maxlength="10"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input
-          id="feedbackEmail"
-          type="email"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label>आपका Feedback</label>
-        <textarea
-          id="feedbackMessage"
-          maxlength="2000"
-          required
-          placeholder="अपना संदेश लिखें..."></textarea>
-      </div>
-
-      <button class="btn" type="submit">
-        Submit Feedback
-      </button>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- PROFILE MODAL -->
-<div class="modal" id="profileModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3 id="profileModalTitle">Profile</h3>
-      <button class="close" onclick="closeModal('profileModal')">×</button>
-    </div>
-
-    <div id="profileNotice" class="notice"></div>
-
-    <form onsubmit="saveMyProfile(event)">
-
-      <div class="form-group">
-        <label>Name</label>
-        <input id="profileName" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Place</label>
-        <input id="profilePlace" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input id="profileEmail" type="email" required maxlength="150">
-      </div>
-
-      <div class="form-group">
-        <label>Mobile</label>
-        <input id="profileMobile" disabled>
-      </div>
-
-      <div class="form-actions">
-        <button class="btn" type="submit">
-          Save Profile
-        </button>
-
-        <button
-          class="btn btn-outline"
-          type="button"
-          onclick="openPasswordChange()">
-          Change Password
-        </button>
-      </div>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- PASSWORD MODAL -->
-<div class="modal" id="passwordModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>Change Password</h3>
-      <button class="close" onclick="closeModal('passwordModal')">×</button>
-    </div>
-
-    <div id="passwordNotice" class="notice"></div>
-
-    <form onsubmit="changeMyPassword(event)">
-
-      <div class="form-group">
-        <label>Current Password</label>
-        <input
-          id="currentPassword"
-          type="password"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label>New Password</label>
-        <input
-          id="newPassword"
-          type="password"
-          minlength="8"
-          maxlength="128"
-          required>
-      </div>
-
-      <button class="btn" type="submit">
-        Change Password
-      </button>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- MEMBER EDIT MODAL -->
-<div class="modal" id="memberEditModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>Edit Member / Staff</h3>
-      <button class="close" onclick="closeModal('memberEditModal')">×</button>
-    </div>
-
-    <div id="memberEditNotice" class="notice"></div>
-
-    <form onsubmit="saveMember(event)">
-
-      <input type="hidden" id="editMemberId">
-
-      <div class="form-group">
-        <label>Name</label>
-        <input id="editMemberName" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Place</label>
-        <input id="editMemberPlace" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input id="editMemberEmail" type="email" required maxlength="150">
-      </div>
-
-      <div class="form-group">
-        <label>Mobile</label>
-        <input
-          id="editMemberMobile"
-          inputmode="numeric"
-          maxlength="10"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label>Staff Role</label>
-        <input id="editMemberStaffRole" maxlength="100">
-      </div>
-
-      <button class="btn" type="submit">
-        Save Changes
-      </button>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- MEMBER PASSWORD RESET -->
-<div class="modal" id="memberPasswordModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>Reset Member Password</h3>
-      <button class="close" onclick="closeModal('memberPasswordModal')">×</button>
-    </div>
-
-    <div id="memberPasswordNotice" class="notice"></div>
-
-    <form onsubmit="resetMemberPassword(event)">
-
-      <input type="hidden" id="resetMemberId">
-
-      <div class="form-group">
-        <label>New Password</label>
-        <input
-          id="resetMemberPasswordValue"
-          type="password"
-          minlength="8"
-          maxlength="128"
-          required>
-      </div>
-
-      <button class="btn" type="submit">
-        Reset Password
-      </button>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- STAFF MODAL -->
-<div class="modal" id="staffModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>Add Staff</h3>
-      <button class="close" onclick="closeModal('staffModal')">×</button>
-    </div>
-
-    <div id="staffNotice" class="notice"></div>
-
-    <form onsubmit="addStaff(event)">
-
-      <div class="form-group">
-        <label>Name</label>
-        <input id="staffName" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Place</label>
-        <input id="staffPlace" required maxlength="100">
-      </div>
-
-      <div class="form-group">
-        <label>Email</label>
-        <input id="staffEmail" type="email" required maxlength="150">
-      </div>
-
-      <div class="form-group">
-        <label>Mobile</label>
-        <input
-          id="staffMobile"
-          inputmode="numeric"
-          maxlength="10"
-          required>
-      </div>
-
-      <div class="form-group">
-        <label>Staff Role</label>
-        <input id="staffRole" maxlength="100" placeholder="जैसे Volunteer">
-      </div>
-
-      <div class="form-group">
-        <label>Password</label>
-        <input
-          id="staffPassword"
-          type="password"
-          minlength="8"
-          maxlength="128"
-          required>
-      </div>
-
-      <button class="btn" type="submit">
-        Create Staff
-      </button>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- SEVA MODAL -->
-<div class="modal" id="sevaModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3 id="sevaModalTitle">Add Seva</h3>
-      <button class="close" onclick="closeModal('sevaModal')">×</button>
-    </div>
-
-    <div id="sevaNotice" class="notice"></div>
-
-    <form onsubmit="saveSeva(event)">
-
-      <input type="hidden" id="sevaId">
-
-      <div class="form-group">
-        <label>Seva Title</label>
-        <input id="sevaTitle" required maxlength="150">
-      </div>
-
-      <div class="form-group">
-        <label>Description</label>
-        <textarea id="sevaDescription" maxlength="2000"></textarea>
-      </div>
-
-      <div class="form-group">
-        <label>Icon</label>
-        <input id="sevaIcon" maxlength="20" value="🕉️">
-      </div>
-
-      <div class="form-group">
-        <label>Image URL</label>
-        <input
-          id="sevaImageUrl"
-          maxlength="1000"
-          placeholder="https://...">
-      </div>
-
-      <div id="sevaPreview"></div>
-
-      <div class="form-group">
-        <label>Sort Order</label>
-        <input
-          id="sevaSortOrder"
-          type="number"
-          value="0">
-      </div>
-
-      <div class="form-group">
-        <label>Status</label>
-        <select id="sevaActive">
-          <option value="1">Active</option>
-          <option value="0">Inactive</option>
-        </select>
-      </div>
-
-      <button class="btn" type="submit">
-        Save Seva
-      </button>
-
-    </form>
-
-  </div>
-</div>
-
-
-<!-- FEEDBACK DETAIL -->
-<div class="modal" id="feedbackDetailModal">
-  <div class="modal-box">
-
-    <div class="modal-head">
-      <h3>Feedback Details</h3>
-      <button class="close" onclick="closeModal('feedbackDetailModal')">×</button>
-    </div>
-
-    <div id="feedbackDetail"></div>
-
-  </div>
-</div>
-
 
 <script>
-"use strict";
 
-/* =========================
-   GLOBAL STATE
-========================= */
+/* =====================================================
+   GLOBAL
+===================================================== */
+
+const API = "";
 
 let currentUser = null;
-let membersCache = [];
-let feedbackCache = [];
-let sevaCache = [];
-let currentDashboardTab = "overview";
+let currentRole = null;
 
+let adminSevaCache = [];
 
-/* =========================
-   BASIC HELPERS
-========================= */
+/* =====================================================
+   HELPERS
+===================================================== */
 
-const $ = id => document.getElementById(id);
+function escapeHTML(value){
 
-function esc(value){
   return String(value ?? "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
@@ -1426,1080 +1205,1233 @@ function esc(value){
     .replace(/'/g,"&#039;");
 }
 
-function jsArg(value){
-  return String(value ?? "")
-    .replace(/\\/g,"\\\\")
-    .replace(/'/g,"\\'")
-    .replace(/\r/g,"\\r")
-    .replace(/\n/g,"\\n");
-}
+function showNotice(
+  message,
+  type = "info"
+){
 
-function closeModal(id){
-  $(id).style.display = "none";
-}
+  const el =
+    document.getElementById("notice");
 
-function openModal(id){
-  $(id).style.display = "block";
-}
-
-function notice(id,message,type="error"){
-  const el = $(id);
-
-  if(!el) return;
-
-  el.className = "notice " + type;
   el.textContent = message;
+
+  el.className =
+    "notice " + type;
+
+  clearTimeout(
+    window.noticeTimer
+  );
+
+  window.noticeTimer =
+    setTimeout(()=>{
+      el.className =
+        "notice hidden";
+    },3500);
 }
 
-function clearNotice(id){
-  const el = $(id);
+async function api(
+  path,
+  options = {}
+){
 
-  if(el){
-    el.className = "notice";
-    el.textContent = "";
-  }
-}
+  const response =
+    await fetch(
+      API + path,
+      {
+        credentials:"include",
+        ...options,
+        headers:{
+          "Content-Type":"application/json",
+          ...(options.headers || {})
+        }
+      }
+    );
 
-function validMobile(v){
-  return /^[6-9]\d{9}$/.test(String(v).trim());
-}
-
-function validEmail(v){
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(v).trim());
-}
-
-function dateText(v){
-  if(!v) return "";
-
-  try{
-    return new Date(v).toLocaleString("en-IN",{
-      dateStyle:"medium",
-      timeStyle:"short"
-    });
-  }catch{
-    return v;
-  }
-}
-
-
-/* =========================
-   API
-========================= */
-
-async function api(path,options={}){
-  const opts = {
-    credentials:"same-origin",
-    ...options,
-    headers:{
-      "content-type":"application/json",
-      ...(options.headers || {})
-    }
-  };
-
-  const response = await fetch(path,opts);
-
-  const text = await response.text();
-
-  let data = {};
-
-  try{
-    data = text ? JSON.parse(text) : {};
-  }catch{
-    data = {
-      error:text || "Invalid server response"
-    };
-  }
+  const data =
+    await response
+      .json()
+      .catch(()=>({}));
 
   if(!response.ok){
+
     throw new Error(
       data.error ||
-      data.message ||
-      `Request failed (${response.status})`
+      "Request failed"
     );
   }
 
   return data;
 }
 
+function scrollToSection(id){
 
-/* =========================
-   SITE NAVIGATION
-========================= */
+  document
+    .getElementById(id)
+    ?.scrollIntoView({
+      behavior:"smooth"
+    });
+}
 
 function showHome(){
-  $("siteView").style.display = "block";
-  $("dashboardView").style.display = "none";
 
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+  document
+    .getElementById("interfaceArea")
+    .classList.add("hidden");
+
+  document
+    .getElementById("home")
+    .scrollIntoView({
+      behavior:"smooth"
+    });
 }
 
-function goTo(id){
-  showHome();
+/* =====================================================
+   MODAL
+===================================================== */
 
-  setTimeout(()=>{
-    const el = $(id);
+function closeModal(event){
 
-    if(el){
-      el.scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-      });
-    }
-  },50);
-}
+  if(
+    !event ||
+    event.target.id === "modal"
+  ){
 
+    document
+      .getElementById("modal")
+      .classList.add("hidden");
 
-/* =========================
-   LOGIN
-========================= */
-
-function openLogin(){
-  clearNotice("loginNotice");
-  openModal("loginModal");
-}
-
-async function login(event){
-  event.preventDefault();
-
-  clearNotice("loginNotice");
-
-  const identifier = $("loginIdentifier").value.trim();
-  const password = $("loginPassword").value;
-
-  if(!identifier || password.length < 8){
-    notice(
-      "loginNotice",
-      "Mobile/Email और कम से कम 8 characters का password डालें।"
-    );
-    return;
   }
+}
+
+function openModal(html){
+
+  document
+    .getElementById("modalBox")
+    .innerHTML = html;
+
+  document
+    .getElementById("modal")
+    .classList.remove("hidden");
+}
+
+function closeModalDirect(){
+
+  document
+    .getElementById("modal")
+    .classList.add("hidden");
+}
+
+/* =====================================================
+   SEVA - PUBLIC
+===================================================== */
+
+async function loadSeva(){
+
+  const grid =
+    document.getElementById("sevaGrid");
+
+  if(!grid) return;
+
+  grid.innerHTML = `
+    <div class="card seva-empty">
+      🙏 सेवाओं को लोड किया जा रहा है...
+    </div>
+  `;
 
   try{
 
-    const data = await api("/api/login",{
-      method:"POST",
-      body:JSON.stringify({
-        identifier,
-        password
-      })
-    });
+    const data =
+      await api("/api/seva");
 
-    currentUser = data.user;
+    const seva =
+      data.seva || [];
 
-    closeModal("loginModal");
+    if(!seva.length){
 
-    $("loginPassword").value = "";
+      grid.innerHTML = `
+        <div class="card seva-empty">
+          🙏 अभी कोई सेवा उपलब्ध नहीं है।
+        </div>
+      `;
 
-    showDashboard();
+      return;
+    }
+
+    grid.innerHTML =
+      seva.map(item => {
+
+        const image =
+          item.image_url ||
+          "";
+
+        const icon =
+          item.icon ||
+          "🙏";
+
+        return `
+          <article class="card seva-card">
+
+            <div class="seva-image-wrap">
+
+              ${
+                image
+                ?
+                `
+                <img
+                  class="seva-image"
+                  src="${escapeHTML(image)}"
+                  alt="${escapeHTML(item.title)}"
+                  loading="lazy"
+                  onerror="this.style.display='none';this.parentElement.innerHTML='<div style=&quot;display:flex;align-items:center;justify-content:center;height:100%;font-size:4rem;&quot;>${escapeHTML(icon)}</div>';"
+                >
+                `
+                :
+                `
+                <div
+                  style="
+                    height:100%;
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:4rem;
+                  "
+                >
+                  ${escapeHTML(icon)}
+                </div>
+                `
+              }
+
+            </div>
+
+            <div class="seva-body">
+
+              <div class="seva-icon">
+                ${escapeHTML(icon)}
+              </div>
+
+              <h3>
+                ${escapeHTML(item.title)}
+              </h3>
+
+              <p>
+                ${escapeHTML(item.description || "")}
+              </p>
+
+            </div>
+
+          </article>
+        `;
+
+      }).join("");
 
   }catch(error){
 
-    notice(
-      "loginNotice",
-      error.message || "Login failed"
-    );
+    console.error(error);
 
+    grid.innerHTML = `
+      <div class="card seva-empty">
+        सेवा जानकारी अभी उपलब्ध नहीं है।
+      </div>
+    `;
   }
 }
 
+/* =====================================================
+   AUTH - LOGIN
+===================================================== */
 
-/* =========================
+function openLogin(){
+
+  openModal(`
+
+    <div class="auth-box" style="padding:0">
+
+      <button
+        class="modal-close"
+        onclick="closeModalDirect()"
+      >
+        ×
+      </button>
+
+      <h2 style="color:var(--gold)">
+        🔐 OUMJYOTI Login
+      </h2>
+
+      <p style="color:var(--muted)">
+        Mobile number और password से Login करें।
+      </p>
+
+      <form
+        onsubmit="loginUser(event)"
+      >
+
+        <div class="form-group">
+          <label>Mobile Number</label>
+
+          <input
+            id="loginMobile"
+            type="tel"
+            maxlength="10"
+            inputmode="numeric"
+            placeholder="10 digit mobile"
+            required
+          >
+        </div>
+
+        <br>
+
+        <div class="form-group">
+          <label>Password</label>
+
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="Password"
+            required
+          >
+        </div>
+
+        <br>
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Login
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="openRegister()"
+        >
+          New Registration
+        </button>
+
+      </form>
+
+    </div>
+
+  `);
+}
+
+async function loginUser(event){
+
+  event.preventDefault();
+
+  const mobile =
+    document
+      .getElementById("loginMobile")
+      .value.trim();
+
+  const password =
+    document
+      .getElementById("loginPassword")
+      .value;
+
+  try{
+
+    const data =
+      await api(
+        "/api/login",
+        {
+          method:"POST",
+          body:JSON.stringify({
+            mobile,
+            password
+          })
+        }
+      );
+
+    currentUser =
+      data.user;
+
+    currentRole =
+      data.user.role;
+
+    closeModalDirect();
+
+    updateHeader();
+
+    showNotice(
+      "Login successful",
+      "success"
+    );
+
+    renderDashboard();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
    REGISTER
-========================= */
+===================================================== */
 
 function openRegister(){
-  clearNotice("registerNotice");
-  openModal("registerModal");
-}
 
-function switchToRegister(){
-  closeModal("loginModal");
-  openRegister();
-}
+  openModal(`
 
-function switchToLogin(){
-  closeModal("registerModal");
-  openLogin();
+    <div>
+
+      <button
+        class="modal-close"
+        onclick="closeModalDirect()"
+      >
+        ×
+      </button>
+
+      <h2 style="color:var(--gold)">
+        📝 Member Registration
+      </h2>
+
+      <form
+        onsubmit="registerUser(event)"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group">
+            <label>Name</label>
+            <input
+              id="regName"
+              required
+              maxlength="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Place</label>
+            <input
+              id="regPlace"
+              required
+              maxlength="100"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input
+              id="regEmail"
+              type="email"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Mobile</label>
+            <input
+              id="regMobile"
+              type="tel"
+              maxlength="10"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label>PAN (Optional)</label>
+            <input
+              id="regPan"
+              maxlength="10"
+              style="text-transform:uppercase"
+            >
+          </div>
+
+          <div class="form-group">
+            <label>Aadhaar (Optional)</label>
+            <input
+              id="regAadhaar"
+              type="tel"
+              maxlength="12"
+            >
+          </div>
+
+          <div class="form-group full">
+            <label>Password</label>
+            <input
+              id="regPassword"
+              type="password"
+              minlength="8"
+              required
+            >
+          </div>
+
+        </div>
+
+        <br>
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Register
+        </button>
+
+      </form>
+
+    </div>
+
+  `);
 }
 
 async function registerUser(event){
+
   event.preventDefault();
 
-  clearNotice("registerNotice");
+  const body = {
 
-  const name = $("regName").value.trim();
-  const place = $("regPlace").value.trim();
-  const email = $("regEmail").value.trim().toLowerCase();
-  const mobile = $("regMobile").value.trim();
-  const password = $("regPassword").value;
+    name:
+      document.getElementById("regName").value.trim(),
 
-  if(!name || !place || !validEmail(email) || !validMobile(mobile)){
-    notice(
-      "registerNotice",
-      "कृपया सभी details सही तरीके से भरें।"
-    );
-    return;
-  }
+    place:
+      document.getElementById("regPlace").value.trim(),
 
-  if(password.length < 8){
-    notice(
-      "registerNotice",
-      "Password कम से कम 8 characters का होना चाहिए।"
-    );
-    return;
-  }
+    email:
+      document.getElementById("regEmail").value.trim(),
+
+    mobile:
+      document.getElementById("regMobile").value.trim(),
+
+    pan:
+      document.getElementById("regPan").value.trim(),
+
+    aadhaar:
+      document.getElementById("regAadhaar").value.trim(),
+
+    password:
+      document.getElementById("regPassword").value
+
+  };
 
   try{
 
-    const data = await api("/api/register",{
-      method:"POST",
-      body:JSON.stringify({
-        name,
-        place,
-        email,
-        mobile,
-        password
-      })
-    });
+    await api(
+      "/api/register",
+      {
+        method:"POST",
+        body:JSON.stringify(body)
+      }
+    );
 
-    notice(
-      "registerNotice",
-      data.message || "Registration successful",
+    closeModalDirect();
+
+    showNotice(
+      "Registration successful. अब Login करें।",
       "success"
     );
 
-    setTimeout(()=>{
-      closeModal("registerModal");
-      openLogin();
-
-      $("loginIdentifier").value = mobile;
-
-    },900);
+    setTimeout(
+      openLogin,
+      500
+    );
 
   }catch(error){
 
-    notice(
-      "registerNotice",
-      error.message || "Registration failed"
+    showNotice(
+      error.message,
+      "error"
     );
-
   }
 }
 
+/* =====================================================
+   HEADER
+===================================================== */
 
-/* =========================
-   LOGOUT
-========================= */
+function updateHeader(){
 
-async function logout(){
+  const badge =
+    document.getElementById("userBadge");
 
-  try{
-    await api("/api/logout",{
-      method:"POST",
-      body:"{}"
-    });
-  }catch{}
-
-  currentUser = null;
-
-  showHome();
-}
-
-
-/* =========================
-   ME
-========================= */
-
-async function loadMe(){
-
-  try{
-
-    const data = await api("/api/me");
-
-    if(data.authenticated){
-      currentUser = data.user;
-    }else{
-      currentUser = null;
-    }
-
-  }catch{
-    currentUser = null;
-  }
-
-  updateNav();
-}
-
-function updateNav(){
-
-  const nav = $("siteNav");
-
-  if(!nav) return;
+  const loginBtn =
+    document.getElementById("loginNavBtn");
 
   if(currentUser){
 
-    nav.innerHTML = `
-      <button onclick="showHome()">Home</button>
-      <button onclick="goTo('mission')">Mission</button>
-      <button onclick="goTo('seva')">Seva</button>
-      <button onclick="goTo('video')">Video</button>
-      <button onclick="goTo('about')">About</button>
-      <button onclick="openFeedback()">Feedback</button>
-      <button class="btn btn-small" onclick="showDashboard()">
-        Dashboard
-      </button>
-    `;
+    badge.classList.remove("hidden");
+
+    badge.textContent =
+      `${currentUser.name} • ${currentUser.role}`;
+
+    loginBtn.textContent =
+      "Dashboard";
+
+    loginBtn.onclick =
+      renderDashboard;
 
   }else{
 
-    nav.innerHTML = `
-      <button onclick="showHome()">Home</button>
-      <button onclick="goTo('mission')">Mission</button>
-      <button onclick="goTo('seva')">Seva</button>
-      <button onclick="goTo('video')">Video</button>
-      <button onclick="goTo('about')">About</button>
-      <button onclick="openFeedback()">Feedback</button>
-      <button class="btn btn-small" onclick="openLogin()">Login</button>
-    `;
+    badge.classList.add("hidden");
+
+    loginBtn.textContent =
+      "Login";
+
+    loginBtn.onclick =
+      openLogin;
   }
 }
 
+/* =====================================================
+   LOGOUT
+===================================================== */
 
-/* =========================
+async function logoutUser(){
+
+  try{
+
+    await api(
+      "/api/logout",
+      {
+        method:"POST"
+      }
+    );
+
+  }catch(error){
+
+    console.error(error);
+
+  }finally{
+
+    currentUser = null;
+    currentRole = null;
+
+    updateHeader();
+
+    document
+      .getElementById("interfaceArea")
+      .classList.add("hidden");
+
+    showNotice(
+      "Logout successful",
+      "success"
+    );
+
+    showHome();
+  }
+}
+
+/* =====================================================
+   AUTH CHECK
+===================================================== */
+
+async function checkAuth(){
+
+  try{
+
+    const data =
+      await api("/api/me");
+
+    if(
+      data.authenticated &&
+      data.user
+    ){
+
+      currentUser =
+        data.user;
+
+      currentRole =
+        data.user.role;
+
+      updateHeader();
+
+    }else{
+
+      currentUser = null;
+      currentRole = null;
+
+      updateHeader();
+    }
+
+  }catch(error){
+
+    currentUser = null;
+    currentRole = null;
+
+    updateHeader();
+  }
+}
+
+/* =====================================================
    DASHBOARD
-========================= */
+===================================================== */
 
-function showDashboard(){
+function renderDashboard(){
 
   if(!currentUser){
+
     openLogin();
+
     return;
   }
 
-  $("siteView").style.display = "none";
-  $("dashboardView").style.display = "block";
+  const area =
+    document.getElementById("interfaceArea");
 
-  $("dashboardTitle").textContent =
-    currentUser.role === "admin"
-      ? "👑 Admin Dashboard"
-      : currentUser.role === "staff"
-      ? "🛡 Staff Dashboard"
-      : "🙏 Member Dashboard";
+  area.classList.remove("hidden");
 
-  $("dashboardSubtitle").textContent =
-    `${currentUser.name || ""} • ${currentUser.place || ""}`;
+  if(currentRole === "admin"){
 
-  configureTabs();
+    renderAdminDashboard();
 
-  openDashboardTab("overview");
+  }else if(currentRole === "staff"){
 
-  window.scrollTo({
-    top:0,
+    renderStaffDashboard();
+
+  }else{
+
+    renderMemberDashboard();
+  }
+
+  area.scrollIntoView({
     behavior:"smooth"
   });
 }
 
-function configureTabs(){
+/* =====================================================
+   DASHBOARD LAYOUT
+===================================================== */
 
-  const members = $("tab-members");
-  const feedback = $("tab-feedback");
-  const staff = $("tab-staff");
-  const seva = $("tab-seva");
+function dashboardLayout(
+  title,
+  menu,
+  content
+){
 
-  const isAdmin = currentUser?.role === "admin";
-  const isStaff = currentUser?.role === "staff";
+  return `
 
-  members.style.display = (isAdmin || isStaff) ? "inline-block" : "none";
-  feedback.style.display = (isAdmin || isStaff) ? "inline-block" : "none";
-  staff.style.display = isAdmin ? "inline-block" : "none";
-  seva.style.display = isAdmin ? "inline-block" : "none";
+    <div class="dashboard">
+
+      <aside class="card sidebar">
+
+        <div class="sidebar-title">
+          ${escapeHTML(title)}
+        </div>
+
+        ${menu}
+
+      </aside>
+
+      <div class="dashboard-main">
+
+        ${content}
+
+      </div>
+
+    </div>
+  `;
 }
 
-function openDashboardTab(tab){
+/* =====================================================
+   ADMIN DASHBOARD
+===================================================== */
 
-  currentDashboardTab = tab;
+function renderAdminDashboard(){
 
-  document.querySelectorAll(".tab-btn").forEach(btn=>{
-    btn.classList.remove("active");
-  });
+  const menu = `
 
-  const active = $("tab-" + tab);
+    <button
+      class="side-btn active"
+      onclick="adminHome()"
+    >
+      🏠 Dashboard
+    </button>
 
-  if(active){
-    active.classList.add("active");
-  }
+    <button
+      class="side-btn"
+      onclick="adminProfile()"
+    >
+      👤 Admin Profile
+    </button>
 
-  if(tab === "overview"){
-    if(currentUser.role === "admin" || currentUser.role === "staff"){
-      adminOverview();
-    }else{
-      memberOverview();
-    }
-  }
+    <button
+      class="side-btn"
+      onclick="adminPassword()"
+    >
+      🔐 Password Change
+    </button>
 
-  if(tab === "members"){
-    loadMembers();
-  }
+    <button
+      class="side-btn"
+      onclick="adminMembers()"
+    >
+      👥 Members
+    </button>
 
-  if(tab === "feedback"){
-    loadFeedback();
-  }
+    <button
+      class="side-btn"
+      onclick="adminAddMember()"
+    >
+      ➕ Add Member / Staff
+    </button>
 
-  if(tab === "staff"){
-    openStaff();
-  }
+    <button
+      class="side-btn"
+      onclick="adminSeva()"
+    >
+      🕉️ Seva Management
+    </button>
 
-  if(tab === "seva"){
-    loadAdminSeva();
-  }
-}
+    <button
+      class="side-btn"
+      onclick="adminFeedback()"
+    >
+      💬 Feedback
+    </button>
 
+    <button
+      class="side-btn"
+      onclick="loadSeva();showNotice('Website Seva refreshed','success')"
+    >
+      🔄 Refresh Seva
+    </button>
 
-/* =========================
-   MEMBER OVERVIEW
-========================= */
+    <button
+      class="side-btn"
+      onclick="showHome()"
+    >
+      🌐 Website Home
+    </button>
 
-function memberOverview(){
+    <button
+      class="side-btn"
+      onclick="logoutUser()"
+      style="color:#ff8e8a"
+    >
+      🚪 Logout
+    </button>
 
-  $("dashboardContent").innerHTML = `
+  `;
+
+  const content = `
 
     <div class="stats">
 
-      <div class="stat">
-        <strong>🙏</strong>
-        <span>OUMJYOTI Member</span>
+      <div class="card stat">
+        <strong id="adminMemberCount">—</strong>
+        <span>Total Members</span>
       </div>
 
-      <div class="stat">
-        <strong>✓</strong>
-        <span>Account Active</span>
+      <div class="card stat">
+        <strong id="adminStaffCount">—</strong>
+        <span>Total Staff</span>
+      </div>
+
+      <div class="card stat">
+        <strong id="adminFeedbackCount">—</strong>
+        <span>Feedback</span>
       </div>
 
     </div>
 
-    <div class="card">
+    <div class="card panel">
 
-      <h3>स्वागत है, ${esc(currentUser.name)}</h3>
+      <h2>
+        🙏 Welcome, ${escapeHTML(currentUser.name)}
+      </h2>
 
-      <p>
-        आप OUMJYOTI के member area में हैं।
-        यहाँ से आप अपना profile और password manage कर सकते हैं
-        तथा feedback भेज सकते हैं।
+      <p class="panel-subtitle">
+        OUMJYOTI Admin Dashboard
       </p>
 
-      <div class="actions">
-
-        <button class="btn"
-          onclick="openMyProfile()">
-          My Profile
-        </button>
-
-        <button class="btn btn-outline"
-          onclick="openFeedback()">
-          Feedback
-        </button>
-
-      </div>
+      <p style="color:var(--muted)">
+        यहाँ से आप Members, Staff, Feedback और
+        अब Seva Management को control कर सकते हैं।
+      </p>
 
     </div>
-  `;
-}
 
-
-/* =========================
-   ADMIN OVERVIEW
-========================= */
-
-async function adminOverview(){
-
-  $("dashboardContent").innerHTML =
-    `<div class="empty">Dashboard data लोड हो रहा है...</div>`;
-
-  try{
-
-    const data = await api("/api/admin/members");
-
-    membersCache = data.members || [];
-
-    const total = membersCache.length;
-
-    const active = membersCache.filter(
-      x => x.status === "active"
-    ).length;
-
-    const staff = membersCache.filter(
-      x => x.role === "staff"
-    ).length;
-
-    const memberCount = membersCache.filter(
-      x => x.role === "member"
-    ).length;
-
-    $("dashboardContent").innerHTML = `
-
-      <div class="stats">
-
-        <div class="stat">
-          <strong>${total}</strong>
-          <span>Total Users</span>
-        </div>
-
-        <div class="stat">
-          <strong>${memberCount}</strong>
-          <span>Members</span>
-        </div>
-
-        <div class="stat">
-          <strong>${staff}</strong>
-          <span>Staff</span>
-        </div>
-
-        <div class="stat">
-          <strong>${active}</strong>
-          <span>Active</span>
-        </div>
-
-      </div>
-
-      <div class="card">
-
-        <h3>Admin Control Center</h3>
-
-        <p>
-          यहाँ से Members, Staff, Feedback और Seva management
-          किया जा सकता है।
-        </p>
-
-        <div class="actions">
-
-          <button class="btn"
-            onclick="openDashboardTab('members')">
-            Members / Staff
-          </button>
-
-          <button class="btn btn-outline"
-            onclick="openDashboardTab('feedback')">
-            Feedback
-          </button>
-
-          <button class="btn btn-outline"
-            onclick="openDashboardTab('seva')">
-            Seva Management
-          </button>
-
-        </div>
-
-      </div>
-    `;
-
-  }catch(error){
-
-    $("dashboardContent").innerHTML =
-      `<div class="notice error">${esc(error.message)}</div>`;
-  }
-}
-
-
-/* =========================
-   MY PROFILE
-========================= */
-
-function openMyProfile(){
-
-  if(!currentUser) return;
-
-  $("profileModalTitle").textContent = "My Profile";
-
-  $("profileName").value = currentUser.name || "";
-  $("profilePlace").value = currentUser.place || "";
-  $("profileEmail").value = currentUser.email || "";
-  $("profileMobile").value = currentUser.mobile || "";
-
-  clearNotice("profileNotice");
-
-  openModal("profileModal");
-}
-
-async function saveMyProfile(event){
-
-  event.preventDefault();
-
-  clearNotice("profileNotice");
-
-  const name = $("profileName").value.trim();
-  const place = $("profilePlace").value.trim();
-  const email = $("profileEmail").value.trim().toLowerCase();
-
-  if(!name || !place || !validEmail(email)){
-    notice("profileNotice","Profile details सही भरें।");
-    return;
-  }
-
-  try{
-
-    await api("/api/me",{
-      method:"PUT",
-      body:JSON.stringify({
-        name,
-        place,
-        email
-      })
-    });
-
-    currentUser = {
-      ...currentUser,
-      name,
-      place,
-      email
-    };
-
-    $("dashboardSubtitle").textContent =
-      `${name} • ${place}`;
-
-    notice(
-      "profileNotice",
-      "Profile successfully updated.",
-      "success"
-    );
-
-    updateNav();
-
-  }catch(error){
-
-    notice(
-      "profileNotice",
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   PASSWORD
-========================= */
-
-function openPasswordChange(){
-
-  closeModal("profileModal");
-
-  $("currentPassword").value = "";
-  $("newPassword").value = "";
-
-  clearNotice("passwordNotice");
-
-  openModal("passwordModal");
-}
-
-async function changeMyPassword(event){
-
-  event.preventDefault();
-
-  clearNotice("passwordNotice");
-
-  const currentPassword = $("currentPassword").value;
-  const newPassword = $("newPassword").value;
-
-  if(newPassword.length < 8){
-    notice(
-      "passwordNotice",
-      "New password कम से कम 8 characters का होना चाहिए।"
-    );
-    return;
-  }
-
-  try{
-
-    await api("/api/password",{
-      method:"PUT",
-      body:JSON.stringify({
-        currentPassword,
-        newPassword
-      })
-    });
-
-    notice(
-      "passwordNotice",
-      "Password changed. Please login again.",
-      "success"
-    );
-
-    setTimeout(()=>{
-      closeModal("passwordModal");
-      currentUser = null;
-      showHome();
-      openLogin();
-    },1000);
-
-  }catch(error){
-
-    notice(
-      "passwordNotice",
-      error.message
-    );
-
-  }
-}
-
-
-/* =========================
-   FEEDBACK
-========================= */
-
-function openFeedback(){
-
-  clearNotice("feedbackNotice");
-
-  if(currentUser){
-
-    $("feedbackMobile").value =
-      currentUser.mobile || "";
-
-    $("feedbackEmail").value =
-      currentUser.email || "";
-
-  }else{
-
-    $("feedbackMobile").value = "";
-    $("feedbackEmail").value = "";
-  }
-
-  $("feedbackMessage").value = "";
-
-  openModal("feedbackModal");
-}
-
-async function submitFeedback(event){
-
-  event.preventDefault();
-
-  clearNotice("feedbackNotice");
-
-  const mobile = $("feedbackMobile").value.trim();
-  const email = $("feedbackEmail").value.trim().toLowerCase();
-  const message = $("feedbackMessage").value.trim();
-
-  if(!validMobile(mobile)){
-    notice(
-      "feedbackNotice",
-      "10 digit valid mobile number डालें।"
-    );
-    return;
-  }
-
-  if(!validEmail(email)){
-    notice(
-      "feedbackNotice",
-      "Valid email डालें।"
-    );
-    return;
-  }
-
-  if(message.length < 3){
-    notice(
-      "feedbackNotice",
-      "Feedback message लिखें।"
-    );
-    return;
-  }
-
-  try{
-
-    const data = await api("/api/feedback",{
-      method:"POST",
-      body:JSON.stringify({
-        mobile,
-        email,
-        message
-      })
-    });
-
-    notice(
-      "feedbackNotice",
-      data.message || "Feedback submitted",
-      "success"
-    );
-
-    $("feedbackMessage").value = "";
-
-  }catch(error){
-
-    notice(
-      "feedbackNotice",
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   MEMBERS
-========================= */
-
-async function loadMembers(){
-
-  $("dashboardContent").innerHTML =
-    `<div class="empty">Members loading...</div>`;
-
-  try{
-
-    const data = await api("/api/admin/members");
-
-    membersCache = data.members || [];
-
-    renderMembers();
-
-  }catch(error){
-
-    $("dashboardContent").innerHTML =
-      `<div class="notice error">${esc(error.message)}</div>`;
-  }
-}
-
-function renderMembers(){
-
-  const isAdmin = currentUser.role === "admin";
-
-  $("dashboardContent").innerHTML = `
-
-    <div class="toolbar">
-
-      <input
-        id="memberSearch"
-        placeholder="Name, mobile, email या place से search करें"
-        oninput="filterMembers()">
-
-      <select
-        id="memberRoleFilter"
-        onchange="filterMembers()">
-
-        <option value="">All</option>
-        <option value="member">Members</option>
-        <option value="staff">Staff</option>
-        <option value="admin">Admin</option>
-
-      </select>
-
-      <select
-        id="memberStatusFilter"
-        onchange="filterMembers()">
-
-        <option value="">All Status</option>
-        <option value="active">Active</option>
-        <option value="disabled">Disabled</option>
-
-      </select>
-
+    <div
+      id="adminContent"
+      class="card panel"
+    >
+      <h2>Admin Dashboard</h2>
+
+      <p style="color:var(--muted)">
+        बाईं तरफ से कोई option चुनें।
+      </p>
     </div>
 
-    <div id="memberList" class="list"></div>
   `;
 
-  drawMembers(membersCache);
+  document
+    .getElementById("interfaceContent")
+    .innerHTML =
+      dashboardLayout(
+        "ADMIN PANEL",
+        menu,
+        content
+      );
+
+  loadAdminStats();
 }
 
-function filterMembers(){
+async function adminHome(){
 
-  const q = ($("memberSearch")?.value || "")
-    .toLowerCase()
-    .trim();
-
-  const role = $("memberRoleFilter")?.value || "";
-  const status = $("memberStatusFilter")?.value || "";
-
-  const result = membersCache.filter(member=>{
-
-    const text = [
-      member.name,
-      member.email,
-      member.mobile,
-      member.place,
-      member.staff_role
-    ].join(" ").toLowerCase();
-
-    return (
-      (!q || text.includes(q)) &&
-      (!role || member.role === role) &&
-      (!status || member.status === status)
-    );
-  });
-
-  drawMembers(result);
-}
-
-function drawMembers(list){
-
-  const box = $("memberList");
+  const box =
+    document.getElementById("adminContent");
 
   if(!box) return;
 
-  if(!list.length){
+  box.innerHTML = `
 
-    box.innerHTML =
-      `<div class="empty">कोई member नहीं मिला।</div>`;
+    <h2>🏠 Admin Dashboard</h2>
 
-    return;
-  }
+    <p style="color:var(--muted)">
+      आपका Admin account active है।
+      नीचे से website management options इस्तेमाल करें।
+    </p>
 
-  const isAdmin = currentUser.role === "admin";
+    <div class="btn-row"
+         style="justify-content:flex-start">
 
-  box.innerHTML = list.map(member=>{
+      <button
+        class="btn btn-primary"
+        onclick="adminSeva()"
+      >
+        🕉️ Seva Management
+      </button>
 
-    const status = member.status === "disabled"
-      ? "disabled"
-      : "active";
+      <button
+        class="btn btn-secondary"
+        onclick="adminMembers()"
+      >
+        👥 Members
+      </button>
 
-    const roleLabel =
-      member.role === "admin"
-        ? "👑 Admin"
-        : member.role === "staff"
-        ? "🛡 Staff"
-        : "🙏 Member";
+      <button
+        class="btn btn-secondary"
+        onclick="adminFeedback()"
+      >
+        💬 Feedback
+      </button>
 
-    return `
-
-      <div class="member-card">
-
-        <div class="row">
-
-          <div>
-            <h3>${esc(member.name || "Unnamed")}</h3>
-
-            <div class="meta">
-              ${roleLabel}
-              ${member.staff_role
-                ? ` • ${esc(member.staff_role)}`
-                : ""}
-            </div>
-          </div>
-
-          <span class="badge ${
-            status === "active"
-              ? ""
-              : "badge-disabled"
-          }">
-            ${esc(status)}
-          </span>
-
-        </div>
-
-        <div class="meta" style="margin-top:10px">
-          📍 ${esc(member.place || "-")}<br>
-          📧 ${esc(member.email || "-")}<br>
-          📱 ${esc(member.mobile || "-")}<br>
-          📅 ${esc(dateText(member.created_at))}
-        </div>
-
-        <div class="actions">
-
-          ${
-            isAdmin
-            ? `
-              <button
-                class="btn btn-small btn-outline"
-                onclick="editMember('${jsArg(member.id)}')">
-                Edit
-              </button>
-
-              <button
-                class="btn btn-small btn-outline"
-                onclick="openMemberPassword('${jsArg(member.id)}')">
-                Reset Password
-              </button>
-
-              ${
-                member.role !== "admin"
-                ? `
-                  <button
-                    class="btn btn-small ${
-                      status === "active"
-                        ? "btn-danger"
-                        : "btn-success"
-                    }"
-                    onclick="toggleMemberStatus(
-                      '${jsArg(member.id)}',
-                      '${status}'
-                    )">
-                    ${
-                      status === "active"
-                        ? "Disable"
-                        : "Enable"
-                    }
-                  </button>
-                `
-                : ""
-              }
-            `
-            : ""
-          }
-
-        </div>
-
-      </div>
-    `;
-  }).join("");
+    </div>
+  `;
 }
 
+/* =====================================================
+   ADMIN STATS
+===================================================== */
 
-/* =========================
-   MEMBER EDIT
-========================= */
-
-async function editMember(id){
-
-  if(currentUser.role !== "admin") return;
-
-  clearNotice("memberEditNotice");
+async function loadAdminStats(){
 
   try{
 
-    const member =
-      membersCache.find(x => String(x.id) === String(id));
+    const data =
+      await api(
+        "/api/admin/members"
+      );
 
-    if(!member){
-      throw new Error("Member not found");
-    }
+    const members =
+      data.members || [];
 
-    $("editMemberId").value = member.id;
-    $("editMemberName").value = member.name || "";
-    $("editMemberPlace").value = member.place || "";
-    $("editMemberEmail").value = member.email || "";
-    $("editMemberMobile").value = member.mobile || "";
-    $("editMemberStaffRole").value = member.staff_role || "";
+    const memberCount =
+      members.filter(
+        x => x.role === "member"
+      ).length;
 
-    openModal("memberEditModal");
+    const staffCount =
+      members.filter(
+        x => x.role === "staff"
+      ).length;
+
+    document
+      .getElementById("adminMemberCount")
+      ?.textContent =
+        memberCount;
+
+    document
+      .getElementById("adminStaffCount")
+      ?.textContent =
+        staffCount;
 
   }catch(error){
 
-    alert(error.message);
+    console.error(error);
+  }
+
+  try{
+
+    const data =
+      await api(
+        "/api/admin/feedback"
+      );
+
+    document
+      .getElementById("adminFeedbackCount")
+      ?.textContent =
+        (data.feedback || []).length;
+
+  }catch(error){
+
+    console.error(error);
   }
 }
 
-async function saveMember(event){
+/* =====================================================
+   ADMIN PROFILE
+===================================================== */
+
+function adminProfile(){
+
+  const box =
+    document.getElementById("adminContent");
+
+  box.innerHTML = `
+
+    <h2>👤 Admin Profile</h2>
+
+    <p class="panel-subtitle">
+      अपना profile information update करें।
+    </p>
+
+    <form
+      onsubmit="saveProfile(event)"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            id="profileName"
+            value="${escapeHTML(currentUser.name)}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Mobile</label>
+          <input
+            value="${escapeHTML(currentUser.mobile)}"
+            disabled
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            id="profileEmail"
+            type="email"
+            value="${escapeHTML(currentUser.email)}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Place / Address</label>
+          <input
+            id="profilePlace"
+            value="${escapeHTML(currentUser.place)}"
+            required
+          >
+        </div>
+
+      </div>
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        💾 Save Changes
+      </button>
+
+    </form>
+
+    <br>
+
+    <div
+      class="card"
+      style="padding:18px;background:rgba(243,186,47,.04)"
+    >
+
+      <strong style="color:var(--gold)">
+        Security Note
+      </strong>
+
+      <p style="color:var(--muted);margin-bottom:0">
+        PAN और Aadhaar normal profile edit में
+        नहीं दिखाए जाते।
+      </p>
+
+    </div>
+
+  `;
+}
+
+async function saveProfile(event){
 
   event.preventDefault();
 
-  clearNotice("memberEditNotice");
+  try{
 
-  const id = $("editMemberId").value;
+    await api(
+      "/api/me",
+      {
+        method:"PUT",
+        body:JSON.stringify({
 
-  const name = $("editMemberName").value.trim();
-  const place = $("editMemberPlace").value.trim();
-  const email = $("editMemberEmail").value.trim().toLowerCase();
-  const mobile = $("editMemberMobile").value.trim();
-  const staffRole = $("editMemberStaffRole").value.trim();
+          name:
+            document
+              .getElementById("profileName")
+              .value
+              .trim(),
+
+          email:
+            document
+              .getElementById("profileEmail")
+              .value
+              .trim(),
+
+          place:
+            document
+              .getElementById("profilePlace")
+              .value
+              .trim()
+
+        })
+      }
+    );
+
+    const me =
+      await api("/api/me");
+
+    if(me.authenticated){
+
+      currentUser =
+        me.user;
+
+      currentRole =
+        me.user.role;
+
+      updateHeader();
+    }
+
+    showNotice(
+      "Profile updated successfully",
+      "success"
+    );
+
+    adminProfile();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   PASSWORD
+===================================================== */
+
+function adminPassword(){
+
+  passwordPanel(
+    "adminContent"
+  );
+}
+
+function passwordPanel(targetId){
+
+  const box =
+    document.getElementById(targetId);
+
+  box.innerHTML = `
+
+    <h2>🔐 Password Change</h2>
+
+    <p class="panel-subtitle">
+      Password बदलने के लिए current password आवश्यक है।
+    </p>
+
+    <form
+      onsubmit="changePassword(event)"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-group full">
+          <label>Current Password</label>
+          <input
+            id="currentPassword"
+            type="password"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>New Password</label>
+          <input
+            id="newPassword"
+            type="password"
+            minlength="8"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Confirm New Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            minlength="8"
+            required
+          >
+        </div>
+
+      </div>
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        🔐 Change Password
+      </button>
+
+    </form>
+
+  `;
+}
+
+async function changePassword(event){
+
+  event.preventDefault();
+
+  const currentPassword =
+    document
+      .getElementById("currentPassword")
+      .value;
+
+  const newPassword =
+    document
+      .getElementById("newPassword")
+      .value;
+
+  const confirmPassword =
+    document
+      .getElementById("confirmPassword")
+      .value;
 
   if(
-    !name ||
-    !place ||
-    !validEmail(email) ||
-    !validMobile(mobile)
+    newPassword !==
+    confirmPassword
   ){
 
-    notice(
-      "memberEditNotice",
-      "Member details सही भरें।"
+    showNotice(
+      "New passwords do not match",
+      "error"
     );
 
     return;
@@ -2508,60 +2440,232 @@ async function saveMember(event){
   try{
 
     await api(
-      `/api/admin/members/${encodeURIComponent(id)}`,
+      "/api/password",
       {
         method:"PUT",
         body:JSON.stringify({
-          name,
-          place,
-          email,
-          mobile,
-          staff_role:staffRole
+          currentPassword,
+          newPassword
         })
       }
     );
 
-    notice(
-      "memberEditNotice",
-      "Member successfully updated.",
+    currentUser = null;
+    currentRole = null;
+
+    updateHeader();
+
+    document
+      .getElementById("interfaceArea")
+      .classList.add("hidden");
+
+    showNotice(
+      "Password changed. Please login again.",
       "success"
     );
 
-    await loadMembers();
-
-    setTimeout(()=>{
-      closeModal("memberEditModal");
-    },600);
+    setTimeout(
+      openLogin,
+      500
+    );
 
   }catch(error){
 
-    notice(
-      "memberEditNotice",
-      error.message
+    showNotice(
+      error.message,
+      "error"
     );
   }
 }
 
+/* =====================================================
+   ADMIN MEMBERS
+===================================================== */
 
-/* =========================
-   MEMBER STATUS
-========================= */
+async function adminMembers(){
 
-async function toggleMemberStatus(id,status){
+  const box =
+    document.getElementById("adminContent");
 
-  if(currentUser.role !== "admin") return;
+  box.innerHTML = `
+    <h2>👥 Members & Staff</h2>
+    <p style="color:var(--muted)">
+      Members और Staff की जानकारी load हो रही है...
+    </p>
+  `;
 
-  const nextStatus =
+  try{
+
+    const data =
+      await api(
+        "/api/admin/members"
+      );
+
+    const members =
+      data.members || [];
+
+    box.innerHTML = `
+
+      <h2>👥 Members & Staff</h2>
+
+      <p class="panel-subtitle">
+        Active या disabled accounts को manage करें।
+      </p>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Place</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${
+              members.length
+              ?
+              members.map(member => `
+
+                <tr>
+
+                  <td>
+                    <strong>
+                      ${escapeHTML(member.name)}
+                    </strong>
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.role)}
+                    ${
+                      member.staff_role
+                      ?
+                      `<br>
+                       <small style="color:var(--muted)">
+                       ${escapeHTML(member.staff_role)}
+                       </small>`
+                      :
+                      ""
+                    }
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.mobile)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.email)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.place)}
+                  </td>
+
+                  <td>
+                    <span
+                      class="status ${
+                        member.status === "active"
+                        ? "status-active"
+                        : "status-disabled"
+                      }"
+                    >
+                      ${escapeHTML(member.status)}
+                    </span>
+                  </td>
+
+                  <td>
+
+                    ${
+                      member.id !== currentUser.id
+                      ?
+                      `
+                      <button
+                        class="btn btn-small ${
+                          member.status === "active"
+                          ? "btn-danger"
+                          : "btn-success"
+                        }"
+                        onclick="toggleMember(
+                          '${encodeURIComponent(member.id)}',
+                          '${member.status === "active" ? "disabled" : "active"}'
+                        )"
+                      >
+                        ${
+                          member.status === "active"
+                          ? "Disable"
+                          : "Activate"
+                        }
+                      </button>
+                      `
+                      :
+                      `<small style="color:var(--muted)">
+                        Current Admin
+                       </small>`
+                    }
+
+                  </td>
+
+                </tr>
+
+              `).join("")
+              :
+              `
+              <tr>
+                <td colspan="7">
+                  No members found.
+                </td>
+              </tr>
+              `
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    box.innerHTML = `
+      <h2>👥 Members</h2>
+      <p style="color:#ff9d9a">
+        ${escapeHTML(error.message)}
+      </p>
+    `;
+  }
+}
+
+async function toggleMember(
+  encodedId,
+  status
+){
+
+  const id =
+    decodeURIComponent(encodedId);
+
+  const action =
     status === "active"
-      ? "disabled"
-      : "active";
+    ? "activate"
+    : "disable";
 
-  const question =
-    nextStatus === "disabled"
-      ? "क्या आप इस account को disable करना चाहते हैं?"
-      : "क्या आप इस account को enable करना चाहते हैं?";
+  if(
+    !confirm(
+      `क्या आप इस account को ${action} करना चाहते हैं?`
+    )
+  ){
 
-  if(!confirm(question)) return;
+    return;
+  }
 
   try{
 
@@ -2570,703 +2674,686 @@ async function toggleMemberStatus(id,status){
       {
         method:"PATCH",
         body:JSON.stringify({
-          status:nextStatus
+          status
         })
       }
     );
 
-    await loadMembers();
+    showNotice(
+      "Account status updated",
+      "success"
+    );
+
+    adminMembers();
+    loadAdminStats();
 
   }catch(error){
 
-    alert(error.message);
+    showNotice(
+      error.message,
+      "error"
+    );
   }
 }
 
+/* =====================================================
+   ADD MEMBER / STAFF
+===================================================== */
 
-/* =========================
-   MEMBER PASSWORD RESET
-========================= */
+function adminAddMember(){
 
-function openMemberPassword(id){
+  const box =
+    document.getElementById("adminContent");
 
-  if(currentUser.role !== "admin") return;
+  box.innerHTML = `
 
-  $("resetMemberId").value = id;
-  $("resetMemberPasswordValue").value = "";
+    <h2>➕ Add Member / Staff</h2>
 
-  clearNotice("memberPasswordNotice");
+    <form
+      onsubmit="createAdminMember(event)"
+    >
 
-  openModal("memberPasswordModal");
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            id="newMemberName"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Place</label>
+          <input
+            id="newMemberPlace"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            id="newMemberEmail"
+            type="email"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Mobile</label>
+          <input
+            id="newMemberMobile"
+            type="tel"
+            maxlength="10"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Role</label>
+
+          <select
+            id="newMemberRole"
+            onchange="toggleStaffRoleField()"
+          >
+            <option value="member">
+              Member
+            </option>
+
+            <option value="staff">
+              Staff
+            </option>
+          </select>
+
+        </div>
+
+        <div
+          class="form-group"
+          id="staffRoleGroup"
+          style="display:none"
+        >
+
+          <label>Staff Role</label>
+
+          <input
+            id="newStaffRole"
+            placeholder="जैसे Content Manager"
+          >
+
+        </div>
+
+        <div class="form-group full">
+
+          <label>Password</label>
+
+          <input
+            id="newMemberPassword"
+            type="password"
+            minlength="8"
+            required
+          >
+
+        </div>
+
+      </div>
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        ➕ Create Account
+      </button>
+
+    </form>
+
+  `;
 }
 
-async function resetMemberPassword(event){
+function toggleStaffRoleField(){
+
+  const role =
+    document
+      .getElementById("newMemberRole")
+      .value;
+
+  document
+    .getElementById("staffRoleGroup")
+    .style.display =
+      role === "staff"
+      ? "flex"
+      : "none";
+}
+
+async function createAdminMember(event){
 
   event.preventDefault();
-
-  clearNotice("memberPasswordNotice");
-
-  const id = $("resetMemberId").value;
-  const password = $("resetMemberPasswordValue").value;
-
-  if(password.length < 8){
-
-    notice(
-      "memberPasswordNotice",
-      "Password कम से कम 8 characters का होना चाहिए।"
-    );
-
-    return;
-  }
 
   try{
 
     await api(
-      `/api/admin/members/${encodeURIComponent(id)}/password`,
+      "/api/admin/members",
       {
-        method:"PUT",
+        method:"POST",
         body:JSON.stringify({
-          password
+
+          name:
+            document
+              .getElementById("newMemberName")
+              .value.trim(),
+
+          place:
+            document
+              .getElementById("newMemberPlace")
+              .value.trim(),
+
+          email:
+            document
+              .getElementById("newMemberEmail")
+              .value.trim(),
+
+          mobile:
+            document
+              .getElementById("newMemberMobile")
+              .value.trim(),
+
+          role:
+            document
+              .getElementById("newMemberRole")
+              .value,
+
+          staffRole:
+            document
+              .getElementById("newStaffRole")
+              .value.trim(),
+
+          password:
+            document
+              .getElementById("newMemberPassword")
+              .value
+
         })
       }
     );
 
-    notice(
-      "memberPasswordNotice",
-      "Member password successfully reset.",
+    showNotice(
+      "Member/Staff created successfully",
       "success"
     );
 
-    setTimeout(()=>{
-      closeModal("memberPasswordModal");
-    },700);
+    adminMembers();
+    loadAdminStats();
 
   }catch(error){
 
-    notice(
-      "memberPasswordNotice",
-      error.message
+    showNotice(
+      error.message,
+      "error"
     );
   }
 }
 
+/* =====================================================
+   ADMIN SEVA MANAGEMENT
+===================================================== */
 
-/* =========================
-   ADD STAFF
-========================= */
+async function adminSeva(){
 
-function openStaff(){
+  const box =
+    document.getElementById("adminContent");
 
-  if(currentUser.role !== "admin") return;
+  box.innerHTML = `
 
-  $("staffName").value = "";
-  $("staffPlace").value = "";
-  $("staffEmail").value = "";
-  $("staffMobile").value = "";
-  $("staffRole").value = "";
-  $("staffPassword").value = "";
+    <h2>🕉️ Seva Management</h2>
 
-  clearNotice("staffNotice");
+    <p class="panel-subtitle">
+      Website पर दिखाई देने वाली Seva को यहाँ manage करें।
+    </p>
 
-  openModal("staffModal");
-}
+    <button
+      class="btn btn-primary"
+      onclick="openSevaForm()"
+    >
+      ➕ Add New Seva
+    </button>
 
-async function addStaff(event){
+    <br><br>
 
-  event.preventDefault();
-
-  clearNotice("staffNotice");
-
-  const name = $("staffName").value.trim();
-  const place = $("staffPlace").value.trim();
-  const email = $("staffEmail").value.trim().toLowerCase();
-  const mobile = $("staffMobile").value.trim();
-  const staffRole = $("staffRole").value.trim();
-  const password = $("staffPassword").value;
-
-  if(
-    !name ||
-    !place ||
-    !validEmail(email) ||
-    !validMobile(mobile)
-  ){
-
-    notice(
-      "staffNotice",
-      "Staff details सही भरें।"
-    );
-
-    return;
-  }
-
-  if(password.length < 8){
-
-    notice(
-      "staffNotice",
-      "Password कम से कम 8 characters का होना चाहिए।"
-    );
-
-    return;
-  }
-
-  try{
-
-    await api("/api/admin/members",{
-      method:"POST",
-      body:JSON.stringify({
-        name,
-        place,
-        email,
-        mobile,
-        password,
-        role:"staff",
-        staffRole
-      })
-    });
-
-    notice(
-      "staffNotice",
-      "Staff successfully created.",
-      "success"
-    );
-
-    setTimeout(()=>{
-      closeModal("staffModal");
-      openDashboardTab("members");
-    },700);
-
-  }catch(error){
-
-    notice(
-      "staffNotice",
-      error.message
-    );
-  }
-}
-
-
-/* =========================
-   FEEDBACK ADMIN
-========================= */
-
-async function loadFeedback(){
-
-  $("dashboardContent").innerHTML =
-    `<div class="empty">Feedback loading...</div>`;
-
-  try{
-
-    const data = await api("/api/admin/feedback");
-
-    feedbackCache = data.feedback || [];
-
-    renderFeedback();
-
-  }catch(error){
-
-    $("dashboardContent").innerHTML =
-      `<div class="notice error">${esc(error.message)}</div>`;
-  }
-}
-
-function renderFeedback(){
-
-  $("dashboardContent").innerHTML = `
-
-    <div class="toolbar">
-
-      <input
-        id="feedbackSearch"
-        placeholder="Feedback search..."
-        oninput="filterFeedback()">
-
-      <select
-        id="feedbackStatusFilter"
-        onchange="filterFeedback()">
-
-        <option value="">All Status</option>
-        <option value="new">New</option>
-        <option value="read">Read</option>
-        <option value="resolved">Resolved</option>
-
-      </select>
-
+    <div
+      id="adminSevaList"
+      class="admin-seva-list"
+    >
+      <div class="card panel">
+        Loading...
+      </div>
     </div>
 
-    <div id="feedbackList" class="list"></div>
   `;
 
-  drawFeedback(feedbackCache);
+  await loadAdminSeva();
 }
-
-function filterFeedback(){
-
-  const q = ($("feedbackSearch")?.value || "")
-    .toLowerCase()
-    .trim();
-
-  const status =
-    $("feedbackStatusFilter")?.value || "";
-
-  const list = feedbackCache.filter(item=>{
-
-    const text = [
-      item.name,
-      item.member_name,
-      item.email,
-      item.mobile,
-      item.message
-    ].join(" ").toLowerCase();
-
-    return (
-      (!q || text.includes(q)) &&
-      (!status || item.status === status)
-    );
-  });
-
-  drawFeedback(list);
-}
-
-function drawFeedback(list){
-
-  const box = $("feedbackList");
-
-  if(!box) return;
-
-  if(!list.length){
-
-    box.innerHTML =
-      `<div class="empty">कोई feedback नहीं मिला।</div>`;
-
-    return;
-  }
-
-  box.innerHTML = list.map(item=>{
-
-    const name =
-      item.name ||
-      item.member_name ||
-      "Member";
-
-    const status = item.status || "new";
-
-    return `
-
-      <div class="feedback-card">
-
-        <div class="row">
-
-          <div>
-            <h3>${esc(name)}</h3>
-
-            <div class="meta">
-              ${esc(item.email || "")}
-              • ${esc(item.mobile || "")}
-            </div>
-          </div>
-
-          <span class="badge ${
-            status === "new"
-              ? "badge-new"
-              : "badge-read"
-          }">
-            ${esc(status)}
-          </span>
-
-        </div>
-
-        <p style="margin-top:12px">
-          ${esc(item.message || "")}
-        </p>
-
-        <div class="meta" style="margin-top:8px">
-          ${esc(dateText(item.created_at))}
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="btn btn-small btn-outline"
-            onclick="viewFeedback('${jsArg(item.id)}')">
-            View
-          </button>
-
-          ${
-            status !== "resolved"
-            ? `
-              <button
-                class="btn btn-small btn-success"
-                onclick="markFeedbackRead(
-                  '${jsArg(item.id)}',
-                  'resolved'
-                )">
-                Resolve
-              </button>
-            `
-            : ""
-          }
-
-        </div>
-
-      </div>
-    `;
-  }).join("");
-}
-
-function viewFeedback(id){
-
-  const item =
-    feedbackCache.find(x => String(x.id) === String(id));
-
-  if(!item) return;
-
-  const name =
-    item.name ||
-    item.member_name ||
-    "Member";
-
-  $("feedbackDetail").innerHTML = `
-
-    <div class="card">
-
-      <h3>${esc(name)}</h3>
-
-      <p class="meta">
-        📧 ${esc(item.email || "-")}<br>
-        📱 ${esc(item.mobile || "-")}<br>
-        📅 ${esc(dateText(item.created_at))}
-      </p>
-
-      <p style="margin-top:15px">
-        ${esc(item.message || "")}
-      </p>
-
-      <p style="margin-top:15px">
-        Status:
-        <strong>${esc(item.status || "new")}</strong>
-      </p>
-
-    </div>
-  `;
-
-  openModal("feedbackDetailModal");
-}
-
-async function markFeedbackRead(id,status="read"){
-
-  try{
-
-    await api("/api/admin/feedback/read",{
-      method:"POST",
-      body:JSON.stringify({
-        id,
-        status
-      })
-    });
-
-    await loadFeedback();
-
-  }catch(error){
-
-    alert(error.message);
-  }
-}
-
-
-/* =========================
-   SEVA
-========================= */
-
-async function loadPublicSeva(){
-
-  try{
-
-    const data = await api("/api/seva");
-
-    const list = data.seva || [];
-
-    sevaCache = list;
-
-    renderPublicSeva(list);
-
-  }catch{
-
-    renderPublicSeva([]);
-  }
-}
-
-function renderPublicSeva(list){
-
-  const box = $("publicSevaList");
-
-  if(!box) return;
-
-  if(!list.length){
-
-    box.innerHTML = `
-      <div class="card">
-        <div class="icon">🙏</div>
-        <h3>OUMJYOTI Seva</h3>
-        <p>
-          सेवा गतिविधियों की जानकारी जल्द उपलब्ध होगी।
-        </p>
-      </div>
-    `;
-
-    return;
-  }
-
-  box.innerHTML = list.map(item=>`
-
-    <div class="card">
-
-      ${
-        item.image_url
-        ? `
-          <img
-            class="seva-image"
-            src="${esc(item.image_url)}"
-            alt="${esc(item.title)}"
-            loading="lazy"
-            onerror="this.style.display='none'">
-        `
-        : `
-          <div class="icon">
-            ${esc(item.icon || "🕉️")}
-          </div>
-        `
-      }
-
-      <h3>${esc(item.title)}</h3>
-
-      <p>
-        ${esc(item.description || "")}
-      </p>
-
-    </div>
-  `).join("");
-}
-
-
-/* =========================
-   ADMIN SEVA
-========================= */
 
 async function loadAdminSeva(){
 
-  $("dashboardContent").innerHTML =
-    `<div class="empty">Seva loading...</div>`;
+  const list =
+    document.getElementById(
+      "adminSevaList"
+    );
+
+  if(!list) return;
 
   try{
 
-    const data = await api("/api/admin/seva");
+    const data =
+      await api(
+        "/api/admin/seva"
+      );
 
-    sevaCache = data.seva || [];
+    adminSevaCache =
+      data.seva || [];
 
-    renderAdminSeva();
+    if(!adminSevaCache.length){
+
+      list.innerHTML = `
+        <div class="card panel">
+          <p style="color:var(--muted)">
+            अभी कोई Seva नहीं है।
+          </p>
+        </div>
+      `;
+
+      return;
+    }
+
+    list.innerHTML =
+      adminSevaCache.map(
+        item => {
+
+          const image =
+            item.image_url || "";
+
+          return `
+
+            <div
+              class="card admin-seva-item"
+            >
+
+              ${
+                image
+                ?
+                `
+                <img
+                  class="admin-seva-thumb"
+                  src="${escapeHTML(image)}"
+                  alt="${escapeHTML(item.title)}"
+                  onerror="this.style.display='none'"
+                >
+                `
+                :
+                `
+                <div
+                  class="admin-seva-thumb"
+                  style="
+                    display:flex;
+                    align-items:center;
+                    justify-content:center;
+                    font-size:2.7rem;
+                  "
+                >
+                  ${escapeHTML(item.icon || "🙏")}
+                </div>
+                `
+              }
+
+              <div class="admin-seva-info">
+
+                <h3>
+                  ${escapeHTML(item.icon || "🙏")}
+                  ${escapeHTML(item.title)}
+                </h3>
+
+                <p>
+                  ${escapeHTML(item.description || "")}
+                </p>
+
+                <br>
+
+                <span
+                  class="status ${
+                    Number(item.active)
+                    ? "status-active"
+                    : "status-disabled"
+                  }"
+                >
+                  ${
+                    Number(item.active)
+                    ? "Visible"
+                    : "Hidden"
+                  }
+                </span>
+
+                <small
+                  style="color:var(--muted);margin-left:8px"
+                >
+                  Order: ${escapeHTML(item.sort_order)}
+                </small>
+
+              </div>
+
+              <div class="admin-actions">
+
+                <button
+                  class="btn btn-secondary btn-small"
+                  onclick="openSevaForm('${encodeURIComponent(item.id)}')"
+                >
+                  ✏️ Edit
+                </button>
+
+                <button
+                  class="btn ${
+                    Number(item.active)
+                    ? "btn-danger"
+                    : "btn-success"
+                  } btn-small"
+                  onclick="toggleSeva(
+                    '${encodeURIComponent(item.id)}',
+                    ${Number(item.active) ? 0 : 1}
+                  )"
+                >
+                  ${
+                    Number(item.active)
+                    ? "👁️ Hide"
+                    : "👁️ Show"
+                  }
+                </button>
+
+                <button
+                  class="btn btn-danger btn-small"
+                  onclick="deleteSeva('${encodeURIComponent(item.id)}')"
+                >
+                  🗑️ Delete
+                </button>
+
+              </div>
+
+            </div>
+
+          `;
+
+        }
+      ).join("");
 
   }catch(error){
 
-    $("dashboardContent").innerHTML =
-      `<div class="notice error">${esc(error.message)}</div>`;
-  }
-}
-
-function renderAdminSeva(){
-
-  $("dashboardContent").innerHTML = `
-
-    <div class="row" style="margin-bottom:18px">
-
-      <div>
-        <h3>Seva Management</h3>
-        <p class="meta">
-          Seva cards और image URLs manage करें।
+    list.innerHTML = `
+      <div class="card panel">
+        <p style="color:#ff9d9a">
+          ${escapeHTML(error.message)}
         </p>
       </div>
+    `;
+  }
+}
 
-      <button
-        class="btn"
-        onclick="openAddSeva()">
-        + Add Seva
-      </button>
+/* =====================================================
+   SEVA FORM
+===================================================== */
 
-    </div>
+function openSevaForm(
+  encodedId = ""
+){
 
-    <div id="adminSevaList" class="list"></div>
-  `;
+  const editing =
+    Boolean(encodedId);
 
-  const box = $("adminSevaList");
+  let item = null;
 
-  if(!sevaCache.length){
+  if(editing){
 
-    box.innerHTML =
-      `<div class="empty">अभी कोई Seva नहीं है।</div>`;
+    const id =
+      decodeURIComponent(encodedId);
 
-    return;
+    item =
+      adminSevaCache.find(
+        x => x.id === id
+      );
   }
 
-  box.innerHTML = sevaCache.map(item=>`
+  if(editing && !item){
 
-    <div class="seva-card">
-
-      ${
-        item.image_url
-        ? `
-          <img
-            class="seva-image"
-            src="${esc(item.image_url)}"
-            alt="${esc(item.title)}"
-            onerror="this.style.display='none'">
-        `
-        : ""
-      }
-
-      <div class="row">
-
-        <div>
-          <h3>
-            ${esc(item.icon || "🕉️")}
-            ${esc(item.title)}
-          </h3>
-
-          <p class="meta">
-            ${esc(item.description || "")}
-          </p>
-
-          <p class="meta" style="margin-top:7px">
-            Status:
-            ${Number(item.active) === 1
-              ? "Active"
-              : "Inactive"}
-          </p>
-        </div>
-
-        <div class="actions">
-
-          <button
-            class="btn btn-small btn-outline"
-            onclick="editSeva('${jsArg(item.id)}')">
-            Edit
-          </button>
-
-          <button
-            class="btn btn-small btn-danger"
-            onclick="deleteSeva('${jsArg(item.id)}')">
-            Delete
-          </button>
-
-        </div>
-
-      </div>
-
-    </div>
-  `).join("");
-}
-
-function openAddSeva(){
-
-  $("sevaModalTitle").textContent = "Add Seva";
-
-  $("sevaId").value = "";
-  $("sevaTitle").value = "";
-  $("sevaDescription").value = "";
-  $("sevaIcon").value = "🕉️";
-  $("sevaImageUrl").value = "";
-  $("sevaSortOrder").value = "0";
-  $("sevaActive").value = "1";
-
-  $("sevaPreview").innerHTML = "";
-
-  clearNotice("sevaNotice");
-
-  openModal("sevaModal");
-}
-
-function editSeva(id){
-
-  const item =
-    sevaCache.find(x => String(x.id) === String(id));
-
-  if(!item) return;
-
-  $("sevaModalTitle").textContent = "Edit Seva";
-
-  $("sevaId").value = item.id;
-  $("sevaTitle").value = item.title || "";
-  $("sevaDescription").value = item.description || "";
-  $("sevaIcon").value = item.icon || "🕉️";
-  $("sevaImageUrl").value = item.image_url || "";
-  $("sevaSortOrder").value = item.sort_order ?? 0;
-  $("sevaActive").value =
-    Number(item.active) === 1 ? "1" : "0";
-
-  updateSevaPreview();
-
-  clearNotice("sevaNotice");
-
-  openModal("sevaModal");
-}
-
-$("sevaImageUrl")?.addEventListener(
-  "input",
-  updateSevaPreview
-);
-
-function updateSevaPreview(){
-
-  const url =
-    $("sevaImageUrl")?.value.trim();
-
-  const box = $("sevaPreview");
-
-  if(!box) return;
-
-  if(!url){
-
-    box.innerHTML = "";
-    return;
-  }
-
-  box.innerHTML = `
-    <img
-      class="seva-image"
-      src="${esc(url)}"
-      alt="Preview"
-      onerror="this.alt='Image URL invalid'">
-  `;
-}
-
-async function saveSeva(event){
-
-  event.preventDefault();
-
-  clearNotice("sevaNotice");
-
-  const id = $("sevaId").value.trim();
-
-  const body = {
-    title:$("sevaTitle").value.trim(),
-    description:$("sevaDescription").value.trim(),
-    image_url:$("sevaImageUrl").value.trim(),
-    icon:$("sevaIcon").value.trim() || "🕉️",
-    active:Number($("sevaActive").value),
-    sort_order:Number($("sevaSortOrder").value || 0)
-  };
-
-  if(!body.title){
-
-    notice(
-      "sevaNotice",
-      "Seva title जरूरी है।"
+    showNotice(
+      "Seva not found",
+      "error"
     );
 
     return;
   }
 
+  const title =
+    editing
+    ? "✏️ Edit Seva"
+    : "➕ Add New Seva";
+
+  openModal(`
+
+    <div>
+
+      <button
+        class="modal-close"
+        onclick="closeModalDirect()"
+      >
+        ×
+      </button>
+
+      <h2 style="color:var(--gold)">
+        ${title}
+      </h2>
+
+      <form
+        onsubmit="saveSeva(event,${
+          editing
+          ? `'${encodeURIComponent(item.id)}'`
+          : "''"
+        })"
+      >
+
+        <div class="form-grid">
+
+          <div class="form-group full">
+
+            <label>Seva Name</label>
+
+            <input
+              id="sevaTitle"
+              maxlength="150"
+              value="${
+                editing
+                ? escapeHTML(item.title)
+                : ""
+              }"
+              placeholder="जैसे गौ सेवा"
+              required
+            >
+
+          </div>
+
+          <div class="form-group full">
+
+            <label>Description</label>
+
+            <textarea
+              id="sevaDescription"
+              maxlength="1000"
+              placeholder="Seva के बारे में जानकारी"
+            >${
+              editing
+              ? escapeHTML(item.description || "")
+              : ""
+            }</textarea>
+
+          </div>
+
+          <div class="form-group">
+
+            <label>Icon / Emoji</label>
+
+            <input
+              id="sevaIcon"
+              maxlength="20"
+              value="${
+                editing
+                ? escapeHTML(item.icon || "🙏")
+                : "🙏"
+              }"
+              placeholder="🐄"
+            >
+
+          </div>
+
+          <div class="form-group">
+
+            <label>Display Order</label>
+
+            <input
+              id="sevaSortOrder"
+              type="number"
+              min="0"
+              max="9999"
+              value="${
+                editing
+                ? escapeHTML(item.sort_order)
+                : "0"
+              }"
+            >
+
+          </div>
+
+          <div class="form-group full">
+
+            <label>Image URL / Image Path</label>
+
+            <input
+              id="sevaImageUrl"
+              maxlength="1000"
+              value="${
+                editing
+                ? escapeHTML(item.image_url || "")
+                : ""
+              }"
+              placeholder="/Images/gau-seva.jpg"
+            >
+
+            <small style="color:var(--muted)">
+              अभी image path/URL डालें।
+              बाद में हम Cloudflare Photo Upload System जोड़ेंगे।
+            </small>
+
+          </div>
+
+          <div class="form-group full">
+
+            <label class="checkbox-row">
+
+              <input
+                id="sevaActive"
+                type="checkbox"
+                ${
+                  !editing ||
+                  Number(item.active)
+                  ? "checked"
+                  : ""
+                }
+              >
+
+              Website पर Seva दिखाएँ
+
+            </label>
+
+          </div>
+
+        </div>
+
+        <br>
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          💾 Save Seva
+        </button>
+
+        <button
+          type="button"
+          class="btn btn-secondary"
+          onclick="closeModalDirect()"
+        >
+          Cancel
+        </button>
+
+      </form>
+
+    </div>
+
+  `);
+}
+
+async function saveSeva(
+  event,
+  encodedId
+){
+
+  event.preventDefault();
+
+  const editing =
+    Boolean(encodedId);
+
+  const body = {
+
+    title:
+      document
+        .getElementById("sevaTitle")
+        .value.trim(),
+
+    description:
+      document
+        .getElementById("sevaDescription")
+        .value.trim(),
+
+    icon:
+      document
+        .getElementById("sevaIcon")
+        .value.trim() ||
+      "🙏",
+
+    sortOrder:
+      Number(
+        document
+          .getElementById("sevaSortOrder")
+          .value
+      ) || 0,
+
+    imageUrl:
+      document
+        .getElementById("sevaImageUrl")
+        .value.trim(),
+
+    active:
+      document
+        .getElementById("sevaActive")
+        .checked
+
+  };
+
   try{
 
-    if(id){
+    if(editing){
+
+      const id =
+        decodeURIComponent(
+          encodedId
+        );
 
       await api(
         `/api/admin/seva/${encodeURIComponent(id)}`,
@@ -3276,40 +3363,109 @@ async function saveSeva(event){
         }
       );
 
+      showNotice(
+        "Seva updated successfully",
+        "success"
+      );
+
     }else{
 
-      await api("/api/admin/seva",{
-        method:"POST",
-        body:JSON.stringify(body)
-      });
+      await api(
+        "/api/admin/seva",
+        {
+          method:"POST",
+          body:JSON.stringify(body)
+        }
+      );
 
+      showNotice(
+        "New Seva added successfully",
+        "success"
+      );
     }
 
-    notice(
-      "sevaNotice",
-      "Seva successfully saved.",
-      "success"
-    );
+    closeModalDirect();
 
-    await loadPublicSeva();
+    await loadAdminSeva();
 
-    setTimeout(()=>{
-      closeModal("sevaModal");
-      loadAdminSeva();
-    },600);
+    await loadSeva();
 
   }catch(error){
 
-    notice(
-      "sevaNotice",
-      error.message
+    showNotice(
+      error.message,
+      "error"
     );
   }
 }
 
-async function deleteSeva(id){
+/* =====================================================
+   SEVA SHOW / HIDE
+===================================================== */
 
-  if(!confirm("क्या आप इस Seva को delete करना चाहते हैं?")){
+async function toggleSeva(
+  encodedId,
+  active
+){
+
+  const id =
+    decodeURIComponent(encodedId);
+
+  try{
+
+    await api(
+      `/api/admin/seva/${encodeURIComponent(id)}`,
+      {
+        method:"PATCH",
+        body:JSON.stringify({
+          active:Boolean(active)
+        })
+      }
+    );
+
+    showNotice(
+      active
+      ? "Seva दिखाई जा रही है"
+      : "Seva hide कर दी गई",
+      "success"
+    );
+
+    await loadAdminSeva();
+    await loadSeva();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   DELETE SEVA
+===================================================== */
+
+async function deleteSeva(
+  encodedId
+){
+
+  const id =
+    decodeURIComponent(encodedId);
+
+  const item =
+    adminSevaCache.find(
+      x => x.id === id
+    );
+
+  if(!item) return;
+
+  if(
+    !confirm(
+      `क्या आप "${item.title}" को delete करना चाहते हैं?`
+    )
+  ){
+
     return;
   }
 
@@ -3322,44 +3478,1130 @@ async function deleteSeva(id){
       }
     );
 
-    await loadPublicSeva();
+    showNotice(
+      "Seva deleted successfully",
+      "success"
+    );
+
     await loadAdminSeva();
+    await loadSeva();
 
   }catch(error){
 
-    alert(error.message);
+    showNotice(
+      error.message,
+      "error"
+    );
   }
 }
 
+/* =====================================================
+   ADMIN FEEDBACK
+===================================================== */
 
-/* =========================
-   MODAL OUTSIDE CLICK
-========================= */
+async function adminFeedback(){
 
-document.querySelectorAll(".modal").forEach(modal=>{
+  const box =
+    document.getElementById("adminContent");
 
-  modal.addEventListener("click",event=>{
+  box.innerHTML = `
 
-    if(event.target === modal){
-      modal.style.display = "none";
-    }
+    <h2>💬 Feedback</h2>
 
-  });
+    <p style="color:var(--muted)">
+      Feedback messages load हो रहे हैं...
+    </p>
 
-});
+  `;
 
+  try{
 
-/* =========================
-   START
-========================= */
+    const data =
+      await api(
+        "/api/admin/feedback"
+      );
 
-(async function(){
+    const feedback =
+      data.feedback || [];
 
-  await loadMe();
+    box.innerHTML = `
 
-  await loadPublicSeva();
+      <h2>💬 Feedback</h2>
 
-})();
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${
+              feedback.length
+              ?
+              feedback.map(item => `
+
+                <tr>
+
+                  <td>
+                    ${escapeHTML(
+                      item.member_name || "—"
+                    )}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(item.mobile)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(item.email)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(item.message)}
+                  </td>
+
+                  <td>
+                    <span
+                      class="status ${
+                        item.status === "new"
+                        ? "status-new"
+                        : "status-active"
+                      }"
+                    >
+                      ${escapeHTML(item.status)}
+                    </span>
+                  </td>
+
+                  <td>
+
+                    ${
+                      item.status !== "resolved"
+                      ?
+                      `
+                      <button
+                        class="btn btn-success btn-small"
+                        onclick="markFeedback(
+                          '${encodeURIComponent(item.id)}',
+                          'resolved'
+                        )"
+                      >
+                        ✓ Resolve
+                      </button>
+                      `
+                      :
+                      "✓"
+                    }
+
+                  </td>
+
+                </tr>
+
+              `).join("")
+              :
+              `
+              <tr>
+                <td colspan="6">
+                  No feedback found.
+                </td>
+              </tr>
+              `
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    box.innerHTML = `
+      <h2>💬 Feedback</h2>
+      <p style="color:#ff9d9a">
+        ${escapeHTML(error.message)}
+      </p>
+    `;
+  }
+}
+
+async function markFeedback(
+  encodedId,
+  status
+){
+
+  const id =
+    decodeURIComponent(encodedId);
+
+  try{
+
+    await api(
+      "/api/admin/feedback/read",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          id,
+          status
+        })
+      }
+    );
+
+    showNotice(
+      "Feedback updated",
+      "success"
+    );
+
+    adminFeedback();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   STAFF DASHBOARD
+===================================================== */
+
+function renderStaffDashboard(){
+
+  const menu = `
+
+    <button
+      class="side-btn active"
+      onclick="staffHome()"
+    >
+      🏠 Dashboard
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="staffProfile()"
+    >
+      👤 My Profile
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="staffPassword()"
+    >
+      🔐 Password Change
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="staffMembers()"
+    >
+      👥 Members
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="staffFeedback()"
+    >
+      💬 Feedback
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="showHome()"
+    >
+      🌐 Website Home
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="logoutUser()"
+      style="color:#ff8e8a"
+    >
+      🚪 Logout
+    </button>
+
+  `;
+
+  const content = `
+
+    <div class="card panel">
+
+      <h2>
+        👋 Welcome, ${escapeHTML(currentUser.name)}
+      </h2>
+
+      <p class="panel-subtitle">
+        OUMJYOTI Staff Dashboard
+      </p>
+
+      ${
+        currentUser.staffRole
+        ?
+        `
+        <p style="color:var(--gold2)">
+          Staff Role:
+          ${escapeHTML(currentUser.staffRole)}
+        </p>
+        `
+        :
+        ""
+      }
+
+    </div>
+
+    <div
+      id="staffContent"
+      class="card panel"
+    >
+
+      <h2>Staff Dashboard</h2>
+
+      <p style="color:var(--muted)">
+        बाईं तरफ से option चुनें।
+      </p>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("interfaceContent")
+    .innerHTML =
+      dashboardLayout(
+        "STAFF PANEL",
+        menu,
+        content
+      );
+}
+
+function staffHome(){
+
+  const box =
+    document.getElementById("staffContent");
+
+  box.innerHTML = `
+
+    <h2>🏠 Staff Dashboard</h2>
+
+    <p style="color:var(--muted)">
+      Staff members website users और feedback
+      को manage/view कर सकते हैं।
+    </p>
+
+  `;
+}
+
+function staffProfile(){
+
+  const box =
+    document.getElementById("staffContent");
+
+  box.innerHTML = `
+
+    <h2>👤 My Profile</h2>
+
+    <form
+      onsubmit="saveStaffProfile(event)"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            id="staffProfileName"
+            value="${escapeHTML(currentUser.name)}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Mobile</label>
+          <input
+            value="${escapeHTML(currentUser.mobile)}"
+            disabled
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            id="staffProfileEmail"
+            type="email"
+            value="${escapeHTML(currentUser.email)}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Place</label>
+          <input
+            id="staffProfilePlace"
+            value="${escapeHTML(currentUser.place)}"
+            required
+          >
+        </div>
+
+      </div>
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        💾 Save
+      </button>
+
+    </form>
+
+  `;
+}
+
+async function saveStaffProfile(event){
+
+  event.preventDefault();
+
+  try{
+
+    await api(
+      "/api/me",
+      {
+        method:"PUT",
+        body:JSON.stringify({
+
+          name:
+            document
+              .getElementById("staffProfileName")
+              .value.trim(),
+
+          email:
+            document
+              .getElementById("staffProfileEmail")
+              .value.trim(),
+
+          place:
+            document
+              .getElementById("staffProfilePlace")
+              .value.trim()
+
+        })
+      }
+    );
+
+    const me =
+      await api("/api/me");
+
+    currentUser =
+      me.user;
+
+    updateHeader();
+
+    showNotice(
+      "Profile updated",
+      "success"
+    );
+
+    staffProfile();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+function staffPassword(){
+
+  passwordPanel(
+    "staffContent"
+  );
+}
+
+async function staffMembers(){
+
+  const box =
+    document.getElementById("staffContent");
+
+  box.innerHTML = `
+    <h2>👥 Members</h2>
+    <p style="color:var(--muted)">
+      Loading...
+    </p>
+  `;
+
+  try{
+
+    const data =
+      await api(
+        "/api/admin/members"
+      );
+
+    const members =
+      data.members || [];
+
+    box.innerHTML = `
+
+      <h2>👥 Members</h2>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Mobile</th>
+              <th>Email</th>
+              <th>Place</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${
+              members.map(member => `
+
+                <tr>
+
+                  <td>
+                    ${escapeHTML(member.name)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.role)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.mobile)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.email)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.place)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(member.status)}
+                  </td>
+
+                </tr>
+
+              `).join("")
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    box.innerHTML = `
+      <p style="color:#ff9d9a">
+        ${escapeHTML(error.message)}
+      </p>
+    `;
+  }
+}
+
+async function staffFeedback(){
+
+  const box =
+    document.getElementById("staffContent");
+
+  box.innerHTML = `
+    <h2>💬 Feedback</h2>
+    <p style="color:var(--muted)">
+      Loading...
+    </p>
+  `;
+
+  try{
+
+    const data =
+      await api(
+        "/api/admin/feedback"
+      );
+
+    const feedback =
+      data.feedback || [];
+
+    box.innerHTML = `
+
+      <h2>💬 Feedback</h2>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>Member</th>
+              <th>Email</th>
+              <th>Message</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            ${
+              feedback.map(item => `
+
+                <tr>
+
+                  <td>
+                    ${escapeHTML(
+                      item.member_name || "—"
+                    )}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(item.email)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(item.message)}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(item.status)}
+                  </td>
+
+                  <td>
+
+                    ${
+                      item.status !== "resolved"
+                      ?
+                      `
+                      <button
+                        class="btn btn-success btn-small"
+                        onclick="staffMarkFeedback(
+                          '${encodeURIComponent(item.id)}'
+                        )"
+                      >
+                        ✓ Resolve
+                      </button>
+                      `
+                      :
+                      "✓"
+                    }
+
+                  </td>
+
+                </tr>
+
+              `).join("")
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    `;
+
+  }catch(error){
+
+    box.innerHTML = `
+      <p style="color:#ff9d9a">
+        ${escapeHTML(error.message)}
+      </p>
+    `;
+  }
+}
+
+async function staffMarkFeedback(
+  encodedId
+){
+
+  const id =
+    decodeURIComponent(encodedId);
+
+  try{
+
+    await api(
+      "/api/admin/feedback/read",
+      {
+        method:"POST",
+        body:JSON.stringify({
+          id,
+          status:"resolved"
+        })
+      }
+    );
+
+    showNotice(
+      "Feedback resolved",
+      "success"
+    );
+
+    staffFeedback();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   MEMBER DASHBOARD
+===================================================== */
+
+function renderMemberDashboard(){
+
+  const menu = `
+
+    <button
+      class="side-btn active"
+      onclick="memberHome()"
+    >
+      🏠 Dashboard
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="memberProfile()"
+    >
+      👤 My Profile
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="memberPassword()"
+    >
+      🔐 Password Change
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="memberSendFeedback()"
+    >
+      💬 Send Feedback
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="showHome()"
+    >
+      🌐 Website Home
+    </button>
+
+    <button
+      class="side-btn"
+      onclick="logoutUser()"
+      style="color:#ff8e8a"
+    >
+      🚪 Logout
+    </button>
+
+  `;
+
+  const content = `
+
+    <div class="card panel">
+
+      <h2>
+        🙏 Welcome, ${escapeHTML(currentUser.name)}
+      </h2>
+
+      <p style="color:var(--muted)">
+        OUMJYOTI Member Dashboard
+      </p>
+
+    </div>
+
+    <div
+      id="memberContent"
+      class="card panel"
+    >
+
+      <h2>Member Dashboard</h2>
+
+      <p style="color:var(--muted)">
+        बाईं तरफ से option चुनें।
+      </p>
+
+    </div>
+
+  `;
+
+  document
+    .getElementById("interfaceContent")
+    .innerHTML =
+      dashboardLayout(
+        "MEMBER PANEL",
+        menu,
+        content
+      );
+}
+
+function memberHome(){
+
+  const box =
+    document.getElementById("memberContent");
+
+  box.innerHTML = `
+
+    <h2>🏠 Member Dashboard</h2>
+
+    <p style="color:var(--muted)">
+      OUMJYOTI परिवार में आपका स्वागत है।
+    </p>
+
+  `;
+}
+
+function memberProfile(){
+
+  const box =
+    document.getElementById("memberContent");
+
+  box.innerHTML = `
+
+    <h2>👤 My Profile</h2>
+
+    <form
+      onsubmit="saveMemberProfile(event)"
+    >
+
+      <div class="form-grid">
+
+        <div class="form-group">
+          <label>Name</label>
+          <input
+            id="memberProfileName"
+            value="${escapeHTML(currentUser.name)}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Mobile</label>
+          <input
+            value="${escapeHTML(currentUser.mobile)}"
+            disabled
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            id="memberProfileEmail"
+            type="email"
+            value="${escapeHTML(currentUser.email)}"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label>Place</label>
+          <input
+            id="memberProfilePlace"
+            value="${escapeHTML(currentUser.place)}"
+            required
+          >
+        </div>
+
+      </div>
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        💾 Save
+      </button>
+
+    </form>
+
+  `;
+}
+
+async function saveMemberProfile(event){
+
+  event.preventDefault();
+
+  try{
+
+    await api(
+      "/api/me",
+      {
+        method:"PUT",
+        body:JSON.stringify({
+
+          name:
+            document
+              .getElementById("memberProfileName")
+              .value.trim(),
+
+          email:
+            document
+              .getElementById("memberProfileEmail")
+              .value.trim(),
+
+          place:
+            document
+              .getElementById("memberProfilePlace")
+              .value.trim()
+
+        })
+      }
+    );
+
+    const me =
+      await api("/api/me");
+
+    currentUser =
+      me.user;
+
+    updateHeader();
+
+    showNotice(
+      "Profile updated",
+      "success"
+    );
+
+    memberProfile();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+function memberPassword(){
+
+  passwordPanel(
+    "memberContent"
+  );
+}
+
+function memberSendFeedback(){
+
+  const box =
+    document.getElementById("memberContent");
+
+  box.innerHTML = `
+
+    <h2>💬 Send Feedback</h2>
+
+    <form
+      onsubmit="submitMemberFeedback(event)"
+    >
+
+      <div class="form-group">
+
+        <label>Email</label>
+
+        <input
+          id="memberFeedbackEmail"
+          type="email"
+          value="${escapeHTML(currentUser.email)}"
+          required
+        >
+
+      </div>
+
+      <br>
+
+      <div class="form-group">
+
+        <label>Mobile</label>
+
+        <input
+          id="memberFeedbackMobile"
+          value="${escapeHTML(currentUser.mobile)}"
+          required
+        >
+
+      </div>
+
+      <br>
+
+      <div class="form-group">
+
+        <label>Message</label>
+
+        <textarea
+          id="memberFeedbackMessage"
+          required
+        ></textarea>
+
+      </div>
+
+      <br>
+
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        📩 Send Feedback
+      </button>
+
+    </form>
+
+  `;
+}
+
+async function submitMemberFeedback(event){
+
+  event.preventDefault();
+
+  try{
+
+    await api(
+      "/api/feedback",
+      {
+        method:"POST",
+        body:JSON.stringify({
+
+          email:
+            document
+              .getElementById("memberFeedbackEmail")
+              .value.trim(),
+
+          mobile:
+            document
+              .getElementById("memberFeedbackMobile")
+              .value.trim(),
+
+          message:
+            document
+              .getElementById("memberFeedbackMessage")
+              .value.trim()
+
+        })
+      }
+    );
+
+    showNotice(
+      "Feedback submitted",
+      "success"
+    );
+
+    memberHome();
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   PUBLIC FEEDBACK
+===================================================== */
+
+async function submitFeedback(event){
+
+  event.preventDefault();
+
+  if(!currentUser){
+
+    showNotice(
+      "Feedback भेजने के लिए पहले Login करें।",
+      "info"
+    );
+
+    openLogin();
+
+    return;
+  }
+
+  try{
+
+    await api(
+      "/api/feedback",
+      {
+        method:"POST",
+        body:JSON.stringify({
+
+          email:
+            document
+              .getElementById("feedbackEmail")
+              .value.trim(),
+
+          mobile:
+            document
+              .getElementById("feedbackMobile")
+              .value.trim(),
+
+          message:
+            document
+              .getElementById("feedbackMessage")
+              .value.trim()
+
+        })
+      }
+    );
+
+    document
+      .getElementById("feedbackForm")
+      .reset();
+
+    showNotice(
+      "आपका feedback भेज दिया गया।",
+      "success"
+    );
+
+  }catch(error){
+
+    showNotice(
+      error.message,
+      "error"
+    );
+  }
+}
+
+/* =====================================================
+   INITIAL LOAD
+===================================================== */
+
+document.addEventListener(
+  "DOMContentLoaded",
+  async ()=>{
+
+    await loadSeva();
+
+    await checkAuth();
+
+  }
+);
+
 </script>
 
 </body>
