@@ -158,9 +158,7 @@ async function decryptText(payload, env) {
 }
 
 function cookie(name, value, maxAge) {
-  return `${name}=${encodeURIComponent(
-    value
-  )}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+  return `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
 function clearCookie(name) {
@@ -168,9 +166,7 @@ function clearCookie(name) {
 }
 
 function input(v, max = 500) {
-  return String(v ?? "")
-    .trim()
-    .slice(0, max);
+  return String(v ?? "").trim().slice(0, max);
 }
 
 function validEmail(v) {
@@ -198,8 +194,7 @@ function maskPan(v) {
 }
 
 function getSessionToken(request) {
-  const cookieHeader =
-    request.headers.get("Cookie") || "";
+  const cookieHeader = request.headers.get("Cookie") || "";
 
   const match = cookieHeader.match(
     /(?:^|;\s*)session=([^;]+)/
@@ -524,6 +519,7 @@ async function api(request, env) {
         },
         201
       );
+
     } catch (e) {
       console.error(
         "REGISTER_ERROR:",
@@ -609,6 +605,7 @@ async function api(request, env) {
     return json(
       {
         ok: true,
+
         user: {
           id: u.id,
           role: u.role,
@@ -678,6 +675,7 @@ async function api(request, env) {
 
     return json({
       authenticated: true,
+
       user: {
         id: currentUser.id,
         role: currentUser.role,
@@ -687,36 +685,6 @@ async function api(request, env) {
         mobile: currentUser.mobile,
         staffRole: currentUser.staff_role
       }
-    });
-  }
-
-  /* =========================
-     PUBLIC SEVA
-  ========================== */
-
-  if (
-    path === "/api/seva" &&
-    method === "GET"
-  ) {
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          id,
-          title,
-          description,
-          image_url,
-          icon,
-          active,
-          sort_order,
-          created_at,
-          updated_at
-        FROM seva
-        WHERE active = 1
-        ORDER BY sort_order ASC, created_at ASC`
-      ).all();
-
-    return json({
-      seva: rows.results || []
     });
   }
 
@@ -789,6 +757,7 @@ async function api(request, env) {
       return json({
         ok: true
       });
+
     } catch (e) {
       console.error(
         "PROFILE_UPDATE_ERROR:",
@@ -1120,6 +1089,7 @@ async function api(request, env) {
         { ok: true },
         201
       );
+
     } catch (e) {
       console.error(
         "ADMIN_MEMBER_CREATE_ERROR:",
@@ -1137,7 +1107,7 @@ async function api(request, env) {
   }
 
   /* =========================
-     ADMIN ENABLE / DISABLE
+     ADMIN ENABLE/DISABLE
   ========================== */
 
   const memberMatch =
@@ -1201,393 +1171,6 @@ async function api(request, env) {
 
     return json({
       ok: true
-    });
-  }
-
-  /* =====================================================
-     SEVA MANAGEMENT - ADMIN ONLY
-  ====================================================== */
-
-  /* =========================
-     CREATE SEVA
-  ========================== */
-
-  if (
-    path === "/api/admin/seva" &&
-    method === "POST"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const title =
-      input(b.title, 150);
-
-    const description =
-      input(b.description, 1000);
-
-    const imageUrl =
-      input(b.imageUrl, 1000);
-
-    const icon =
-      input(b.icon, 20) || "🙏";
-
-    let sortOrder =
-      Number(b.sortOrder);
-
-    if (!Number.isFinite(sortOrder)) {
-      sortOrder = 0;
-    }
-
-    sortOrder = Math.max(
-      0,
-      Math.min(9999, Math.floor(sortOrder))
-    );
-
-    const active =
-      b.active === false ||
-      b.active === 0 ||
-      b.active === "0"
-        ? 0
-        : 1;
-
-    if (!title) {
-      return json(
-        {
-          error:
-            "Seva title is required"
-        },
-        400
-      );
-    }
-
-    try {
-      const id = uid();
-
-      await env.DB.prepare(
-        `INSERT INTO seva
-        (
-          id,
-          title,
-          description,
-          image_url,
-          icon,
-          active,
-          sort_order,
-          created_at,
-          updated_at
-        )
-        VALUES (?,?,?,?,?,?,?,?,?)`
-      )
-        .bind(
-          id,
-          title,
-          description,
-          imageUrl,
-          icon,
-          active,
-          sortOrder,
-          now(),
-          now()
-        )
-        .run();
-
-      const created =
-        await env.DB.prepare(
-          `SELECT
-            id,
-            title,
-            description,
-            image_url,
-            icon,
-            active,
-            sort_order,
-            created_at,
-            updated_at
-           FROM seva
-           WHERE id=?`
-        )
-          .bind(id)
-          .first();
-
-      return json(
-        {
-          ok: true,
-          seva: created
-        },
-        201
-      );
-
-    } catch (e) {
-      console.error(
-        "SEVA_CREATE_ERROR:",
-        e
-      );
-
-      return json(
-        {
-          error:
-            "Unable to create Seva"
-        },
-        500
-      );
-    }
-  }
-
-  /* =========================
-     LIST ALL SEVA FOR ADMIN
-  ========================== */
-
-  if (
-    path === "/api/admin/seva" &&
-    method === "GET"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const rows =
-      await env.DB.prepare(
-        `SELECT
-          id,
-          title,
-          description,
-          image_url,
-          icon,
-          active,
-          sort_order,
-          created_at,
-          updated_at
-        FROM seva
-        ORDER BY sort_order ASC, created_at ASC`
-      ).all();
-
-    return json({
-      seva:
-        rows.results || []
-    });
-  }
-
-  /* =========================
-     UPDATE SEVA
-  ========================== */
-
-  const sevaMatch =
-    path.match(
-      /^\/api\/admin\/seva\/([^/]+)$/
-    );
-
-  if (
-    sevaMatch &&
-    method === "PATCH"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const id =
-      sevaMatch[1];
-
-    const existing =
-      await env.DB.prepare(
-        `SELECT *
-         FROM seva
-         WHERE id=?`
-      )
-        .bind(id)
-        .first();
-
-    if (!existing) {
-      return json(
-        {
-          error:
-            "Seva not found"
-        },
-        404
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const title =
-      b.title !== undefined
-        ? input(b.title, 150)
-        : existing.title;
-
-    const description =
-      b.description !== undefined
-        ? input(b.description, 1000)
-        : existing.description;
-
-    const imageUrl =
-      b.imageUrl !== undefined
-        ? input(b.imageUrl, 1000)
-        : existing.image_url;
-
-    const icon =
-      b.icon !== undefined
-        ? input(b.icon, 20)
-        : existing.icon;
-
-    let sortOrder =
-      b.sortOrder !== undefined
-        ? Number(b.sortOrder)
-        : Number(existing.sort_order);
-
-    if (!Number.isFinite(sortOrder)) {
-      sortOrder = 0;
-    }
-
-    sortOrder = Math.max(
-      0,
-      Math.min(9999, Math.floor(sortOrder))
-    );
-
-    let active =
-      Number(existing.active) ? 1 : 0;
-
-    if (b.active !== undefined) {
-      active =
-        b.active === true ||
-        b.active === 1 ||
-        b.active === "1"
-          ? 1
-          : 0;
-    }
-
-    if (!title) {
-      return json(
-        {
-          error:
-            "Seva title is required"
-        },
-        400
-      );
-    }
-
-    try {
-      await env.DB.prepare(
-        `UPDATE seva
-         SET title=?,
-             description=?,
-             image_url=?,
-             icon=?,
-             active=?,
-             sort_order=?,
-             updated_at=?
-         WHERE id=?`
-      )
-        .bind(
-          title,
-          description,
-          imageUrl,
-          icon,
-          active,
-          sortOrder,
-          now(),
-          id
-        )
-        .run();
-
-      const updated =
-        await env.DB.prepare(
-          `SELECT
-            id,
-            title,
-            description,
-            image_url,
-            icon,
-            active,
-            sort_order,
-            created_at,
-            updated_at
-           FROM seva
-           WHERE id=?`
-        )
-          .bind(id)
-          .first();
-
-      return json({
-        ok: true,
-        seva: updated
-      });
-
-    } catch (e) {
-      console.error(
-        "SEVA_UPDATE_ERROR:",
-        e
-      );
-
-      return json(
-        {
-          error:
-            "Unable to update Seva"
-        },
-        500
-      );
-    }
-  }
-
-  /* =========================
-     DELETE SEVA
-  ========================== */
-
-  if (
-    sevaMatch &&
-    method === "DELETE"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const id =
-      sevaMatch[1];
-
-    const existing =
-      await env.DB.prepare(
-        `SELECT id
-         FROM seva
-         WHERE id=?`
-      )
-        .bind(id)
-        .first();
-
-    if (!existing) {
-      return json(
-        {
-          error:
-            "Seva not found"
-        },
-        404
-      );
-    }
-
-    await env.DB.prepare(
-      "DELETE FROM seva WHERE id=?"
-    )
-      .bind(id)
-      .run();
-
-    return json({
-      ok: true,
-      message:
-        "Seva deleted successfully"
     });
   }
 
