@@ -48,6 +48,10 @@ async function randomB64(n = 32) {
   return b64(a);
 }
 
+/* =========================
+   PASSWORD HASH
+========================= */
+
 async function passwordHash(password, saltB64) {
   const salt = saltB64
     ? unb64(saltB64)
@@ -83,9 +87,15 @@ async function verifyPassword(password, hash, salt) {
   return r.hash === hash;
 }
 
+/* =========================
+   ENCRYPTION
+========================= */
+
 function getEncryptionKey(env) {
   if (!env.APP_ENCRYPTION_KEY) {
-    throw new Error("APP_ENCRYPTION_KEY is not configured");
+    throw new Error(
+      "APP_ENCRYPTION_KEY is not configured"
+    );
   }
 
   const keyBytes = unb64(env.APP_ENCRYPTION_KEY);
@@ -110,7 +120,9 @@ async function encryptText(plaintext, env) {
     ["encrypt"]
   );
 
-  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const iv = crypto.getRandomValues(
+    new Uint8Array(12)
+  );
 
   const ct = await crypto.subtle.encrypt(
     {
@@ -130,7 +142,9 @@ async function decryptText(payload, env) {
   const parts = payload.split(".");
 
   if (parts.length !== 2) {
-    throw new Error("Invalid encrypted payload");
+    throw new Error(
+      "Invalid encrypted payload"
+    );
   }
 
   const [ivS, ctS] = parts;
@@ -157,16 +171,28 @@ async function decryptText(payload, env) {
   return new TextDecoder().decode(pt);
 }
 
+/* =========================
+   COOKIE
+========================= */
+
 function cookie(name, value, maxAge) {
-  return `${name}=${encodeURIComponent(value)}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
+  return `${name}=${encodeURIComponent(
+    value
+  )}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
 function clearCookie(name) {
   return `${name}=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
+/* =========================
+   INPUT VALIDATION
+========================= */
+
 function input(v, max = 500) {
-  return String(v ?? "").trim().slice(0, max);
+  return String(v ?? "")
+    .trim()
+    .slice(0, max);
 }
 
 function validEmail(v) {
@@ -186,15 +212,24 @@ function validPassword(v) {
 }
 
 function maskAadhaar(v) {
-  return v ? `XXXX-XXXX-${v.slice(-4)}` : "";
+  return v
+    ? `XXXX-XXXX-${v.slice(-4)}`
+    : "";
 }
 
 function maskPan(v) {
-  return v ? `${v.slice(0, 2)}XXXX${v.slice(-2)}` : "";
+  return v
+    ? `${v.slice(0, 2)}XXXX${v.slice(-2)}`
+    : "";
 }
 
+/* =========================
+   SESSION
+========================= */
+
 function getSessionToken(request) {
-  const cookieHeader = request.headers.get("Cookie") || "";
+  const cookieHeader =
+    request.headers.get("Cookie") || "";
 
   const match = cookieHeader.match(
     /(?:^|;\s*)session=([^;]+)/
@@ -210,7 +245,8 @@ async function createSession(userId, env) {
   const hash = await sha256(raw);
 
   const expires = new Date(
-    Date.now() + 1000 * 60 * 60 * 24 * 7
+    Date.now() +
+      1000 * 60 * 60 * 24 * 7
   ).toISOString();
 
   await env.DB.prepare(
@@ -231,40 +267,52 @@ async function createSession(userId, env) {
 }
 
 async function auth(request, env) {
-  const token = getSessionToken(request);
+  const token =
+    getSessionToken(request);
 
   if (!token) return null;
 
-  const tokenHash = await sha256(token);
+  const tokenHash =
+    await sha256(token);
 
-  const row = await env.DB.prepare(
-    `SELECT
-       u.id,
-       u.role,
-       u.name,
-       u.place,
-       u.email,
-       u.mobile,
-       u.status,
-       u.staff_role,
-       s.expires_at
-     FROM sessions s
-     JOIN users u ON u.id = s.user_id
-     WHERE s.token_hash = ?
-       AND s.expires_at > ?
-       AND u.status = 'active'`
-  )
-    .bind(tokenHash, now())
-    .first();
+  const row =
+    await env.DB.prepare(
+      `SELECT
+         u.id,
+         u.role,
+         u.name,
+         u.place,
+         u.email,
+         u.mobile,
+         u.status,
+         u.staff_role,
+         s.expires_at
+       FROM sessions s
+       JOIN users u
+         ON u.id = s.user_id
+       WHERE s.token_hash = ?
+         AND s.expires_at > ?
+         AND u.status = 'active'`
+    )
+      .bind(
+        tokenHash,
+        now()
+      )
+      .first();
 
   return row || null;
 }
 
 function requireRole(user, roles) {
   return Boolean(
-    user && roles.includes(user.role)
+    user &&
+    roles.includes(user.role)
   );
 }
+
+/* =========================
+   MAIN API
+========================= */
 
 async function api(request, env) {
   const url = new URL(request.url);
@@ -294,14 +342,18 @@ async function api(request, env) {
     method === "POST"
   ) {
     const body =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
     if (
       !env.SETUP_KEY ||
       body.setupKey !== env.SETUP_KEY
     ) {
       return json(
-        { error: "Invalid setup key" },
+        {
+          error:
+            "Invalid setup key"
+        },
         403
       );
     }
@@ -311,19 +363,35 @@ async function api(request, env) {
         "SELECT COUNT(*) AS n FROM users WHERE role='admin'"
       ).first();
 
-    if (Number(existing?.n || 0) > 0) {
+    if (
+      Number(existing?.n || 0) > 0
+    ) {
       return json(
-        { error: "Admin already exists" },
+        {
+          error:
+            "Admin already exists"
+        },
         409
       );
     }
 
-    const name = input(body.name, 100);
-    const place = input(body.place, 100);
+    const name =
+      input(body.name, 100);
+
+    const place =
+      input(body.place, 100);
+
     const email =
-      input(body.email, 150).toLowerCase();
-    const mobile = input(body.mobile, 10);
-    const password = body.password;
+      input(
+        body.email,
+        150
+      ).toLowerCase();
+
+    const mobile =
+      input(body.mobile, 10);
+
+    const password =
+      body.password;
 
     if (
       !name ||
@@ -341,7 +409,8 @@ async function api(request, env) {
       );
     }
 
-    const p = await passwordHash(password);
+    const p =
+      await passwordHash(password);
 
     try {
       await env.DB.prepare(
@@ -406,21 +475,35 @@ async function api(request, env) {
     method === "POST"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
-    const name = input(b.name, 100);
-    const place = input(b.place, 100);
+    const name =
+      input(b.name, 100);
+
+    const place =
+      input(b.place, 100);
+
     const email =
-      input(b.email, 150).toLowerCase();
-    const mobile = input(b.mobile, 10);
-    const password = b.password;
+      input(
+        b.email,
+        150
+      ).toLowerCase();
 
-    const pan = input(b.pan, 20)
-      .toUpperCase()
-      .replace(/\s/g, "");
+    const mobile =
+      input(b.mobile, 10);
 
-    const aadhaar = input(b.aadhaar, 20)
-      .replace(/\D/g, "");
+    const password =
+      b.password;
+
+    const pan =
+      input(b.pan, 20)
+        .toUpperCase()
+        .replace(/\s/g, "");
+
+    const aadhaar =
+      input(b.aadhaar, 20)
+        .replace(/\D/g, "");
 
     if (
       !name ||
@@ -444,7 +527,8 @@ async function api(request, env) {
     ) {
       return json(
         {
-          error: "PAN format is invalid"
+          error:
+            "PAN format is invalid"
         },
         400
       );
@@ -467,13 +551,21 @@ async function api(request, env) {
       await passwordHash(password);
 
     try {
-      const panEnc = pan
-        ? await encryptText(pan, env)
-        : null;
+      const panEnc =
+        pan
+          ? await encryptText(
+              pan,
+              env
+            )
+          : null;
 
-      const aadhaarEnc = aadhaar
-        ? await encryptText(aadhaar, env)
-        : null;
+      const aadhaarEnc =
+        aadhaar
+          ? await encryptText(
+              aadhaar,
+              env
+            )
+          : null;
 
       await env.DB.prepare(
         `INSERT INTO users
@@ -519,7 +611,6 @@ async function api(request, env) {
         },
         201
       );
-
     } catch (e) {
       console.error(
         "REGISTER_ERROR:",
@@ -545,19 +636,24 @@ async function api(request, env) {
     method === "POST"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
     const mobile =
       input(b.mobile, 10);
 
-    const password = b.password;
+    const password =
+      b.password;
 
     if (
       !validMobile(mobile) ||
       !validPassword(password)
     ) {
       return json(
-        { error: "Invalid login" },
+        {
+          error:
+            "Invalid login"
+        },
         400
       );
     }
@@ -600,12 +696,14 @@ async function api(request, env) {
     }
 
     const token =
-      await createSession(u.id, env);
+      await createSession(
+        u.id,
+        env
+      );
 
     return json(
       {
         ok: true,
-
         user: {
           id: u.id,
           role: u.role,
@@ -613,16 +711,18 @@ async function api(request, env) {
           place: u.place,
           email: u.email,
           mobile: u.mobile,
-          staffRole: u.staff_role
+          staffRole:
+            u.staff_role
         }
       },
       200,
       {
-        "set-cookie": cookie(
-          "session",
-          token,
-          60 * 60 * 24 * 7
-        )
+        "set-cookie":
+          cookie(
+            "session",
+            token,
+            60 * 60 * 24 * 7
+          )
       }
     );
   }
@@ -642,12 +742,16 @@ async function api(request, env) {
       await env.DB.prepare(
         "DELETE FROM sessions WHERE token_hash=?"
       )
-        .bind(await sha256(token))
+        .bind(
+          await sha256(token)
+        )
         .run();
     }
 
     return json(
-      { ok: true },
+      {
+        ok: true
+      },
       200,
       {
         "set-cookie":
@@ -665,7 +769,10 @@ async function api(request, env) {
     method === "GET"
   ) {
     const currentUser =
-      await auth(request, env);
+      await auth(
+        request,
+        env
+      );
 
     if (!currentUser) {
       return json({
@@ -675,7 +782,6 @@ async function api(request, env) {
 
     return json({
       authenticated: true,
-
       user: {
         id: currentUser.id,
         role: currentUser.role,
@@ -683,19 +789,68 @@ async function api(request, env) {
         place: currentUser.place,
         email: currentUser.email,
         mobile: currentUser.mobile,
-        staffRole: currentUser.staff_role
+        staffRole:
+          currentUser.staff_role
       }
     });
+  }
+
+  /* =========================
+     PUBLIC SEVA
+  ========================== */
+
+  if (
+    path === "/api/seva" &&
+    method === "GET"
+  ) {
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            title,
+            description,
+            image_url,
+            icon,
+            active,
+            sort_order,
+            created_at,
+            updated_at
+          FROM seva
+          WHERE active = 1
+          ORDER BY sort_order ASC,
+                   created_at ASC`
+        ).all();
+
+      return json({
+        seva:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "PUBLIC_SEVA_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load seva"
+        },
+        500
+      );
+    }
   }
 
   /* =========================
      AUTH REQUIRED BELOW
   ========================== */
 
-  const u = await auth(
-    request,
-    env
-  );
+  const u =
+    await auth(
+      request,
+      env
+    );
 
   if (!u) {
     return json(
@@ -716,12 +871,20 @@ async function api(request, env) {
     method === "PUT"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
-    const name = input(b.name, 100);
-    const place = input(b.place, 100);
+    const name =
+      input(b.name, 100);
+
+    const place =
+      input(b.place, 100);
+
     const email =
-      input(b.email, 150).toLowerCase();
+      input(
+        b.email,
+        150
+      ).toLowerCase();
 
     if (
       !name ||
@@ -730,7 +893,8 @@ async function api(request, env) {
     ) {
       return json(
         {
-          error: "Invalid profile"
+          error:
+            "Invalid profile"
         },
         400
       );
@@ -757,7 +921,6 @@ async function api(request, env) {
       return json({
         ok: true
       });
-
     } catch (e) {
       console.error(
         "PROFILE_UPDATE_ERROR:",
@@ -783,7 +946,8 @@ async function api(request, env) {
     method === "PUT"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
     if (
       !validPassword(
@@ -854,7 +1018,9 @@ async function api(request, env) {
       .run();
 
     return json(
-      { ok: true },
+      {
+        ok: true
+      },
       200,
       {
         "set-cookie":
@@ -872,7 +1038,8 @@ async function api(request, env) {
     method === "POST"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
     const mobile =
       input(
@@ -887,7 +1054,10 @@ async function api(request, env) {
       ).toLowerCase();
 
     const message =
-      input(b.message, 2000);
+      input(
+        b.message,
+        2000
+      );
 
     if (
       !validMobile(mobile) ||
@@ -952,7 +1122,10 @@ async function api(request, env) {
       ])
     ) {
       return json(
-        { error: "Forbidden" },
+        {
+          error:
+            "Forbidden"
+        },
         403
       );
     }
@@ -990,13 +1163,17 @@ async function api(request, env) {
   ) {
     if (u.role !== "admin") {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
 
     const b =
-      await request.json().catch(() => ({}));
+      await request.json()
+        .catch(() => ({}));
 
     const name =
       input(b.name, 100);
@@ -1011,7 +1188,10 @@ async function api(request, env) {
       ).toLowerCase();
 
     const mobile =
-      input(b.mobile, 10);
+      input(
+        b.mobile,
+        10
+      );
 
     const password =
       b.password;
@@ -1046,7 +1226,9 @@ async function api(request, env) {
     }
 
     const p =
-      await passwordHash(password);
+      await passwordHash(
+        password
+      );
 
     try {
       await env.DB.prepare(
@@ -1086,10 +1268,11 @@ async function api(request, env) {
         .run();
 
       return json(
-        { ok: true },
+        {
+          ok: true
+        },
         201
       );
-
     } catch (e) {
       console.error(
         "ADMIN_MEMBER_CREATE_ERROR:",
@@ -1106,8 +1289,582 @@ async function api(request, env) {
     }
   }
 
+  /* ==================================================
+     SEVA MANAGEMENT
+     ADMIN ONLY
+  ================================================== */
+
   /* =========================
-     ADMIN ENABLE/DISABLE
+     GET ALL SEVA
+  ========================== */
+
+  if (
+    path === "/api/admin/seva" &&
+    method === "GET"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            title,
+            description,
+            image_url,
+            icon,
+            active,
+            sort_order,
+            created_at,
+            updated_at
+          FROM seva
+          ORDER BY sort_order ASC,
+                   created_at ASC`
+        ).all();
+
+      return json({
+        seva:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADD NEW SEVA
+  ========================== */
+
+  if (
+    path === "/api/admin/seva" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const title =
+      input(b.title, 150);
+
+    const description =
+      input(
+        b.description,
+        2000
+      );
+
+    const imageUrl =
+      input(
+        b.image_url ??
+          b.imageUrl,
+        1000
+      );
+
+    const icon =
+      input(
+        b.icon,
+        20
+      ) || "🕉️";
+
+    let sortOrder =
+      Number(
+        b.sort_order ??
+          b.sortOrder ??
+          0
+      );
+
+    if (
+      !Number.isFinite(sortOrder)
+    ) {
+      sortOrder = 0;
+    }
+
+    const active =
+      b.active === false ||
+      b.active === 0 ||
+      b.active === "0"
+        ? 0
+        : 1;
+
+    if (!title) {
+      return json(
+        {
+          error:
+            "Seva name/title is required"
+        },
+        400
+      );
+    }
+
+    try {
+      const id = uid();
+      const timestamp = now();
+
+      await env.DB.prepare(
+        `INSERT INTO seva
+        (
+          id,
+          title,
+          description,
+          image_url,
+          icon,
+          active,
+          sort_order,
+          created_at,
+          updated_at
+        )
+        VALUES (?,?,?,?,?,?,?,?,?)`
+      )
+        .bind(
+          id,
+          title,
+          description,
+          imageUrl,
+          icon,
+          active,
+          sortOrder,
+          timestamp,
+          timestamp
+        )
+        .run();
+
+      const created =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            title,
+            description,
+            image_url,
+            icon,
+            active,
+            sort_order,
+            created_at,
+            updated_at
+          FROM seva
+          WHERE id=?`
+        )
+          .bind(id)
+          .first();
+
+      return json(
+        {
+          ok: true,
+          seva: created
+        },
+        201
+      );
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_CREATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to create seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     EDIT SEVA
+  ========================== */
+
+  const sevaMatch =
+    path.match(
+      /^\/api\/admin\/seva\/([^/]+)$/
+    );
+
+  if (
+    sevaMatch &&
+    method === "PATCH"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const sevaId =
+      decodeURIComponent(
+        sevaMatch[1]
+      );
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const existing =
+      await env.DB.prepare(
+        `SELECT *
+         FROM seva
+         WHERE id=?`
+      )
+        .bind(sevaId)
+        .first();
+
+    if (!existing) {
+      return json(
+        {
+          error:
+            "Seva not found"
+        },
+        404
+      );
+    }
+
+    const title =
+      b.title !== undefined
+        ? input(b.title, 150)
+        : existing.title;
+
+    const description =
+      b.description !== undefined
+        ? input(
+            b.description,
+            2000
+          )
+        : existing.description;
+
+    const imageUrl =
+      b.image_url !== undefined ||
+      b.imageUrl !== undefined
+        ? input(
+            b.image_url ??
+              b.imageUrl,
+            1000
+          )
+        : existing.image_url;
+
+    const icon =
+      b.icon !== undefined
+        ? input(
+            b.icon,
+            20
+          ) || "🕉️"
+        : existing.icon;
+
+    let sortOrder =
+      b.sort_order !== undefined ||
+      b.sortOrder !== undefined
+        ? Number(
+            b.sort_order ??
+              b.sortOrder
+          )
+        : Number(
+            existing.sort_order || 0
+          );
+
+    if (
+      !Number.isFinite(sortOrder)
+    ) {
+      sortOrder = 0;
+    }
+
+    let active =
+      Number(
+        existing.active
+      ) === 1
+        ? 1
+        : 0;
+
+    if (
+      b.active !== undefined
+    ) {
+      active =
+        b.active === false ||
+        b.active === 0 ||
+        b.active === "0"
+          ? 0
+          : 1;
+    }
+
+    if (!title) {
+      return json(
+        {
+          error:
+            "Seva name/title is required"
+        },
+        400
+      );
+    }
+
+    try {
+      await env.DB.prepare(
+        `UPDATE seva
+         SET title=?,
+             description=?,
+             image_url=?,
+             icon=?,
+             active=?,
+             sort_order=?,
+             updated_at=?
+         WHERE id=?`
+      )
+        .bind(
+          title,
+          description,
+          imageUrl,
+          icon,
+          active,
+          sortOrder,
+          now(),
+          sevaId
+        )
+        .run();
+
+      const updated =
+        await env.DB.prepare(
+          `SELECT
+            id,
+            title,
+            description,
+            image_url,
+            icon,
+            active,
+            sort_order,
+            created_at,
+            updated_at
+          FROM seva
+          WHERE id=?`
+        )
+          .bind(sevaId)
+          .first();
+
+      return json({
+        ok: true,
+        seva: updated
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_UPDATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to update seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     DELETE SEVA
+  ========================== */
+
+  if (
+    sevaMatch &&
+    method === "DELETE"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const sevaId =
+      decodeURIComponent(
+        sevaMatch[1]
+      );
+
+    const existing =
+      await env.DB.prepare(
+        `SELECT id
+         FROM seva
+         WHERE id=?`
+      )
+        .bind(sevaId)
+        .first();
+
+    if (!existing) {
+      return json(
+        {
+          error:
+            "Seva not found"
+        },
+        404
+      );
+    }
+
+    try {
+      await env.DB.prepare(
+        `DELETE FROM seva
+         WHERE id=?`
+      )
+        .bind(sevaId)
+        .run();
+
+      return json({
+        ok: true,
+        message:
+          "Seva deleted successfully"
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_SEVA_DELETE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to delete seva"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN FEEDBACK
+  ========================== */
+
+  if (
+    path === "/api/admin/feedback" &&
+    method === "GET"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    try {
+      const rows =
+        await env.DB.prepare(
+          `SELECT
+            f.id,
+            f.user_id,
+            f.mobile,
+            f.email,
+            f.message,
+            f.status,
+            f.created_at,
+            u.name,
+            u.role
+          FROM feedback f
+          LEFT JOIN users u
+            ON u.id = f.user_id
+          ORDER BY f.created_at DESC
+          LIMIT 500`
+        ).all();
+
+      return json({
+        feedback:
+          rows.results || []
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_FEEDBACK_GET_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Unable to load feedback"
+        },
+        500
+      );
+    }
+  }
+
+  /* =========================
+     ADMIN MARK FEEDBACK READ
+  ========================== */
+
+  if (
+    path === "/api/admin/feedback/read" &&
+    method === "POST"
+  ) {
+    if (u.role !== "admin") {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request.json()
+        .catch(() => ({}));
+
+    const id =
+      input(b.id, 100);
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Feedback ID is required"
+        },
+        400
+      );
+    }
+
+    await env.DB.prepare(
+      `UPDATE feedback
+       SET status='read'
+       WHERE id=?`
+    )
+      .bind(id)
+      .run();
+
+    return json({
+      ok: true
+    });
+  }
+
+  /* =========================
+     ADMIN UPDATE MEMBER
   ========================== */
 
   const memberMatch =
@@ -1121,213 +1878,37 @@ async function api(request, env) {
   ) {
     if (u.role !== "admin") {
       return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const id =
-      memberMatch[1];
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const status =
-      b.status === "disabled"
-        ? "disabled"
-        : "active";
-
-    if (
-      id === u.id &&
-      status === "disabled"
-    ) {
-      return json(
         {
           error:
-            "You cannot disable your own admin account"
+            "Admin only"
         },
-        400
-      );
-    }
-
-    await env.DB.prepare(
-      `UPDATE users
-       SET status=?,
-           updated_at=?
-       WHERE id=?`
-    )
-      .bind(
-        status,
-        now(),
-        id
-      )
-      .run();
-
-    await env.DB.prepare(
-      "DELETE FROM sessions WHERE user_id=?"
-    )
-      .bind(id)
-      .run();
-
-    return json({
-      ok: true
-    });
-  }
-
-  /* =========================
-     ADMIN / STAFF FEEDBACK
-  ========================== */
-
-  if (
-    path === "/api/admin/feedback" &&
-    method === "GET"
-  ) {
-    if (
-      !requireRole(u, [
-        "admin",
-        "staff"
-      ])
-    ) {
-      return json(
-        { error: "Forbidden" },
         403
       );
     }
 
-    const rows =
+    const memberId =
+      decodeURIComponent(
+        memberMatch[1]
+      );
+
+    const existing =
       await env.DB.prepare(
         `SELECT
-          f.id,
-          f.mobile,
-          f.email,
-          f.message,
-          f.status,
-          f.created_at,
-          u.name AS member_name
-        FROM feedback f
-        LEFT JOIN users u
-          ON u.id=f.user_id
-        ORDER BY f.created_at DESC
-        LIMIT 500`
-      ).all();
-
-    return json({
-      feedback:
-        rows.results || []
-    });
-  }
-
-  /* =========================
-     MARK FEEDBACK
-  ========================== */
-
-  if (
-    path ===
-      "/api/admin/feedback/read" &&
-    method === "POST"
-  ) {
-    if (
-      !requireRole(u, [
-        "admin",
-        "staff"
-      ])
-    ) {
-      return json(
-        { error: "Forbidden" },
-        403
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    const status =
-      [
-        "new",
-        "read",
-        "resolved"
-      ].includes(b.status)
-        ? b.status
-        : "read";
-
-    if (!b.id) {
-      return json(
-        {
-          error:
-            "Feedback ID is required"
-        },
-        400
-      );
-    }
-
-    const result =
-      await env.DB.prepare(
-        `UPDATE feedback
-         SET status=?
+          id,
+          role,
+          name,
+          place,
+          email,
+          mobile,
+          status,
+          staff_role
+         FROM users
          WHERE id=?`
       )
-        .bind(
-          status,
-          b.id
-        )
-        .run();
-
-    if (!result.meta?.changes) {
-      return json(
-        {
-          error:
-            "Feedback not found"
-        },
-        404
-      );
-    }
-
-    return json({
-      ok: true
-    });
-  }
-
-  /* =========================
-     ADMIN SENSITIVE DATA
-  ========================== */
-
-  if (
-    path ===
-      "/api/admin/member-sensitive" &&
-    method === "POST"
-  ) {
-    if (u.role !== "admin") {
-      return json(
-        { error: "Admin only" },
-        403
-      );
-    }
-
-    const b =
-      await request.json().catch(() => ({}));
-
-    if (!b.id) {
-      return json(
-        {
-          error:
-            "Member ID is required"
-        },
-        400
-      );
-    }
-
-    const row =
-      await env.DB.prepare(
-        `SELECT
-          pan_enc,
-          aadhaar_enc
-        FROM users
-        WHERE id=?`
-      )
-        .bind(b.id)
+        .bind(memberId)
         .first();
 
-    if (!row) {
+    if (!existing) {
       return json(
         {
           error:
@@ -1337,75 +1918,192 @@ async function api(request, env) {
       );
     }
 
-    let pan = "";
-    let aadhaar = "";
+    const b =
+      await request.json()
+        .catch(() => ({}));
 
-    if (row.pan_enc) {
-      pan = maskPan(
-        await decryptText(
-          row.pan_enc,
-          env
-        )
+    const name =
+      b.name !== undefined
+        ? input(b.name, 100)
+        : existing.name;
+
+    const place =
+      b.place !== undefined
+        ? input(b.place, 100)
+        : existing.place;
+
+    const email =
+      b.email !== undefined
+        ? input(
+            b.email,
+            150
+          ).toLowerCase()
+        : existing.email;
+
+    const mobile =
+      b.mobile !== undefined
+        ? input(
+            b.mobile,
+            10
+          )
+        : existing.mobile;
+
+    const status =
+      b.status !== undefined &&
+      ["active", "disabled"].includes(
+        b.status
+      )
+        ? b.status
+        : existing.status;
+
+    const staffRole =
+      b.staffRole !== undefined
+        ? input(
+            b.staffRole,
+            100
+          )
+        : existing.staff_role;
+
+    if (
+      !name ||
+      !place ||
+      !validEmail(email) ||
+      !validMobile(mobile)
+    ) {
+      return json(
+        {
+          error:
+            "Invalid member details"
+        },
+        400
       );
     }
 
-    if (row.aadhaar_enc) {
-      aadhaar = maskAadhaar(
-        await decryptText(
-          row.aadhaar_enc,
-          env
+    try {
+      await env.DB.prepare(
+        `UPDATE users
+         SET name=?,
+             place=?,
+             email=?,
+             mobile=?,
+             status=?,
+             staff_role=?,
+             updated_at=?
+         WHERE id=?`
+      )
+        .bind(
+          name,
+          place,
+          email,
+          mobile,
+          status,
+          existing.role === "staff"
+            ? staffRole
+            : null,
+          now(),
+          memberId
         )
+        .run();
+
+      return json({
+        ok: true
+      });
+    } catch (e) {
+      console.error(
+        "ADMIN_MEMBER_UPDATE_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Email or mobile already exists"
+        },
+        409
       );
     }
-
-    return json({
-      pan,
-      aadhaar
-    });
   }
 
+  /* =========================
+     NOT FOUND API
+  ========================== */
+
   return json(
-    { error: "Not found" },
+    {
+      error:
+        "API route not found"
+    },
     404
   );
 }
 
+/* ==================================================
+   WORKER
+================================================== */
+
 export default {
-  async fetch(
-    request,
-    env,
-    ctx
-  ) {
+  async fetch(request, env, ctx) {
     const url =
       new URL(request.url);
 
-    if (
-      url.pathname.startsWith("/api/")
-    ) {
-      try {
+    try {
+      /* =========================
+         API REQUESTS
+      ========================== */
+
+      if (
+        url.pathname.startsWith("/api/")
+      ) {
         return await api(
           request,
           env
         );
-      } catch (e) {
-        console.error(
-          "API_ERROR:",
-          e
-        );
+      }
 
+      /* =========================
+         STATIC ASSETS
+      ========================== */
+
+      if (env.ASSETS) {
+        return await env.ASSETS.fetch(
+          request
+        );
+      }
+
+      return new Response(
+        "OUMJYOTI website is running.",
+        {
+          status: 200,
+          headers: {
+            "content-type":
+              "text/plain; charset=utf-8"
+          }
+        }
+      );
+    } catch (error) {
+      console.error(
+        "WORKER_ERROR:",
+        error
+      );
+
+      if (
+        url.pathname.startsWith("/api/")
+      ) {
         return json(
           {
-            error: "API_ERROR",
-            details:
-              String(
-                e?.message || e
-              )
+            error:
+              "Internal server error"
           },
           500
         );
       }
-    }
 
-    return env.ASSETS.fetch(request);
+      return new Response(
+        "Internal server error",
+        {
+          status: 500
+        }
+      );
+    }
   }
 };
