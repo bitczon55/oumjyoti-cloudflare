@@ -3,6 +3,7 @@ const json = (data, status = 200, headers = {}) =>
     status,
     headers: {
       "content-type": "application/json; charset=utf-8",
+      "cache-control": "no-store",
       ...headers
     }
   });
@@ -10,6 +11,10 @@ const json = (data, status = 200, headers = {}) =>
 const now = () => new Date().toISOString();
 
 const uid = () => crypto.randomUUID();
+
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
 
 function b64(bytes) {
   let s = "";
@@ -48,12 +53,56 @@ async function randomB64(n = 32) {
   return b64(a);
 }
 
+function input(v, max = 500) {
+  return String(v ?? "")
+    .trim()
+    .slice(0, max);
+}
+
+function validEmail(v) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+}
+
+function validMobile(v) {
+  return /^[6-9]\d{9}$/.test(v);
+}
+
+function validPassword(v) {
+  return (
+    typeof v === "string" &&
+    v.length >= 8 &&
+    v.length <= 128
+  );
+}
+
+function requireRole(user, roles) {
+  return Boolean(
+    user && roles.includes(user.role)
+  );
+}
+
+function maskAadhaar(v) {
+  return v
+    ? `XXXX-XXXX-${String(v).slice(-4)}`
+    : "";
+}
+
+function maskPan(v) {
+  return v
+    ? `${String(v).slice(0, 2)}XXXX${String(v).slice(-2)}`
+    : "";
+}
+
+/* =========================================================
+   PASSWORD HASH
+========================================================= */
+
 async function passwordHash(password, saltB64) {
   const salt = saltB64
     ? unb64(saltB64)
-    : crypto.randomBytes
-      ? crypto.randomBytes(16)
-      : crypto.getRandomValues(new Uint8Array(16));
+    : crypto.getRandomValues(
+        new Uint8Array(16)
+      );
 
   const key = await crypto.subtle.importKey(
     "raw",
@@ -80,17 +129,33 @@ async function passwordHash(password, saltB64) {
   };
 }
 
-async function verifyPassword(password, hash, salt) {
-  const r = await passwordHash(password, salt);
-  return r.hash === hash;
+async function verifyPassword(
+  password,
+  hash,
+  salt
+) {
+  const result = await passwordHash(
+    password,
+    salt
+  );
+
+  return result.hash === hash;
 }
+
+/* =========================================================
+   AES-256-GCM ENCRYPTION
+========================================================= */
 
 function getEncryptionKey(env) {
   if (!env.APP_ENCRYPTION_KEY) {
-    throw new Error("APP_ENCRYPTION_KEY is not configured");
+    throw new Error(
+      "APP_ENCRYPTION_KEY is not configured"
+    );
   }
 
-  const keyBytes = unb64(env.APP_ENCRYPTION_KEY);
+  const keyBytes = unb64(
+    env.APP_ENCRYPTION_KEY
+  );
 
   if (keyBytes.length !== 32) {
     throw new Error(
@@ -101,65 +166,105 @@ function getEncryptionKey(env) {
   return keyBytes;
 }
 
-async function encryptText(plaintext, env) {
-  const keyBytes = getEncryptionKey(env);
+async function encryptText(
+  plaintext,
+  env
+) {
+  const keyBytes =
+    getEncryptionKey(env);
 
-  const key = await crypto.subtle.importKey(
-    "raw",
-    keyBytes,
-    { name: "AES-GCM" },
-    false,
-    ["encrypt"]
-  );
+  const key =
+    await crypto.subtle.importKey(
+      "raw",
+      keyBytes,
+      {
+        name: "AES-GCM"
+      },
+      false,
+      ["encrypt"]
+    );
 
-  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const iv =
+    crypto.getRandomValues(
+      new Uint8Array(12)
+    );
 
-  const ct = await crypto.subtle.encrypt(
-    {
-      name: "AES-GCM",
-      iv
-    },
-    key,
-    new TextEncoder().encode(plaintext)
-  );
+  const ciphertext =
+    await crypto.subtle.encrypt(
+      {
+        name: "AES-GCM",
+        iv
+      },
+      key,
+      new TextEncoder().encode(
+        plaintext
+      )
+    );
 
-  return `${b64(iv)}.${b64(ct)}`;
+  return `${b64(iv)}.${b64(
+    ciphertext
+  )}`;
 }
 
-async function decryptText(payload, env) {
+async function decryptText(
+  payload,
+  env
+) {
   if (!payload) return "";
 
-  const parts = payload.split(".");
+  const parts =
+    payload.split(".");
 
-  if (parts.length !== 2) {
-    throw new Error("Invalid encrypted payload");
+  if (
+    parts.length !== 2 ||
+    !parts[0] ||
+    !parts[1]
+  ) {
+    throw new Error(
+      "Invalid encrypted payload"
+    );
   }
 
   const [ivS, ctS] = parts;
 
-  const keyBytes = getEncryptionKey(env);
+  const keyBytes =
+    getEncryptionKey(env);
 
-  const key = await crypto.subtle.importKey(
-    "raw",
-    keyBytes,
-    { name: "AES-GCM" },
-    false,
-    ["decrypt"]
+  const key =
+    await crypto.subtle.importKey(
+      "raw",
+      keyBytes,
+      {
+        name: "AES-GCM"
+      },
+      false,
+      ["decrypt"]
+    );
+
+  const plaintext =
+    await crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv: unb64(ivS)
+      },
+      key,
+      unb64(ctS)
+    );
+
+  return new TextDecoder().decode(
+    plaintext
   );
-
-  const pt = await crypto.subtle.decrypt(
-    {
-      name: "AES-GCM",
-      iv: unb64(ivS)
-    },
-    key,
-    unb64(ctS)
-  );
-
-  return new TextDecoder().decode(pt);
 }
 
-function cookie(name, value, maxAge) {
+/* =========================================================
+   COOKIE / SESSION
+========================================================= */
+
+function cookie(
+  name,
+  value,
+  maxAge
+) {
   return `${name}=${encodeURIComponent(
     value
   )}; Max-Age=${maxAge}; Path=/; HttpOnly; Secure; SameSite=Lax`;
@@ -169,60 +274,53 @@ function clearCookie(name) {
   return `${name}=; Max-Age=0; Path=/; HttpOnly; Secure; SameSite=Lax`;
 }
 
-function input(v, max = 500) {
-  return String(v ?? "")
-    .trim()
-    .slice(0, max);
-}
-
-function validEmail(v) {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
-}
-
-function validMobile(v) {
-  return /^[6-9]\d{9}$/.test(v);
-}
-
-function validPassword(v) {
-  return (
-    typeof v === "string" &&
-    v.length >= 8 &&
-    v.length <= 128
-  );
-}
-
-function maskAadhaar(v) {
-  return v ? `XXXX-XXXX-${v.slice(-4)}` : "";
-}
-
-function maskPan(v) {
-  return v ? `${v.slice(0, 2)}XXXX${v.slice(-2)}` : "";
-}
-
 function getSessionToken(request) {
   const cookieHeader =
     request.headers.get("Cookie") || "";
 
-  const match = cookieHeader.match(
-    /(?:^|;\s*)session=([^;]+)/
-  );
+  const match =
+    cookieHeader.match(
+      /(?:^|;\s*)session=([^;]+)/
+    );
 
   return match
     ? decodeURIComponent(match[1])
     : null;
 }
 
-async function createSession(userId, env) {
-  const raw = await randomB64(32);
-  const hash = await sha256(raw);
+/* =========================================================
+   CREATE SESSION
+========================================================= */
 
-  const expires = new Date(
-    Date.now() + 1000 * 60 * 60 * 24 * 7
-  ).toISOString();
+async function createSession(
+  userId,
+  env
+) {
+  const raw =
+    await randomB64(32);
+
+  const hash =
+    await sha256(raw);
+
+  const expires =
+    new Date(
+      Date.now() +
+        1000 *
+          60 *
+          60 *
+          24 *
+          7
+    ).toISOString();
 
   await env.DB.prepare(
     `INSERT INTO sessions
-     (id,user_id,token_hash,expires_at,created_at)
+     (
+       id,
+       user_id,
+       token_hash,
+       expires_at,
+       created_at
+     )
      VALUES (?,?,?,?,?)`
   )
     .bind(
@@ -237,50 +335,379 @@ async function createSession(userId, env) {
   return raw;
 }
 
-async function auth(request, env) {
-  const token = getSessionToken(request);
+/* =========================================================
+   AUTH
+========================================================= */
 
-  if (!token) return null;
+async function auth(
+  request,
+  env
+) {
+  const token =
+    getSessionToken(request);
 
-  const tokenHash = await sha256(token);
+  if (!token) {
+    return null;
+  }
 
-  const row = await env.DB.prepare(
-    `SELECT
-       u.id,
-       u.role,
-       u.name,
-       u.place,
-       u.email,
-       u.mobile,
-       u.status,
-       u.staff_role,
-       s.expires_at
-     FROM sessions s
-     JOIN users u ON u.id = s.user_id
-     WHERE s.token_hash = ?
-       AND s.expires_at > ?
-       AND u.status = 'active'`
-  )
-    .bind(tokenHash, now())
-    .first();
+  const tokenHash =
+    await sha256(token);
+
+  const row =
+    await env.DB.prepare(
+      `SELECT
+         u.id,
+         u.role,
+         u.name,
+         u.place,
+         u.email,
+         u.mobile,
+         u.status,
+         u.staff_role,
+         s.expires_at
+       FROM sessions s
+       JOIN users u
+         ON u.id = s.user_id
+       WHERE s.token_hash = ?
+         AND s.expires_at > ?
+         AND u.status = 'active'
+       LIMIT 1`
+    )
+      .bind(
+        tokenHash,
+        now()
+      )
+      .first();
 
   return row || null;
 }
 
-function requireRole(user, roles) {
+/* =========================================================
+   ENSURE WEBSITE SETTINGS TABLE
+   This allows website management without requiring
+   another immediate manual migration.
+========================================================= */
+
+let websiteSchemaReady = false;
+
+async function ensureWebsiteSchema(
+  env
+) {
+  if (websiteSchemaReady) {
+    return;
+  }
+
+  await env.DB.prepare(
+    `CREATE TABLE IF NOT EXISTS website_settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL DEFAULT '',
+      updated_at TEXT NOT NULL
+    )`
+  ).run();
+
+  websiteSchemaReady = true;
+}
+
+/* =========================================================
+   DEFAULT WEBSITE CONTENT
+========================================================= */
+
+const DEFAULT_SITE_CONTENT = {
+  site_title:
+    "OUMJYOTI — भक्ति • सेवा • मानवता",
+
+  site_description:
+    "OUMJYOTI — भक्ति, सेवा और मानवता का दिव्य संगम।",
+
+  hero_title:
+    "भक्ति से सेवा, सेवा से मानवता",
+
+  hero_text:
+    "OUMJYOTI का उद्देश्य भक्ति, सेवा और मानवता के माध्यम से जरूरतमंद लोगों, गौ माता, बुजुर्गों और समाज के कमजोर वर्गों तक सहयोग पहुँचाना है।",
+
+  mission_title:
+    "हमारा सेवा मिशन",
+
+  mission_text:
+    "गौ सेवा, अन्न दान, शिक्षा सहायता, स्वास्थ्य सहायता, बुजुर्ग सेवा और आपदा राहत जैसे सेवा कार्यों के माध्यम से समाज में सहयोग, करुणा और मानवता की भावना को मजबूत करना हमारा संकल्प है।",
+
+  about_title:
+    "OUMJYOTI के बारे में",
+
+  about_text:
+    "OUMJYOTI भक्ति, सेवा और मानवता को एक साथ जोड़ने वाला सेवा प्रयास है। हमारा लक्ष्य जरूरतमंद लोगों तक यथासंभव सहायता पहुँचाना और समाज में सेवा की भावना को बढ़ावा देना है।",
+
+  operator_name:
+    "परिचालक श्री टंक शर्मा",
+
+  co_operator_name:
+    "सहकारी परिचालना श्री छबिलाल ढकाल",
+
+  contact_email:
+    "",
+
+  contact_mobile:
+    "",
+
+  hero_image:
+    "/Images/hero.jpg",
+
+  logo_image:
+    "/oumjyoti-logo.png"
+};
+
+/* =========================================================
+   GET WEBSITE CONTENT
+========================================================= */
+
+async function getWebsiteContent(
+  env
+) {
+  await ensureWebsiteSchema(env);
+
+  const rows =
+    await env.DB.prepare(
+      `SELECT key,value
+       FROM website_settings`
+    ).all();
+
+  const content = {
+    ...DEFAULT_SITE_CONTENT
+  };
+
+  for (
+    const row of rows.results || []
+  ) {
+    content[row.key] =
+      row.value;
+  }
+
+  return content;
+}
+
+/* =========================================================
+   SAVE WEBSITE CONTENT
+========================================================= */
+
+async function saveWebsiteContent(
+  env,
+  data
+) {
+  await ensureWebsiteSchema(env);
+
+  const allowedKeys =
+    Object.keys(
+      DEFAULT_SITE_CONTENT
+    );
+
+  for (
+    const key of allowedKeys
+  ) {
+    if (
+      data[key] === undefined
+    ) {
+      continue;
+    }
+
+    const value =
+      input(
+        data[key],
+        key.includes("text")
+          ? 5000
+          : 1000
+      );
+
+    await env.DB.prepare(
+      `INSERT INTO website_settings
+       (key,value,updated_at)
+       VALUES (?,?,?)
+       ON CONFLICT(key)
+       DO UPDATE SET
+         value=excluded.value,
+         updated_at=excluded.updated_at`
+    )
+      .bind(
+        key,
+        value,
+        now()
+      )
+      .run();
+  }
+}
+
+/* =========================================================
+   R2 HELPERS
+========================================================= */
+
+const MAX_IMAGE_SIZE =
+  10 * 1024 * 1024;
+
+function safeImageName(
+  name
+) {
+  const original =
+    String(name || "image")
+      .trim()
+      .toLowerCase();
+
+  const cleaned =
+    original
+      .replace(
+        /[^a-z0-9._-]/g,
+        "-"
+      )
+      .replace(
+        /-+/g,
+        "-"
+      )
+      .slice(0, 120);
+
+  return cleaned || "image";
+}
+
+function extensionFromType(
+  contentType
+) {
+  const map = {
+    "image/jpeg": "jpg",
+    "image/png": "png",
+    "image/webp": "webp",
+    "image/gif": "gif",
+    "image/avif": "avif"
+  };
+
+  return map[
+    contentType
+  ] || null;
+}
+
+function isAllowedImageType(
+  contentType
+) {
   return Boolean(
-    user && roles.includes(user.role)
+    extensionFromType(
+      contentType
+    )
   );
 }
 
-async function api(request, env) {
-  const url = new URL(request.url);
-  const path = url.pathname;
-  const method = request.method;
+/* =========================================================
+   PUBLIC R2 MEDIA
+   Example:
+   /media/home/hero.jpg
+========================================================= */
 
-  /* =========================
+async function serveR2Object(
+  request,
+  env
+) {
+  if (!env.IMAGES) {
+    return new Response(
+      "R2 is not configured",
+      {
+        status: 503
+      }
+    );
+  }
+
+  const url =
+    new URL(request.url);
+
+  let key =
+    decodeURIComponent(
+      url.pathname.replace(
+        /^\/media\//,
+        ""
+      )
+    );
+
+  if (!key) {
+    return new Response(
+      "Image not found",
+      {
+        status: 404
+      }
+    );
+  }
+
+  key =
+    key.replace(
+      /^\/+/,
+      ""
+    );
+
+  const object =
+    await env.IMAGES.get(
+      key
+    );
+
+  if (!object) {
+    return new Response(
+      "Image not found",
+      {
+        status: 404
+      }
+    );
+  }
+
+  const headers =
+    new Headers();
+
+  object.writeHttpMetadata(
+    headers
+  );
+
+  headers.set(
+    "etag",
+    object.httpEtag
+  );
+
+  headers.set(
+    "cache-control",
+    "public, max-age=31536000, immutable"
+  );
+
+  if (
+    request.method === "HEAD"
+  ) {
+    return new Response(
+      null,
+      {
+        status: 200,
+        headers
+      }
+    );
+  }
+
+  return new Response(
+    object.body,
+    {
+      status: 200,
+      headers
+    }
+  );
+}
+
+/* =========================================================
+   API
+========================================================= */
+
+async function api(
+  request,
+  env
+) {
+  const url =
+    new URL(request.url);
+
+  const path =
+    url.pathname;
+
+  const method =
+    request.method;
+
+  /* =======================================================
      HEALTH
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/health" &&
@@ -288,49 +715,87 @@ async function api(request, env) {
   ) {
     return json({
       ok: true,
-      service: "OUMJYOTI Seva"
+      service:
+        "OUMJYOTI Seva",
+      d1: Boolean(env.DB),
+      r2: Boolean(env.IMAGES)
     });
   }
 
-  /* =========================
+  /* =======================================================
      SETUP ADMIN
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/setup-admin" &&
     method === "POST"
   ) {
     const body =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     if (
       !env.SETUP_KEY ||
-      body.setupKey !== env.SETUP_KEY
+      body.setupKey !==
+        env.SETUP_KEY
     ) {
       return json(
-        { error: "Invalid setup key" },
+        {
+          error:
+            "Invalid setup key"
+        },
         403
       );
     }
 
     const existing =
       await env.DB.prepare(
-        "SELECT COUNT(*) AS n FROM users WHERE role='admin'"
+        `SELECT COUNT(*) AS n
+         FROM users
+         WHERE role='admin'`
       ).first();
 
-    if (Number(existing?.n || 0) > 0) {
+    if (
+      Number(
+        existing?.n || 0
+      ) > 0
+    ) {
       return json(
-        { error: "Admin already exists" },
+        {
+          error:
+            "Admin already exists"
+        },
         409
       );
     }
 
-    const name = input(body.name, 100);
-    const place = input(body.place, 100);
+    const name =
+      input(
+        body.name,
+        100
+      );
+
+    const place =
+      input(
+        body.place,
+        100
+      );
+
     const email =
-      input(body.email, 150).toLowerCase();
-    const mobile = input(body.mobile, 10);
-    const password = body.password;
+      input(
+        body.email,
+        150
+      ).toLowerCase();
+
+    const mobile =
+      input(
+        body.mobile,
+        10
+      );
+
+    const password =
+      body.password;
 
     if (
       !name ||
@@ -348,7 +813,10 @@ async function api(request, env) {
       );
     }
 
-    const p = await passwordHash(password);
+    const p =
+      await passwordHash(
+        password
+      );
 
     try {
       await env.DB.prepare(
@@ -404,30 +872,59 @@ async function api(request, env) {
     });
   }
 
-  /* =========================
+  /* =======================================================
      REGISTER
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/register" &&
     method === "POST"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
-    const name = input(b.name, 100);
-    const place = input(b.place, 100);
+    const name =
+      input(b.name, 100);
+
+    const place =
+      input(b.place, 100);
+
     const email =
-      input(b.email, 150).toLowerCase();
-    const mobile = input(b.mobile, 10);
-    const password = b.password;
+      input(
+        b.email,
+        150
+      ).toLowerCase();
 
-    const pan = input(b.pan, 20)
-      .toUpperCase()
-      .replace(/\s/g, "");
+    const mobile =
+      input(
+        b.mobile,
+        10
+      );
 
-    const aadhaar = input(b.aadhaar, 20)
-      .replace(/\D/g, "");
+    const password =
+      b.password;
+
+    const pan =
+      input(
+        b.pan,
+        20
+      )
+        .toUpperCase()
+        .replace(
+          /\s/g,
+          ""
+        );
+
+    const aadhaar =
+      input(
+        b.aadhaar,
+        20
+      ).replace(
+        /\D/g,
+        ""
+      );
 
     if (
       !name ||
@@ -447,11 +944,14 @@ async function api(request, env) {
 
     if (
       pan &&
-      !/^[A-Z]{5}\d{4}[A-Z]$/.test(pan)
+      !/^[A-Z]{5}\d{4}[A-Z]$/.test(
+        pan
+      )
     ) {
       return json(
         {
-          error: "PAN format is invalid"
+          error:
+            "PAN format is invalid"
         },
         400
       );
@@ -459,7 +959,9 @@ async function api(request, env) {
 
     if (
       aadhaar &&
-      !/^\d{12}$/.test(aadhaar)
+      !/^\d{12}$/.test(
+        aadhaar
+      )
     ) {
       return json(
         {
@@ -471,16 +973,26 @@ async function api(request, env) {
     }
 
     const p =
-      await passwordHash(password);
+      await passwordHash(
+        password
+      );
 
     try {
-      const panEnc = pan
-        ? await encryptText(pan, env)
-        : null;
+      const panEnc =
+        pan
+          ? await encryptText(
+              pan,
+              env
+            )
+          : null;
 
-      const aadhaarEnc = aadhaar
-        ? await encryptText(aadhaar, env)
-        : null;
+      const aadhaarEnc =
+        aadhaar
+          ? await encryptText(
+              aadhaar,
+              env
+            )
+          : null;
 
       await env.DB.prepare(
         `INSERT INTO users
@@ -542,28 +1054,38 @@ async function api(request, env) {
     }
   }
 
-  /* =========================
+  /* =======================================================
      LOGIN
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/login" &&
     method === "POST"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const mobile =
-      input(b.mobile, 10);
+      input(
+        b.mobile ||
+          b.identifier,
+        10
+      );
 
-    const password = b.password;
+    const password =
+      b.password;
 
     if (
       !validMobile(mobile) ||
       !validPassword(password)
     ) {
       return json(
-        { error: "Invalid login" },
+        {
+          error:
+            "Invalid login"
+        },
         400
       );
     }
@@ -582,14 +1104,16 @@ async function api(request, env) {
           status,
           staff_role
         FROM users
-        WHERE mobile=?`
+        WHERE mobile=?
+        LIMIT 1`
       )
         .bind(mobile)
         .first();
 
     if (
       !u ||
-      u.status !== "active" ||
+      u.status !==
+        "active" ||
       !(await verifyPassword(
         password,
         u.password_hash,
@@ -606,7 +1130,10 @@ async function api(request, env) {
     }
 
     const token =
-      await createSession(u.id, env);
+      await createSession(
+        u.id,
+        env
+      );
 
     return json(
       {
@@ -618,83 +1145,144 @@ async function api(request, env) {
           place: u.place,
           email: u.email,
           mobile: u.mobile,
-          staffRole: u.staff_role
+          staffRole:
+            u.staff_role
         }
       },
       200,
       {
-        "set-cookie": cookie(
-          "session",
-          token,
-          60 * 60 * 24 * 7
-        )
+        "set-cookie":
+          cookie(
+            "session",
+            token,
+            60 *
+              60 *
+              24 *
+              7
+          )
       }
     );
   }
 
-  /* =========================
+  /* =======================================================
      LOGOUT
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/logout" &&
     method === "POST"
   ) {
     const token =
-      getSessionToken(request);
+      getSessionToken(
+        request
+      );
 
     if (token) {
       await env.DB.prepare(
-        "DELETE FROM sessions WHERE token_hash=?"
+        `DELETE FROM sessions
+         WHERE token_hash=?`
       )
-        .bind(await sha256(token))
+        .bind(
+          await sha256(token)
+        )
         .run();
     }
 
     return json(
-      { ok: true },
+      {
+        ok: true
+      },
       200,
       {
         "set-cookie":
-          clearCookie("session")
+          clearCookie(
+            "session"
+          )
       }
     );
   }
 
-  /* =========================
+  /* =======================================================
      CURRENT USER
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/me" &&
     method === "GET"
   ) {
     const currentUser =
-      await auth(request, env);
+      await auth(
+        request,
+        env
+      );
 
     if (!currentUser) {
       return json({
-        authenticated: false
+        authenticated:
+          false
       });
     }
 
     return json({
-      authenticated: true,
+      authenticated:
+        true,
       user: {
-        id: currentUser.id,
-        role: currentUser.role,
-        name: currentUser.name,
-        place: currentUser.place,
-        email: currentUser.email,
-        mobile: currentUser.mobile,
-        staffRole: currentUser.staff_role
+        id:
+          currentUser.id,
+        role:
+          currentUser.role,
+        name:
+          currentUser.name,
+        place:
+          currentUser.place,
+        email:
+          currentUser.email,
+        mobile:
+          currentUser.mobile,
+        staffRole:
+          currentUser.staff_role
       }
     });
   }
 
-  /* =========================
+  /* =======================================================
+     PUBLIC WEBSITE CONTENT
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/site-content" &&
+    method === "GET"
+  ) {
+    try {
+      const content =
+        await getWebsiteContent(
+          env
+        );
+
+      return json({
+        ok: true,
+        content
+      });
+    } catch (e) {
+      console.error(
+        "SITE_CONTENT_ERROR:",
+        e
+      );
+
+      return json(
+        {
+          error:
+            "Website content unavailable"
+        },
+        500
+      );
+    }
+  }
+
+  /* =======================================================
      PUBLIC SEVA
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/seva" &&
@@ -714,12 +1302,15 @@ async function api(request, env) {
             created_at,
             updated_at
           FROM seva
-          WHERE active = 1
-          ORDER BY sort_order ASC, created_at ASC`
+          WHERE active=1
+          ORDER BY
+            sort_order ASC,
+            created_at ASC`
         ).all();
 
       return json({
-        seva: rows.results || []
+        seva:
+          rows.results || []
       });
     } catch (e) {
       console.error(
@@ -737,14 +1328,34 @@ async function api(request, env) {
     }
   }
 
-  /* =========================
-     AUTH REQUIRED BELOW
-  ========================== */
+  /* =======================================================
+     R2 PUBLIC IMAGE
+  ======================================================= */
 
-  const u = await auth(
-    request,
-    env
-  );
+  if (
+    path.startsWith(
+      "/media/"
+    ) &&
+    (
+      method === "GET" ||
+      method === "HEAD"
+    )
+  ) {
+    return serveR2Object(
+      request,
+      env
+    );
+  }
+
+  /* =======================================================
+     AUTH REQUIRED BELOW
+  ======================================================= */
+
+  const u =
+    await auth(
+      request,
+      env
+    );
 
   if (!u) {
     return json(
@@ -756,21 +1367,30 @@ async function api(request, env) {
     );
   }
 
-  /* =========================
+  /* =======================================================
      UPDATE PROFILE
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/me" &&
     method === "PUT"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
-    const name = input(b.name, 100);
-    const place = input(b.place, 100);
+    const name =
+      input(b.name, 100);
+
+    const place =
+      input(b.place, 100);
+
     const email =
-      input(b.email, 150).toLowerCase();
+      input(
+        b.email,
+        150
+      ).toLowerCase();
 
     if (
       !name ||
@@ -779,7 +1399,8 @@ async function api(request, env) {
     ) {
       return json(
         {
-          error: "Invalid profile"
+          error:
+            "Invalid profile"
         },
         400
       );
@@ -788,10 +1409,11 @@ async function api(request, env) {
     try {
       await env.DB.prepare(
         `UPDATE users
-         SET name=?,
-             place=?,
-             email=?,
-             updated_at=?
+         SET
+           name=?,
+           place=?,
+           email=?,
+           updated_at=?
          WHERE id=?`
       )
         .bind(
@@ -822,16 +1444,18 @@ async function api(request, env) {
     }
   }
 
-  /* =========================
+  /* =======================================================
      CHANGE PASSWORD
-  ========================== */
+  ======================================================= */
 
   if (
     path === "/api/password" &&
     method === "PUT"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     if (
       !validPassword(
@@ -855,13 +1479,16 @@ async function api(request, env) {
          FROM users
          WHERE id=?`
       )
-        .bind(u.id)
+        .bind(
+          u.id
+        )
         .first();
 
     if (
       !row ||
       !(await verifyPassword(
-        b.currentPassword || "",
+        b.currentPassword ||
+          "",
         row.password_hash,
         row.password_salt
       ))
@@ -882,9 +1509,10 @@ async function api(request, env) {
 
     await env.DB.prepare(
       `UPDATE users
-       SET password_hash=?,
-           password_salt=?,
-           updated_at=?
+       SET
+         password_hash=?,
+         password_salt=?,
+         updated_at=?
        WHERE id=?`
     )
       .bind(
@@ -896,46 +1524,63 @@ async function api(request, env) {
       .run();
 
     await env.DB.prepare(
-      "DELETE FROM sessions WHERE user_id=?"
+      `DELETE FROM sessions
+       WHERE user_id=?`
     )
-      .bind(u.id)
+      .bind(
+        u.id
+      )
       .run();
 
     return json(
-      { ok: true },
+      {
+        ok: true,
+        message:
+          "Password changed. Please login again."
+      },
       200,
       {
         "set-cookie":
-          clearCookie("session")
+          clearCookie(
+            "session"
+          )
       }
     );
   }
 
-  /* =========================
+  /* =======================================================
      FEEDBACK
-  ========================== */
+  ======================================================= */
 
   if (
-    path === "/api/feedback" &&
+    path ===
+      "/api/feedback" &&
     method === "POST"
   ) {
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const mobile =
       input(
-        b.mobile || u.mobile,
+        b.mobile ||
+          u.mobile,
         10
       );
 
     const email =
       input(
-        b.email || u.email,
+        b.email ||
+          u.email,
         150
       ).toLowerCase();
 
     const message =
-      input(b.message, 2000);
+      input(
+        b.message,
+        2000
+      );
 
     if (
       !validMobile(mobile) ||
@@ -985,22 +1630,29 @@ async function api(request, env) {
     );
   }
 
-  /* =========================
-     ADMIN / STAFF MEMBERS
-  ========================== */
+  /* =======================================================
+     ADMIN / STAFF MEMBERS LIST
+  ======================================================= */
 
   if (
-    path === "/api/admin/members" &&
+    path ===
+      "/api/admin/members" &&
     method === "GET"
   ) {
     if (
-      !requireRole(u, [
-        "admin",
-        "staff"
-      ])
+      !requireRole(
+        u,
+        [
+          "admin",
+          "staff"
+        ]
+      )
     ) {
       return json(
-        { error: "Forbidden" },
+        {
+          error:
+            "Forbidden"
+        },
         403
       );
     }
@@ -1016,9 +1668,11 @@ async function api(request, env) {
           mobile,
           status,
           staff_role,
-          created_at
+          created_at,
+          updated_at
         FROM users
-        ORDER BY created_at DESC
+        ORDER BY
+          created_at DESC
         LIMIT 500`
       ).all();
 
@@ -1028,29 +1682,40 @@ async function api(request, env) {
     });
   }
 
-  /* =========================
-     ADMIN CREATE MEMBER/STAFF
-  ========================== */
+  /* =======================================================
+     ADMIN CREATE MEMBER / STAFF
+  ======================================================= */
 
   if (
-    path === "/api/admin/members" &&
+    path ===
+      "/api/admin/members" &&
     method === "POST"
   ) {
-    if (u.role !== "admin") {
+    if (
+      u.role !== "admin"
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
 
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const name =
       input(b.name, 100);
 
     const place =
-      input(b.place, 100);
+      input(
+        b.place,
+        100
+      );
 
     const email =
       input(
@@ -1059,13 +1724,19 @@ async function api(request, env) {
       ).toLowerCase();
 
     const mobile =
-      input(b.mobile, 10);
+      input(
+        b.mobile,
+        10
+      );
 
     const password =
       b.password;
 
     const role =
-      ["member", "staff"].includes(
+      [
+        "member",
+        "staff"
+      ].includes(
         b.role
       )
         ? b.role
@@ -1094,7 +1765,9 @@ async function api(request, env) {
     }
 
     const p =
-      await passwordHash(password);
+      await passwordHash(
+        password
+      );
 
     try {
       await env.DB.prepare(
@@ -1134,7 +1807,11 @@ async function api(request, env) {
         .run();
 
       return json(
-        { ok: true },
+        {
+          ok: true,
+          message:
+            `${role === "staff" ? "Staff" : "Member"} created successfully`
+        },
         201
       );
     } catch (e) {
@@ -1153,9 +1830,9 @@ async function api(request, env) {
     }
   }
 
-  /* =========================
-     ADMIN ENABLE / DISABLE
-  ========================== */
+  /* =======================================================
+     ADMIN ENABLE / DISABLE MEMBER OR STAFF
+  ======================================================= */
 
   const memberMatch =
     path.match(
@@ -1166,9 +1843,14 @@ async function api(request, env) {
     memberMatch &&
     method === "PATCH"
   ) {
-    if (u.role !== "admin") {
+    if (
+      u.role !== "admin"
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
@@ -1177,16 +1859,20 @@ async function api(request, env) {
       memberMatch[1];
 
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const status =
-      b.status === "disabled"
+      b.status ===
+      "disabled"
         ? "disabled"
         : "active";
 
     if (
       id === u.id &&
-      status === "disabled"
+      status ===
+        "disabled"
     ) {
       return json(
         {
@@ -1200,8 +1886,9 @@ async function api(request, env) {
     const result =
       await env.DB.prepare(
         `UPDATE users
-         SET status=?,
-             updated_at=?
+         SET
+           status=?,
+           updated_at=?
          WHERE id=?`
       )
         .bind(
@@ -1211,7 +1898,9 @@ async function api(request, env) {
         )
         .run();
 
-    if (!result.meta?.changes) {
+    if (
+      !result.meta?.changes
+    ) {
       return json(
         {
           error:
@@ -1221,23 +1910,47 @@ async function api(request, env) {
       );
     }
 
+    if (
+      status ===
+      "disabled"
+    ) {
+      await env.DB.prepare(
+        `DELETE FROM sessions
+         WHERE user_id=?`
+      )
+        .bind(id)
+        .run();
+    }
+
     return json({
       ok: true,
       status
     });
   }
 
-  /* =========================
-     ADMIN FEEDBACK LIST
-  ========================== */
+  /* =======================================================
+     ADMIN / STAFF FEEDBACK LIST
+  ======================================================= */
 
   if (
-    path === "/api/admin/feedback" &&
+    path ===
+      "/api/admin/feedback" &&
     method === "GET"
   ) {
-    if (u.role !== "admin") {
+    if (
+      !requireRole(
+        u,
+        [
+          "admin",
+          "staff"
+        ]
+      )
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Forbidden"
+        },
         403
       );
     }
@@ -1256,8 +1969,9 @@ async function api(request, env) {
           u.role
         FROM feedback f
         LEFT JOIN users u
-          ON u.id = f.user_id
-        ORDER BY f.created_at DESC
+          ON u.id=f.user_id
+        ORDER BY
+          f.created_at DESC
         LIMIT 500`
       ).all();
 
@@ -1267,26 +1981,54 @@ async function api(request, env) {
     });
   }
 
-  /* =========================
-     ADMIN MARK FEEDBACK READ
-  ========================== */
+  /* =======================================================
+     ADMIN / STAFF MARK FEEDBACK
+  ======================================================= */
 
   if (
-    path === "/api/admin/feedback/read" &&
+    path ===
+      "/api/admin/feedback/read" &&
     method === "POST"
   ) {
-    if (u.role !== "admin") {
+    if (
+      !requireRole(
+        u,
+        [
+          "admin",
+          "staff"
+        ]
+      )
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Forbidden"
+        },
         403
       );
     }
 
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const id =
-      input(b.id, 100);
+      input(
+        b.id,
+        100
+      );
+
+    const status =
+      [
+        "new",
+        "read",
+        "resolved"
+      ].includes(
+        b.status
+      )
+        ? b.status
+        : "read";
 
     if (!id) {
       return json(
@@ -1298,30 +2040,161 @@ async function api(request, env) {
       );
     }
 
-    await env.DB.prepare(
-      `UPDATE feedback
-       SET status='read'
-       WHERE id=?`
-    )
-      .bind(id)
-      .run();
+    const result =
+      await env.DB.prepare(
+        `UPDATE feedback
+         SET status=?
+         WHERE id=?`
+      )
+        .bind(
+          status,
+          id
+        )
+        .run();
+
+    if (
+      !result.meta?.changes
+    ) {
+      return json(
+        {
+          error:
+            "Feedback not found"
+        },
+        404
+      );
+    }
 
     return json({
-      ok: true
+      ok: true,
+      status
     });
   }
 
-  /* =========================
-     ADMIN SEVA LIST
-  ========================== */
+  /* =======================================================
+     ADMIN VIEW MASKED PAN / AADHAAR
+  ======================================================= */
 
   if (
-    path === "/api/admin/seva" &&
+    path ===
+      "/api/admin/member-sensitive" &&
+    method === "POST"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request
+        .json()
+        .catch(() => ({}));
+
+    const id =
+      input(
+        b.id,
+        100
+      );
+
+    if (!id) {
+      return json(
+        {
+          error:
+            "Member ID is required"
+        },
+        400
+      );
+    }
+
+    const row =
+      await env.DB.prepare(
+        `SELECT
+          pan_enc,
+          aadhaar_enc
+         FROM users
+         WHERE id=?
+         LIMIT 1`
+      )
+        .bind(id)
+        .first();
+
+    if (!row) {
+      return json(
+        {
+          error:
+            "Member not found"
+        },
+        404
+      );
+    }
+
+    let pan = "";
+    let aadhaar = "";
+
+    try {
+      pan =
+        row.pan_enc
+          ? await decryptText(
+              row.pan_enc,
+              env
+            )
+          : "";
+    } catch (e) {
+      console.error(
+        "PAN_DECRYPT_ERROR:",
+        e
+      );
+    }
+
+    try {
+      aadhaar =
+        row.aadhaar_enc
+          ? await decryptText(
+              row.aadhaar_enc,
+              env
+            )
+          : "";
+    } catch (e) {
+      console.error(
+        "AADHAAR_DECRYPT_ERROR:",
+        e
+      );
+    }
+
+    return json({
+      pan: maskPan(
+        pan
+      ),
+      aadhaar:
+        maskAadhaar(
+          aadhaar
+        )
+    });
+  }
+
+  /* =======================================================
+     ADMIN SEVA LIST
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/seva" &&
     method === "GET"
   ) {
-    if (u.role !== "admin") {
+    if (
+      u.role !== "admin"
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
@@ -1339,7 +2212,9 @@ async function api(request, env) {
           created_at,
           updated_at
         FROM seva
-        ORDER BY sort_order ASC, created_at ASC`
+        ORDER BY
+          sort_order ASC,
+          created_at ASC`
       ).all();
 
     return json({
@@ -1348,35 +2223,56 @@ async function api(request, env) {
     });
   }
 
-  /* =========================
+  /* =======================================================
      ADMIN ADD SEVA
-  ========================== */
+  ======================================================= */
 
   if (
-    path === "/api/admin/seva" &&
+    path ===
+      "/api/admin/seva" &&
     method === "POST"
   ) {
-    if (u.role !== "admin") {
+    if (
+      u.role !== "admin"
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
 
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const title =
-      input(b.title, 150);
+      input(
+        b.title,
+        150
+      );
 
     const description =
-      input(b.description, 2000);
+      input(
+        b.description,
+        2000
+      );
 
     const imageUrl =
-      input(b.image_url, 1000);
+      input(
+        b.image_url,
+        1000
+      );
 
     const icon =
-      input(b.icon || "🕉️", 20);
+      input(
+        b.icon ||
+          "🕉️",
+        20
+      );
 
     const active =
       b.active === false ||
@@ -1387,9 +2283,13 @@ async function api(request, env) {
 
     let sortOrder =
       Number.isFinite(
-        Number(b.sort_order)
+        Number(
+          b.sort_order
+        )
       )
-        ? Number(b.sort_order)
+        ? Number(
+            b.sort_order
+          )
         : 0;
 
     sortOrder =
@@ -1397,7 +2297,9 @@ async function api(request, env) {
         0,
         Math.min(
           999999,
-          Math.floor(sortOrder)
+          Math.floor(
+            sortOrder
+          )
         )
       );
 
@@ -1451,9 +2353,9 @@ async function api(request, env) {
     );
   }
 
-  /* =========================
+  /* =======================================================
      ADMIN EDIT SEVA
-  ========================== */
+  ======================================================= */
 
   const sevaMatch =
     path.match(
@@ -1464,9 +2366,14 @@ async function api(request, env) {
     sevaMatch &&
     method === "PATCH"
   ) {
-    if (u.role !== "admin") {
+    if (
+      u.role !== "admin"
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
@@ -1478,7 +2385,8 @@ async function api(request, env) {
       await env.DB.prepare(
         `SELECT *
          FROM seva
-         WHERE id=?`
+         WHERE id=?
+         LIMIT 1`
       )
         .bind(id)
         .first();
@@ -1494,46 +2402,82 @@ async function api(request, env) {
     }
 
     const b =
-      await request.json().catch(() => ({}));
+      await request
+        .json()
+        .catch(() => ({}));
 
     const title =
-      b.title !== undefined
-        ? input(b.title, 150)
+      b.title !==
+      undefined
+        ? input(
+            b.title,
+            150
+          )
         : existing.title;
 
     const description =
-      b.description !== undefined
-        ? input(b.description, 2000)
+      b.description !==
+      undefined
+        ? input(
+            b.description,
+            2000
+          )
         : existing.description;
 
     const imageUrl =
-      b.image_url !== undefined
-        ? input(b.image_url, 1000)
+      b.image_url !==
+      undefined
+        ? input(
+            b.image_url,
+            1000
+          )
         : existing.image_url;
 
     const icon =
-      b.icon !== undefined
-        ? input(b.icon, 20)
+      b.icon !==
+      undefined
+        ? input(
+            b.icon,
+            20
+          )
         : existing.icon;
 
     const active =
-      b.active !== undefined
+      b.active !==
+      undefined
         ? (
-            b.active === false ||
-            b.active === 0 ||
-            b.active === "0"
-              ? 0
-              : 1
+            b.active ===
+              false ||
+            b.active ===
+              0 ||
+            b.active ===
+              "0"
           )
-        : Number(existing.active);
+          ? 0
+          : 1
+        : Number(
+            existing.active
+          );
 
     let sortOrder =
-      b.sort_order !== undefined
-        ? Number(b.sort_order)
-        : Number(existing.sort_order);
+      b.sort_order !==
+      undefined
+        ? Number(
+            b.sort_order
+          )
+        : Number(
+            existing.sort_order
+          );
 
-    if (!Number.isFinite(sortOrder)) {
-      sortOrder = Number(existing.sort_order) || 0;
+    if (
+      !Number.isFinite(
+        sortOrder
+      )
+    ) {
+      sortOrder =
+        Number(
+          existing.sort_order
+        ) || 0;
     }
 
     sortOrder =
@@ -1541,7 +2485,9 @@ async function api(request, env) {
         0,
         Math.min(
           999999,
-          Math.floor(sortOrder)
+          Math.floor(
+            sortOrder
+          )
         )
       );
 
@@ -1557,13 +2503,14 @@ async function api(request, env) {
 
     await env.DB.prepare(
       `UPDATE seva
-       SET title=?,
-           description=?,
-           image_url=?,
-           icon=?,
-           active=?,
-           sort_order=?,
-           updated_at=?
+       SET
+         title=?,
+         description=?,
+         image_url=?,
+         icon=?,
+         active=?,
+         sort_order=?,
+         updated_at=?
        WHERE id=?`
     )
       .bind(
@@ -1584,17 +2531,22 @@ async function api(request, env) {
     });
   }
 
-  /* =========================
+  /* =======================================================
      ADMIN DELETE SEVA
-  ========================== */
+  ======================================================= */
 
   if (
     sevaMatch &&
     method === "DELETE"
   ) {
-    if (u.role !== "admin") {
+    if (
+      u.role !== "admin"
+    ) {
       return json(
-        { error: "Admin only" },
+        {
+          error:
+            "Admin only"
+        },
         403
       );
     }
@@ -1604,9 +2556,11 @@ async function api(request, env) {
 
     const existing =
       await env.DB.prepare(
-        `SELECT id
+        `SELECT
+          id
          FROM seva
-         WHERE id=?`
+         WHERE id=?
+         LIMIT 1`
       )
         .bind(id)
         .first();
@@ -1633,9 +2587,613 @@ async function api(request, env) {
     });
   }
 
-  /* =========================
+  /* =======================================================
+     ADMIN WEBSITE CONTENT GET
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/site-content" &&
+    method === "GET"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const content =
+      await getWebsiteContent(
+        env
+      );
+
+    return json({
+      ok: true,
+      content
+    });
+  }
+
+  /* =======================================================
+     ADMIN WEBSITE CONTENT UPDATE
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/site-content" &&
+    method === "PUT"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const b =
+      await request
+        .json()
+        .catch(() => ({}));
+
+    await saveWebsiteContent(
+      env,
+      b
+    );
+
+    const content =
+      await getWebsiteContent(
+        env
+      );
+
+    return json({
+      ok: true,
+      message:
+        "Website content updated successfully",
+      content
+    });
+  }
+
+  /* =======================================================
+     ADMIN IMAGE UPLOAD TO R2
+     
+     POST /api/admin/upload
+     
+     multipart/form-data:
+       file = image
+       folder = website / seva / gallery
+       name = optional filename
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/upload" &&
+    method === "POST"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    if (!env.IMAGES) {
+      return json(
+        {
+          error:
+            "R2 IMAGES binding is not configured"
+        },
+        503
+      );
+    }
+
+    const contentType =
+      request.headers.get(
+        "content-type"
+      ) || "";
+
+    if (
+      !contentType
+        .toLowerCase()
+        .startsWith(
+          "multipart/form-data"
+        )
+    ) {
+      return json(
+        {
+          error:
+            "Please upload using multipart/form-data"
+        },
+        400
+      );
+    }
+
+    const form =
+      await request.formData();
+
+    const file =
+      form.get("file");
+
+    const folderRaw =
+      input(
+        form.get("folder") ||
+          "website",
+        50
+      ).toLowerCase();
+
+    const allowedFolders = [
+      "website",
+      "seva",
+      "gallery",
+      "logo"
+    ];
+
+    const folder =
+      allowedFolders.includes(
+        folderRaw
+      )
+        ? folderRaw
+        : "website";
+
+    if (
+      !file ||
+      typeof file ===
+        "string" ||
+      typeof file.arrayBuffer !==
+        "function"
+    ) {
+      return json(
+        {
+          error:
+            "Image file is required"
+        },
+        400
+      );
+    }
+
+    if (
+      !isAllowedImageType(
+        file.type
+      )
+    ) {
+      return json(
+        {
+          error:
+            "Only JPG, PNG, WEBP, GIF or AVIF images are allowed"
+        },
+        400
+      );
+    }
+
+    if (
+      file.size >
+      MAX_IMAGE_SIZE
+    ) {
+      return json(
+        {
+          error:
+            "Image size must not exceed 10 MB"
+        },
+        400
+      );
+    }
+
+    const ext =
+      extensionFromType(
+        file.type
+      );
+
+    const suppliedName =
+      input(
+        form.get("name") ||
+          file.name ||
+          "image",
+        120
+      );
+
+    let cleanName =
+      safeImageName(
+        suppliedName
+      );
+
+    cleanName =
+      cleanName.replace(
+        /\.[a-z0-9]+$/i,
+        ""
+      );
+
+    if (!cleanName) {
+      cleanName =
+        "image";
+    }
+
+    const key =
+      `${folder}/${Date.now()}-${crypto.randomUUID()}.${ext}`;
+
+    const arrayBuffer =
+      await file.arrayBuffer();
+
+    await env.IMAGES.put(
+      key,
+      arrayBuffer,
+      {
+        httpMetadata: {
+          contentType:
+            file.type,
+          cacheControl:
+            "public, max-age=31536000, immutable"
+        },
+        customMetadata: {
+          uploadedBy:
+            String(
+              u.id
+            ),
+          originalName:
+            String(
+              file.name ||
+                cleanName
+            ).slice(
+              0,
+              200
+            )
+        }
+      }
+    );
+
+    return json(
+      {
+        ok: true,
+        key,
+        url:
+          `/media/${encodeURIComponent(
+            key
+          ).replace(
+            /%2F/g,
+            "/"
+          )}`,
+        size:
+          file.size,
+        type:
+          file.type
+      },
+      201
+    );
+  }
+
+  /* =======================================================
+     ADMIN R2 IMAGE DELETE
+     
+     DELETE /api/admin/upload?key=website/example.jpg
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/upload" &&
+    method === "DELETE"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    if (!env.IMAGES) {
+      return json(
+        {
+          error:
+            "R2 IMAGES binding is not configured"
+        },
+        503
+      );
+    }
+
+    const key =
+      url.searchParams.get(
+        "key"
+      );
+
+    if (!key) {
+      return json(
+        {
+          error:
+            "Image key is required"
+        },
+        400
+      );
+    }
+
+    const cleanKey =
+      key
+        .replace(
+          /^\/+/,
+          ""
+        )
+        .slice(
+          0,
+          500
+        );
+
+    if (
+      cleanKey.includes(
+        ".."
+      )
+    ) {
+      return json(
+        {
+          error:
+            "Invalid image key"
+        },
+        400
+      );
+    }
+
+    await env.IMAGES.delete(
+      cleanKey
+    );
+
+    return json({
+      ok: true,
+      message:
+        "Image deleted"
+    });
+  }
+
+  /* =======================================================
+     ADMIN R2 IMAGE CHECK
+     
+     GET /api/admin/upload?key=...
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/upload" &&
+    method === "GET"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    if (!env.IMAGES) {
+      return json(
+        {
+          error:
+            "R2 IMAGES binding is not configured"
+        },
+        503
+      );
+    }
+
+    const key =
+      url.searchParams.get(
+        "key"
+      );
+
+    if (!key) {
+      return json(
+        {
+          error:
+            "Image key is required"
+        },
+        400
+      );
+    }
+
+    const object =
+      await env.IMAGES.head(
+        key
+      );
+
+    if (!object) {
+      return json(
+        {
+          exists: false
+        },
+        404
+      );
+    }
+
+    return json({
+      exists: true,
+      key,
+      size:
+        object.size,
+      etag:
+        object.etag,
+      uploaded:
+        object.uploaded
+    });
+  }
+
+  /* =======================================================
+     ADMIN R2 LIST
+     
+     GET /api/admin/images?prefix=website/
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/images" &&
+    method === "GET"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    if (!env.IMAGES) {
+      return json(
+        {
+          error:
+            "R2 IMAGES binding is not configured"
+        },
+        503
+      );
+    }
+
+    const prefix =
+      input(
+        url.searchParams.get(
+          "prefix"
+        ) || "",
+        200
+      );
+
+    const listed =
+      await env.IMAGES.list({
+        prefix,
+        limit: 100
+      });
+
+    const images =
+      (listed.objects || [])
+        .map(
+          (object) => ({
+            key:
+              object.key,
+            size:
+              object.size,
+            uploaded:
+              object.uploaded,
+            etag:
+              object.etag,
+            url:
+              `/media/${object.key}`
+          })
+        );
+
+    return json({
+      ok: true,
+      images,
+      truncated:
+        Boolean(
+          listed.truncated
+        )
+    });
+  }
+
+  /* =======================================================
+     ADMIN DASHBOARD STATS
+  ======================================================= */
+
+  if (
+    path ===
+      "/api/admin/stats" &&
+    method === "GET"
+  ) {
+    if (
+      u.role !== "admin"
+    ) {
+      return json(
+        {
+          error:
+            "Admin only"
+        },
+        403
+      );
+    }
+
+    const members =
+      await env.DB.prepare(
+        `SELECT COUNT(*) AS n
+         FROM users
+         WHERE role='member'`
+      ).first();
+
+    const staff =
+      await env.DB.prepare(
+        `SELECT COUNT(*) AS n
+         FROM users
+         WHERE role='staff'`
+      ).first();
+
+    const activeMembers =
+      await env.DB.prepare(
+        `SELECT COUNT(*) AS n
+         FROM users
+         WHERE role IN ('member','staff')
+           AND status='active'`
+      ).first();
+
+    const feedback =
+      await env.DB.prepare(
+        `SELECT COUNT(*) AS n
+         FROM feedback
+         WHERE status='new'`
+      ).first();
+
+    const seva =
+      await env.DB.prepare(
+        `SELECT COUNT(*) AS n
+         FROM seva
+         WHERE active=1`
+      ).first();
+
+    return json({
+      ok: true,
+      stats: {
+        members:
+          Number(
+            members?.n || 0
+          ),
+        staff:
+          Number(
+            staff?.n || 0
+          ),
+        active:
+          Number(
+            activeMembers?.n ||
+              0
+          ),
+        newFeedback:
+          Number(
+            feedback?.n || 0
+          ),
+        activeSeva:
+          Number(
+            seva?.n || 0
+          )
+      }
+    });
+  }
+
+  /* =======================================================
      UNKNOWN API
-  ========================== */
+  ======================================================= */
 
   return json(
     {
@@ -1646,18 +3204,42 @@ async function api(request, env) {
   );
 }
 
-/* =========================
+/* =========================================================
    WORKER
-========================= */
+========================================================= */
 
 export default {
-  async fetch(request, env) {
+  async fetch(
+    request,
+    env
+  ) {
     const url =
       new URL(request.url);
 
     try {
+      /* R2 media must be served before ASSETS */
       if (
-        url.pathname.startsWith("/api/")
+        url.pathname.startsWith(
+          "/media/"
+        )
+      ) {
+        if (
+          request.method ===
+            "GET" ||
+          request.method ===
+            "HEAD"
+        ) {
+          return await serveR2Object(
+            request,
+            env
+          );
+        }
+      }
+
+      if (
+        url.pathname.startsWith(
+          "/api/"
+        )
       ) {
         return await api(
           request,
@@ -1667,7 +3249,8 @@ export default {
 
       if (
         env.ASSETS &&
-        typeof env.ASSETS.fetch === "function"
+        typeof env.ASSETS.fetch ===
+          "function"
       ) {
         return await env.ASSETS.fetch(
           request
@@ -1691,7 +3274,9 @@ export default {
       );
 
       if (
-        url.pathname.startsWith("/api/")
+        url.pathname.startsWith(
+          "/api/"
+        )
       ) {
         return json(
           {
@@ -1699,6 +3284,19 @@ export default {
               "Internal server error"
           },
           500
+        );
+      }
+
+      if (
+        url.pathname.startsWith(
+          "/media/"
+        )
+      ) {
+        return new Response(
+          "Image service error",
+          {
+            status: 500
+          }
         );
       }
 
