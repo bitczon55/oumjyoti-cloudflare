@@ -1,829 +1,850 @@
-<!DOCTYPE html>  <html lang="hi">  
-<head>  
-  <meta charset="UTF-8">  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>OUMJYOTI — भक्ति • सेवा • मानवता</title>  <meta
-name="description"
-content="OUMJYOTI — भक्ति, सेवा और मानवता का दिव्य संगम। गौ सेवा, अन्न दान, शिक्षा, स्वास्थ्य, बुजुर्ग सेवा और आपदा राहत।"
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OUMJYOTI — भक्ति • सेवा • मानवता</title>
+  <meta name="description" content="OUMJYOTI — भक्ति, सेवा और मानवता का दिव्य संगम। गौ सेवा, अन्न दान, शिक्षा, स्वास्थ्य, बुजुर्ग सेवा और आपदा राहत।">
+  <meta name="keywords" content="OUMJYOTI, Bhakti, Seva, Sanatan, Gau Seva, Anna Daan, Human Service, Odisha">
+  <meta name="theme-color" content="#0f0508">
+  <style>
+    :root {
+      --bg: #0f0508;
+      --bg2: #14070b;
+      --card: #1c0e12;
+      --card2: #211015;
+      --gold: #f3ba2f;
+      --gold2: #ffe898;
+      --text: #f5f5f5;
+      --muted: #c8b9b9;
+      --orange: #ff6b00;
+      --line: rgba(243,186,47,0.24);
+      --shadow: 0 12px 35px rgba(0,0,0,0.35);
+      --radius: 18px;
+    }
 
-> 
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, rgba(243,186,47,0.08), transparent 38%), var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    body.interface-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    img { max-width: 100%; }
 
-<meta
-name="keywords"
-content="OUMJYOTI, Bhakti, Seva, Sanatan, Gau Seva, Anna Daan, Human Service, Odisha"
+    .container { width: min(1180px, calc(100% - 30px)); margin: auto; }
 
-> 
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15,5,8,0.94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .brand img { width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold); background: #000; }
+    .brand-title { color: var(--gold2); font-weight: 900; letter-spacing: 1px; font-size: 19px; white-space: nowrap; }
+    .brand-sub { color: var(--muted); font-size: 11px; margin-top: 2px; }
 
-  <meta name="theme-color" content="#0f0508">    <style>  
-    :root {  
-      --bg: #0f0508;  
-      --bg2: #14070b;  
-      --card: #1c0e12;  
-      --card2: #211015;  
-      --gold: #f3ba2f;  
-      --gold2: #ffe898;  
-      --text: #f5f5f5;  
-      --muted: #c8b9b9;  
-      --orange: #ff6b00;  
-      --line: rgba(243,186,47,0.24);  
-      --shadow: 0 12px 35px rgba(0,0,0,0.35);  
-      --radius: 18px;  
-    }  
-  
-    * {  
-      box-sizing: border-box;  
-    }  
-  
-    html {  
-      scroll-behavior: smooth;  
-    }  
-  
-    body {  
-      margin: 0;  
-      font-family:  
-        system-ui,  
-        -apple-system,  
-        BlinkMacSystemFont,  
-        "Segoe UI",  
-        sans-serif;  
-      background:  
-        radial-gradient(  
-          circle at top,  
-          rgba(243,186,47,0.08),  
-          transparent 38%  
-        ),  
-        var(--bg);  
-      color: var(--text);  
-      min-height: 100vh;  
-    }  
-  
-    body.interface-open {  
-      overflow: hidden;  
-    }  
-  
-    a {  
-      color: inherit;  
-      text-decoration: none;  
-    }  
-  
-    button,  
-    input,  
-    textarea,  
-    select {  
-      font: inherit;  
-    }  
-  
-    button {  
-      cursor: pointer;  
-    }  
-  
-    img {  
-      max-width: 100%;  
-    }  
-  
-    .container {  
-      width: min(1180px, calc(100% - 30px));  
-      margin: auto;  
-    }  
-  
-    /* =====================================================  
-       HEADER  
-    ===================================================== */  
-  
-    header {  
-      position: sticky;  
-      top: 0;  
-      z-index: 100;  
-      background: rgba(15,5,8,0.94);  
-      backdrop-filter: blur(14px);  
-      border-bottom: 1px solid var(--line);  
-    }  
-  
-    .nav {  
-      min-height: 72px;  
-      display: flex;  
-      align-items: center;  
-      justify-content: space-between;  
-      gap: 20px;  
-    }  
-  
-    .brand {  
-      display: flex;  
-      align-items: center;  
-      gap: 12px;  
-      min-width: 0;  
-    }  
-  
-    .brand img {  
-      width: 48px;  
-      height: 48px;  
-      border-radius: 50%;  
-      object-fit: cover;  
-      border: 2px solid var(--gold);  
-      background: #000;  
-    }  
-  
-    .brand-text {  
-      min-width: 0;  
-    }  
-  
-    .brand-title {  
-      color: var(--gold2);  
-      font-weight: 900;  
-      letter-spacing: 1px;  
-      font-size: 19px;  
-      white-space: nowrap;  
-    }  
-  
-    .brand-sub {  
-      color: var(--muted);  
-      font-size: 11px;  
-      margin-top: 2px;  
-    }  
-  
-    .nav-links {  
-      display: flex;  
-      align-items: center;  
-      gap: 6px;  
-      flex-wrap: wrap;  
-      justify-content: flex-end;  
-    }  
-  
-    .nav-links button {  
-      border: 0;  
-      background: transparent;  
-      color: var(--muted);  
-      padding: 9px 10px;  
-      border-radius: 10px;  
-      transition: .2s;  
-    }  
-  
-    .nav-links button:hover {  
-      color: var(--gold2);  
-      background: rgba(243,186,47,0.08);  
-    }  
-  
-    .nav-login {  
-      color: #120a00 !important;  
-      background: linear-gradient(  
-        135deg,  
-        var(--gold),  
-        var(--gold2)  
-      ) !important;  
-      font-weight: 800;  
-    }  
-  
-    .mobile-menu {  
-      display: none;  
-      border: 1px solid var(--line);  
-      background: var(--card);  
-      color: var(--gold2);  
-      padding: 9px 12px;  
-      border-radius: 10px;  
-    }  
-  
-    /* =====================================================  
-       HERO  
-    ===================================================== */  
-  
-    .hero {  
-      min-height: 570px;  
-      display: grid;  
-      place-items: center;  
-      text-align: center;  
-      position: relative;  
-      overflow: hidden;  
-      border-bottom: 1px solid var(--line);  
-    }  
-  
-    .hero::before {  
-      content: "";  
-      position: absolute;  
-      inset: 0;  
-      background:  
-        linear-gradient(  
-          rgba(15,5,8,0.72),  
-          rgba(15,5,8,0.90)  
-        ),  
-        url("/Images/hero.jpg")  
-        center / cover no-repeat;  
-      opacity: .9;  
-    }  
-  
-    .hero-content {  
-      position: relative;  
-      z-index: 1;  
-      width: min(900px, calc(100% - 30px));  
-      padding: 80px 0;  
-    }  
-  
-    .om {  
-      color: var(--gold);  
-      font-size: 68px;  
-      line-height: 1;  
-      margin-bottom: 15px;  
-      text-shadow:  
-        0 0 30px rgba(243,186,47,.25);  
-    }  
-  
-    .hero h1 {  
-      margin: 0;  
-      color: var(--gold2);  
-      font-size: clamp(34px, 7vw, 66px);  
-      line-height: 1.05;  
-    }  
-  
-    .hero p {  
-      max-width: 760px;  
-      margin: 22px auto 0;  
-      color: #eee0e0;  
-      font-size: clamp(16px, 2vw, 20px);  
-      line-height: 1.8;  
-    }  
-  
-    .hero-actions {  
-      display: flex;  
-      justify-content: center;  
-      gap: 12px;  
-      flex-wrap: wrap;  
-      margin-top: 30px;  
-    }  
-  
-    /* =====================================================  
-       BUTTONS  
-    ===================================================== */  
-  
-    .btn {  
-      border: 1px solid var(--line);  
-      border-radius: 12px;  
-      padding: 12px 18px;  
-      background: var(--card);  
-      color: var(--gold2);  
-      font-weight: 800;  
-      transition: .2s;  
-    }  
-  
-    .btn:hover {  
-      transform: translateY(-2px);  
-      border-color: var(--gold);  
-    }  
-  
-    .btn-primary {  
-      color: #160b00;  
-      background:  
-        linear-gradient(  
-          135deg,  
-          var(--gold),  
-          var(--gold2)  
-        );  
-      border-color: transparent;  
-    }  
-  
-    .btn-danger {  
-      color: #fff;  
-      background: #7c1d1d;  
-      border-color: #a33;  
-    }  
-  
-    .btn-success {  
-      color: #071b0b;  
-      background: #6fdc88;  
-      border-color: transparent;  
-    }  
-  
-    .btn-small {  
-      padding: 8px 11px;  
-      font-size: 13px;  
-      border-radius: 9px;  
-    }  
-  
-    /* =====================================================  
-       SECTIONS  
-    ===================================================== */  
-  
-    section {  
-      padding: 70px 0;  
-    }  
-  
-    .section-head {  
-      text-align: center;  
-      margin-bottom: 34px;  
-    }  
-  
-    .section-head h2 {  
-      color: var(--gold2);  
-      margin: 0 0 10px;  
-      font-size: clamp(28px, 5vw, 42px);  
-    }  
-  
-    .section-head p {  
-      color: var(--muted);  
-      margin: 0 auto;  
-      max-width: 760px;  
-      line-height: 1.7;  
-    }  
-  
-    .grid {  
-      display: grid;  
-      grid-template-columns:  
-        repeat(3, minmax(0, 1fr));  
-      gap: 20px;  
-    }  
-  
-    .card {  
-      background:  
-        linear-gradient(  
-          145deg,  
-          rgba(255,255,255,0.02),  
-          rgba(255,255,255,0)  
-        ),  
-        var(--card);  
-      border: 1px solid var(--line);  
-      border-radius: var(--radius);  
-      box-shadow: var(--shadow);  
-      overflow: hidden;  
-    }  
-  
-    .card-body {  
-      padding: 22px;  
-    }  
-  
-    .purpose-card {  
-      padding: 28px;  
-      text-align: center;  
-      cursor: pointer;  
-      transition: .25s;  
-    }  
-  
-    .purpose-card:hover {  
-      transform: translateY(-5px);  
-      border-color: rgba(243,186,47,.55);  
-    }  
-  
-    .purpose-icon {  
-      font-size: 42px;  
-      margin-bottom: 15px;  
-    }  
-  
-    .purpose-card h3 {  
-      margin: 0 0 10px;  
-      color: var(--gold2);  
-    }  
-  
-    .purpose-card p {  
-      color: var(--muted);  
-      line-height: 1.7;  
-      margin: 0;  
-    }  
-  
-    /* =====================================================  
-       SEVA  
-    ===================================================== */  
-  
-    .seva-grid {  
-      display: grid;  
-      grid-template-columns:  
-        repeat(3, minmax(0, 1fr));  
-      gap: 20px;  
-    }  
-  
-    .seva-card {  
-      overflow: hidden;  
-      cursor: pointer;  
-      transition: .25s;  
-    }  
-  
-    .seva-card:hover {  
-      transform: translateY(-5px);  
-      border-color: rgba(243,186,47,.55);  
-    }  
-  
-    .seva-image {  
-      width: 100%;  
-      height: 220px;  
-      object-fit: cover;  
-      display: block;  
-      background: #0b0305;  
-    }  
-  
-    .seva-placeholder {  
-      height: 220px;  
-      display: grid;  
-      place-items: center;  
-      font-size: 58px;  
-      background:  
-        radial-gradient(  
-          circle,  
-          rgba(243,186,47,.12),  
-          transparent 70%  
-        );  
-    }  
-  
-    .seva-card h3 {  
-      color: var(--gold2);  
-      margin: 0 0 8px;  
-    }  
-  
-    .seva-card p {  
-      color: var(--muted);  
-      line-height: 1.6;  
-      margin: 0;  
-    }  
-  
-    /* =====================================================  
-       FOOTER  
-    ===================================================== */  
-  
-    footer {  
-      border-top: 1px solid var(--line);  
-      padding: 35px 0;  
-      background: #0b0305;  
-      color: var(--muted);  
-      text-align: center;  
-    }  
-  
-    footer strong {  
-      color: var(--gold2);  
-    }  
-  
-    /* =====================================================  
-       FULL SCREEN INTERFACE  
-    ===================================================== */  
-  
-    #interfaceArea {  
-      position: fixed;  
-      inset: 0;  
-      z-index: 1000;  
-      display: none;  
-      background:  
-        radial-gradient(  
-          circle at top,  
-          rgba(243,186,47,.09),  
-          transparent 35%  
-        ),  
-        var(--bg);  
-      overflow-y: auto;  
-      overscroll-behavior: contain;  
-    }  
-  
-    #interfaceArea.show {  
-      display: block;  
-    }  
-  
-    .interface-page {  
-      min-height: 100vh;  
-      padding: 22px;  
-    }  
-  
-    .interface-inner {  
-      width: min(1150px, 100%);  
-      margin: 0 auto;  
-      padding: 25px 0 70px;  
-    }  
-  
-    .interface-top {  
-      display: flex;  
-      align-items: center;  
-      justify-content: space-between;  
-      gap: 15px;  
-      margin-bottom: 25px;  
-      position: sticky;  
-      top: 0;  
-      z-index: 5;  
-      padding: 12px 0;  
-      background:  
-        linear-gradient(  
-          var(--bg),  
-          rgba(15,5,8,.92),  
-          rgba(15,5,8,0)  
-        );  
-    }  
-  
-    .interface-title {  
-      color: var(--gold2);  
-      margin: 0;  
-      font-size: clamp(25px, 5vw, 42px);  
-    }  
-  
-    .close-interface {  
-      flex-shrink: 0;  
-      border: 1px solid var(--line);  
-      background: var(--card);  
-      color: var(--gold2);  
-      border-radius: 12px;  
-      padding: 10px 15px;  
-      font-weight: 800;  
-    }  
-  
-    /* =====================================================  
-       AUTH  
-    ===================================================== */  
-  
-    .auth-wrap {  
-      width: min(560px, 100%);  
-      margin: 35px auto;  
-    }  
-  
-    .auth-logo {  
-      text-align: center;  
-      margin-bottom: 25px;  
-    }  
-  
-    .auth-logo img {  
-      width: 85px;  
-      height: 85px;  
-      object-fit: cover;  
-      border-radius: 50%;  
-      border: 2px solid var(--gold);  
-    }  
-  
-    .auth-card {  
-      padding: 28px;  
-    }  
-  
-    .auth-tabs {  
-      display: grid;  
-      grid-template-columns: 1fr 1fr;  
-      gap: 8px;  
-      margin-bottom: 22px;  
-    }  
-  
-    .auth-tabs button {  
-      border: 1px solid var(--line);  
-      background: #16080d;  
-      color: var(--muted);  
-      padding: 12px;  
-      border-radius: 10px;  
-      font-weight: 800;  
-    }  
-  
-    .auth-tabs button.active {  
-      background:  
-        linear-gradient(  
-          135deg,  
-          var(--gold),  
-          var(--gold2)  
-        );  
-      color: #140900;  
-    }  
-  
-    .form-group {  
-      margin-bottom: 15px;  
-    }  
-  
-    .form-group label {  
-      display: block;  
-      color: var(--gold2);  
-      font-weight: 700;  
-      margin-bottom: 7px;  
-      font-size: 14px;  
-    }  
-  
-    .form-control {  
-      width: 100%;  
-      border: 1px solid var(--line);  
-      background: #10060a;  
-      color: var(--text);  
-      padding: 12px 13px;  
-      border-radius: 10px;  
-      outline: none;  
-    }  
-  
-    .form-control:focus {  
-      border-color: var(--gold);  
-      box-shadow:  
-        0 0 0 3px  
-        rgba(243,186,47,.08);  
-    }  
-  
-    textarea.form-control {  
-      min-height: 140px;  
-      resize: vertical;  
-    }  
-  
-    .form-row {  
-      display: grid;  
-      grid-template-columns: 1fr 1fr;  
-      gap: 14px;  
-    }  
-  
-    .message {  
-      display: none;  
-      margin: 14px 0;  
-      padding: 12px 14px;  
-      border-radius: 10px;  
-      border: 1px solid var(--line);  
-      background: rgba(243,186,47,.07);  
-      color: var(--gold2);  
-      line-height: 1.5;  
-    }  
-  
-    .message.show {  
-      display: block;  
-    }  
-  
-    .message.error {  
-      color: #ffb4b4;  
-      background: rgba(180,40,40,.12);  
-      border-color: rgba(255,90,90,.35);  
-    }  
-  
-    .message.success {  
-      color: #b9ffca;  
-      background: rgba(50,150,75,.12);  
-      border-color: rgba(100,220,130,.3);  
-    }  
-  
-    /* =====================================================  
-       DASHBOARD  
-    ===================================================== */  
-  
-    .dashboard-head {  
-      display: flex;  
-      justify-content: space-between;  
-      gap: 15px;  
-      align-items: center;  
-      flex-wrap: wrap;  
-      margin-bottom: 25px;  
-    }  
-  
-    .user-badge {  
-      display: inline-flex;  
-      align-items: center;  
-      gap: 9px;  
-      background: rgba(243,186,47,.08);  
-      border: 1px solid var(--line);  
-      padding: 9px 13px;  
-      border-radius: 999px;  
-      color: var(--gold2);  
-    }  
-  
-    .dashboard-grid {  
-      display: grid;  
-      grid-template-columns:  
-        repeat(4, minmax(0, 1fr));  
-      gap: 15px;  
-      margin-bottom: 25px;  
-    }  
-  
-    .stat-card {  
-      padding: 20px;  
-      border: 1px solid var(--line);  
-      background: var(--card);  
-      border-radius: 15px;  
-    }  
-  
-    .stat-card small {  
-      color: var(--muted);  
-    }  
-  
-    .stat-card strong {  
-      display: block;  
-      margin-top: 8px;  
-      color: var(--gold2);  
-      font-size: 30px;  
-    }  
-  
-    .dashboard-menu {  
-      display: grid;  
-      grid-template-columns:  
-        repeat(3, minmax(0, 1fr));  
-      gap: 15px;  
-    }  
-  
-    .dashboard-item {  
-      padding: 22px;  
-      background: var(--card);  
-      border: 1px solid var(--line);  
-      border-radius: 15px;  
-      color: var(--text);  
-      text-align: left;  
-      transition: .2s;  
-    }  
-  
-    .dashboard-item:hover {  
-      transform: translateY(-3px);  
-      border-color: var(--gold);  
-    }  
-  
-    .dashboard-item b {  
-      color: var(--gold2);  
-      display: block;  
-      margin-bottom: 6px;  
-    }  
-  
-    .dashboard-item span {  
-      color: var(--muted);  
-      font-size: 14px;  
-    }  
-  
-    /* =====================================================  
-       TABLES  
-    ===================================================== */  
-  
-    .table-wrap {  
-      overflow-x: auto;  
-      border: 1px solid var(--line);  
-      border-radius: 14px;  
-    }  
-  
-    table {  
-      width: 100%;  
-      border-collapse: collapse;  
-      min-width: 750px;  
-    }  
-  
-    th,  
-    td {  
-      text-align: left;  
-      padding: 13px 12px;  
-      border-bottom: 1px solid rgba(243,186,47,.12);  
-      vertical-align: top;  
-    }  
-  
-    th {  
-      color: var(--gold2);  
-      background: #16080d;  
-      font-size: 13px;  
-    }  
-  
-    td {  
-      color: #eee0e0;  
-      font-size: 14px;  
-    }  
-  
-    tr:last-child td {  
-      border-bottom: 0;  
-    }  
-  
-    .status {  
-      display: inline-block;  
-      padding: 5px 9px;  
-      border-radius: 999px;  
-      font-size: 12px;  
-      font-weight: 800;  
-    }  
-  
-    .status-active {  
-      background: rgba(70,190,100,.13);  
-      color: #9effb3;  
-    }  
-  
-    .status-disabled {  
-      background: rgba(220,70,70,.13);  
-      color: #ffaaaa;  
-    }  
-  
-    .status-new {  
-      background: rgba(243,186,47,.12);  
-      color: var(--gold2);  
-    }  
-  
-    /* =====================================================  
-       ADMIN SEVA  
-    ===================================================== */  
-  
-    .admin-seva-grid {  
-      display: grid;  
-      grid-template-columns:  
-        repeat(2, minmax(0, 1fr));  
-      gap: 18px;  
-    }  
-  
-    .admin-seva-card {  
-      padding: 20px;  
-    }  
-  
-    .admin-seva-image {  
-      width: 100%;  
-      height: 180px;  
-      object-fit: cover;  
-      border-radius: 12px;  
-      background: #090305;  
-      margin-bottom: 15px;  
-    }  
-  
-    .admin-actions {  
-      display: flex;  
-      gap: 8px;  
-      flex-wrap: wrap;  
-      margin-top: 15px;  
-    }  
-  
-    /* =====================================================  
-       FILE UPLOAD  
-    ===================================================== */  
-  
-    .upload-zone {  
-      border: 2px dashed rgba(243,186,47,.35);  
-      background: rgba(243,186,47,.04);  
-      padding: 25px;  
-      border-radius: 15px;  
-      text-align: center;  
-    }  
-  
-    .upload-zone input[type="file"] {  
-      width: 100%;  
-      margin: 15px 0;  
+    .nav-links { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+    .nav-links button { border: 0; background: transparent; color: var(--muted); padding: 9px 10px; border-radius: 10px; transition: .2s; }
+    .nav-links button:hover { color: var(--gold2); background: rgba(243,186,47,0.08); }
+    .nav-login { color: #120a00 !important; background: linear-gradient(135deg, var(--gold), var(--gold2)) !important; font-weight: 800; }
+    .mobile-menu { display: none; border: 1px solid var(--line); background: var(--card); color: var(--gold2); padding: 9px 12px; border-radius: 10px; }
+
+    .hero {
+      min-height: 570px; display: grid; place-items: center; text-align: center; position: relative; overflow: hidden; border-bottom: 1px solid var(--line);
+    }
+    .hero::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(rgba(15,5,8,0.72), rgba(15,5,8,0.90)), url("/Images/hero.jpg") center / cover no-repeat;
+      opacity: .9;
+    }
+    .hero-content { position: relative; z-index: 1; width: min(900px, calc(100% - 30px)); padding: 80px 0; }
+    .om { color: var(--gold); font-size: 68px; line-height: 1; margin-bottom: 15px; text-shadow: 0 0 30px rgba(243,186,47,.25); }
+    .hero h1 { margin: 0; color: var(--gold2); font-size: clamp(34px, 7vw, 66px); line-height: 1.05; }
+    .hero p { max-width: 760px; margin: 22px auto 0; color: #eee0e0; font-size: clamp(16px, 2vw, 20px); line-height: 1.8; }
+    .hero-actions { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-top: 30px; }
+
+    .btn { border: 1px solid var(--line); border-radius: 12px; padding: 12px 18px; background: var(--card); color: var(--gold2); font-weight: 800; transition: .2s; }
+    .btn:hover { transform: translateY(-2px); border-color: var(--gold); }
+    .btn-primary { color: #160b00; background: linear-gradient(135deg, var(--gold), var(--gold2)); border-color: transparent; }
+    .btn-danger { color: #fff; background: #7c1d1d; border-color: #a33; }
+    .btn-success { color: #071b0b; background: #6fdc88; border-color: transparent; }
+    .btn-small { padding: 8px 11px; font-size: 13px; border-radius: 9px; }
+
+    section { padding: 70px 0; }
+    .section-head { text-align: center; margin-bottom: 34px; }
+    .section-head h2 { color: var(--gold2); margin: 0 0 10px; font-size: clamp(28px, 5vw, 42px); }
+    .section-head p { color: var(--muted); margin: 0 auto; max-width: 760px; line-height: 1.7; }
+    
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .card { background: linear-gradient(145deg, rgba(255,255,255,0.02), rgba(255,255,255,0)), var(--card); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; }
+    .card-body { padding: 22px; }
+    .purpose-card { padding: 28px; text-align: center; cursor: pointer; transition: .25s; }
+    .purpose-card:hover { transform: translateY(-5px); border-color: rgba(243,186,47,.55); }
+    .purpose-icon { font-size: 42px; margin-bottom: 15px; }
+
+    .seva-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .seva-card { overflow: hidden; cursor: pointer; transition: .25s; }
+    .seva-card:hover { transform: translateY(-5px); border-color: rgba(243,186,47,.55); }
+    .seva-image { width: 100%; height: 220px; object-fit: cover; display: block; background: #0b0305; }
+    .seva-placeholder { height: 220px; display: grid; place-items: center; font-size: 58px; background: radial-gradient(circle, rgba(243,186,47,.12), transparent 70%); }
+
+    footer { border-top: 1px solid var(--line); padding: 35px 0; background: #0b0305; color: var(--muted); text-align: center; }
+    footer strong { color: var(--gold2); }
+
+    #interfaceArea { position: fixed; inset: 0; z-index: 1000; display: none; background: radial-gradient(circle at top, rgba(243,186,47,.09), transparent 35%), var(--bg); overflow-y: auto; overscroll-behavior: contain; }
+    #interfaceArea.show { display: block; }
+    .interface-page { min-height: 100vh; padding: 22px; }
+    .interface-inner { width: min(1150px, 100%); margin: 0 auto; padding: 25px 0 70px; }
+    .interface-top { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 25px; position: sticky; top: 0; z-index: 5; padding: 12px 0; background: linear-gradient(var(--bg), rgba(15,5,8,.92), rgba(15,5,8,0)); }
+    .interface-title { color: var(--gold2); margin: 0; font-size: clamp(25px, 5vw, 42px); }
+    .close-interface { border: 1px solid var(--line); background: var(--card); color: var(--gold2); border-radius: 12px; padding: 10px 15px; font-weight: 800; }
+
+    .auth-wrap { width: min(560px, 100%); margin: 35px auto; }
+    .auth-logo { text-align: center; margin-bottom: 25px; }
+    .auth-logo img { width: 85px; height: 85px; object-fit: cover; border-radius: 50%; border: 2px solid var(--gold); }
+    .auth-card { padding: 28px; }
+    .auth-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 22px; }
+    .auth-tabs button { border: 1px solid var(--line); background: #16080d; color: var(--muted); padding: 12px; border-radius: 10px; font-weight: 800; }
+    .auth-tabs button.active { background: linear-gradient(135deg, var(--gold), var(--gold2)); color: #140900; }
+
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; color: var(--gold2); font-weight: 700; margin-bottom: 7px; font-size: 14px; }
+    .form-control { width: 100%; border: 1px solid var(--line); background: #10060a; color: var(--text); padding: 12px 13px; border-radius: 10px; outline: none; }
+    .form-control:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(243,186,47,.08); }
+    textarea.form-control { min-height: 140px; resize: vertical; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+
+    .message { display: none; margin: 14px 0; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: rgba(243,186,47,.07); color: var(--gold2); line-height: 1.5; }
+    .message.show { display: block; }
+    .message.error { color: #ffb4b4; background: rgba(180,40,40,.12); border-color: rgba(255,90,90,.35); }
+    .message.success { color: #b9ffca; background: rgba(50,150,75,.12); border-color: rgba(100,220,130,.3); }
+
+    .dashboard-head { display: flex; justify-content: space-between; gap: 15px; align-items: center; flex-wrap: wrap; margin-bottom: 25px; }
+    .user-badge { display: inline-flex; align-items: center; gap: 9px; background: rgba(243,186,47,.08); border: 1px solid var(--line); padding: 9px 13px; border-radius: 999px; color: var(--gold2); }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .stat-card { padding: 20px; border: 1px solid var(--line); background: var(--card); border-radius: 15px; }
+    .stat-card small { color: var(--muted); }
+    .stat-card strong { display: block; margin-top: 8px; color: var(--gold2); font-size: 30px; }
+    .dashboard-menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
+    .dashboard-item { padding: 22px; background: var(--card); border: 1px solid var(--line); border-radius: 15px; color: var(--text); text-align: left; transition: .2s; }
+    .dashboard-item:hover { transform: translateY(-3px); border-color: var(--gold); }
+    .dashboard-item b { color: var(--gold2); display: block; margin-bottom: 6px; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; }
+    table { width: 100%; border-collapse: collapse; min-width: 750px; }
+    th, td { text-align: left; padding: 13px 12px; border-bottom: 1px solid rgba(243,186,47,.12); vertical-align: top; }
+    th { color: var(--gold2); background: #16080d; font-size: 13px; }
+    td { color: #eee0e0; font-size: 14px; }
+    tr:last-child td { border-bottom: 0; }
+
+    .status { display: inline-block; padding: 5px 9px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+    .status-active { background: rgba(70,190,100,.13); color: #9effb3; }
+    .status-disabled { background: rgba(220,70,70,.13); color: #ffaaaa; }
+    .status-new { background: rgba(243,186,47,.12); color: var(--gold2); }
+
+    .admin-seva-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .admin-seva-card { padding: 20px; }
+    .admin-seva-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; background: #090305; margin-bottom: 15px; }
+    .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+
+    .loader { width: 36px; height: 36px; border: 3px solid rgba(243,186,47,.18); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; margin: 30px auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .empty { text-align: center; padding: 35px; color: var(--muted); border: 1px dashed var(--line); border-radius: 15px; }
+
+    @media (max-width: 900px) {
+      .grid, .seva-grid, .dashboard-grid, .dashboard-menu { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 680px) {
+      .nav-links { display: none; position: absolute; left: 15px; right: 15px; top: 68px; padding: 10px; background: #12070b; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); flex-direction: column; }
+      .nav-links.open { display: flex; }
+      .mobile-menu { display: block; }
+      .grid, .seva-grid, .admin-seva-grid, .dashboard-menu, .dashboard-grid, .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <button class="brand" onclick="goHome()" style="border:0;background:transparent;color:inherit;padding:0;cursor:pointer;">
+      <img id="headerLogo" src="/oumjyoti-logo.png" alt="OUMJYOTI Logo" onerror="this.style.display='none'">
+      <div class="brand-text">
+        <div class="brand-title">OUMJYOTI</div>
+        <div class="brand-sub">भक्ति • सेवा • मानवता</div>
+      </div>
+    </button>
+    <button class="mobile-menu" onclick="toggleMobileMenu()">☰</button>
+    <nav class="nav-links" id="navLinks">
+      <button onclick="goHome();closeMobileMenu()">Home</button>
+      <button onclick="openInterface('mission');closeMobileMenu()">Mission</button>
+      <button onclick="openInterface('seva');closeMobileMenu()">Seva</button>
+      <button onclick="openInterface('about');closeMobileMenu()">About</button>
+      <button onclick="openInterface('feedback');closeMobileMenu()">Feedback</button>
+      <button id="authButton" class="nav-login" onclick="handleAuthButton();closeMobileMenu()">Login</button>
+    </nav>
+  </div>
+</header>
+
+<main id="home">
+  <section class="hero">
+    <div class="hero-content">
+      <div class="om">ॐ</div>
+      <h1 id="heroTitle">भक्ति से सेवा, सेवा से मानवता</h1>
+      <p id="heroText">OUMJYOTI का उद्देश्य भक्ति, सेवा और मानवता के माध्यम से जरूरतमंद लोगों, गौ माता, बुजुर्गों और समाज के कमजोर वर्गों तक सहयोग पहुँचाना है।</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="openInterface('mission')">हमारा मिशन</button>
+        <button class="btn" onclick="openInterface('seva')">सेवा देखें</button>
+        <button class="btn" onclick="openInterface('login')">Join Seva</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="section-head">
+        <h2>सेवा के प्रमुख क्षेत्र</h2>
+        <p>करुणा, सहयोग और मानवता की भावना से जरूरतमंदों तक सहायता पहुँचाने का हमारा प्रयास।</p>
+      </div>
+      <div class="grid">
+        <article class="card purpose-card" onclick="openInterface('seva')">
+          <div class="purpose-icon">🐄</div>
+          <h3>गौ सेवा</h3>
+          <p>गौ माता की देखभाल, भोजन और संरक्षण के लिए सहयोग।</p>
+        </article>
+        <article class="card purpose-card" onclick="openInterface('seva')">
+          <div class="purpose-icon">🍚</div>
+          <h3>अन्न दान</h3>
+          <p>जरूरतमंद परिवारों और लोगों तक भोजन सहायता पहुँचाने का प्रयास।</p>
+        </article>
+        <article class="card purpose-card" onclick="openInterface('seva')">
+          <div class="purpose-icon">📚</div>
+          <h3>शिक्षा सहायता</h3>
+          <p>जरूरतमंद बच्चों की शिक्षा में यथासंभव सहयोग।</p>
+        </article>
+        <article class="card purpose-card" onclick="openInterface('seva')">
+          <div class="purpose-icon">❤️</div>
+          <h3>स्वास्थ्य सहायता</h3>
+          <p>जरूरतमंद लोगों की बीमारी और स्वास्थ्य संबंधी सहायता के लिए प्रयास।</p>
+        </article>
+        <article class="card purpose-card" onclick="openInterface('seva')">
+          <div class="purpose-icon">👴</div>
+          <h3>बुजुर्ग सेवा</h3>
+          <p>बुजुर्गों के सम्मान, सहयोग और आवश्यक सहायता के लिए सेवा।</p>
+        </article>
+        <article class="card purpose-card" onclick="openInterface('seva')">
+          <div class="purpose-icon">🌊</div>
+          <h3>आपदा राहत</h3>
+          <p>बाढ़ और अन्य प्राकृतिक आपदाओं से प्रभावित लोगों तक सहायता पहुँचाने का प्रयास।</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="sevaPreview">
+    <div class="container">
+      <div class="section-head">
+        <h2>हमारी सेवाएँ</h2>
+        <p>सेवा कार्यों की विस्तृत जानकारी देखने के लिए किसी सेवा पर क्लिक करें।</p>
+      </div>
+      <div class="seva-grid" id="sevaGrid">
+        <div class="loader"></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="container">
+      <div class="card">
+        <div class="card-body" style="text-align:center">
+          <h2 id="aboutTitlePreview" style="color:var(--gold2);margin-top:0">OUMJYOTI के बारे में</h2>
+          <p id="aboutTextPreview" style="color:var(--muted);line-height:1.8;max-width:850px;margin:auto">OUMJYOTI भक्ति, सेवा और मानवता को एक साथ जोड़ने वाला सेवा प्रयास है।</p>
+          <div style="margin-top:22px">
+            <button class="btn btn-primary" onclick="openInterface('about')">पूरा परिचय देखें</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container">
+    <p><strong>OUMJYOTI</strong> — भक्ति • सेवा • मानवता</p>
+    <p>© 2026 OUMJYOTI. सभी अधिकार सुरक्षित।</p>
+    <button class="btn btn-small" onclick="openInterface('privacy')">Privacy Policy</button>
+  </div>
+</footer>
+
+<div id="interfaceArea" aria-hidden="true"></div>
+
+<script>
+let currentUser = null;
+let siteContent = {};
+let sevaData = [];
+let mobileMenuOpen = false;
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadSiteContent();
+  loadSeva();
+  checkSession();
+});
+
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function formatDate(value) {
+  if (!value) return "-";
+  try {
+    return new Date(value).toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" });
+  } catch {
+    return value;
+  }
+}
+
+function showInterface(html) {
+  const area = document.getElementById("interfaceArea");
+  area.innerHTML = html;
+  area.classList.add("show");
+  area.setAttribute("aria-hidden", "false");
+  document.body.classList.add("interface-open");
+}
+
+function closeInterface() {
+  const area = document.getElementById("interfaceArea");
+  area.classList.remove("show");
+  area.setAttribute("aria-hidden", "true");
+  area.innerHTML = "";
+  document.body.classList.remove("interface-open");
+}
+
+function goHome() { closeInterface(); }
+
+function toggleMobileMenu() {
+  mobileMenuOpen = !mobileMenuOpen;
+  document.getElementById("navLinks").classList.toggle("open", mobileMenuOpen);
+}
+
+function closeMobileMenu() {
+  mobileMenuOpen = false;
+  document.getElementById("navLinks").classList.remove("open");
+}
+
+async function apiFetch(url, options = {}) {
+  const response = await fetch(url, { credentials: "same-origin", ...options });
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.error || data.message || `Request failed (${response.status})`);
+  }
+  return data;
+}
+
+async function checkSession() {
+  try {
+    const data = await apiFetch("/api/me");
+    if (data.authenticated) {
+      currentUser = data.user;
+      updateAuthButton();
+    }
+  } catch (e) {
+    console.log("No active session");
+  }
+}
+
+function updateAuthButton() {
+  const button = document.getElementById("authButton");
+  if (!button) return;
+  button.textContent = currentUser ? "Dashboard" : "Login";
+}
+
+function handleAuthButton() {
+  if (currentUser) {
+    openDashboard(currentUser);
+  } else {
+    openInterface("login");
+  }
+}
+
+async function loadSiteContent() {
+  try {
+    const data = await apiFetch("/api/site-content");
+    siteContent = data.content || {};
+    applySiteContent();
+  } catch (error) {
+    console.error("Site content error:", error);
+  }
+}
+
+function applySiteContent() {
+  if (siteContent.site_title) document.title = siteContent.site_title;
+  if (siteContent.hero_title && document.getElementById("heroTitle")) document.getElementById("heroTitle").textContent = siteContent.hero_title;
+  if (siteContent.hero_text && document.getElementById("heroText")) document.getElementById("heroText").textContent = siteContent.hero_text;
+  if (siteContent.about_title && document.getElementById("aboutTitlePreview")) document.getElementById("aboutTitlePreview").textContent = siteContent.about_title;
+  if (siteContent.about_text && document.getElementById("aboutTextPreview")) document.getElementById("aboutTextPreview").textContent = siteContent.about_text;
+  if (siteContent.logo_image && document.getElementById("headerLogo")) document.getElementById("headerLogo").src = siteContent.logo_image;
+}
+
+async function loadSeva() {
+  const grid = document.getElementById("sevaGrid");
+  try {
+    const data = await apiFetch("/api/seva");
+    sevaData = data.seva || [];
+    renderSevaPreview();
+  } catch (error) {
+    if (grid) grid.innerHTML = `<div class="empty">सेवा जानकारी अभी उपलब्ध नहीं है।</div>`;
+  }
+}
+
+function renderSevaPreview() {
+  const grid = document.getElementById("sevaGrid");
+  if (!grid) return;
+  if (!sevaData.length) {
+    grid.innerHTML = `<div class="empty">अभी कोई सक्रिय सेवा उपलब्ध नहीं है।</div>`;
+    return;
+  }
+  grid.innerHTML = sevaData.slice(0, 9).map((item) => {
+    const image = item.image_url ? escapeHtml(item.image_url) : "";
+    return `
+      <article class="card seva-card" onclick="openSevaDetail('${escapeJs(item.id)}')">
+        ${image ? `<img class="seva-image" src="${image}" alt="${escapeHtml(item.title)}" loading="lazy" onerror="this.style.display='none'">` : `<div class="seva-placeholder">${escapeHtml(item.icon || "🕉️")}</div>`}
+        <div class="card-body">
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.description || "")}</p>
+        </div>
+      </article>`;
+  }).join("");
+}
+
+function escapeJs(value) {
+  return String(value ?? "").replace(/\\/g, "\\\\").replace(/'/g, "\\'").replace(/"/g, '\\"').replace(/\r/g, "\\r").replace(/\n/g, "\\n");
+}
+
+function openInterface(type) {
+  closeMobileMenu();
+  switch (type) {
+    case "mission": renderMissionInterface(); break;
+    case "seva": renderSevaInterface(); break;
+    case "about": renderAboutInterface(); break;
+    case "feedback": renderFeedbackInterface(); break;
+    case "login": renderLoginInterface(); break;
+    case "privacy": renderPrivacyInterface(); break;
+    default: renderMissionInterface();
+  }
+}
+
+function renderMissionInterface() {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">हमारा सेवा मिशन</h1>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h2 style="color:var(--gold2)">${escapeHtml(siteContent.mission_title || "हमारा सेवा मिशन")}</h2>
+            <p style="color:var(--muted);line-height:1.9">${escapeHtml(siteContent.mission_text || "गौ सेवा, अन्न दान, शिक्षा सहायता, स्वास्थ्य सहायता, बुजुर्ग सेवा और आपदा राहत जैसे सेवा कार्यों के माध्यम से समाज में सहयोग, करुणा और मानवता की भावना को मजबूत करना हमारा संकल्प है।")}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderSevaInterface() {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">हमारी सेवाएँ</h1>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div id="interfaceSevaGrid" class="seva-grid"><div class="loader"></div></div>
+      </div>
+    </div>
+  `);
+  loadInterfaceSeva();
+}
+
+async function loadInterfaceSeva() {
+  const grid = document.getElementById("interfaceSevaGrid");
+  if (!grid) return;
+  try {
+    const data = await apiFetch("/api/seva");
+    const items = data.seva || [];
+    if (!items.length) {
+      grid.innerHTML = `<div class="empty">अभी कोई सक्रिय सेवा उपलब्ध नहीं है।</div>`;
+      return;
+    }
+    grid.innerHTML = items.map((item) => `
+      <article class="card seva-card" onclick="openSevaDetail('${escapeJs(item.id)}')">
+        ${item.image_url ? `<img class="seva-image" src="${escapeHtml(item.image_url)}" alt="${escapeHtml(item.title)}">` : `<div class="seva-placeholder">${escapeHtml(item.icon || "🕉️")}</div>`}
+        <div class="card-body">
+          <h3>${escapeHtml(item.title)}</h3>
+          <p>${escapeHtml(item.description || "")}</p>
+        </div>
+      </article>`).join("");
+  } catch (error) {
+    grid.innerHTML = `<div class="message show error">${escapeHtml(error.message)}</div>`;
+  }
+}
+
+function openSevaDetail(id) {
+  const item = sevaData.find((x) => String(x.id) === String(id));
+  if (item) renderSevaDetail(item);
+}
+
+function renderSevaDetail(item) {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">सेवा विवरण</h1>
+          <button class="close-interface" onclick="renderSevaInterface()">← वापस</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <h2 style="color:var(--gold2)">${escapeHtml(item.title)}</h2>
+            <p style="color:var(--muted);line-height:1.9;white-space:pre-line;">${escapeHtml(item.description || "")}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderAboutInterface() {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">${escapeHtml(siteContent.about_title || "OUMJYOTI के बारे में")}</h1>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <p style="color:var(--muted);line-height:2;white-space:pre-line;">${escapeHtml(siteContent.about_text || "OUMJYOTI भक्ति, सेवा और मानवता को एक साथ जोड़ने वाला सेवा प्रयास है।")}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderPrivacyInterface() {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">Privacy Policy</h1>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <p style="color:var(--muted);line-height:1.8;">आपकी व्यक्तिगत जानकारी (जैसे ईमेल, मोबाइल, पैन, आधार) encrypted फॉर्म में पूरी तरह सुरक्षित रखी जाती है और किसी भी तीसरे पक्ष के साथ साझा नहीं की जाती।</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `);
+}
+
+function renderFeedbackInterface() {
+  if (!currentUser) {
+    showInterface(`
+      <div class="interface-page">
+        <div class="interface-inner">
+          <div class="interface-top">
+            <h1 class="interface-title">Feedback</h1>
+            <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+          </div>
+          <div class="auth-wrap">
+            <div class="card auth-card">
+              <div class="message show">Feedback भेजने के लिए पहले Login करें।</div>
+              <button class="btn btn-primary" onclick="renderLoginInterface()">Login करें</button>
+            </div>
+          </div>
+        </div>
+      </div>`);
+    return;
+  }
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">Feedback</h1>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div class="auth-wrap">
+          <div class="card auth-card">
+            <div id="feedbackResult" class="message"></div>
+            <form onsubmit="submitFeedback(event)">
+              <div class="form-group"><label>Mobile</label><input class="form-control" name="mobile" value="${escapeHtml(currentUser.mobile || "")}" required></div>
+              <div class="form-group"><label>Email</label><input class="form-control" name="email" type="email" value="${escapeHtml(currentUser.email || "")}" required></div>
+              <div class="form-group"><label>Message</label><textarea class="form-control" name="message" required></textarea></div>
+              <button class="btn btn-primary" type="submit">Send Feedback</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>`);
+}
+
+async function submitFeedback(e) {
+  e.preventDefault();
+  const form = e.target;
+  const result = document.getElementById("feedbackResult");
+  const formData = new FormData(form);
+  result.className = "message show";
+  result.textContent = "Feedback भेजा जा रहा है...";
+  try {
+    const data = await apiFetch("/api/feedback", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mobile: formData.get("mobile"),
+        email: formData.get("email"),
+        message: formData.get("message")
+      })
+    });
+    result.className = "message show success";
+    result.textContent = data.message || "Feedback submitted";
+    form.reset();
+  } catch (err) {
+    result.className = "message show error";
+    result.textContent = err.message;
+  }
+}
+
+function renderLoginInterface(mode = "login") {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">OUMJYOTI Account</h1>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div class="auth-wrap">
+          <div class="card auth-card">
+            <div class="auth-tabs">
+              <button class="${mode === "login" ? "active" : ""}" onclick="renderLoginInterface('login')">Login</button>
+              <button class="${mode === "register" ? "active" : ""}" onclick="renderLoginInterface('register')">Register</button>
+            </div>
+            ${mode === "register" ? registerFormHtml() : loginFormHtml()}
+          </div>
+        </div>
+      </div>
+    </div>`);
+}
+
+function loginFormHtml() {
+  return `
+    <div id="loginResult" class="message"></div>
+    <form onsubmit="loginUser(event)">
+      <div class="form-group"><label>Mobile</label><input id="loginIdentity" class="form-control" type="tel" required></div>
+      <div class="form-group"><label>Password</label><input id="loginPassword" class="form-control" type="password" required></div>
+      <button class="btn btn-primary" type="submit" style="width:100%">Login</button>
+    </form>`;
+}
+
+function registerFormHtml() {
+  return `
+    <div id="registerResult" class="message"></div>
+    <form onsubmit="registerUser(event)">
+      <div class="form-group"><label>Name</label><input class="form-control" name="name" required></div>
+      <div class="form-group"><label>Place</label><input class="form-control" name="place" required></div>
+      <div class="form-group"><label>Email</label><input class="form-control" name="email" type="email" required></div>
+      <div class="form-group"><label>Mobile</label><input class="form-control" name="mobile" required></div>
+      <div class="form-group"><label>Password</label><input class="form-control" name="password" type="password" required></div>
+      <button class="btn btn-primary" type="submit" style="width:100%">Register</button>
+    </form>`;
+}
+
+async function loginUser(e) {
+  e.preventDefault();
+  const result = document.getElementById("loginResult");
+  const identity = document.getElementById("loginIdentity").value.trim();
+  const password = document.getElementById("loginPassword").value;
+  result.className = "message show";
+  result.textContent = "Login हो रहा है...";
+  try {
+    const response = await fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ identifier: identity, password })
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Login failed");
+    currentUser = data.user;
+    updateAuthButton();
+    openDashboard(currentUser);
+  } catch (err) {
+    result.className = "message show error";
+    result.textContent = err.message;
+  }
+}
+
+async function registerUser(e) {
+  e.preventDefault();
+  const result = document.getElementById("registerResult");
+  const formData = new FormData(e.target);
+  result.className = "message show";
+  result.textContent = "Registering...";
+  try {
+    const response = await fetch("/api/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(formData))
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.error || "Registration failed");
+    result.className = "message show success";
+    result.textContent = "Success! Please login.";
+    setTimeout(() => renderLoginInterface("login"), 1000);
+  } catch (err) {
+    result.className = "message show error";
+    result.textContent = err.message;
+  }
+}
+
+async function openDashboard(user) {
+  currentUser = user;
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <div><h1 class="interface-title">Dashboard</h1><span class="user-badge">${escapeHtml(user.name)} (${escapeHtml(user.role)})</span></div>
+          <button class="close-interface" onclick="closeInterface()">✕ बंद करें</button>
+        </div>
+        <div id="dashboardMenu" class="dashboard-menu"></div>
+      </div>
+    </div>`);
+  renderDashboardMenu(user);
+}
+
+function renderDashboardMenu(user) {
+  const menu = document.getElementById("dashboardMenu");
+  if (!menu) return;
+  let items = [];
+  if (user.role === "admin") {
+    items.push(dashboardItem("👥", "Members", "Manage members", "adminMembers"));
+    items.push(dashboardItem("💬", "Feedback", "Manage feedback", "adminFeedback"));
+    items.push(dashboardItem("🌐", "Website", "Manage site settings", "adminWebsite"));
+  }
+  items.push(dashboardItem("🚪", "Logout", "Logout account", "logout"));
+  menu.innerHTML = items.join("");
+}
+
+function dashboardItem(icon, title, desc, action) {
+  return `<button class="dashboard-item" onclick="dashboardAction('${action}')"><b>${icon} ${escapeHtml(title)}</b><span>${escapeHtml(desc)}</span></button>`;
+}
+
+function dashboardAction(action) {
+  if (action === "adminMembers") renderAdminMembers();
+  if (action === "adminFeedback") renderAdminFeedback();
+  if (action === "adminWebsite") renderAdminWebsite();
+  if (action === "logout") logoutUser();
+}
+
+async function renderAdminMembers() {
+  showInterface(`<div class="interface-page"><div class="interface-inner"><h1>Members</h1><div id="membersTable">Loading...</div></div></div>`);
+  try {
+    const data = await apiFetch("/api/admin/members");
+    const box = document.getElementById("membersTable");
+    box.innerHTML = `<div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Mobile</th></tr></thead><tbody>${(data.members||[]).map(m=>`<tr><td>${escapeHtml(m.name)}</td><td>${escapeHtml(m.email)}</td><td>${escapeHtml(m.mobile)}</td></tr>`).join('')}</tbody></table></div>`;
+  } catch (e) { console.error(e); }
+}
+
+async function renderAdminFeedback() {
+  showInterface(`<div class="interface-page"><div class="interface-inner"><h1>Feedback</h1><div id="feedbackTable">Loading...</div></div></div>`);
+  try {
+    const data = await apiFetch("/api/admin/feedback");
+    const box = document.getElementById("feedbackTable");
+    box.innerHTML = `<div class="table-wrap"><table><thead><tr><th>User</th><th>Message</th></tr></thead><tbody>${(data.feedback||[]).map(f=>`<tr><td>${escapeHtml(f.email)}</td><td>${escapeHtml(f.message)}</td></tr>`).join('')}</tbody></table></div>`;
+  } catch (e) { console.error(e); }
+}
+
+async function renderAdminWebsite() {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+        <div class="interface-top">
+          <h1 class="interface-title">Website Management</h1>
+          <button class="close-interface" onclick="openDashboard(currentUser)">← Dashboard</button>
+        </div>
+        <div id="websiteManagementBox" class="card auth-card"><div class="loader"></div></div>
+      </div>
+    </div>`);
+  await loadWebsiteManagement();
+}
+
+async function loadWebsiteManagement() {
+  const box = document.getElementById("websiteManagementBox");
+  try {
+    const data = await apiFetch("/api/admin/site-content");
+    const c = data.content || {};
+    box.innerHTML = `
+      <div id="websiteSaveResult" class="message"></div>
+      <form onsubmit="saveWebsiteContent(event)">
+        <div class="form-group"><label>Hero Title</label><input class="form-control" name="hero_title" value="${escapeHtml(c.hero_title || '')}"></div>
+        <div class="form-group"><label>Hero Text</label><textarea class="form-control" name="hero_text">${escapeHtml(c.hero_text || '')}</textarea></div>
+        <div class="form-group"><label>About Title</label><input class="form-control" name="about_title" value="${escapeHtml(c.about_title || '')}"></div>
+        <div class="form-group"><label>About Text</label><textarea class="form-control" name="about_text">${escapeHtml(c.about_text || '')}</textarea></div>
+        <button class="btn btn-primary" type="submit">Save Settings</button>
+      </form>`;
+  } catch (err) {
+    box.innerHTML = `<div class="message show error">${escapeHtml(err.message)}</div>`;
+  }
+}
+
+async function saveWebsiteContent(e) {
+  e.preventDefault();
+  const result = document.getElementById("websiteSaveResult");
+  const formData = new FormData(e.target);
+  result.className = "message show";
+  result.textContent = "Saving...";
+  try {
+    await apiFetch("/api/admin/site-content", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(formData))
+    });
+    result.className = "message show success";
+    result.textContent = "Settings updated successfully!";
+    await loadSiteContent();
+  } catch (err) {
+    result.className = "message show error";
+    result.textContent = err.message;
+  }
+}
+
+async function logoutUser() {
+  try {
+    await apiFetch("/api/logout", { method: "POST" });
+  } catch (e) {}
+  currentUser = null;
+  updateAuthButton();
+  closeInterface();
+}
+</script>
+</body>
+</html>      margin: 15px 0;  
       color: var(--muted);  
     }  
   
