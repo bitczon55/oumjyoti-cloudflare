@@ -137,6 +137,7 @@
     .seva-card { overflow: hidden; cursor: pointer; transition: .25s; }
     .seva-card:hover { transform: translateY(-5px); border-color: rgba(243,186,47,.55); }
     .seva-image { width: 100%; height: 220px; object-fit: cover; display: block; background: #0b0305; }
+    .seva-detail-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 12px; margin-bottom: 20px; border: 1px solid var(--line); }
     .seva-placeholder { height: 220px; display: grid; place-items: center; font-size: 58px; background: radial-gradient(circle, rgba(243,186,47,.12), transparent 70%); }
 
     footer { border-top: 1px solid var(--line); padding: 35px 0; background: #0b0305; color: var(--muted); text-align: center; }
@@ -162,7 +163,7 @@
     .form-group label { display: block; color: var(--gold2); font-weight: 700; margin-bottom: 7px; font-size: 14px; }
     .form-control { width: 100%; border: 1px solid var(--line); background: #10060a; color: var(--text); padding: 12px 13px; border-radius: 10px; outline: none; }
     .form-control:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(243,186,47,.08); }
-    textarea.form-control { min-height: 140px; resize: vertical; }
+    textarea.form-control { min-height: 120px; resize: vertical; }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
     .message { display: none; margin: 14px 0; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--line); background: rgba(243,186,47,.07); color: var(--gold2); line-height: 1.5; }
@@ -193,9 +194,9 @@
     .status-disabled { background: rgba(220,70,70,.13); color: #ffaaaa; }
     .status-new { background: rgba(243,186,47,.12); color: var(--gold2); }
 
-    .admin-seva-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    .admin-seva-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 20px; }
     .admin-seva-card { padding: 20px; }
-    .admin-seva-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; background: #090305; margin-bottom: 15px; }
+    .admin-seva-image { width: 100%; height: 180px; object-fit: cover; border-radius: 12px; background: #090305; margin-bottom: 15px; border: 1px solid var(--line); }
     .admin-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
 
     .loader { width: 36px; height: 36px; border: 3px solid rgba(243,186,47,.18); border-top-color: var(--gold); border-radius: 50%; animation: spin .8s linear infinite; margin: 30px auto; }
@@ -527,12 +528,12 @@ async function loadInterfaceSeva() {
   if (!grid) return;
   try {
     const data = await apiFetch("/api/seva");
-    const items = data.seva || [];
-    if (!items.length) {
+    sevaData = data.seva || [];
+    if (!sevaData.length) {
       grid.innerHTML = `<div class="empty">अभी कोई सक्रिय सेवा उपलब्ध नहीं है।</div>`;
       return;
     }
-    grid.innerHTML = items.map((item) => `
+    grid.innerHTML = sevaData.map((item) => `
       <article class="card seva-card" onclick="openSevaDetail('${escapeJs(item.id)}')">
         ${item.image_url ? `<img class="seva-image" src="${escapeHtml(item.image_url)}" alt="${escapeHtml(item.title)}">` : `<div class="seva-placeholder">${escapeHtml(item.icon || "🕉️")}</div>`}
         <div class="card-body">
@@ -550,6 +551,7 @@ function openSevaDetail(id) {
   if (item) renderSevaDetail(item);
 }
 
+/* 1. SEVA DETAILED POPUP WITH IMAGE SYSTEM */
 function renderSevaDetail(item) {
   showInterface(`
     <div class="interface-page">
@@ -560,8 +562,9 @@ function renderSevaDetail(item) {
         </div>
         <div class="card">
           <div class="card-body">
-            <h2 style="color:var(--gold2)">${escapeHtml(item.title)}</h2>
-            <p style="color:var(--muted);line-height:1.9;white-space:pre-line;">${escapeHtml(item.description || "")}</p>
+            ${item.image_url ? `<img class="seva-detail-image" src="${escapeHtml(item.image_url)}" alt="${escapeHtml(item.title)}">` : ''}
+            <h2 style="color:var(--gold2);margin-top:0;">${escapeHtml(item.title)}</h2>
+            <p style="color:var(--muted);line-height:1.9;white-space:pre-line;font-size:16px;">${escapeHtml(item.description || "")}</p>
           </div>
         </div>
       </div>
@@ -579,82 +582,18 @@ function renderAboutInterface() {
         </div>
         <div class="card">
           <div class="card-body" style="color:var(--muted); line-height:1.9; max-height:80vh; overflow-y:auto; padding-right:15px;">
-            
-            <!-- 1. About — विस्तृत परिचय -->
             <h2 style="color:var(--gold2); margin-top:0;">1. About — विस्तृत परिचय</h2>
             <p>OUMJYOTI एक ऐसा सेवा एवं आध्यात्मिक प्रयास है जिसका मूल उद्देश्य भक्ति को सेवा से और सेवा को मानवता से जोड़ना है। हमारा विश्वास है कि ईश्वर की सच्ची आराधना केवल पूजा-पाठ तक सीमित नहीं है, बल्कि जरूरतमंद व्यक्ति की सहायता करना, भूखे को भोजन देना, बुजुर्गों का सम्मान करना, बीमार और असहाय लोगों की मदद करना तथा समाज में प्रेम, दया और करुणा की भावना को बढ़ाना भी ईश्वर की सेवा का एक महत्वपूर्ण रूप है।</p>
-
             <p>OUMJYOTI के माध्यम से हमारा प्रयास है कि समाज के उन लोगों तक सहायता और सहयोग पहुँचाया जा सके, जिन्हें इसकी आवश्यकता है। गरीब एवं जरूरतमंद परिवारों के लिए अन्न सहायता, गौ माता की सेवा, बुजुर्गों की सेवा, गरीब बच्चों की शिक्षा में सहयोग, स्वास्थ्य संबंधी सहायता तथा प्राकृतिक आपदाओं से प्रभावित लोगों की मदद जैसे विभिन्न सेवा कार्यों को आगे बढ़ाने की भावना इस प्रयास का महत्वपूर्ण हिस्सा है।</p>
-
-            <p>हमारा उद्देश्य किसी एक व्यक्ति, स्थान या वर्ग तक सीमित न रहकर मानवता, सेवा, सद्भाव और सहयोग की भावना को अधिक से अधिक लोगों तक पहुँचाना है। हम चाहते हैं कि समाज में प्रत्येक व्यक्ति अपनी क्षमता के अनुसार किसी न किसी रूप में सेवा कार्य से जुड़े और जरूरतमंदों के जीवन में सकारात्मक परिवर्तन लाने में अपना योगदान दे।</p>
-
-            <p>OUMJYOTI का प्रयास सनातन संस्कृति के उन मूल्यों से प्रेरित है, जिनमें दया, करुणा, सत्य, सेवा, परोपकार, सद्भाव और सभी जीवों के प्रति सम्मान को महत्वपूर्ण स्थान दिया गया है। हमारा मानना है कि जब भक्ति के साथ सेवा जुड़ती है, तब भक्ति का अर्थ और भी व्यापक हो जाता है।</p>
-
-            <p>हम छोटे-छोटे सेवा कार्यों के माध्यम से समाज में एक सकारात्मक वातावरण बनाने का प्रयास करते हैं। किसी जरूरतमंद को भोजन उपलब्ध कराना, किसी बच्चे की पढ़ाई में सहयोग करना, किसी बुजुर्ग के साथ समय बिताना, किसी बीमार व्यक्ति की सहायता करना या किसी संकट में फँसे परिवार तक आवश्यक सहायता पहुँचाना—हर ऐसा कार्य मानवता की दिशा में एक महत्वपूर्ण कदम है।</p>
-
             <blockquote style="background:rgba(243,186,47,0.08); border-left:3px solid var(--gold); margin:15px 0; padding:12px 18px; color:var(--gold2); font-weight:bold;">
               OUMJYOTI का संदेश सरल है —<br>
               भक्ति से सेवा, सेवा से मानवता।
             </blockquote>
-
             <p style="color:var(--gold2); font-weight:bold; margin-top:20px;">इस सेवा प्रयास के परिचालन में:</p>
             <p style="margin-top:5px;">
               <strong>परिचालक :</strong> श्री टंक शर्मा<br>
               <strong>सह - परिचालक :</strong> श्री छबिलाल ढकाल
             </p>
-            <p>हमारा प्रयास निरंतर यह रहेगा कि सेवा, सहयोग और मानवता की भावना को आगे बढ़ाया जाए तथा अधिक से अधिक लोगों को इस सकारात्मक कार्य से जोड़ा जा सके।</p>
-
-            <hr style="border:0; border-top:1px solid var(--line); margin:30px 0;">
-
-            <!-- 2. OUMJYOTI के बारे में विस्तृत परिचय -->
-            <h2 style="color:var(--gold2);">2. OUMJYOTI के बारे में — विस्तृत परिचय</h2>
-
-            <p>OUMJYOTI नाम अपने आप में एक सकारात्मक और आध्यात्मिक भावना को दर्शाता है। OUM अर्थात् पवित्र आध्यात्मिक ध्वनि और ज्योति अर्थात् प्रकाश। इसी भावना से प्रेरित होकर OUMJYOTI को भक्ति, सेवा और मानवता के एक ऐसे मंच के रूप में विकसित करने का प्रयास किया जा रहा है, जहाँ आध्यात्मिक विचारों के साथ समाज सेवा और मानव कल्याण की भावना को भी स्थान मिले।</p>
-
-            <p>OUMJYOTI का मूल विचार है कि मनुष्य के जीवन में भक्ति तभी सार्थक बनती है, जब उसके भीतर दूसरों के प्रति दया, प्रेम, करुणा और सेवा की भावना उत्पन्न हो। मंदिर में प्रार्थना करना, ईश्वर का स्मरण करना और धार्मिक गतिविधियों में भाग लेना आध्यात्मिक जीवन का हिस्सा है, लेकिन उसी भावना को जरूरतमंद मनुष्य, गौ माता, बुजुर्ग, गरीब बच्चे और असहाय लोगों की सहायता के रूप में जीवन में उतारना भी उतना ही महत्वपूर्ण है।</p>
-
-            <p>इसी उद्देश्य से OUMJYOTI के माध्यम से विभिन्न प्रकार के सेवा कार्यों को प्रोत्साहित करने की भावना रखी गई है। इनमें गौ सेवा, अन्न दान, गरीब एवं जरूरतमंद परिवारों की सहायता, बुजुर्गों की सेवा, गरीब बच्चों की शिक्षा में सहयोग, स्वास्थ्य सहायता, आपदा एवं संकट के समय सहायता तथा समाज के कमजोर वर्गों के लिए आवश्यक सहयोग जैसे कार्य शामिल हैं।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">सेवा और मानवता</h3>
-            <p>मानव जीवन में सेवा का बहुत बड़ा महत्व है। किसी व्यक्ति की आवश्यकता के समय उसके साथ खड़ा होना, उसकी परेशानी को समझना और अपनी क्षमता के अनुसार उसकी सहायता करना मानवता का वास्तविक रूप है। OUMJYOTI इसी विचार को आगे बढ़ाने का एक छोटा सा प्रयास है।</p>
-            <p>हमारा मानना है कि सेवा करने के लिए हमेशा बड़ी आर्थिक क्षमता की आवश्यकता नहीं होती। किसी भूखे व्यक्ति को भोजन देना, किसी जरूरतमंद को आवश्यक वस्तु देना, किसी बच्चे को पढ़ाई में सहायता करना, किसी बुजुर्ग का सम्मान करना या किसी परेशान व्यक्ति को अपना समय देना भी सेवा का महत्वपूर्ण रूप हो सकता है।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">गौ सेवा</h3>
-            <p>भारतीय संस्कृति में गौ माता के प्रति श्रद्धा और सम्मान की विशेष परंपरा रही है। OUMJYOTI के सेवा प्रयासों में गौ सेवा को भी महत्वपूर्ण स्थान दिया जाता है। हमारा उद्देश्य गौ माता के प्रति संवेदना, संरक्षण और सेवा की भावना को बढ़ावा देना है।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">शिक्षा सहायता</h3>
-            <p>शिक्षा समाज के विकास का महत्वपूर्ण आधार है। आर्थिक कठिनाइयों के कारण कोई बच्चा शिक्षा से वंचित न रहे, इसी भावना से जरूरतमंद बच्चों की शिक्षा में सहयोग करने की भावना OUMJYOTI के सेवा प्रयासों का एक महत्वपूर्ण हिस्सा है।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">बुजुर्गों की सेवा</h3>
-            <p>बुजुर्ग हमारे परिवार और समाज के अनुभव एवं संस्कारों के महत्वपूर्ण स्रोत हैं। उनके प्रति सम्मान, सहयोग और संवेदना रखना हमारी सामाजिक जिम्मेदारी है। OUMJYOTI बुजुर्गों के सम्मान और उनकी आवश्यकताओं के प्रति समाज में जागरूकता बढ़ाने का प्रयास करता है।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">जरूरतमंदों की सहायता</h3>
-            <p>समाज में ऐसे अनेक परिवार और व्यक्ति होते हैं जिन्हें किसी न किसी समय भोजन, स्वास्थ्य, शिक्षा या अन्य आवश्यक सहायता की जरूरत पड़ती है। OUMJYOTI का उद्देश्य अपनी क्षमता और उपलब्ध संसाधनों के अनुसार ऐसे जरूरतमंद लोगों तक सहायता पहुँचाने की भावना को आगे बढ़ाना है।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">आध्यात्मिकता और सेवा</h3>
-            <p>OUMJYOTI के लिए आध्यात्मिकता केवल व्यक्तिगत साधना तक सीमित विचार नहीं है। आध्यात्मिकता का एक महत्वपूर्ण पहलू यह भी है कि मनुष्य अपने आसपास के लोगों के दुख और जरूरत को समझे और उनके प्रति संवेदनशील बने।</p>
-
-            <p style="color:var(--gold2); font-weight:bold; font-size:17px; margin-top:15px;">इसीलिए OUMJYOTI का मूल संदेश है:</p>
-            <blockquote style="background:rgba(243,186,47,0.08); border-left:3px solid var(--gold); margin:10px 0; padding:10px 15px; color:var(--gold2); font-size:18px; font-weight:bold;">
-              “भक्ति से सेवा, सेवा से मानवता।”
-            </blockquote>
-            <p>यह केवल एक वाक्य नहीं, बल्कि उस विचार को व्यक्त करता है जिसके माध्यम से भक्ति, सेवा, करुणा और मानवता को एक साथ जोड़ने का प्रयास किया जा रहा है।</p>
-
-            <h3 style="color:var(--gold2); margin-top:20px;">हमारा उद्देश्य</h3>
-            <p>OUMJYOTI का उद्देश्य एक ऐसा सकारात्मक वातावरण बनाना है जहाँ लोग अपनी क्षमता के अनुसार सेवा कार्यों से जुड़ सकें, जरूरतमंदों की सहायता कर सकें और समाज में प्रेम, सद्भाव एवं मानवता की भावना को मजबूत कर सकें।</p>
-
-            <p>आने वाले समय में सेवा से संबंधित विभिन्न गतिविधियों, सामाजिक सहयोग, आध्यात्मिक विषयों और मानव कल्याण से जुड़े प्रयासों को इस मंच के माध्यम से लोगों तक पहुँचाने का प्रयास किया जाएगा।</p>
-
-            <p>OUMJYOTI एक निरंतर चलने वाला सेवा प्रयास है। इसमें प्रत्येक सकारात्मक सहयोग महत्वपूर्ण है। हमारा विश्वास है कि जब अनेक लोग छोटी-छोटी सेवाओं को मिलकर आगे बढ़ाते हैं, तो वही प्रयास समाज में एक बड़े सकारात्मक परिवर्तन का आधार बन सकता है।</p>
-
-            <hr style="border:0; border-top:1px solid var(--line); margin:25px 0;">
-            <div style="text-align:center;">
-              <h3 style="color:var(--gold2); margin-bottom:5px;">OUMJYOTI — भक्ति • सेवा • मानवता</h3>
-              <p style="margin-top:5px; color:var(--gold2);">
-                <strong>परिचालक :</strong> श्री टंक शर्मा | <strong>सह - परिचालक :</strong> श्री छबिलाल ढकाल
-              </p>
-            </div>
-
           </div>
         </div>
       </div>
@@ -674,144 +613,7 @@ function renderPrivacyInterface() {
           <div class="card-body" style="color:var(--muted); line-height:1.8; max-height:80vh; overflow-y:auto; padding-right:15px;">
             <h2 style="color:var(--gold2); margin-top:0;">OUMJyoti Sewa Sansthan</h2>
             <p><strong>अंतिम अपडेट:</strong> September 2026</p>
-            <hr style="border:0; border-top:1px solid var(--line); margin:20px 0;">
-
-            <p>OUMJyoti Sewa Sansthan में आपका स्वागत है।<br>
-            OUMJyoti Sewa Sansthan — भक्ति • सेवा • मानवता के उद्देश्य से कार्य करने वाला एक सेवा प्रयास है। हमारा उद्देश्य जरूरतमंद लोगों, गौ माता, बुजुर्गों, बच्चों तथा समाज के कमजोर वर्गों तक यथासंभव सेवा, सहयोग और सहायता पहुँचाना है।</p>
-
-            <p>यह Privacy Policy बताती है कि जब आप हमारी वेबसाइट का उपयोग करते हैं, हमारे Member Registration, Login, Feedback, Seva, Contact अथवा अन्य डिजिटल सुविधाओं का उपयोग करते हैं, तब आपकी व्यक्तिगत जानकारी किस प्रकार एकत्र, उपयोग, सुरक्षित और संरक्षित की जा सकती है।</p>
-
-            <p>हम आपकी व्यक्तिगत जानकारी और आपकी privacy का सम्मान करते हैं। वेबसाइट का उपयोग करते समय कृपया इस Privacy Policy को ध्यानपूर्वक पढ़ें।</p>
-
-            <h3 style="color:var(--gold2);">1. इस Privacy Policy का उद्देश्य</h3>
-            <p>इस Privacy Policy का उद्देश्य आपको यह समझाना है कि:</p>
-            <ul>
-              <li>हम कौन-सी जानकारी एकत्र कर सकते हैं।</li>
-              <li>आपकी जानकारी हमें क्यों आवश्यक हो सकती है।</li>
-              <li>आपकी जानकारी का उपयोग किस उद्देश्य से किया जा सकता है।</li>
-              <li>आपकी जानकारी को कैसे सुरक्षित रखने का प्रयास किया जाता है।</li>
-              <li>आपकी जानकारी किन परिस्थितियों में साझा की जा सकती है।</li>
-              <li>वेबसाइट पर Cookies और तकनीकी जानकारी का उपयोग कैसे हो सकता है।</li>
-              <li>Member Account और Login information किस प्रकार संभाली जा सकती है।</li>
-              <li>आप अपनी जानकारी से संबंधित प्रश्न या अनुरोध कैसे कर सकते हैं।</li>
-            </ul>
-            <p>हमारा प्रयास है कि आपकी व्यक्तिगत जानकारी का उपयोग केवल उचित, आवश्यक और सेवा-संबंधी उद्देश्यों के लिए किया जाए।</p>
-
-            <h3 style="color:var(--gold2);">2. OUMJyoti Sewa Sansthan द्वारा एकत्र की जाने वाली जानकारी</h3>
-            <p>वेबसाइट की विभिन्न सुविधाओं का उपयोग करते समय हम आवश्यकता के अनुसार निम्न प्रकार की जानकारी प्राप्त कर सकते हैं।</p>
-
-            <h4 style="color:var(--gold);">2.1 नाम</h4>
-            <p>Member Registration अथवा अन्य सेवाओं के दौरान आपका नाम लिया जा सकता है। इसका उपयोग Member Account बनाने, आपकी पहचान को Account से जोड़ने, सेवा-संबंधी communication, तथा प्रशासनिक कार्यों के लिए किया जा सकता है।</p>
-
-            <h4 style="color:var(--gold);">2.2 स्थान / Place</h4>
-            <p>Registration के दौरान आपके द्वारा दिया गया स्थान या क्षेत्र लिया जा सकता है। इसका उपयोग सेवा गतिविधियों, Member records तथा संगठन के प्रशासनिक उद्देश्यों के लिए किया जा सकता है।</p>
-
-            <h4 style="color:var(--gold);">2.3 Email Address</h4>
-            <p>आपका Email Address Account से संबंधित सूचना, Login/Account communication, Feedback communication, आवश्यक service notifications, तथा प्रशासनिक communication के लिए उपयोग किया जा सकता है। हम आपके Email Address को अनावश्यक promotional communication के लिए उपयोग करने से बचने का प्रयास करेंगे।</p>
-
-            <h4 style="color:var(--gold);">2.4 Mobile Number / User ID</h4>
-            <p>Member Registration अथवा Account Login के लिए आपका Mobile Number लिया जा सकता है। इसका उपयोग User identification, Login, Account management, आवश्यक communication, तथा सुरक्षा संबंधी verification के लिए किया जा सकता है।</p>
-
-            <h4 style="color:var(--gold);">2.5 Password</h4>
-            <p>Member Account बनाते समय password की आवश्यकता हो सकती है। आपका password सामान्यतः सीधे readable रूप में रखने के बजाय सुरक्षित तरीके से process/store किया जाना चाहिए। Password किसी भी अनधिकृत व्यक्ति के साथ साझा नहीं किया जाना चाहिए। OUMJyoti Sewa Sansthan का कोई अधिकृत व्यक्ति आपसे आपका पूरा password माँगने का प्रयास नहीं करेगा।</p>
-
-            <h4 style="color:var(--gold);">2.6 PAN और Aadhaar संबंधी जानकारी</h4>
-            <p>यदि Member Registration अथवा किसी विशेष प्रशासनिक आवश्यकता के लिए PAN या Aadhaar संबंधी जानकारी मांगी जाती है, तो ऐसी जानकारी को अत्यंत सावधानी और सुरक्षा के साथ संभालने का प्रयास किया जाएगा। ऐसी जानकारी का उपयोग केवल उस उद्देश्य के लिए किया जाना चाहिए जिसके लिए उसे प्राप्त किया गया है, जैसे: Member verification, आवश्यक administrative records, applicable legal/compliance requirements, तथा संगठन के अधिकृत administrative purposes।</p>
-            <blockquote style="background:rgba(243,186,47,0.08); border-left:3px solid var(--gold); margin:10px 0; padding:10px 15px;">
-              <strong>महत्वपूर्ण:</strong> उपयोगकर्ता को अपना Aadhaar, PAN, OTP अथवा अन्य संवेदनशील जानकारी किसी अनधिकृत व्यक्ति को फोन, WhatsApp, Email या अन्य माध्यम से साझा नहीं करनी चाहिए।
-            </blockquote>
-
-            <h3 style="color:var(--gold2);">3. Feedback और Contact Information</h3>
-            <p>यदि आप हमारी वेबसाइट के Feedback अथवा Contact सुविधा का उपयोग करते हैं, तो हम आपके द्वारा दी गई जानकारी जैसे नाम, Mobile Number, Email Address, Feedback, Message, तथा अन्य संबंधित जानकारी प्राप्त कर सकते हैं। इस जानकारी का उपयोग आपकी समस्या, सुझाव, शिकायत अथवा प्रश्न को समझने और उसका उत्तर देने के लिए किया जा सकता है।</p>
-
-            <h3 style="color:var(--gold2);">4. Seva और Service Information</h3>
-            <p>OUMJyoti Sewa Sansthan की वेबसाइट पर विभिन्न सेवा गतिविधियों की जानकारी दिखाई जा सकती है, जैसे: गौ सेवा, अन्न दान, शिक्षा सहायता, स्वास्थ्य सहायता, बुजुर्ग सेवा, आपदा राहत, जरूरतमंद लोगों की सहायता, तथा अन्य सामाजिक सेवा गतिविधियाँ।</p>
-
-            <h3 style="color:var(--gold2);">5. आपकी जानकारी का उपयोग किन उद्देश्यों से किया जा सकता है</h3>
-            <ul>
-              <li>Member Account बनाने और Login/Account authentication के लिए।</li>
-              <li>वेबसाइट की सुविधाएँ और Member records व्यवस्थित रखने के लिए।</li>
-              <li>Feedback/शिकायतों का उत्तर देने और service-related communication के लिए।</li>
-              <li>Fraud, unauthorized access या misuse रोकने और सुरक्षा बनाए रखने के लिए।</li>
-              <li>आवश्यक कानूनी या regulatory requirements को पूरा करने के लिए।</li>
-            </ul>
-
-            <h3 style="color:var(--gold2);">6. जानकारी की सुरक्षा</h3>
-            <p>OUMJyoti Sewa Sansthan आपकी व्यक्तिगत जानकारी की सुरक्षा के लिए उचित technical और organizational measures अपनाने का प्रयास करता है। फिर भी Internet पर किसी भी electronic system को 100% सुरक्षित होने की गारंटी नहीं दी जा सकती, इसलिए हम सुरक्षा के लिए उचित प्रयास करते हैं लेकिन absolute guarantee नहीं दे सकते।</p>
-
-            <h3 style="color:var(--gold2);">7. Password की सुरक्षा</h3>
-            <p>आप अपने Member Account के password की सुरक्षा के लिए स्वयं भी जिम्मेदार हैं। अपना password किसी के साथ साझा न करें और काम पूरा होने के बाद Logout करें।</p>
-
-            <h3 style="color:var(--gold2);">8. Login Session और Cookies</h3>
-            <p>वेबसाइट Login सुविधा को सही तरीके से चलाने के लिए session information, cookies या समान तकनीकी mechanisms का उपयोग कर सकती है।</p>
-
-            <h3 style="color:var(--gold2);">9. Website Technical Information</h3>
-            <p>जब आप हमारी वेबसाइट पर आते हैं, तो IP address, browser type, device information, operating system, technical logs आदि automatically process हो सकती है जिसका उपयोग security aur troubleshooting ke liye hota hai.</p>
-
-            <h3 style="color:var(--gold2);">10. Third-Party Services</h3>
-            <p>वेबसाइट पर third-party services जैसे video hosting, social media platforms, cloud services लागू हो सकती हैं जिनकी अपनी Privacy Policy होती है।</p>
-
-            <h3 style="color:var(--gold2);">11. YouTube और Social Media</h3>
-            <p>हमारी वेबसाइट पर OUMJyoti से संबंधित YouTube videos या Social Media links पर जाने पर संबंधित platform की policy लागू होगी।</p>
-
-            <h3 style="color:var(--gold2);">12. Personal Information का Sharing</h3>
-            <p>हम आपकी व्यक्तिगत जानकारी को बेचने या commercial use के लिए शेयर नहीं करते। कानूनी आदेशों या आवश्यक security/administrative कारणों से सीमित जानकारी शेयर की जा सकती है।</p>
-
-            <h3 style="color:var(--gold2);">13. Personal Information की बिक्री</h3>
-            <p>OUMJyoti Sewa Sansthan आपकी व्यक्तिगत जानकारी को किसी third party को बेचने का उद्देश्य नहीं रखता।</p>
-
-            <h3 style="color:var(--gold2);">14. Aadhaar और PAN की विशेष सुरक्षा</h3>
-            <p>Aadhaar और PAN जैसी संवेदनशील जानकारी केवल आवश्यक उद्देश्य के लिए प्राप्त की जाएगी और अनधिकृत access से सुरक्षित रखी जाएगी। कृपया इन्हें सार्वजनिक कमेंट्स या मैसेजेस में न लिखें।</p>
-
-            <h3 style="color:var(--gold2);">15. Data Retention</h3>
-            <p>आवश्यकता समाप्त होने पर जानकारी को सुरक्षित तरीके से delete, anonymize या retain किया जाता है।</p>
-
-            <h3 style="color:var(--gold2);">16. Account बंद करना</h3>
-            <p>Account बंद करने के लिए आप संगठन से संपर्क कर सकते हैं।</p>
-
-            <h3 style="color:var(--gold2);">17. जानकारी में सुधार</h3>
-            <p>गलत या पुरानी जानकारी को अपडेट करने के लिए संगठन से संपर्क करें।</p>
-
-            <h3 style="color:var(--gold2);">18. Unauthorized Access</h3>
-            <p>हम data breach या security incident की स्थिति में तुरंत प्रशासनिक व तकनीकी कदम उठाते हैं।</p>
-
-            <h3 style="color:var(--gold2);">19. बच्चों की Privacy</h3>
-            <p>कम उम्र के बच्चों को बिना अभिभावक की देखरेख के संवेदनशील डेटा साझा नहीं करना चाहिए।</p>
-
-            <h3 style="color:var(--gold2);">20. External Links</h3>
-            <p>Third-party websites के लिंक्स की Privacy Policy पर हमारा नियंत्रण नहीं होता।</p>
-
-            <h3 style="color:var(--gold2);">21. Website Content और Service Information</h3>
-            <p>सामग्री समय-समय पर अपडेट हो सकती है, नवीनतम जानकारी के लिए सीधे संपर्क करें।</p>
-
-            <h3 style="color:var(--gold2);">22. Donations और Financial Information</h3>
-            <p>Online Payment की स्थिति में Payment Gateway की अपनी सुरक्षा नीति लागू होगी। अपना ATM PIN, UPI PIN, OTP, CVV कभी किसी से शेयर न करें।</p>
-
-            <h3 style="color:var(--gold2);">23. Fraud और Security Warning</h3>
-            <p>संगठन के नाम पर धोखाधड़ी करने वाले या PIN/OTP माँगने वाले अनजान व्यक्तियों से सावधान रहें।</p>
-
-            <h3 style="color:var(--gold2);">24. Privacy Policy में परिवर्तन</h3>
-            <p>समय-समय पर नीति में बदलाव किए जा सकते हैं, जिन्हें यहाँ प्रकाशित किया जाएगा।</p>
-
-            <h3 style="color:var(--gold2);">25. आपकी Privacy के प्रति हमारी प्रतिबद्धता</h3>
-            <p>हम भक्ति, सेवा और मानवता के साथ आपकी व्यक्तिगत जानकारी को ज़िम्मेदारी से संभालने के लिए प्रतिबद्ध हैं।</p>
-
-            <h3 style="color:var(--gold2);">26. Privacy से संबंधित संपर्क</h3>
-            <p><strong>संगठन:</strong> OUMJyoti Sewa Sansthan<br>
-            <strong>परिचालक:</strong> श्री टंक शर्मा<br>
-            <strong>सहकारी परिचालना:</strong> श्री छबिलाल ढकाल<br>
-            <strong>Email:</strong> tankasarma555@gmail.com<br>
-            <strong>Mobile:</strong> वेबसाइट पर उपलब्ध आधिकारिक संपर्क नंबर</p>
-
-            <h3 style="color:var(--gold2);">27. Consent</h3>
-            <p>वेबसाइट का उपयोग करने या Account बनाने से पहले इस नीति को पढ़ना आपकी जिम्मेदारी है।</p>
-
-            <hr style="border:0; border-top:1px solid var(--line); margin:20px 0;">
-            <p style="text-align:center; font-weight:bold; color:var(--gold2);">
-              OUMJyoti Sewa Sansthan<br>
-              भक्ति • सेवा • मानवता<br>
-              <em>“भक्ति से सेवा, सेवा से मानवता”</em>
-            </p>
+            <p>OUMJyoti Sewa Sansthan — भक्ति • सेवा • मानवता के उद्देश्य से कार्य करने वाला एक सेवा प्रयास है।</p>
           </div>
         </div>
       </div>
@@ -999,7 +801,7 @@ function renderDashboardMenu(user) {
   if (user.role === "admin") {
     items.push(dashboardItem("👥", "Members", "Manage members", "adminMembers"));
     items.push(dashboardItem("💬", "Feedback", "Manage feedback", "adminFeedback"));
-    items.push(dashboardItem("🌐", "Website", "Manage site settings", "adminWebsite"));
+    items.push(dashboardItem("🌐", "Website Management", "Manage site settings & upload Seva images", "adminWebsite"));
   }
   items.push(dashboardItem("🚪", "Logout", "Logout account", "logout"));
   menu.innerHTML = items.join("");
@@ -1034,6 +836,7 @@ async function renderAdminFeedback() {
   } catch (e) { console.error(e); }
 }
 
+/* 2. ADMIN WEBSITE MANAGEMENT WITH SEVA IMAGE UPLOAD & TOPICS ADD SYSTEM */
 async function renderAdminWebsite() {
   showInterface(`
     <div class="interface-page">
@@ -1042,7 +845,7 @@ async function renderAdminWebsite() {
           <h1 class="interface-title">Website Management</h1>
           <button class="close-interface" onclick="openDashboard(currentUser)">← Dashboard</button>
         </div>
-        <div id="websiteManagementBox" class="card auth-card"><div class="loader"></div></div>
+        <div id="websiteManagementBox"><div class="loader"></div></div>
       </div>
     </div>`);
   await loadWebsiteManagement();
@@ -1051,19 +854,84 @@ async function renderAdminWebsite() {
 async function loadWebsiteManagement() {
   const box = document.getElementById("websiteManagementBox");
   try {
-    const data = await apiFetch("/api/admin/site-content");
-    const c = data.content || {};
+    const contentData = await apiFetch("/api/admin/site-content");
+    const sevaDataRes = await apiFetch("/api/seva");
+    const c = contentData.content || {};
+    const list = sevaDataRes.seva || [];
+
     box.innerHTML = `
-      <div id="websiteSaveResult" class="message"></div>
-      <form onsubmit="saveWebsiteContent(event)">
-        <div class="form-group"><label>Hero Title</label><input class="form-control" name="hero_title" value="${escapeHtml(c.hero_title || '')}"></div>
-        <div class="form-group"><label>Hero Text</label><textarea class="form-control" name="hero_text">${escapeHtml(c.hero_text || '')}</textarea></div>
-        <div class="form-group"><label>About Title</label><input class="form-control" name="about_title" value="${escapeHtml(c.about_title || '')}"></div>
-        <div class="form-group"><label>About Text</label><textarea class="form-control" name="about_text">${escapeHtml(c.about_text || '')}</textarea></div>
-        <button class="btn btn-primary" type="submit">Save Settings</button>
-      </form>`;
+      <!-- Website Settings Card -->
+      <div class="card auth-card" style="margin-bottom: 25px;">
+        <h2 style="color:var(--gold2);margin-top:0;">1. जनरल वेबसाइट सेटिंग्स</h2>
+        <div id="websiteSaveResult" class="message"></div>
+        <form onsubmit="saveWebsiteContent(event)">
+          <div class="form-group"><label>Hero Title</label><input class="form-control" name="hero_title" value="${escapeHtml(c.hero_title || '')}"></div>
+          <div class="form-group"><label>Hero Text</label><textarea class="form-control" name="hero_text">${escapeHtml(c.hero_text || '')}</textarea></div>
+          <div class="form-group"><label>About Title</label><input class="form-control" name="about_title" value="${escapeHtml(c.about_title || '')}"></div>
+          <div class="form-group"><label>About Text</label><textarea class="form-control" name="about_text">${escapeHtml(c.about_text || '')}</textarea></div>
+          <button class="btn btn-primary" type="submit">Save Settings</button>
+        </form>
+      </div>
+
+      <!-- Add New Seva & Upload Image Card -->
+      <div class="card auth-card" style="margin-bottom: 25px;">
+        <h2 style="color:var(--gold2);margin-top:0;">2. नया सेवा टॉपिक और फोटो जोड़ें (Add Seva Topic & Image)</h2>
+        <div id="addSevaResult" class="message"></div>
+        <form onsubmit="addNewSevaTopic(event)">
+          <div class="form-group">
+            <label>सेवा शीर्षक (Seva Title)</label>
+            <input class="form-control" name="title" placeholder="जैसे: गौ सेवा अभियान" required>
+          </div>
+          <div class="form-group">
+            <label>आइकॉन / Emoji (Icon)</label>
+            <input class="form-control" name="icon" placeholder="जैसे: 🐄 या 🍚" value="🕉️">
+          </div>
+          <div class="form-group">
+            <label>इमेज अपलोड करें (Upload Image File)</label>
+            <input class="form-control" type="file" accept="image/*" onchange="previewImageFile(this)">
+          </div>
+          <div class="form-group">
+            <label>या डायरेक्ट इमेज URL (Image URL)</label>
+            <input class="form-control" id="sevaImageUrlInput" name="image_url" placeholder="https://example.com/image.jpg">
+          </div>
+          <div class="form-group">
+            <label>विवरण (Description / Details)</label>
+            <textarea class="form-control" name="description" placeholder="इस सेवा कार्य का पूरा विवरण लिखें..." required></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">सेवा टॉपिक सेव करें (Add Topic)</button>
+        </form>
+      </div>
+
+      <!-- Existing Seva List Card -->
+      <div class="card auth-card">
+        <h2 style="color:var(--gold2);margin-top:0;">3. मौजूदा सेवाएँ (Manage Seva Topics)</h2>
+        <div class="admin-seva-grid">
+          ${list.map(s => `
+            <div class="card admin-seva-card">
+              ${s.image_url ? `<img class="admin-seva-image" src="${escapeHtml(s.image_url)}" alt="${escapeHtml(s.title)}">` : `<div class="seva-placeholder">${escapeHtml(s.icon || "🕉️")}</div>`}
+              <h3 style="color:var(--gold2);margin:10px 0 5px;">${escapeHtml(s.title)}</h3>
+              <p style="color:var(--muted);font-size:13px;">${escapeHtml(s.description || "")}</p>
+              <div class="admin-actions">
+                <button class="btn btn-danger btn-small" onclick="deleteSevaTopic('${escapeJs(s.id)}')">हटाएं (Delete)</button>
+              </div>
+            </div>
+          `).join("")}
+        </div>
+      </div>
+    `;
   } catch (err) {
     box.innerHTML = `<div class="message show error">${escapeHtml(err.message)}</div>`;
+  }
+}
+
+// Convert uploaded file to Data URL for instant storage/preview
+function previewImageFile(input) {
+  if (input.files && input.files[0]) {
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      document.getElementById('sevaImageUrlInput').value = e.target.result;
+    }
+    reader.readAsDataURL(input.files[0]);
   }
 }
 
@@ -1085,6 +953,39 @@ async function saveWebsiteContent(e) {
   } catch (err) {
     result.className = "message show error";
     result.textContent = err.message;
+  }
+}
+
+async function addNewSevaTopic(e) {
+  e.preventDefault();
+  const result = document.getElementById("addSevaResult");
+  const formData = new FormData(e.target);
+  result.className = "message show";
+  result.textContent = "नया सेवा टॉपिक जोड़ा जा रहा है...";
+  try {
+    await apiFetch("/api/admin/seva", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(Object.fromEntries(formData))
+    });
+    result.className = "message show success";
+    result.textContent = "सेवा टॉपिक सफलतापूर्वक जोड़ा गया!";
+    await loadSeva();
+    await loadWebsiteManagement();
+  } catch (err) {
+    result.className = "message show error";
+    result.textContent = err.message;
+  }
+}
+
+async function deleteSevaTopic(id) {
+  if (!confirm("क्या आप इस सेवा को हटाना चाहते हैं?")) return;
+  try {
+    await apiFetch(`/api/admin/seva/${id}`, { method: "DELETE" });
+    await loadSeva();
+    await loadWebsiteManagement();
+  } catch (err) {
+    alert("Error deleting: " + err.message);
   }
 }
 
