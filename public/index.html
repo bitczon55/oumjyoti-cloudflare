@@ -1,0 +1,6134 @@
+<!DOCTYPE html>  <html lang="hi">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">    <title>OUMJYOTI — भक्ति • सेवा • मानवता</title>  <meta
+name="description"
+content="OUMJYOTI — भक्ति, सेवा और मानवता का दिव्य संगम। गौ सेवा, अन्न दान, शिक्षा, स्वास्थ्य, बुजुर्ग सेवा और आपदा राहत।"
+
+> 
+
+<meta
+name="keywords"
+content="OUMJYOTI, Bhakti, Seva, Sanatan, Gau Seva, Anna Daan, Human Service, Odisha"
+
+> 
+
+  <meta name="theme-color" content="#0f0508">    <style>  
+    :root {  
+      --bg: #0f0508;  
+      --bg2: #14070b;  
+      --card: #1c0e12;  
+      --card2: #211015;  
+      --gold: #f3ba2f;  
+      --gold2: #ffe898;  
+      --text: #f5f5f5;  
+      --muted: #c8b9b9;  
+      --orange: #ff6b00;  
+      --line: rgba(243,186,47,0.24);  
+      --shadow: 0 12px 35px rgba(0,0,0,0.35);  
+      --radius: 18px;  
+    }  
+  
+    * {  
+      box-sizing: border-box;  
+    }  
+  
+    html {  
+      scroll-behavior: smooth;  
+    }  
+  
+    body {  
+      margin: 0;  
+      font-family:  
+        system-ui,  
+        -apple-system,  
+        BlinkMacSystemFont,  
+        "Segoe UI",  
+        sans-serif;  
+      background:  
+        radial-gradient(  
+          circle at top,  
+          rgba(243,186,47,0.08),  
+          transparent 38%  
+        ),  
+        var(--bg);  
+      color: var(--text);  
+      min-height: 100vh;  
+    }  
+  
+    body.interface-open {  
+      overflow: hidden;  
+    }  
+  
+    a {  
+      color: inherit;  
+      text-decoration: none;  
+    }  
+  
+    button,  
+    input,  
+    textarea,  
+    select {  
+      font: inherit;  
+    }  
+  
+    button {  
+      cursor: pointer;  
+    }  
+  
+    img {  
+      max-width: 100%;  
+    }  
+  
+    .container {  
+      width: min(1180px, calc(100% - 30px));  
+      margin: auto;  
+    }  
+  
+    /* =====================================================  
+       HEADER  
+    ===================================================== */  
+  
+    header {  
+      position: sticky;  
+      top: 0;  
+      z-index: 100;  
+      background: rgba(15,5,8,0.94);  
+      backdrop-filter: blur(14px);  
+      border-bottom: 1px solid var(--line);  
+    }  
+  
+    .nav {  
+      min-height: 72px;  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      gap: 20px;  
+    }  
+  
+    .brand {  
+      display: flex;  
+      align-items: center;  
+      gap: 12px;  
+      min-width: 0;  
+    }  
+  
+    .brand img {  
+      width: 48px;  
+      height: 48px;  
+      border-radius: 50%;  
+      object-fit: cover;  
+      border: 2px solid var(--gold);  
+      background: #000;  
+    }  
+  
+    .brand-text {  
+      min-width: 0;  
+    }  
+  
+    .brand-title {  
+      color: var(--gold2);  
+      font-weight: 900;  
+      letter-spacing: 1px;  
+      font-size: 19px;  
+      white-space: nowrap;  
+    }  
+  
+    .brand-sub {  
+      color: var(--muted);  
+      font-size: 11px;  
+      margin-top: 2px;  
+    }  
+  
+    .nav-links {  
+      display: flex;  
+      align-items: center;  
+      gap: 6px;  
+      flex-wrap: wrap;  
+      justify-content: flex-end;  
+    }  
+  
+    .nav-links button {  
+      border: 0;  
+      background: transparent;  
+      color: var(--muted);  
+      padding: 9px 10px;  
+      border-radius: 10px;  
+      transition: .2s;  
+    }  
+  
+    .nav-links button:hover {  
+      color: var(--gold2);  
+      background: rgba(243,186,47,0.08);  
+    }  
+  
+    .nav-login {  
+      color: #120a00 !important;  
+      background: linear-gradient(  
+        135deg,  
+        var(--gold),  
+        var(--gold2)  
+      ) !important;  
+      font-weight: 800;  
+    }  
+  
+    .mobile-menu {  
+      display: none;  
+      border: 1px solid var(--line);  
+      background: var(--card);  
+      color: var(--gold2);  
+      padding: 9px 12px;  
+      border-radius: 10px;  
+    }  
+  
+    /* =====================================================  
+       HERO  
+    ===================================================== */  
+  
+    .hero {  
+      min-height: 570px;  
+      display: grid;  
+      place-items: center;  
+      text-align: center;  
+      position: relative;  
+      overflow: hidden;  
+      border-bottom: 1px solid var(--line);  
+    }  
+  
+    .hero::before {  
+      content: "";  
+      position: absolute;  
+      inset: 0;  
+      background:  
+        linear-gradient(  
+          rgba(15,5,8,0.72),  
+          rgba(15,5,8,0.90)  
+        ),  
+        url("/Images/hero.jpg")  
+        center / cover no-repeat;  
+      opacity: .9;  
+    }  
+  
+    .hero-content {  
+      position: relative;  
+      z-index: 1;  
+      width: min(900px, calc(100% - 30px));  
+      padding: 80px 0;  
+    }  
+  
+    .om {  
+      color: var(--gold);  
+      font-size: 68px;  
+      line-height: 1;  
+      margin-bottom: 15px;  
+      text-shadow:  
+        0 0 30px rgba(243,186,47,.25);  
+    }  
+  
+    .hero h1 {  
+      margin: 0;  
+      color: var(--gold2);  
+      font-size: clamp(34px, 7vw, 66px);  
+      line-height: 1.05;  
+    }  
+  
+    .hero p {  
+      max-width: 760px;  
+      margin: 22px auto 0;  
+      color: #eee0e0;  
+      font-size: clamp(16px, 2vw, 20px);  
+      line-height: 1.8;  
+    }  
+  
+    .hero-actions {  
+      display: flex;  
+      justify-content: center;  
+      gap: 12px;  
+      flex-wrap: wrap;  
+      margin-top: 30px;  
+    }  
+  
+    /* =====================================================  
+       BUTTONS  
+    ===================================================== */  
+  
+    .btn {  
+      border: 1px solid var(--line);  
+      border-radius: 12px;  
+      padding: 12px 18px;  
+      background: var(--card);  
+      color: var(--gold2);  
+      font-weight: 800;  
+      transition: .2s;  
+    }  
+  
+    .btn:hover {  
+      transform: translateY(-2px);  
+      border-color: var(--gold);  
+    }  
+  
+    .btn-primary {  
+      color: #160b00;  
+      background:  
+        linear-gradient(  
+          135deg,  
+          var(--gold),  
+          var(--gold2)  
+        );  
+      border-color: transparent;  
+    }  
+  
+    .btn-danger {  
+      color: #fff;  
+      background: #7c1d1d;  
+      border-color: #a33;  
+    }  
+  
+    .btn-success {  
+      color: #071b0b;  
+      background: #6fdc88;  
+      border-color: transparent;  
+    }  
+  
+    .btn-small {  
+      padding: 8px 11px;  
+      font-size: 13px;  
+      border-radius: 9px;  
+    }  
+  
+    /* =====================================================  
+       SECTIONS  
+    ===================================================== */  
+  
+    section {  
+      padding: 70px 0;  
+    }  
+  
+    .section-head {  
+      text-align: center;  
+      margin-bottom: 34px;  
+    }  
+  
+    .section-head h2 {  
+      color: var(--gold2);  
+      margin: 0 0 10px;  
+      font-size: clamp(28px, 5vw, 42px);  
+    }  
+  
+    .section-head p {  
+      color: var(--muted);  
+      margin: 0 auto;  
+      max-width: 760px;  
+      line-height: 1.7;  
+    }  
+  
+    .grid {  
+      display: grid;  
+      grid-template-columns:  
+        repeat(3, minmax(0, 1fr));  
+      gap: 20px;  
+    }  
+  
+    .card {  
+      background:  
+        linear-gradient(  
+          145deg,  
+          rgba(255,255,255,0.02),  
+          rgba(255,255,255,0)  
+        ),  
+        var(--card);  
+      border: 1px solid var(--line);  
+      border-radius: var(--radius);  
+      box-shadow: var(--shadow);  
+      overflow: hidden;  
+    }  
+  
+    .card-body {  
+      padding: 22px;  
+    }  
+  
+    .purpose-card {  
+      padding: 28px;  
+      text-align: center;  
+      cursor: pointer;  
+      transition: .25s;  
+    }  
+  
+    .purpose-card:hover {  
+      transform: translateY(-5px);  
+      border-color: rgba(243,186,47,.55);  
+    }  
+  
+    .purpose-icon {  
+      font-size: 42px;  
+      margin-bottom: 15px;  
+    }  
+  
+    .purpose-card h3 {  
+      margin: 0 0 10px;  
+      color: var(--gold2);  
+    }  
+  
+    .purpose-card p {  
+      color: var(--muted);  
+      line-height: 1.7;  
+      margin: 0;  
+    }  
+  
+    /* =====================================================  
+       SEVA  
+    ===================================================== */  
+  
+    .seva-grid {  
+      display: grid;  
+      grid-template-columns:  
+        repeat(3, minmax(0, 1fr));  
+      gap: 20px;  
+    }  
+  
+    .seva-card {  
+      overflow: hidden;  
+      cursor: pointer;  
+      transition: .25s;  
+    }  
+  
+    .seva-card:hover {  
+      transform: translateY(-5px);  
+      border-color: rgba(243,186,47,.55);  
+    }  
+  
+    .seva-image {  
+      width: 100%;  
+      height: 220px;  
+      object-fit: cover;  
+      display: block;  
+      background: #0b0305;  
+    }  
+  
+    .seva-placeholder {  
+      height: 220px;  
+      display: grid;  
+      place-items: center;  
+      font-size: 58px;  
+      background:  
+        radial-gradient(  
+          circle,  
+          rgba(243,186,47,.12),  
+          transparent 70%  
+        );  
+    }  
+  
+    .seva-card h3 {  
+      color: var(--gold2);  
+      margin: 0 0 8px;  
+    }  
+  
+    .seva-card p {  
+      color: var(--muted);  
+      line-height: 1.6;  
+      margin: 0;  
+    }  
+  
+    /* =====================================================  
+       FOOTER  
+    ===================================================== */  
+  
+    footer {  
+      border-top: 1px solid var(--line);  
+      padding: 35px 0;  
+      background: #0b0305;  
+      color: var(--muted);  
+      text-align: center;  
+    }  
+  
+    footer strong {  
+      color: var(--gold2);  
+    }  
+  
+    /* =====================================================  
+       FULL SCREEN INTERFACE  
+    ===================================================== */  
+  
+    #interfaceArea {  
+      position: fixed;  
+      inset: 0;  
+      z-index: 1000;  
+      display: none;  
+      background:  
+        radial-gradient(  
+          circle at top,  
+          rgba(243,186,47,.09),  
+          transparent 35%  
+        ),  
+        var(--bg);  
+      overflow-y: auto;  
+      overscroll-behavior: contain;  
+    }  
+  
+    #interfaceArea.show {  
+      display: block;  
+    }  
+  
+    .interface-page {  
+      min-height: 100vh;  
+      padding: 22px;  
+    }  
+  
+    .interface-inner {  
+      width: min(1150px, 100%);  
+      margin: 0 auto;  
+      padding: 25px 0 70px;  
+    }  
+  
+    .interface-top {  
+      display: flex;  
+      align-items: center;  
+      justify-content: space-between;  
+      gap: 15px;  
+      margin-bottom: 25px;  
+      position: sticky;  
+      top: 0;  
+      z-index: 5;  
+      padding: 12px 0;  
+      background:  
+        linear-gradient(  
+          var(--bg),  
+          rgba(15,5,8,.92),  
+          rgba(15,5,8,0)  
+        );  
+    }  
+  
+    .interface-title {  
+      color: var(--gold2);  
+      margin: 0;  
+      font-size: clamp(25px, 5vw, 42px);  
+    }  
+  
+    .close-interface {  
+      flex-shrink: 0;  
+      border: 1px solid var(--line);  
+      background: var(--card);  
+      color: var(--gold2);  
+      border-radius: 12px;  
+      padding: 10px 15px;  
+      font-weight: 800;  
+    }  
+  
+    /* =====================================================  
+       AUTH  
+    ===================================================== */  
+  
+    .auth-wrap {  
+      width: min(560px, 100%);  
+      margin: 35px auto;  
+    }  
+  
+    .auth-logo {  
+      text-align: center;  
+      margin-bottom: 25px;  
+    }  
+  
+    .auth-logo img {  
+      width: 85px;  
+      height: 85px;  
+      object-fit: cover;  
+      border-radius: 50%;  
+      border: 2px solid var(--gold);  
+    }  
+  
+    .auth-card {  
+      padding: 28px;  
+    }  
+  
+    .auth-tabs {  
+      display: grid;  
+      grid-template-columns: 1fr 1fr;  
+      gap: 8px;  
+      margin-bottom: 22px;  
+    }  
+  
+    .auth-tabs button {  
+      border: 1px solid var(--line);  
+      background: #16080d;  
+      color: var(--muted);  
+      padding: 12px;  
+      border-radius: 10px;  
+      font-weight: 800;  
+    }  
+  
+    .auth-tabs button.active {  
+      background:  
+        linear-gradient(  
+          135deg,  
+          var(--gold),  
+          var(--gold2)  
+        );  
+      color: #140900;  
+    }  
+  
+    .form-group {  
+      margin-bottom: 15px;  
+    }  
+  
+    .form-group label {  
+      display: block;  
+      color: var(--gold2);  
+      font-weight: 700;  
+      margin-bottom: 7px;  
+      font-size: 14px;  
+    }  
+  
+    .form-control {  
+      width: 100%;  
+      border: 1px solid var(--line);  
+      background: #10060a;  
+      color: var(--text);  
+      padding: 12px 13px;  
+      border-radius: 10px;  
+      outline: none;  
+    }  
+  
+    .form-control:focus {  
+      border-color: var(--gold);  
+      box-shadow:  
+        0 0 0 3px  
+        rgba(243,186,47,.08);  
+    }  
+  
+    textarea.form-control {  
+      min-height: 140px;  
+      resize: vertical;  
+    }  
+  
+    .form-row {  
+      display: grid;  
+      grid-template-columns: 1fr 1fr;  
+      gap: 14px;  
+    }  
+  
+    .message {  
+      display: none;  
+      margin: 14px 0;  
+      padding: 12px 14px;  
+      border-radius: 10px;  
+      border: 1px solid var(--line);  
+      background: rgba(243,186,47,.07);  
+      color: var(--gold2);  
+      line-height: 1.5;  
+    }  
+  
+    .message.show {  
+      display: block;  
+    }  
+  
+    .message.error {  
+      color: #ffb4b4;  
+      background: rgba(180,40,40,.12);  
+      border-color: rgba(255,90,90,.35);  
+    }  
+  
+    .message.success {  
+      color: #b9ffca;  
+      background: rgba(50,150,75,.12);  
+      border-color: rgba(100,220,130,.3);  
+    }  
+  
+    /* =====================================================  
+       DASHBOARD  
+    ===================================================== */  
+  
+    .dashboard-head {  
+      display: flex;  
+      justify-content: space-between;  
+      gap: 15px;  
+      align-items: center;  
+      flex-wrap: wrap;  
+      margin-bottom: 25px;  
+    }  
+  
+    .user-badge {  
+      display: inline-flex;  
+      align-items: center;  
+      gap: 9px;  
+      background: rgba(243,186,47,.08);  
+      border: 1px solid var(--line);  
+      padding: 9px 13px;  
+      border-radius: 999px;  
+      color: var(--gold2);  
+    }  
+  
+    .dashboard-grid {  
+      display: grid;  
+      grid-template-columns:  
+        repeat(4, minmax(0, 1fr));  
+      gap: 15px;  
+      margin-bottom: 25px;  
+    }  
+  
+    .stat-card {  
+      padding: 20px;  
+      border: 1px solid var(--line);  
+      background: var(--card);  
+      border-radius: 15px;  
+    }  
+  
+    .stat-card small {  
+      color: var(--muted);  
+    }  
+  
+    .stat-card strong {  
+      display: block;  
+      margin-top: 8px;  
+      color: var(--gold2);  
+      font-size: 30px;  
+    }  
+  
+    .dashboard-menu {  
+      display: grid;  
+      grid-template-columns:  
+        repeat(3, minmax(0, 1fr));  
+      gap: 15px;  
+    }  
+  
+    .dashboard-item {  
+      padding: 22px;  
+      background: var(--card);  
+      border: 1px solid var(--line);  
+      border-radius: 15px;  
+      color: var(--text);  
+      text-align: left;  
+      transition: .2s;  
+    }  
+  
+    .dashboard-item:hover {  
+      transform: translateY(-3px);  
+      border-color: var(--gold);  
+    }  
+  
+    .dashboard-item b {  
+      color: var(--gold2);  
+      display: block;  
+      margin-bottom: 6px;  
+    }  
+  
+    .dashboard-item span {  
+      color: var(--muted);  
+      font-size: 14px;  
+    }  
+  
+    /* =====================================================  
+       TABLES  
+    ===================================================== */  
+  
+    .table-wrap {  
+      overflow-x: auto;  
+      border: 1px solid var(--line);  
+      border-radius: 14px;  
+    }  
+  
+    table {  
+      width: 100%;  
+      border-collapse: collapse;  
+      min-width: 750px;  
+    }  
+  
+    th,  
+    td {  
+      text-align: left;  
+      padding: 13px 12px;  
+      border-bottom: 1px solid rgba(243,186,47,.12);  
+      vertical-align: top;  
+    }  
+  
+    th {  
+      color: var(--gold2);  
+      background: #16080d;  
+      font-size: 13px;  
+    }  
+  
+    td {  
+      color: #eee0e0;  
+      font-size: 14px;  
+    }  
+  
+    tr:last-child td {  
+      border-bottom: 0;  
+    }  
+  
+    .status {  
+      display: inline-block;  
+      padding: 5px 9px;  
+      border-radius: 999px;  
+      font-size: 12px;  
+      font-weight: 800;  
+    }  
+  
+    .status-active {  
+      background: rgba(70,190,100,.13);  
+      color: #9effb3;  
+    }  
+  
+    .status-disabled {  
+      background: rgba(220,70,70,.13);  
+      color: #ffaaaa;  
+    }  
+  
+    .status-new {  
+      background: rgba(243,186,47,.12);  
+      color: var(--gold2);  
+    }  
+  
+    /* =====================================================  
+       ADMIN SEVA  
+    ===================================================== */  
+  
+    .admin-seva-grid {  
+      display: grid;  
+      grid-template-columns:  
+        repeat(2, minmax(0, 1fr));  
+      gap: 18px;  
+    }  
+  
+    .admin-seva-card {  
+      padding: 20px;  
+    }  
+  
+    .admin-seva-image {  
+      width: 100%;  
+      height: 180px;  
+      object-fit: cover;  
+      border-radius: 12px;  
+      background: #090305;  
+      margin-bottom: 15px;  
+    }  
+  
+    .admin-actions {  
+      display: flex;  
+      gap: 8px;  
+      flex-wrap: wrap;  
+      margin-top: 15px;  
+    }  
+  
+    /* =====================================================  
+       FILE UPLOAD  
+    ===================================================== */  
+  
+    .upload-zone {  
+      border: 2px dashed rgba(243,186,47,.35);  
+      background: rgba(243,186,47,.04);  
+      padding: 25px;  
+      border-radius: 15px;  
+      text-align: center;  
+    }  
+  
+    .upload-zone input[type="file"] {  
+      width: 100%;  
+      margin: 15px 0;  
+      color: var(--muted);  
+    }  
+  
+    .upload-preview {  
+      max-height: 220px;  
+      border-radius: 12px;  
+      margin: 15px auto;  
+      display: none;  
+      object-fit: contain;  
+    }  
+  
+    /* =====================================================  
+       POLICY  
+    ===================================================== */  
+  
+    .policy {  
+      line-height: 1.85;  
+      color: #e5d8d8;  
+    }  
+  
+    .policy h2,  
+    .policy h3 {  
+      color: var(--gold2);  
+      margin-top: 28px;  
+    }  
+  
+    .policy p {  
+      color: #d7caca;  
+    }  
+  
+    .policy ul {  
+      color: #d7caca;  
+      padding-left: 22px;  
+    }  
+  
+    .policy strong {  
+      color: #f1e2e2;  
+    }  
+  
+    /* =====================================================  
+       LOADER  
+    ===================================================== */  
+  
+    .loader {  
+      width: 36px;  
+      height: 36px;  
+      border: 3px solid rgba(243,186,47,.18);  
+      border-top-color: var(--gold);  
+      border-radius: 50%;  
+      animation: spin .8s linear infinite;  
+      margin: 30px auto;  
+    }  
+  
+    @keyframes spin {  
+      to {  
+        transform: rotate(360deg);  
+      }  
+    }  
+  
+    .empty {  
+      text-align: center;  
+      padding: 35px;  
+      color: var(--muted);  
+      border: 1px dashed var(--line);  
+      border-radius: 15px;  
+    }  
+  
+    /* =====================================================  
+       RESPONSIVE  
+    ===================================================== */  
+  
+    @media (max-width: 900px) {  
+      .grid,  
+      .seva-grid {  
+        grid-template-columns: repeat(2, 1fr);  
+      }  
+  
+      .dashboard-grid {  
+        grid-template-columns:  
+          repeat(2, 1fr);  
+      }  
+  
+      .dashboard-menu {  
+        grid-template-columns:  
+          repeat(2, 1fr);  
+      }  
+    }  
+  
+    @media (max-width: 680px) {  
+      .nav {  
+        min-height: 64px;  
+      }  
+  
+      .brand-sub {  
+        display: none;  
+      }  
+  
+      .mobile-menu {  
+        display: block;  
+      }  
+  
+      .nav-links {  
+        display: none;  
+        position: absolute;  
+        left: 15px;  
+        right: 15px;  
+        top: 68px;  
+        padding: 10px;  
+        background: #12070b;  
+        border: 1px solid var(--line);  
+        border-radius: 14px;  
+        box-shadow: var(--shadow);  
+        flex-direction: column;  
+        align-items: stretch;  
+      }  
+  
+      .nav-links.open {  
+        display: flex;  
+      }  
+  
+      .nav-links button {  
+        width: 100%;  
+        text-align: left;  
+      }  
+  
+      .hero {  
+        min-height: 510px;  
+      }  
+  
+      .om {  
+        font-size: 54px;  
+      }  
+  
+      .grid,  
+      .seva-grid,  
+      .admin-seva-grid,  
+      .dashboard-menu,  
+      .dashboard-grid,  
+      .form-row {  
+        grid-template-columns: 1fr;  
+      }  
+  
+      .interface-page {  
+        padding: 12px;  
+      }  
+  
+      .interface-inner {  
+        padding-top: 10px;  
+      }  
+  
+      .interface-top {  
+        position: sticky;  
+        top: 0;  
+      }  
+  
+      .interface-title {  
+        font-size: 25px;  
+      }  
+  
+      .close-interface {  
+        padding: 8px 11px;  
+      }  
+  
+      section {  
+        padding: 50px 0;  
+      }  
+  
+      .auth-card {  
+        padding: 20px;  
+      }  
+    }  
+  </style>  </head>  <body>  <!-- =======================================================  
+     HEADER  
+======================================================= -->  <header>  
+  <div class="container nav">  <button  
+  class="brand"  
+  onclick="goHome()"  
+  style="border:0;background:transparent;color:inherit;padding:0;cursor:pointer;"  
+  aria-label="OUMJYOTI Home"  
+>  
+  <img  
+    id="headerLogo"  
+    src="/oumjyoti-logo.png"  
+    alt="OUMJYOTI Logo"  
+    onerror="this.style.display='none'"  
+  >  
+
+  <div class="brand-text">  
+    <div class="brand-title">  
+      OUMJYOTI  
+    </div>  
+
+    <div class="brand-sub">  
+      भक्ति • सेवा • मानवता  
+    </div>  
+  </div>  
+</button>  
+
+<button  
+  class="mobile-menu"  
+  onclick="toggleMobileMenu()"  
+  aria-label="Menu"  
+>  
+  ☰  
+</button>  
+
+<nav  
+  class="nav-links"  
+  id="navLinks"  
+>  
+  <button onclick="goHome();closeMobileMenu()">  
+    Home  
+  </button>  
+
+  <button onclick="openInterface('mission');closeMobileMenu()">  
+    Mission  
+  </button>  
+
+  <button onclick="openInterface('seva');closeMobileMenu()">  
+    Seva  
+  </button>  
+
+  <button onclick="openInterface('about');closeMobileMenu()">  
+    About  
+  </button>  
+
+  <button onclick="openInterface('feedback');closeMobileMenu()">  
+    Feedback  
+  </button>  
+
+  <button  
+    id="authButton"  
+    class="nav-login"  
+    onclick="handleAuthButton();closeMobileMenu()"  
+  >  
+    Login  
+  </button>  
+</nav>
+
+  </div>  
+</header>  <!-- =======================================================  
+     HERO  
+======================================================= -->  <main id="home">    <section class="hero">  
+    <div class="hero-content">  <div class="om">  
+    ॐ  
+  </div>  
+
+  <h1 id="heroTitle">  
+    भक्ति से सेवा, सेवा से मानवता  
+  </h1>  
+
+  <p id="heroText">  
+    OUMJYOTI का उद्देश्य भक्ति, सेवा और मानवता के माध्यम से जरूरतमंद लोगों, गौ माता, बुजुर्गों और समाज के कमजोर वर्गों तक सहयोग पहुँचाना है।  
+  </p>  
+
+  <div class="hero-actions">  
+    <button  
+      class="btn btn-primary"  
+      onclick="openInterface('mission')"  
+    >  
+      हमारा मिशन  
+    </button>  
+
+    <button  
+      class="btn"  
+      onclick="openInterface('seva')"  
+    >  
+      सेवा देखें  
+    </button>  
+
+    <button  
+      class="btn"  
+      onclick="openInterface('login')"  
+    >  
+      Join Seva  
+    </button>  
+  </div>  
+
+</div>
+
+  </section>    <!-- =====================================================  
+       PURPOSE  
+  ====================================================== -->    <section>  
+    <div class="container">  <div class="section-head">  
+    <h2>  
+      सेवा के प्रमुख क्षेत्र  
+    </h2>  
+
+    <p>  
+      करुणा, सहयोग और मानवता की भावना से जरूरतमंदों तक सहायता पहुँचाने का हमारा प्रयास।  
+    </p>  
+  </div>  
+
+  <div class="grid">  
+
+    <article  
+      class="card purpose-card"  
+      onclick="openInterface('seva')"  
+    >  
+      <div class="purpose-icon">  
+        🐄  
+      </div>  
+
+      <h3>  
+        गौ सेवा  
+      </h3>  
+
+      <p>  
+        गौ माता की देखभाल, भोजन और संरक्षण के लिए सहयोग।  
+      </p>  
+    </article>  
+
+    <article  
+      class="card purpose-card"  
+      onclick="openInterface('seva')"  
+    >  
+      <div class="purpose-icon">  
+        🍚  
+      </div>  
+
+      <h3>  
+        अन्न दान  
+      </h3>  
+
+      <p>  
+        जरूरतमंद परिवारों और लोगों तक भोजन सहायता पहुँचाने का प्रयास।  
+      </p>  
+    </article>  
+
+    <article  
+      class="card purpose-card"  
+      onclick="openInterface('seva')"  
+    >  
+      <div class="purpose-icon">  
+        📚  
+      </div>  
+
+      <h3>  
+        शिक्षा सहायता  
+      </h3>  
+
+      <p>  
+        जरूरतमंद बच्चों की शिक्षा में यथासंभव सहयोग।  
+      </p>  
+    </article>  
+
+    <article  
+      class="card purpose-card"  
+      onclick="openInterface('seva')"  
+    >  
+      <div class="purpose-icon">  
+        ❤️  
+      </div>  
+
+      <h3>  
+        स्वास्थ्य सहायता  
+      </h3>  
+
+      <p>  
+        जरूरतमंद लोगों की बीमारी और स्वास्थ्य संबंधी सहायता के लिए प्रयास।  
+      </p>  
+    </article>  
+
+    <article  
+      class="card purpose-card"  
+      onclick="openInterface('seva')"  
+    >  
+      <div class="purpose-icon">  
+        👴  
+      </div>  
+
+      <h3>  
+        बुजुर्ग सेवा  
+      </h3>  
+
+      <p>  
+        बुजुर्गों के सम्मान, सहयोग और आवश्यक सहायता के लिए सेवा।  
+      </p>  
+    </article>  
+
+    <article  
+      class="card purpose-card"  
+      onclick="openInterface('seva')"  
+    >  
+      <div class="purpose-icon">  
+        🌊  
+      </div>  
+
+      <h3>  
+        आपदा राहत  
+      </h3>  
+
+      <p>  
+        बाढ़ और अन्य प्राकृतिक आपदाओं से प्रभावित लोगों तक सहायता पहुँचाने का प्रयास।  
+      </p>  
+    </article>  
+
+  </div>  
+</div>
+
+  </section>    <!-- =====================================================  
+       SEVA PREVIEW  
+  ====================================================== -->    <section id="sevaPreview">  
+    <div class="container">  <div class="section-head">  
+    <h2>  
+      हमारी सेवाएँ  
+    </h2>  
+
+    <p>  
+      सेवा कार्यों की विस्तृत जानकारी देखने के लिए किसी सेवा पर क्लिक करें।  
+    </p>  
+  </div>  
+
+  <div  
+    class="seva-grid"  
+    id="sevaGrid"  
+  >  
+    <div class="loader"></div>  
+  </div>  
+
+</div>
+
+  </section>    <!-- =====================================================  
+       ABOUT PREVIEW  
+  ====================================================== -->    <section>  
+    <div class="container">  <div class="card">  
+    <div class="card-body" style="text-align:center">  
+
+      <h2  
+        id="aboutTitlePreview"  
+        style="color:var(--gold2);margin-top:0"  
+      >  
+        OUMJYOTI के बारे में  
+      </h2>  
+
+      <p  
+        id="aboutTextPreview"  
+        style="color:var(--muted);line-height:1.8;max-width:850px;margin:auto"  
+      >  
+        OUMJYOTI भक्ति, सेवा और मानवता को एक साथ जोड़ने वाला सेवा प्रयास है।  
+      </p>  
+
+      <div style="margin-top:22px">  
+        <button  
+          class="btn btn-primary"  
+          onclick="openInterface('about')"  
+        >  
+          पूरा परिचय देखें  
+        </button>  
+      </div>  
+
+    </div>  
+  </div>  
+
+</div>
+
+  </section>  </main>  <!-- =======================================================  
+     FOOTER  
+======================================================= -->  <footer>  
+  <div class="container">  <p>  
+  <strong>OUMJYOTI</strong>  
+  — भक्ति • सेवा • मानवता  
+</p>  
+
+<p>  
+  © 2026 OUMJYOTI. सभी अधिकार सुरक्षित।  
+</p>  
+
+<button  
+  class="btn btn-small"  
+  onclick="openInterface('privacy')"  
+>  
+  Privacy Policy  
+</button>
+
+  </div>  
+</footer>  <!-- =======================================================  
+     FULL SCREEN INTERFACE  
+======================================================= -->  <div  
+  id="interfaceArea"  
+  aria-hidden="true"  
+></div>  <script>  
+/* =========================================================  
+   GLOBAL STATE  
+========================================================= */  
+  
+let currentUser = null;  
+let siteContent = {};  
+let sevaData = [];  
+let mobileMenuOpen = false;  
+  
+/* =========================================================  
+   BASIC HELPERS  
+========================================================= */  
+  
+function escapeHtml(value) {  
+  return String(value ?? "")  
+    .replace(/&/g, "&amp;")  
+    .replace(/</g, "&lt;")  
+    .replace(/>/g, "&gt;")  
+    .replace(/"/g, "&quot;")  
+    .replace(/'/g, "&#039;");  
+}  
+  
+function formatDate(value) {  
+  if (!value) return "-";  
+  
+  try {  
+    return new Date(value).toLocaleString(  
+      "en-IN",  
+      {  
+        dateStyle: "medium",  
+        timeStyle: "short"  
+      }  
+    );  
+  } catch {  
+    return value;  
+  }  
+}  
+  
+function showInterface(html) {  
+  const area =  
+    document.getElementById(  
+      "interfaceArea"  
+    );  
+  
+  area.innerHTML = html;  
+  area.classList.add("show");  
+  area.setAttribute(  
+    "aria-hidden",  
+    "false"  
+  );  
+  
+  document.body.classList.add(  
+    "interface-open"  
+  );  
+  
+  /* IMPORTANT:  
+     No window.scrollTo()  
+     No scrollIntoView()  
+     Interface opens independently from page position.  
+  */  
+}  
+  
+function closeInterface() {  
+  const area =  
+    document.getElementById(  
+      "interfaceArea"  
+    );  
+  
+  area.classList.remove("show");  
+  area.setAttribute(  
+    "aria-hidden",  
+    "true"  
+  );  
+  
+  area.innerHTML = "";  
+  
+  document.body.classList.remove(  
+    "interface-open"  
+  );  
+}  
+  
+function goHome() {  
+  closeInterface();  
+  
+  /*  
+    Deliberately no automatic scrolling.  
+    User remains at their current page position.  
+  */  
+}  
+  
+function toggleMobileMenu() {  
+  mobileMenuOpen =  
+    !mobileMenuOpen;  
+  
+  document  
+    .getElementById("navLinks")  
+    .classList.toggle(  
+      "open",  
+      mobileMenuOpen  
+    );  
+}  
+  
+function closeMobileMenu() {  
+  mobileMenuOpen = false;  
+  
+  document  
+    .getElementById("navLinks")  
+    .classList.remove(  
+      "open"  
+    );  
+}  
+  
+/* =========================================================  
+   API HELPER  
+========================================================= */  
+  
+async function apiFetch(  
+  url,  
+  options = {}  
+) {  
+  const response =  
+    await fetch(  
+      url,  
+      {  
+        credentials:  
+          "same-origin",  
+        ...options  
+      }  
+    );  
+  
+  const data =  
+    await response  
+      .json()  
+      .catch(  
+        () => ({})  
+      );  
+  
+  if (!response.ok) {  
+    throw new Error(  
+      data.error ||  
+      data.message ||  
+      `Request failed (${response.status})`  
+    );  
+  }  
+  
+  return data;  
+}  
+  
+/* =========================================================  
+   AUTH BUTTON  
+========================================================= */  
+  
+function updateAuthButton() {  
+  const button =  
+    document.getElementById(  
+      "authButton"  
+    );  
+  
+  if (!button) return;  
+  
+  if (currentUser) {  
+    button.textContent =  
+      "Dashboard";  
+  } else {  
+    button.textContent =  
+      "Login";  
+  }  
+}  
+  
+function handleAuthButton() {  
+  if (currentUser) {  
+    openDashboard(  
+      currentUser  
+    );  
+  } else {  
+    openInterface(  
+      "login"  
+    );  
+  }  
+}  
+  
+/* =========================================================  
+   LOAD WEBSITE CONTENT  
+========================================================= */  
+  
+async function loadSiteContent() {  
+  try {  
+    const data =  
+      await apiFetch(  
+        "/api/site-content"  
+      );  
+  
+    siteContent =  
+      data.content ||  
+      {};  
+  
+    applySiteContent();  
+  } catch (error) {  
+    console.error(  
+      "Site content error:",  
+      error  
+    );  
+  }  
+}  
+  
+function applySiteContent() {  
+  if (  
+    siteContent.site_title  
+  ) {  
+    document.title =  
+      siteContent.site_title;  
+  }  
+  
+  const heroTitle =  
+    document.getElementById(  
+      "heroTitle"  
+    );  
+  
+  if (  
+    heroTitle &&  
+    siteContent.hero_title  
+  ) {  
+    heroTitle.textContent =  
+      siteContent.hero_title;  
+  }  
+  
+  const heroText =  
+    document.getElementById(  
+      "heroText"  
+    );  
+  
+  if (  
+    heroText &&  
+    siteContent.hero_text  
+  ) {  
+    heroText.textContent =  
+      siteContent.hero_text;  
+  }  
+  
+  const aboutTitle =  
+    document.getElementById(  
+      "aboutTitlePreview"  
+    );  
+  
+  if (  
+    aboutTitle &&  
+    siteContent.about_title  
+  ) {  
+    aboutTitle.textContent =  
+      siteContent.about_title;  
+  }  
+  
+  const aboutText =  
+    document.getElementById(  
+      "aboutTextPreview"  
+    );  
+  
+  if (  
+    aboutText &&  
+    siteContent.about_text  
+  ) {  
+    aboutText.textContent =  
+      siteContent.about_text;  
+  }  
+  
+  if (  
+    siteContent.logo_image  
+  ) {  
+    const logo =  
+      document.getElementById(  
+        "headerLogo"  
+      );  
+  
+    if (logo) {  
+      logo.src =  
+        siteContent.logo_image;  
+    }  
+  }  
+}  
+  
+/* =========================================================  
+   LOAD SEVA  
+========================================================= */  
+  
+async function loadSeva() {  
+  const grid =  
+    document.getElementById(  
+      "sevaGrid"  
+    );  
+  
+  try {  
+    const data =  
+      await apiFetch(  
+        "/api/seva"  
+      );  
+  
+    sevaData =  
+      data.seva || [];  
+  
+    renderSevaPreview();  
+  } catch (error) {  
+    console.error(  
+      "Seva error:",  
+      error  
+    );  
+  
+    if (grid) {  
+      grid.innerHTML =  
+        `<div class="empty">  
+          सेवा जानकारी अभी उपलब्ध नहीं है।  
+        </div>`;  
+    }  
+  }  
+}  
+  
+function renderSevaPreview() {  
+  const grid =  
+    document.getElementById(  
+      "sevaGrid"  
+    );  
+  
+  if (!grid) return;  
+  
+  if (!sevaData.length) {  
+    grid.innerHTML =  
+      `<div class="empty">  
+        अभी कोई सक्रिय सेवा उपलब्ध नहीं है।  
+      </div>`;  
+  
+    return;  
+  }  
+  
+  grid.innerHTML =  
+    sevaData  
+      .slice(0, 9)  
+      .map(  
+        (item) => {  
+  
+          const image =  
+            item.image_url  
+              ? escapeHtml(  
+                  item.image_url  
+                )  
+              : "";  
+  
+          return `  
+            <article  
+              class="card seva-card"  
+              onclick="openSevaDetail('${escapeJs(item.id)}')"  
+            >  
+              ${  
+                image  
+                  ? `  
+                    <img  
+                      class="seva-image"  
+                      src="${image}"  
+                      alt="${escapeHtml(item.title)}"  
+                      loading="lazy"  
+                      onerror="this.style.display='none'"  
+                    >  
+                  `  
+                  : `  
+                    <div class="seva-placeholder">  
+                      ${escapeHtml(item.icon || "🕉️")}  
+                    </div>  
+                  `  
+              }  
+  
+              <div class="card-body">  
+                <h3>  
+                  ${escapeHtml(item.title)}  
+                </h3>  
+  
+                <p>  
+                  ${escapeHtml(  
+                    item.description || ""  
+                  )}  
+                </p>  
+              </div>  
+            </article>  
+          `;  
+        }  
+      )  
+      .join("");  
+}  
+  
+/* =========================================================  
+   JS STRING ESCAPE  
+========================================================= */  
+  
+function escapeJs(value) {  
+  return String(value ?? "")  
+    .replace(/\\/g, "\\\\")  
+    .replace(/'/g, "\\'")  
+    .replace(/"/g, '\\"')  
+    .replace(/\r/g, "\\r")  
+    .replace(/\n/g, "\\n");  
+}  
+  
+/* =========================================================  
+   MAIN INTERFACES  
+========================================================= */  
+  
+function openInterface(  
+  type  
+) {  
+  closeMobileMenu();  
+  
+  switch (type) {  
+  
+    case "mission":  
+      renderMissionInterface();  
+      break;  
+  
+    case "seva":  
+      renderSevaInterface();  
+      break;  
+  
+    case "about":  
+      renderAboutInterface();  
+      break;  
+  
+    case "feedback":  
+      renderFeedbackInterface();  
+      break;  
+  
+    case "login":  
+      renderLoginInterface();  
+      break;  
+  
+    case "privacy":  
+      renderPrivacyInterface();  
+      break;  
+  
+    default:  
+      renderMissionInterface();  
+  }  
+}  
+  
+/* =========================================================  
+   MISSION  
+========================================================= */  
+  
+function renderMissionInterface() {  
+  showInterface(`  
+    <div class="interface-page">  
+      <div class="interface-inner">  
+  
+        <div class="interface-top">  
+          <h1 class="interface-title">  
+            हमारा सेवा मिशन  
+          </h1>  
+  
+          <button  
+            class="close-interface"  
+            onclick="closeInterface()"  
+          >  
+            ✕ बंद करें  
+          </button>  
+        </div>  
+  
+        <div class="card">  
+          <div class="card-body">  
+  
+            <h2 style="color:var(--gold2)">  
+              ${  
+                escapeHtml(  
+                  siteContent.mission_title ||  
+                  "हमारा सेवा मिशन"  
+                )  
+              }  
+            </h2>  
+  
+            <p style="color:var(--muted);line-height:1.9">  
+              ${  
+                escapeHtml(  
+                  siteContent.mission_text ||  
+                  "गौ सेवा, अन्न दान, शिक्षा सहायता, स्वास्थ्य सहायता, बुजुर्ग सेवा और आपदा राहत जैसे सेवा कार्यों के माध्यम से समाज में सहयोग, करुणा और मानवता की भावना को मजबूत करना हमारा संकल्प है।"  
+                )  
+              }  
+            </p>  
+  
+          </div>  
+        </div>  
+  
+        <div class="grid" style="margin-top:20px">  
+  
+          ${missionCard(  
+            "🐄",  
+            "गौ सेवा",  
+            "गौ माता की सेवा, भोजन और संरक्षण के लिए सहयोग।"  
+          )}  
+  
+          ${missionCard(  
+            "🍚",  
+            "अन्न दान",  
+            "जरूरतमंद लोगों और परिवारों तक भोजन सहायता पहुँचाने का प्रयास।"  
+          )}  
+  
+          ${missionCard(  
+            "📚",  
+            "शिक्षा सहायता",  
+            "जरूरतमंद बच्चों की शिक्षा में सहयोग।"  
+          )}  
+  
+          ${missionCard(  
+            "❤️",  
+            "स्वास्थ्य सहायता",  
+            "जरूरतमंद लोगों की बीमारी और स्वास्थ्य सहायता के लिए प्रयास।"  
+          )}  
+  
+          ${missionCard(  
+            "👴",  
+            "बुजुर्ग सेवा",  
+            "बुजुर्गों के सम्मान और आवश्यक सहयोग के लिए सेवा।"  
+          )}  
+  
+          ${missionCard(  
+            "🌊",  
+            "आपदा राहत",  
+            "बाढ़ और अन्य प्राकृतिक आपदाओं से प्रभावित लोगों की सहायता।"  
+          )}  
+  
+        </div>  
+  
+      </div>  
+    </div>  
+  `);  
+}  
+  
+function missionCard(  
+  icon,  
+  title,  
+  text  
+) {  
+  return `  
+    <article class="card purpose-card">  
+      <div class="purpose-icon">  
+        ${icon}  
+      </div>  
+  
+      <h3>  
+        ${escapeHtml(title)}  
+      </h3>  
+  
+      <p>  
+        ${escapeHtml(text)}  
+      </p>  
+    </article>  
+  `;  
+}  
+  
+/* =========================================================  
+   SEVA INTERFACE  
+========================================================= */  
+  
+function renderSevaInterface() {  
+  showInterface(`  
+    <div class="interface-page">  
+      <div class="interface-inner">  
+  
+        <div class="interface-top">  
+          <h1 class="interface-title">  
+            हमारी सेवाएँ  
+          </h1>  
+  
+          <button  
+            class="close-interface"  
+            onclick="closeInterface()"  
+          >  
+            ✕ बंद करें  
+          </button>  
+        </div>  
+  
+        <div  
+          id="interfaceSevaGrid"  
+          class="seva-grid"  
+        >  
+          <div class="loader"></div>  
+        </div>  
+  
+      </div>  
+    </div>  
+  `);  
+  
+  loadInterfaceSeva();  
+}  
+  
+async function loadInterfaceSeva() {  
+  const grid =  
+    document.getElementById(  
+      "interfaceSevaGrid"  
+    );  
+  
+  if (!grid) return;  
+  
+  try {  
+    const data =  
+      await apiFetch(  
+        "/api/seva"  
+      );  
+  
+    const items =  
+      data.seva || [];  
+  
+    if (!items.length) {  
+      grid.innerHTML =  
+        `<div class="empty">  
+          अभी कोई सक्रिय सेवा उपलब्ध नहीं है।  
+        </div>`;  
+  
+      return;  
+    }  
+  
+    grid.innerHTML =  
+      items  
+        .map(  
+          (item) => {  
+  
+            const image =  
+              item.image_url  
+                ? escapeHtml(  
+                    item.image_url  
+                  )  
+                : "";  
+  
+            return `  
+              <article  
+                class="card seva-card"  
+                onclick="openSevaDetail('${escapeJs(item.id)}')"  
+              >  
+  
+                ${  
+                  image  
+                    ? `  
+                      <img  
+                        class="seva-image"  
+                        src="${image}"  
+                        alt="${escapeHtml(item.title)}"  
+                        loading="lazy"  
+                      >  
+                    `  
+                    : `  
+                      <div class="seva-placeholder">  
+                        ${escapeHtml(  
+                          item.icon || "🕉️"  
+                        )}  
+                      </div>  
+                    `  
+                }  
+  
+                <div class="card-body">  
+  
+                  <h3>  
+                    ${escapeHtml(  
+                      item.title  
+                    )}  
+                  </h3>  
+  
+                  <p>  
+                    ${escapeHtml(  
+                      item.description || ""  
+                    )}  
+                  </p>  
+  
+                  <div style="margin-top:15px">  
+                    <span  
+                      class="btn btn-small"  
+                      style="display:inline-block"  
+                    >  
+                      विवरण देखें →  
+                    </span>  
+                  </div>  
+  
+                </div>  
+  
+              </article>  
+            `;  
+          }  
+        )  
+        .join("");  
+  
+  } catch (error) {  
+    grid.innerHTML =  
+      `<div class="message show error">  
+        ${escapeHtml(error.message)}  
+      </div>`;  
+  }  
+}  
+  
+/* =========================================================  
+   SEVA DETAIL  
+========================================================= */  
+  
+async function openSevaDetail(  
+  id  
+) {  
+  const item =  
+    sevaData.find(  
+      (x) => String(x.id) === String(id)  
+    );  
+  
+  if (item) {  
+    renderSevaDetail(item);  
+    return;  
+  }  
+  
+  try {  
+    const data =  
+      await apiFetch(  
+        "/api/seva"  
+      );  
+  
+    const found =  
+      (data.seva || []).find(  
+        (x) =>  
+          String(x.id) ===  
+          String(id)  
+      );  
+  
+    if (found) {  
+      renderSevaDetail(  
+        found  
+      );  
+    }  
+  
+  } catch (error) {  
+    renderSevaDetail({  
+      title:  
+        "सेवा",  
+      description:  
+        "सेवा जानकारी उपलब्ध नहीं है।"  
+    });  
+  }  
+}  
+  
+function renderSevaDetail(  
+  item  
+) {  
+  const image =  
+    item.image_url  
+      ? escapeHtml(  
+          item.image_url  
+        )  
+      : "";  
+  
+  showInterface(`  
+    <div class="interface-page">  
+      <div class="interface-inner">  
+  
+        <div class="interface-top">  
+  
+          <h1 class="interface-title">  
+            सेवा विवरण  
+          </h1>  
+  
+          <button  
+            class="close-interface"  
+            onclick="renderSevaInterface()"  
+          >  
+            ← वापस  
+          </button>  
+  
+        </div>  
+  
+        <div class="card">  
+  
+          ${  
+            image  
+              ? `  
+                <img  
+                  src="${image}"  
+                  alt="${escapeHtml(item.title)}"  
+                  style="  
+                    width:100%;  
+                    max-height:430px;  
+                    object-fit:cover;  
+                    display:block;  
+                  "  
+                >  
+              `  
+              : `  
+                <div  
+                  style="  
+                    height:260px;  
+                    display:grid;  
+                    place-items:center;  
+                    font-size:70px;  
+                    background:#0b0305;  
+                  "  
+                >  
+                  ${escapeHtml(  
+                    item.icon || "🕉️"  
+                  )}  
+                </div>  
+              `  
+          }  
+  
+          <div class="card-body">  
+  
+            <h2 style="color:var(--gold2)">  
+              ${escapeHtml(  
+                item.title  
+              )}  
+            </h2>  
+  
+            <p  
+              style="  
+                color:var(--muted);  
+                line-height:1.9;  
+                white-space:pre-line;  
+              "  
+            >  
+              ${escapeHtml(  
+                item.description || ""  
+              )}  
+            </p>  
+  
+            <div style="margin-top:25px">  
+              <button  
+                class="btn btn-primary"  
+                onclick="openInterface('login')"  
+              >  
+                Join Seva  
+              </button>  
+            </div>  
+  
+          </div>  
+  
+        </div>  
+  
+      </div>  
+    </div>  
+  `);  
+}  
+  
+/* =========================================================  
+   ABOUT  
+========================================================= */  
+  
+function renderAboutInterface() {  
+  showInterface(`  
+    <div class="interface-page">  
+      <div class="interface-inner">  
+  
+        <div class="interface-top">  
+  
+          <h1 class="interface-title">  
+            ${  
+              escapeHtml(  
+                siteContent.about_title ||  
+                "OUMJYOTI के बारे में"  
+              )  
+            }  
+          </h1>  
+  
+          <button  
+            class="close-interface"  
+            onclick="closeInterface()"  
+          >  
+            ✕ बंद करें  
+          </button>  
+  
+        </div>  
+  
+        <div class="card">  
+          <div class="card-body">  
+  
+            <p  
+              style="  
+                color:var(--muted);  
+                line-height:2;  
+                white-space:pre-line;  
+                text-align:justify;  
+              "  
+            >  
+              ${  
+                escapeHtml(  
+                  siteContent.about_text ||  
+                  `OUMJYOTI भक्ति, सेवा और मानवता को एक साथ जोड़ने वाला एक समर्पित आध्यात्मिक एवं सेवा मंच है। इसका उद्देश्य केवल भक्ति और अध्यात्म से लोगों को जोड़ना ही नहीं, बल्कि सेवा-भावना को समाज के जरूरतमंद लोगों तक पहुँचाना भी है। OUMJYOTI के माध्यम से गौ माता की सेवा, गरीब एवं जरूरतमंद लोगों को अन्न सहायता, बुजुर्गों की सेवा, गरीब बच्चों की शिक्षा में सहयोग, स्वास्थ्य संबंधी सहायता तथा प्राकृतिक आपदा से प्रभावित परिवारों तक यथासंभव सहायता पहुँचाने जैसे सेवा कार्यों को प्रोत्साहित किया जाता है।
+
+हमारा विश्वास है कि सच्ची भक्ति केवल पूजा और प्रार्थना तक सीमित नहीं रहती, बल्कि जब वही भक्ति सेवा का रूप लेती है तो मानवता के लिए एक सकारात्मक शक्ति बन जाती है। किसी जरूरतमंद के चेहरे पर मुस्कान लाना, भूखे को भोजन देना, असहाय व्यक्ति का सहारा बनना, गौ माता की रक्षा एवं सेवा करना और समाज में प्रेम, करुणा तथा सहयोग की भावना बढ़ाना भी ईश्वर की आराधना का एक सुंदर रूप है।
+
+OUMJYOTI का प्रयास है कि श्रद्धा, सेवा और मानवता के इस संदेश को अधिक से अधिक लोगों तक पहुँचाया जाए। जो भी व्यक्ति अपनी इच्छा, समय, क्षमता या संसाधनों के अनुसार सेवा कार्यों में सहयोग करना चाहता है, वह इस सेवा भावना से जुड़ सकता है। हमारा उद्देश्य किसी एक व्यक्ति या वर्ग तक सीमित न रहकर जरूरतमंदों की सहायता, सामाजिक जागरूकता और सकारात्मक मानवीय मूल्यों को बढ़ावा देना है।
+
+यह मंच सनातन संस्कृति के आध्यात्मिक मूल्यों—दया, करुणा, सेवा, सत्य, सद्भाव और परोपकार—को सम्मान देता है। हमारा संकल्प है कि भक्ति से सेवा, सेवा से मानवता और मानवता से समाज में सकारात्मक परिवर्तन की भावना को आगे बढ़ाया जाए।`  
+                )  
+              }  
+            </p>  
+  
+            <hr  
+              style="  
+                border:0;  
+                border-top:1px solid var(--line);  
+                margin:30px 0;  
+              "  
+            >  
+  
+            <h3 style="color:var(--gold2)">  
+              परिचालन  
+            </h3>  
+  
+            <p style="color:var(--muted);font-weight:600">  
+              अतिचालक : श्री टंक शर्मा  
+            </p>  
+  
+            <p style="color:var(--muted);font-weight:600">  
+              सह - परिचालक: श्री छबिलाल ढकाल  
+            </p>  
+  
+          </div>  
+        </div>  
+  
+      </div>  
+    </div>  
+  `);  
+}  
+  
+/* =========================================================  
+   FEEDBACK  
+========================================================= */  
+  
+function renderFeedbackInterface() {  
+  if (!currentUser) {  
+    showInterface(`  
+      <div class="interface-page">  
+        <div class="interface-inner">  
+  
+          <div class="interface-top">  
+            <h1 class="interface-title">  
+              Feedback  
+            </h1>  
+  
+            <button  
+              class="close-interface"  
+              onclick="closeInterface()"  
+            >  
+              ✕ बंद करें  
+            </button>  
+          </div>  
+  
+          <div class="auth-wrap">  
+  
+            <div class="card auth-card">  
+  
+              <div  
+                class="message show"  
+              >  
+                Feedback भेजने के लिए पहले Login करें।  
+              </div>  
+  
+              <button  
+                class="btn btn-primary"  
+                onclick="renderLoginInterface()"  
+              >  
+                Login करें  
+              </button>  
+  
+            </div>  
+  
+          </div>  
+  
+        </div>  
+      </div>  
+    `);  
+  
+    return;  
+  }  
+  
+  showInterface(`  
+    <div class="interface-page">  
+      <div class="interface-inner">  
+  
+        <div class="interface-top">  
+          <h1 class="interface-title">  
+            Feedback  
+          </h1>  
+  
+          <button  
+            class="close-interface"  
+            onclick="closeInterface()"  
+          >  
+            ✕ बंद करें  
+          </button>  
+        </div>  
+  
+        <div class="auth-wrap">  
+  
+          <div class="card auth-card">  
+  
+            <p style="color:var(--muted)">  
+              आपका सुझाव या feedback हमारे सेवा कार्य को बेहतर बनाने में मदद करेगा।  
+            </p>  
+  
+            <div  
+              id="feedbackResult"  
+              class="message"  
+            ></div>  
+  
+            <form  
+              onsubmit="submitFeedback(event)"  
+            >  
+  
+              <div class="form-group">  
+                <label>  
+                  Mobile Number  
+                </label>  
+  
+                <input  
+                  class="form-control"  
+                  name="mobile"  
+                  value="${escapeHtml(  
+                    currentUser.mobile || ""  
+                  )}"  
+                  maxlength="10"  
+                  inputmode="numeric"  
+                  required  
+                >  
+              </div>  
+  
+              <div class="form-group">  
+                <label>  
+                  Email  
+                </label>  
+  
+                <input  
+                  class="form-control"  
+                  name="email"  
+                  type="email"  
+                  value="${escapeHtml(  
+                    currentUser.email || ""  
+                  )}"  
+                  required  
+                >  
+              </div>  
+  
+              <div class="form-group">  
+                <label>  
+                  आपका संदेश  
+                </label>  
+  
+                <textarea  
+                  class="form-control"  
+                  name="message"  
+                  maxlength="2000"  
+                  required  
+                ></textarea>  </div>  
+
+          <button  
+            class="btn btn-primary"  
+            type="submit"  
+          >  
+            Feedback भेजें  
+          </button>  
+
+        </form>  
+
+      </div>  
+
+    </div>  
+
+  </div>  
+</div>
+
+`);
+}
+
+async function submitFeedback(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"feedbackResult"
+);
+
+const formData =
+new FormData(form);
+
+result.className =
+"message show";
+
+result.textContent =
+"Feedback भेजा जा रहा है...";
+
+try {
+const data =
+await apiFetch(
+"/api/feedback",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+mobile:
+formData.get(
+"mobile"
+),
+email:
+formData.get(
+"email"
+),
+message:
+formData.get(
+"message"
+)
+})
+}
+);
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  data.message ||  
+  "Feedback submitted";  
+
+form.reset();
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+/* =========================================================
+LOGIN / REGISTER
+========================================================= */
+
+function renderLoginInterface(
+mode = "login"
+) {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        OUMJYOTI Account  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="closeInterface()"  
+      >  
+        ✕ बंद करें  
+      </button>  
+
+    </div>  
+
+    <div class="auth-wrap">  
+
+      <div class="auth-logo">  
+
+        <img  
+          src="${  
+            escapeHtml(  
+              siteContent.logo_image ||  
+              "/oumjyoti-logo.png"  
+            )  
+          }"  
+          alt="OUMJYOTI"  
+        >  
+
+      </div>  
+
+      <div class="card auth-card">  
+
+        <div class="auth-tabs">  
+
+          <button  
+            id="loginTab"  
+            class="${  
+              mode === "login"  
+                ? "active"  
+                : ""  
+            }"  
+            onclick="renderLoginInterface('login')"  
+          >  
+            Login  
+          </button>  
+
+          <button  
+            id="registerTab"  
+            class="${  
+              mode === "register"  
+                ? "active"  
+                : ""  
+            }"  
+            onclick="renderLoginInterface('register')"  
+          >  
+            Register  
+          </button>  
+
+        </div>  
+
+        ${  
+          mode === "register"  
+            ? registerFormHtml()  
+            : loginFormHtml()  
+        }  
+
+      </div>  
+
+    </div>  
+
+  </div>  
+</div>
+
+`);
+}
+
+function loginFormHtml() {
+return `
+<div  
+id="loginResult"  
+class="message"  
+></div>
+
+<form  
+  onsubmit="loginUser(event)"  
+>  
+
+  <div class="form-group">  
+
+    <label>  
+      Mobile Number  
+    </label>  
+
+    <input  
+      id="loginIdentity"  
+      class="form-control"  
+      type="tel"  
+      inputmode="numeric"  
+      maxlength="10"  
+      pattern="[6-9][0-9]{9}"  
+      placeholder="10 digit mobile number"  
+      required  
+    >  
+
+  </div>  
+
+  <div class="form-group">  
+
+    <label>  
+      Password  
+    </label>  
+
+    <input  
+      id="loginPassword"  
+      class="form-control"  
+      type="password"  
+      minlength="8"  
+      maxlength="128"  
+      placeholder="Password"  
+      required  
+    >  
+
+  </div>  
+
+  <button  
+    class="btn btn-primary"  
+    type="submit"  
+    style="width:100%"  
+  >  
+    Login  
+  </button>  
+
+</form>  
+
+<p  
+  style="  
+    color:var(--muted);  
+    font-size:13px;  
+    margin-top:18px;  
+  "  
+>  
+  Login सफल होने के बाद आपका Dashboard अपने-आप खुल जाएगा।  
+</p>
+
+`;
+}
+
+function registerFormHtml() {
+return `
+<div  
+id="registerResult"  
+class="message"  
+></div>
+
+<form  
+  onsubmit="registerUser(event)"  
+>  
+
+  <div class="form-row">  
+
+    <div class="form-group">  
+
+      <label>  
+        पूरा नाम  
+      </label>  
+
+      <input  
+        class="form-control"  
+        name="name"  
+        maxlength="100"  
+        required  
+      >  
+
+    </div>  
+
+    <div class="form-group">  
+
+      <label>  
+        Place  
+      </label>  
+
+      <input  
+        class="form-control"  
+        name="place"  
+        maxlength="100"  
+        required  
+      >  
+
+    </div>  
+
+  </div>  
+
+  <div class="form-group">  
+
+    <label>  
+      Email  
+    </label>  
+
+    <input  
+      class="form-control"  
+      name="email"  
+      type="email"  
+      maxlength="150"  
+      required  
+    >  
+
+  </div>  
+
+  <div class="form-group">  
+
+    <label>  
+      Mobile Number  
+    </label>  
+
+    <input  
+      class="form-control"  
+      name="mobile"  
+      type="tel"  
+      inputmode="numeric"  
+      maxlength="10"  
+      pattern="[6-9][0-9]{9}"  
+      required  
+    >  
+
+  </div>  
+
+  <div class="form-row">  
+
+    <div class="form-group">  
+
+      <label>  
+        PAN  
+      </label>  
+
+      <input  
+        class="form-control"  
+        name="pan"  
+        maxlength="10"  
+        placeholder="Optional"  
+      >  
+
+    </div>  
+
+    <div class="form-group">  
+
+      <label>  
+        Aadhaar  
+      </label>  
+
+      <input  
+        class="form-control"  
+        name="aadhaar"  
+        inputmode="numeric"  
+        maxlength="12"  
+        placeholder="Optional"  
+      >  
+
+    </div>  
+
+  </div>  
+
+  <div class="form-group">  
+
+    <label>  
+      Password  
+    </label>  
+
+    <input  
+      class="form-control"  
+      name="password"  
+      type="password"  
+      minlength="8"  
+      maxlength="128"  
+      required  
+    >  
+
+  </div>  
+
+  <button  
+    class="btn btn-primary"  
+    type="submit"  
+    style="width:100%"  
+  >  
+    Register  
+  </button>  
+
+</form>  
+
+<p  
+  style="  
+    color:var(--muted);  
+    font-size:12px;  
+    line-height:1.6;  
+    margin-top:15px;  
+  "  
+>  
+  PAN/Aadhaar optional हैं। उपलब्ध कराई गई संवेदनशील जानकारी encrypted form में सुरक्षित रखी जाती है और public रूप से प्रदर्शित नहीं की जाती।  
+</p>
+
+`;
+}
+
+async function loginUser(
+event
+) {
+event.preventDefault();
+
+const result =
+document.getElementById(
+"loginResult"
+);
+
+const identity =
+document
+.getElementById(
+"loginIdentity"
+)
+.value
+.trim();
+
+const password =
+document
+.getElementById(
+"loginPassword"
+)
+.value;
+
+result.className =
+"message show";
+
+result.textContent =
+"Login हो रहा है...";
+
+try {
+const response =
+await fetch(
+"/api/login",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+credentials:
+"same-origin",
+body:
+JSON.stringify({
+identifier:
+identity,
+mobile:
+identity,
+email:
+"",
+password
+})
+}
+);
+
+const data =  
+  await response  
+    .json()  
+    .catch(  
+      () => ({})  
+    );  
+
+if (!response.ok) {  
+  throw new Error(  
+    data.error ||  
+    "Login failed"  
+  );  
+}  
+
+const me =  
+  await apiFetch(  
+    "/api/me"  
+  );  
+
+if (  
+  !me.authenticated  
+) {  
+  throw new Error(  
+    "Login हुआ लेकिन session verify नहीं हुआ।"  
+  );  
+}  
+
+currentUser =  
+  me.user;  
+
+updateAuthButton();  
+
+/* Automatic dashboard */  
+openDashboard(  
+  currentUser  
+);
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message ||  
+  "Login में समस्या हुई।";
+
+}
+}
+
+async function registerUser(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"registerResult"
+);
+
+const formData =
+new FormData(form);
+
+const data = {
+name:
+formData.get(
+"name"
+),
+place:
+formData.get(
+"place"
+),
+email:
+formData.get(
+"email"
+),
+mobile:
+formData.get(
+"mobile"
+),
+pan:
+formData.get(
+"pan"
+),
+aadhaar:
+formData.get(
+"aadhaar"
+),
+password:
+formData.get(
+"password"
+)
+};
+
+result.className =
+"message show";
+
+result.textContent =
+"Registration हो रहा है...";
+
+try {
+const response =
+await fetch(
+"/api/register",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+credentials:
+"same-origin",
+body:
+JSON.stringify(
+data
+)
+}
+);
+
+const responseData =  
+  await response  
+    .json()  
+    .catch(  
+      () => ({})  
+    );  
+
+if (!response.ok) {  
+  throw new Error(  
+    responseData.error ||  
+    "Registration failed"  
+  );  
+}  
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  responseData.message ||  
+  "Registration successful";  
+
+setTimeout(  
+  () => {  
+    renderLoginInterface(  
+      "login"  
+    );  
+  },  
+  900  
+);
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+/* =========================================================
+DASHBOARD
+========================================================= */
+
+async function openDashboard(
+user
+) {
+currentUser =
+user;
+
+updateAuthButton();
+
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <div>  
+        <h1 class="interface-title">  
+          Dashboard  
+        </h1>  
+
+        <div  
+          class="user-badge"  
+          style="margin-top:8px"  
+        >  
+          👤 ${escapeHtml(  
+            user.name  
+          )}  
+          ·  
+          ${escapeHtml(  
+            user.role  
+          )}  
+        </div>  
+      </div>  
+
+      <button  
+        class="close-interface"  
+        onclick="closeInterface()"  
+      >  
+        ✕ बंद करें  
+      </button>  
+
+    </div>  
+
+    <div  
+      id="dashboardStats"  
+      class="dashboard-grid"  
+    >  
+      <div class="loader"></div>  
+    </div>  
+
+    <div  
+      id="dashboardMenu"  
+      class="dashboard-menu"  
+    ></div>  
+
+  </div>  
+</div>
+
+`);
+
+renderDashboardMenu(
+user
+);
+
+if (
+user.role ===
+"admin"
+) {
+loadAdminStats();
+} else {
+renderMemberStats();
+}
+}
+
+function renderDashboardMenu(
+user
+) {
+const menu =
+document.getElementById(
+"dashboardMenu"
+);
+
+if (!menu) return;
+
+const items = [];
+
+if (
+user.role ===
+"admin"
+) {
+items.push(
+dashboardItem(
+"👥",
+"Members",
+"सभी members की जानकारी और status manage करें।",
+"adminMembers"
+)
+);
+
+items.push(  
+  dashboardItem(  
+    "🧑‍💼",  
+    "Staff",  
+    "Staff accounts और staff roles manage करें।",  
+    "adminStaff"  
+  )  
+);  
+
+items.push(  
+  dashboardItem(  
+    "💬",  
+    "Feedback",  
+    "Members के feedback देखें और status बदलें।",  
+    "adminFeedback"  
+  )  
+);  
+
+items.push(  
+  dashboardItem(  
+    "🕉️",  
+    "Seva Management",  
+    "सेवा जोड़ें, edit करें, image बदलें और active/inactive करें।",  
+    "adminSeva"  
+  )  
+);  
+
+items.push(  
+  dashboardItem(  
+    "🌐",  
+    "Website Management",  
+    "Homepage, Mission, About और website images manage करें।",  
+    "adminWebsite"  
+  )  
+);
+
+}
+
+if (
+user.role ===
+"staff"
+) {
+items.push(
+dashboardItem(
+"👥",
+"Members",
+"Members की जानकारी देखें।",
+"adminMembers"
+)
+);
+
+items.push(  
+  dashboardItem(  
+    "💬",  
+    "Feedback",  
+    "Feedback देखें और status manage करें।",  
+    "adminFeedback"  
+  )  
+);
+
+}
+
+items.push(
+dashboardItem(
+"👤",
+"My Profile",
+"अपना नाम, place और email update करें।",
+"profile"
+)
+);
+
+items.push(
+dashboardItem(
+"🔐",
+"Password",
+"अपना login password बदलें।",
+"password"
+)
+);
+
+items.push(
+dashboardItem(
+"📜",
+"Privacy Policy",
+"Website की privacy और data protection policy पढ़ें।",
+"privacy"
+)
+);
+
+items.push(
+dashboardItem(
+"🚪",
+"Logout",
+"अपने account से सुरक्षित रूप से logout करें।",
+"logout"
+)
+);
+
+menu.innerHTML =
+items.join("");
+}
+
+function dashboardItem(
+icon,
+title,
+description,
+action
+) {
+return `
+<button  
+class="dashboard-item"  
+onclick="dashboardAction('${action}')"  
+>
+
+<b>  
+    ${icon} ${escapeHtml(title)}  
+  </b>  
+
+  <span>  
+    ${escapeHtml(  
+      description  
+    )}  
+  </span>  
+
+</button>
+
+`;
+}
+
+function renderMemberStats() {
+const stats =
+document.getElementById(
+"dashboardStats"
+);
+
+if (!stats) return;
+
+stats.innerHTML = `
+<div class="stat-card">
+<small>
+Account
+</small>
+<strong>
+Active
+</strong>
+</div>
+
+<div class="stat-card">  
+  <small>  
+    Role  
+  </small>  
+  <strong style="font-size:22px">  
+    ${escapeHtml(  
+      currentUser.role  
+    )}  
+  </strong>  
+</div>  
+
+<div class="stat-card">  
+  <small>  
+    Mobile  
+  </small>  
+  <strong style="font-size:20px">  
+    ${escapeHtml(  
+      currentUser.mobile  
+    )}  
+  </strong>  
+</div>  
+
+<div class="stat-card">  
+  <small>  
+    Place  
+  </small>  
+  <strong style="font-size:20px">  
+    ${escapeHtml(  
+      currentUser.place  
+    )}  
+  </strong>  
+</div>
+
+`;
+}
+
+async function loadAdminStats() {
+const stats =
+document.getElementById(
+"dashboardStats"
+);
+
+try {
+const data =
+await apiFetch(
+"/api/admin/stats"
+);
+
+const s =  
+  data.stats || {};  
+
+stats.innerHTML = `  
+  <div class="stat-card">  
+    <small>  
+      Members  
+    </small>  
+    <strong>  
+      ${Number(s.members || 0)}  
+    </strong>  
+  </div>  
+
+  <div class="stat-card">  
+    <small>  
+      Staff  
+    </small>  
+    <strong>  
+      ${Number(s.staff || 0)}  
+    </strong>  
+  </div>  
+
+  <div class="stat-card">  
+    <small>  
+      Active Accounts  
+    </small>  
+    <strong>  
+      ${Number(s.active || 0)}  
+    </strong>  
+  </div>  
+
+  <div class="stat-card">  
+    <small>  
+      New Feedback  
+    </small>  
+    <strong>  
+      ${Number(s.newFeedback || 0)}  
+    </strong>  
+  </div>  
+`;
+
+} catch (error) {
+stats.innerHTML =   <div class="message show error">   ${escapeHtml(   error.message   )}   </div>  ;
+}
+}
+
+function dashboardAction(
+action
+) {
+switch (
+action
+) {
+
+case "adminMembers":  
+  renderAdminMembers();  
+  break;  
+
+case "adminStaff":  
+  renderAdminStaff();  
+  break;  
+
+case "adminFeedback":  
+  renderAdminFeedback();  
+  break;  
+
+case "adminSeva":  
+  renderAdminSeva();  
+  break;  
+
+case "adminWebsite":  
+  renderAdminWebsite();  
+  break;  
+
+case "profile":  
+  renderProfile();  
+  break;  
+
+case "password":  
+  renderPassword();  
+  break;  
+
+case "privacy":  
+  renderPrivacyInterface();  
+  break;  
+
+case "logout":  
+  logoutUser();  
+  break;
+
+}
+}
+
+/* =========================================================
+ADMIN MEMBERS
+========================================================= */
+
+async function renderAdminMembers() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Members  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div  
+      id="membersResult"  
+      class="message"  
+    ></div>  
+
+    <div  
+      id="membersTable"  
+      class="card"  
+    >  
+      <div class="loader"></div>  
+    </div>  
+
+  </div>  
+</div>
+
+`);
+
+await loadMembers(
+false
+);
+}
+
+async function loadMembers(
+staffOnly = false
+) {
+const box =
+document.getElementById(
+"membersTable"
+);
+
+if (!box) return;
+
+try {
+const data =
+await apiFetch(
+"/api/admin/members"
+);
+
+let members =  
+  data.members || [];  
+
+if (staffOnly) {  
+  members =  
+    members.filter(  
+      (m) =>  
+        m.role ===  
+        "staff"  
+    );  
+} else {  
+  members =  
+    members.filter(  
+      (m) =>  
+        m.role !==  
+        "admin"  
+    );  
+}  
+
+if (!members.length) {  
+  box.innerHTML =  
+    `<div class="empty">  
+      कोई record नहीं मिला।  
+    </div>`;  
+
+  return;  
+}  
+
+box.innerHTML = `  
+  <div class="table-wrap">  
+
+    <table>  
+
+      <thead>  
+        <tr>  
+          <th>Name</th>  
+          <th>Place</th>  
+          <th>Email</th>  
+          <th>Mobile</th>  
+          <th>Role</th>  
+          <th>Status</th>  
+          <th>Created</th>  
+          <th>Action</th>  
+        </tr>  
+      </thead>  
+
+      <tbody>  
+
+        ${members  
+          .map(  
+            (m) => `  
+              <tr>  
+
+                <td>  
+                  <strong>  
+                    ${escapeHtml(m.name)}  
+                  </strong>  
+
+                  ${  
+                    m.staff_role  
+                      ? `  
+                        <br>  
+                        <small style="color:var(--muted)">  
+                          ${escapeHtml(  
+                            m.staff_role  
+                          )}  
+                        </small>  
+                      `  
+                      : ""  
+                  }  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.place  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.email  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.mobile  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.role  
+                  )}  
+                </td>  
+
+                <td>  
+                  <span  
+                    class="status ${  
+                      m.status ===  
+                      "active"  
+                        ? "status-active"  
+                        : "status-disabled"  
+                    }"  
+                  >  
+                    ${escapeHtml(  
+                      m.status  
+                    )}  
+                  </span>  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    formatDate(  
+                      m.created_at  
+                    )  
+                  )}  
+                </td>  
+
+                <td>  
+
+                  <button  
+                    class="btn btn-small"  
+                    onclick="viewMemberSensitive('${escapeJs(m.id)}')"  
+                  >  
+                    PAN/Aadhaar  
+                  </button>  
+
+                  <button  
+                    class="btn btn-small ${  
+                      m.status ===  
+                      "active"  
+                        ? "btn-danger"  
+                        : "btn-success"  
+                    }"  
+                    onclick="toggleMemberStatus('${escapeJs(m.id)}','${m.status}')"  
+                  >  
+                    ${  
+                      m.status ===  
+                      "active"  
+                        ? "Disable"  
+                        : "Enable"  
+                    }  
+                  </button>  
+
+                </td>  
+
+              </tr>  
+            `  
+          )  
+          .join("")}  
+
+      </tbody>  
+
+    </table>  
+
+  </div>  
+`;
+
+} catch (error) {
+box.innerHTML =
+<div class="message show error">   ${escapeHtml(   error.message   )}   </div>;
+}
+}
+
+async function toggleMemberStatus(
+id,
+currentStatus
+) {
+const nextStatus =
+currentStatus ===
+"active"
+? "disabled"
+: "active";
+
+try {
+await apiFetch(
+/api/admin/members/${encodeURIComponent(id)},
+{
+method:
+"PATCH",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+status:
+nextStatus
+})
+}
+);
+
+await loadMembers(  
+  false  
+);
+
+} catch (error) {
+const result =
+document.getElementById(
+"membersResult"
+);
+
+if (result) {  
+  result.className =  
+    "message show error";  
+
+  result.textContent =  
+    error.message;  
+}
+
+}
+}
+
+async function viewMemberSensitive(
+id
+) {
+try {
+const data =
+await apiFetch(
+"/api/admin/member-sensitive",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+id
+})
+}
+);
+
+alert(  
+  `PAN: ${data.pan || "-"}\nAadhaar: ${data.aadhaar || "-"}`  
+);
+
+} catch (error) {
+alert(
+error.message
+);
+}
+}
+
+/* =========================================================
+ADMIN STAFF
+========================================================= */
+
+async function renderAdminStaff() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Staff Management  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div class="card auth-card">  
+
+      <h2 style="color:var(--gold2)">  
+        नया Staff जोड़ें  
+      </h2>  
+
+      <div  
+        id="staffCreateResult"  
+        class="message"  
+      ></div>  
+
+      <form  
+        onsubmit="createStaff(event)"  
+      >  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+            <label>Name</label>  
+            <input  
+              class="form-control"  
+              name="name"  
+              required  
+              maxlength="100"  
+            >  
+          </div>  
+
+          <div class="form-group">  
+            <label>Place</label>  
+            <input  
+              class="form-control"  
+              name="place"  
+              required  
+              maxlength="100"  
+            >  
+          </div>  
+
+        </div>  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+            <label>Email</label>  
+            <input  
+              class="form-control"  
+              name="email"  
+              type="email"  
+              required  
+              maxlength="150"  
+            >  
+          </div>  
+
+          <div class="form-group">  
+            <label>Mobile</label>  
+            <input  
+              class="form-control"  
+              name="mobile"  
+              type="tel"  
+              inputmode="numeric"  
+              maxlength="10"  
+              required  
+            >  
+          </div>  
+
+        </div>  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+            <label>Staff Role</label>  
+            <input  
+              class="form-control"  
+              name="staffRole"  
+              placeholder="जैसे Seva Coordinator"  
+              maxlength="100"  
+            >  
+          </div>  
+
+          <div class="form-group">  
+            <label>Password</label>  
+            <input  
+              class="form-control"  
+              name="password"  
+              type="password"  
+              minlength="8"  
+              maxlength="128"  
+              required  
+            >  
+          </div>  
+
+        </div>  
+
+        <button  
+          class="btn btn-primary"  
+          type="submit"  
+        >  
+          Staff Create करें  
+        </button>  
+
+      </form>  
+
+    </div>  
+
+    <div  
+      style="margin-top:25px"  
+      id="staffTable"  
+      class="card"  
+    >  
+      <div class="loader"></div>  
+    </div>  
+
+  </div>  
+</div>
+
+`);
+
+await loadStaff();
+}
+
+async function loadStaff() {
+const box =
+document.getElementById(
+"staffTable"
+);
+
+try {
+const data =
+await apiFetch(
+"/api/admin/members"
+);
+
+const staff =  
+  (data.members || [])  
+    .filter(  
+      (m) =>  
+        m.role ===  
+        "staff"  
+    );  
+
+if (!staff.length) {  
+  box.innerHTML =  
+    `<div class="empty">  
+      अभी कोई staff नहीं है।  
+    </div>`;  
+
+  return;  
+}  
+
+box.innerHTML = `  
+  <div class="table-wrap">  
+
+    <table>  
+
+      <thead>  
+        <tr>  
+          <th>Name</th>  
+          <th>Staff Role</th>  
+          <th>Place</th>  
+          <th>Mobile</th>  
+          <th>Status</th>  
+          <th>Action</th>  
+        </tr>  
+      </thead>  
+
+      <tbody>  
+
+        ${staff  
+          .map(  
+            (m) => `  
+              <tr>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.name  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.staff_role || "-"  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.place  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.mobile  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    m.status  
+                  )}  
+                </td>  
+
+                <td>  
+                  <button  
+                    class="btn btn-small ${  
+                      m.status ===  
+                      "active"  
+                        ? "btn-danger"  
+                        : "btn-success"  
+                    }"  
+                    onclick="toggleMemberStatus('${escapeJs(m.id)}','${m.status}')"  
+                  >  
+                    ${  
+                      m.status ===  
+                      "active"  
+                        ? "Disable"  
+                        : "Enable"  
+                    }  
+                  </button>  
+                </td>  
+
+              </tr>  
+            `  
+          )  
+          .join("")}  
+
+      </tbody>  
+
+    </table>  
+
+  </div>  
+`;
+
+} catch (error) {
+box.innerHTML =
+<div class="message show error">   ${escapeHtml(   error.message   )}   </div>;
+}
+}
+
+async function createStaff(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"staffCreateResult"
+);
+
+const fd =
+new FormData(form);
+
+result.className =
+"message show";
+
+result.textContent =
+"Staff create हो रहा है...";
+
+try {
+await apiFetch(
+"/api/admin/members",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+name:
+fd.get("name"),
+place:
+fd.get("place"),
+email:
+fd.get("email"),
+mobile:
+fd.get("mobile"),
+password:
+fd.get("password"),
+role:
+"staff",
+staffRole:
+fd.get("staffRole")
+})
+}
+);
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  "Staff successfully created.";  
+
+form.reset();  
+
+await loadStaff();
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+/* =========================================================
+ADMIN FEEDBACK
+========================================================= */
+
+async function renderAdminFeedback() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Feedback Management  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div  
+      id="feedbackAdminBox"  
+      class="card"  
+    >  
+      <div class="loader"></div>  
+    </div>  
+
+  </div>  
+</div>
+
+`);
+
+await loadAdminFeedback();
+}
+
+async function loadAdminFeedback() {
+const box =
+document.getElementById(
+"feedbackAdminBox"
+);
+
+try {
+const data =
+await apiFetch(
+"/api/admin/feedback"
+);
+
+const items =  
+  data.feedback || [];  
+
+if (!items.length) {  
+  box.innerHTML =  
+    `<div class="empty">  
+      अभी कोई feedback नहीं है।  
+    </div>`;  
+
+  return;  
+}  
+
+box.innerHTML = `  
+  <div class="table-wrap">  
+
+    <table>  
+
+      <thead>  
+        <tr>  
+          <th>Member</th>  
+          <th>Mobile</th>  
+          <th>Email</th>  
+          <th>Message</th>  
+          <th>Status</th>  
+          <th>Date</th>  
+          <th>Action</th>  
+        </tr>  
+      </thead>  
+
+      <tbody>  
+
+        ${items  
+          .map(  
+            (item) => `  
+              <tr>  
+
+                <td>  
+                  ${escapeHtml(  
+                    item.name ||  
+                    "-"  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    item.mobile  
+                  )}  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    item.email  
+                  )}  
+                </td>  
+
+                <td style="max-width:350px">  
+                  ${escapeHtml(  
+                    item.message  
+                  )}  
+                </td>  
+
+                <td>  
+                  <span  
+                    class="status ${  
+                      item.status ===  
+                      "new"  
+                        ? "status-new"  
+                        : "status-active"  
+                    }"  
+                  >  
+                    ${escapeHtml(  
+                      item.status  
+                    )}  
+                  </span>  
+                </td>  
+
+                <td>  
+                  ${escapeHtml(  
+                    formatDate(  
+                      item.created_at  
+                    )  
+                  )}  
+                </td>  
+
+                <td>  
+
+                  <button  
+                    class="btn btn-small"  
+                    onclick="updateFeedbackStatus('${escapeJs(item.id)}','read')"  
+                  >  
+                    Read  
+                  </button>  
+
+                  <button  
+                    class="btn btn-small btn-success"  
+                    onclick="updateFeedbackStatus('${escapeJs(item.id)}','resolved')"  
+                  >  
+                    Resolved  
+                  </button>  
+
+                </td>  
+
+              </tr>  
+            `  
+          )  
+          .join("")}  
+
+      </tbody>  
+
+    </table>  
+
+  </div>  
+`;
+
+} catch (error) {
+box.innerHTML =
+<div class="message show error">   ${escapeHtml(   error.message   )}   </div>;
+}
+}
+
+async function updateFeedbackStatus(
+id,
+status
+) {
+try {
+await apiFetch(
+"/api/admin/feedback/read",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+id,
+status
+})
+}
+);
+
+await loadAdminFeedback();
+
+} catch (error) {
+alert(
+error.message
+);
+}
+}
+
+/* =========================================================
+ADMIN SEVA MANAGEMENT
+========================================================= */
+
+async function renderAdminSeva() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Seva Management  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div class="card auth-card">  
+
+      <h2 style="color:var(--gold2)">  
+        नई Seva जोड़ें  
+      </h2>  
+
+      <div  
+        id="sevaCreateResult"  
+        class="message"  
+      ></div>  
+
+      <form  
+        onsubmit="createSeva(event)"  
+      >  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+            <label>  
+              Seva Name  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="title"  
+              maxlength="150"  
+              required  
+            >  
+          </div>  
+
+          <div class="form-group">  
+            <label>  
+              Icon  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="icon"  
+              value="🕉️"  
+              maxlength="20"  
+            >  
+          </div>  
+
+        </div>  
+
+        <div class="form-group">  
+
+          <label>  
+            Description  
+          </label>  
+
+          <textarea  
+            class="form-control"  
+            name="description"  
+            maxlength="2000"  
+          ></textarea>  
+
+        </div>  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+
+            <label>  
+              Image URL  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="image_url"  
+              placeholder="/media/seva/..."  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              Sort Order  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="sort_order"  
+              type="number"  
+              value="0"  
+              min="0"  
+            >  
+
+          </div>  
+
+        </div>  
+
+        <div class="form-group">  
+
+          <label>  
+            Active  
+          </label>  
+
+          <select  
+            class="form-control"  
+            name="active"  
+          >  
+            <option value="1">  
+              Active  
+            </option>  
+
+            <option value="0">  
+              Inactive  
+            </option>  
+          </select>  
+
+        </div>  
+
+        <button  
+          class="btn btn-primary"  
+          type="submit"  
+        >  
+          Seva Add करें  
+        </button>  
+
+      </form>  
+
+    </div>  
+
+    <div  
+      id="adminSevaList"  
+      style="margin-top:25px"  
+      class="admin-seva-grid"  
+    >  
+      <div class="loader"></div>  
+    </div>  
+
+  </div>  
+</div>
+
+`);
+
+await loadAdminSeva();
+}
+
+async function loadAdminSeva() {
+const box =
+document.getElementById(
+"adminSevaList"
+);
+
+try {
+const data =
+await apiFetch(
+"/api/admin/seva"
+);
+
+const items =  
+  data.seva || [];  
+
+if (!items.length) {  
+  box.innerHTML =  
+    `<div class="empty">  
+      अभी कोई Seva record नहीं है।  
+    </div>`;  
+
+  return;  
+}  
+
+box.innerHTML =  
+  items  
+    .map(  
+      (item) => {  
+
+        const image =  
+          item.image_url  
+            ? escapeHtml(  
+                item.image_url  
+              )  
+            : "";  
+
+        return `  
+          <div  
+            class="card admin-seva-card"  
+          >  
+
+            ${  
+              image  
+                ? `  
+                  <img  
+                    class="admin-seva-image"  
+                    src="${image}"  
+                    alt="${escapeHtml(item.title)}"  
+                  >  
+                `  
+                : `  
+                  <div  
+                    class="admin-seva-image"  
+                    style="  
+                      display:grid;  
+                      place-items:center;  
+                      font-size:60px;  
+                    "  
+                  >  
+                    ${escapeHtml(  
+                      item.icon || "🕉️"  
+                    )}  
+                  </div>  
+                `  
+            }  
+
+            <h3  
+              style="color:var(--gold2)"  
+            >  
+              ${escapeHtml(  
+                item.title  
+              )}  
+            </h3>  
+
+            <p  
+              style="  
+                color:var(--muted);  
+                line-height:1.6;  
+              "  
+            >  
+              ${escapeHtml(  
+                item.description || ""  
+              )}  
+            </p>  
+
+            <p  
+              style="  
+                color:var(--muted);  
+                font-size:13px;  
+              "  
+            >  
+              Status:  
+              ${item.active  
+                ? "Active"  
+                : "Inactive"}  
+              · Order:  
+              ${Number(  
+                item.sort_order || 0  
+              )}  
+            </p>  
+
+            <div class="admin-actions">  
+
+              <button  
+                class="btn btn-small"  
+                onclick="editSeva('${escapeJs(item.id)}')"  
+              >  
+                Edit  
+              </button>  
+
+              <button  
+                class="btn btn-small ${  
+                  item.active  
+                    ? "btn-danger"  
+                    : "btn-success"  
+                }"  
+                onclick="toggleSeva('${escapeJs(item.id)}',${item.active ? 1 : 0})"  
+              >  
+                ${  
+                  item.active  
+                    ? "Deactivate"  
+                    : "Activate"  
+                }  
+              </button>  
+
+              <button  
+                class="btn btn-small btn-danger"  
+                onclick="deleteSeva('${escapeJs(item.id)}')"  
+              >  
+                Delete  
+              </button>  
+
+            </div>  
+
+          </div>  
+        `;  
+      }  
+    )  
+    .join("");
+
+} catch (error) {
+box.innerHTML =
+<div class="message show error">   ${escapeHtml(   error.message   )}   </div>;
+}
+}
+
+async function createSeva(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"sevaCreateResult"
+);
+
+const fd =
+new FormData(form);
+
+result.className =
+"message show";
+
+result.textContent =
+"Seva add हो रही है...";
+
+try {
+await apiFetch(
+"/api/admin/seva",
+{
+method:
+"POST",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+title:
+fd.get("title"),
+description:
+fd.get("description"),
+image_url:
+fd.get("image_url"),
+icon:
+fd.get("icon"),
+active:
+fd.get("active") ===
+"1",
+sort_order:
+Number(
+fd.get(
+"sort_order"
+) || 0
+)
+})
+}
+);
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  "Seva successfully added.";  
+
+form.reset();  
+
+await loadAdminSeva();
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+async function toggleSeva(
+id,
+active
+) {
+try {
+await apiFetch(
+/api/admin/seva/${encodeURIComponent(id)},
+{
+method:
+"PATCH",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+active:
+!Boolean(active)
+})
+}
+);
+
+await loadAdminSeva();
+
+} catch (error) {
+alert(
+error.message
+);
+}
+}
+
+async function editSeva(
+id
+) {
+const item =
+await findAdminSeva(
+id
+);
+
+if (!item) return;
+
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Edit Seva  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="renderAdminSeva()"  
+      >  
+        ← वापस  
+      </button>  
+
+    </div>  
+
+    <div class="card auth-card">  
+
+      <div  
+        id="sevaEditResult"  
+        class="message"  
+      ></div>  
+
+      <form  
+        onsubmit="saveSevaEdit(event,'${escapeJs(id)}')"  
+      >  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+
+            <label>  
+              Seva Name  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="title"  
+              value="${escapeHtml(  
+                item.title  
+              )}"  
+              required  
+              maxlength="150"  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              Icon  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="icon"  
+              value="${escapeHtml(  
+                item.icon || "🕉️"  
+              )}"  
+              maxlength="20"  
+            >  
+
+          </div>  
+
+        </div>  
+
+        <div class="form-group">  
+
+          <label>  
+            Description  
+          </label>  
+
+          <textarea  
+            class="form-control"  
+            name="description"  
+            maxlength="2000"  
+          >${escapeHtml(  
+            item.description || ""  
+          )}</textarea>  
+
+        </div>  
+
+        <div class="form-row">  
+
+          <div class="form-group">  
+
+            <label>  
+              Image URL  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="image_url"  
+              value="${escapeHtml(  
+                item.image_url || ""  
+              )}"  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              Sort Order  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="sort_order"  
+              type="number"  
+              min="0"  
+              value="${Number(  
+                item.sort_order || 0  
+              )}"  
+            >  
+
+          </div>  
+
+        </div>  
+
+        <div class="form-group">  
+
+          <label>  
+            Status  
+          </label>  
+
+          <select  
+            class="form-control"  
+            name="active"  
+          >  
+
+            <option  
+              value="1"  
+              ${  
+                item.active  
+                  ? "selected"  
+                  : ""  
+              }  
+            >  
+              Active  
+            </option>  
+
+            <option  
+              value="0"  
+              ${  
+                !item.active  
+                  ? "selected"  
+                  : ""  
+              }  
+            >  
+              Inactive  
+            </option>  
+
+          </select>  
+
+        </div>  
+
+        <button  
+          class="btn btn-primary"  
+          type="submit"  
+        >  
+          Save Changes  
+        </button>  
+
+      </form>  
+
+    </div>  
+
+  </div>  
+</div>
+
+`);
+}
+
+async function findAdminSeva(
+id
+) {
+try {
+const data =
+await apiFetch(
+"/api/admin/seva"
+);
+
+return (  
+  data.seva || []  
+).find(  
+  (x) =>  
+    String(x.id) ===  
+    String(id)  
+);
+
+} catch {
+return null;
+}
+}
+
+async function saveSevaEdit(
+event,
+id
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"sevaEditResult"
+);
+
+const fd =
+new FormData(form);
+
+result.className =
+"message show";
+
+result.textContent =
+"Saving...";
+
+try {
+await apiFetch(
+/api/admin/seva/${encodeURIComponent(id)},
+{
+method:
+"PATCH",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+title:
+fd.get("title"),
+description:
+fd.get(
+"description"
+),
+image_url:
+fd.get(
+"image_url"
+),
+icon:
+fd.get("icon"),
+active:
+fd.get("active") ===
+"1",
+sort_order:
+Number(
+fd.get(
+"sort_order"
+) || 0
+)
+})
+}
+);
+
+renderAdminSeva();
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+async function deleteSeva(
+id
+) {
+if (
+!confirm(
+"क्या आप इस Seva को delete करना चाहते हैं?"
+)
+) {
+return;
+}
+
+try {
+await apiFetch(
+/api/admin/seva/${encodeURIComponent(id)},
+{
+method:
+"DELETE"
+}
+);
+
+await loadAdminSeva();
+
+} catch (error) {
+alert(
+error.message
+);
+}
+}
+
+/* =========================================================
+ADMIN WEBSITE MANAGEMENT
+========================================================= */
+
+async function renderAdminWebsite() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Website Management  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div  
+      id="websiteManagementBox"  
+      class="card auth-card"  
+    >  
+      <div class="loader"></div>  
+    </div>  
+
+  </div>  
+</div>
+
+`);
+
+await loadWebsiteManagement();
+}
+
+async function loadWebsiteManagement() {
+const box =
+document.getElementById(
+"websiteManagementBox"
+);
+
+try {
+const data =
+await apiFetch(
+"/api/admin/site-content"
+);
+
+const c =  
+  data.content || {};  
+
+box.innerHTML = `  
+
+  <div  
+    id="websiteSaveResult"  
+    class="message"  
+  ></div>  
+
+  <form  
+    onsubmit="saveWebsiteContent(event)"  
+  >  
+
+    <h2 style="color:var(--gold2)">  
+      Homepage Content  
+    </h2>  
+
+    ${websiteInput(  
+      "site_title",  
+      "Website Title",  
+      c.site_title  
+    )}  
+
+    ${websiteInput(  
+      "site_description",  
+      "Meta Description",  
+      c.site_description  
+    )}  
+
+    ${websiteInput(  
+      "hero_title",  
+      "Hero Title",  
+      c.hero_title  
+    )}  
+
+    ${websiteTextarea(  
+      "hero_text",  
+      "Hero Text",  
+      c.hero_text  
+    )}  
+
+    <h2 style="color:var(--gold2);margin-top:30px">  
+      Mission  
+    </h2>  
+
+    ${websiteInput(  
+      "mission_title",  
+      "Mission Title",  
+      c.mission_title  
+    )}  
+
+    ${websiteTextarea(  
+      "mission_text",  
+      "Mission Text",  
+      c.mission_text  
+    )}  
+
+    <h2 style="color:var(--gold2);margin-top:30px">  
+      About  
+    </h2>  
+
+    ${websiteInput(  
+      "about_title",  
+      "About Title",  
+      c.about_title  
+    )}  
+
+    ${websiteTextarea(  
+      "about_text",  
+      "About Text",  
+      c.about_text  
+    )}  
+
+    ${websiteInput(  
+      "operator_name",  
+      "Operator",  
+      c.operator_name  
+    )}  
+
+    ${websiteInput(  
+      "co_operator_name",  
+      "Co Operator",  
+      c.co_operator_name  
+    )}  
+
+    <h2 style="color:var(--gold2);margin-top:30px">  
+      Contact  
+    </h2>  
+
+    ${websiteInput(  
+      "contact_email",  
+      "Contact Email",  
+      c.contact_email  
+    )}  
+
+    ${websiteInput(  
+      "contact_mobile",  
+      "Contact Mobile",  
+      c.contact_mobile  
+    )}  
+
+    <h2 style="color:var(--gold2);margin-top:30px">  
+      Images  
+    </h2>  
+
+    ${websiteInput(  
+      "hero_image",  
+      "Hero Image URL",  
+      c.hero_image  
+    )}  
+
+    ${websiteInput(  
+      "logo_image",  
+      "Logo Image URL",  
+      c.logo_image  
+    )}  
+
+    <button  
+      class="btn btn-primary"  
+      type="submit"  
+      style="margin-top:20px"  
+    >  
+      Website Content Save करें  
+    </button>  
+
+  </form>  
+
+  <hr  
+    style="  
+      border:0;  
+      border-top:1px solid var(--line);  
+      margin:35px 0;  
+    "  
+  >  
+
+  <h2 style="color:var(--gold2)">  
+    R2 Image Upload  
+  </h2>  
+
+  <p style="color:var(--muted)">  
+    यहाँ image upload करने पर वह Cloudflare R2 में सुरक्षित रूप से store होगी।  
+  </p>  
+
+  <div class="upload-zone">  
+
+    <div  
+      id="uploadResult"  
+      class="message"  
+    ></div>  
+
+    <select  
+      id="uploadFolder"  
+      class="form-control"  
+    >  
+      <option value="website">  
+        Website  
+      </option>  
+
+      <option value="seva">  
+        Seva  
+      </option>  
+
+      <option value="gallery">  
+        Gallery  
+      </option>  
+
+      <option value="logo">  
+        Logo  
+      </option>  
+    </select>  
+
+    <input  
+      id="imageFile"  
+      type="file"  
+      accept="image/jpeg,image/png,image/webp,image/gif,image/avif"  
+      onchange="previewUploadImage(event)"  
+    >  
+
+    <img  
+      id="uploadPreview"  
+      class="upload-preview"  
+      alt="Preview"  
+    >  
+
+    <button  
+      class="btn btn-primary"  
+      type="button"  
+      onclick="uploadImage()"  
+    >  
+      Image Upload करें  
+    </button>  
+
+  </div>  
+
+  <div  
+    id="uploadedImageResult"  
+    style="margin-top:20px"  
+  ></div>  
+
+`;
+
+} catch (error) {
+box.innerHTML =
+<div class="message show error">   ${escapeHtml(   error.message   )}   </div>;
+}
+}
+
+function websiteInput(
+name,
+label,
+value
+) {
+return `
+<div class="form-group">
+
+<label>  
+    ${escapeHtml(label)}  
+  </label>  
+
+  <input  
+    class="form-control"  
+    name="${escapeHtml(name)}"  
+    value="${escapeHtml(value || "")}"  
+    maxlength="5000"  
+  >  
+
+</div>
+
+`;
+}
+
+function websiteTextarea(
+name,
+label,
+value
+) {
+return `
+<div class="form-group">
+
+<label>  
+    ${escapeHtml(label)}  
+  </label>  
+
+  <textarea  
+    class="form-control"  
+    name="${escapeHtml(name)}"  
+    maxlength="5000"  
+  >${escapeHtml(  
+    value || ""  
+  )}</textarea>  
+
+</div>
+
+`;
+}
+
+async function saveWebsiteContent(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"websiteSaveResult"
+);
+
+const fd =
+new FormData(form);
+
+const object =
+Object.fromEntries(
+fd.entries()
+);
+
+result.className =
+"message show";
+
+result.textContent =
+"Website content save हो रहा है...";
+
+try {
+const data =
+await apiFetch(
+"/api/admin/site-content",
+{
+method:
+"PUT",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify(
+object
+)
+}
+);
+
+siteContent =  
+  data.content || {};  
+
+applySiteContent();  
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  "Website content successfully updated.";
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+/* =========================================================
+R2 IMAGE UPLOAD
+========================================================= */
+
+function previewUploadImage(
+event
+) {
+const file =
+event.target.files?.[0];
+
+const preview =
+document.getElementById(
+"uploadPreview"
+);
+
+if (
+!file ||
+!preview
+) {
+return;
+}
+
+const reader =
+new FileReader();
+
+reader.onload =
+function () {
+preview.src =
+reader.result;
+
+preview.style.display =  
+    "block";  
+};
+
+reader.readAsDataURL(
+file
+);
+}
+
+async function uploadImage() {
+const fileInput =
+document.getElementById(
+"imageFile"
+);
+
+const folder =
+document.getElementById(
+"uploadFolder"
+).value;
+
+const result =
+document.getElementById(
+"uploadResult"
+);
+
+const output =
+document.getElementById(
+"uploadedImageResult"
+);
+
+const file =
+fileInput?.files?.[0];
+
+if (!file) {
+result.className =
+"message show error";
+
+result.textContent =  
+  "पहले image select करें।";  
+
+return;
+
+}
+
+result.className =
+"message show";
+
+result.textContent =
+"Image R2 में upload हो रही है...";
+
+try {
+const form =
+new FormData();
+
+form.append(  
+  "file",  
+  file  
+);  
+
+form.append(  
+  "folder",  
+  folder  
+);  
+
+const response =  
+  await fetch(  
+    "/api/admin/upload",  
+    {  
+      method:  
+        "POST",  
+      credentials:  
+        "same-origin",  
+      body:  
+        form  
+    }  
+  );  
+
+const data =  
+  await response  
+    .json()  
+    .catch(  
+      () => ({})  
+    );  
+
+if (!response.ok) {  
+  throw new Error(  
+    data.error ||  
+    "Upload failed"  
+  );  
+}  
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  "Image successfully uploaded to R2.";  
+
+output.innerHTML = `  
+  <div class="card">  
+    <div class="card-body">  
+
+      <p style="color:var(--gold2)">  
+        Uploaded Image  
+      </p>  
+
+      <img  
+        src="${escapeHtml(data.url)}"  
+        style="  
+          max-height:250px;  
+          width:100%;  
+          object-fit:contain;  
+          border-radius:12px;  
+          background:#090305;  
+        "  
+        alt="Uploaded image"  
+      >  
+
+      <p  
+        style="  
+          color:var(--muted);  
+          word-break:break-all;  
+          font-size:13px;  
+        "  
+      >  
+        URL:  
+        ${escapeHtml(data.url)}  
+      </p>  
+
+      <button  
+        class="btn btn-small"  
+        type="button"  
+        onclick="copyText('${escapeJs(data.url)}')"  
+      >  
+        URL Copy करें  
+      </button>  
+
+    </div>  
+  </div>  
+`;  
+
+fileInput.value =  
+  "";  
+
+const preview =  
+  document.getElementById(  
+    "uploadPreview"  
+  );  
+
+if (preview) {  
+  preview.style.display =  
+    "none";  
+}
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+async function copyText(
+text
+) {
+try {
+await navigator.clipboard.writeText(
+text
+);
+
+alert(  
+  "URL copied"  
+);
+
+} catch {
+alert(
+text
+);
+}
+}
+
+/* =========================================================
+PROFILE
+========================================================= */
+
+function renderProfile() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        My Profile  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div class="auth-wrap">  
+
+      <div class="card auth-card">  
+
+        <div  
+          id="profileResult"  
+          class="message"  
+        ></div>  
+
+        <form  
+          onsubmit="saveProfile(event)"  
+        >  
+
+          <div class="form-group">  
+
+            <label>  
+              Name  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="name"  
+              value="${escapeHtml(  
+                currentUser.name  
+              )}"  
+              required  
+              maxlength="100"  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              Place  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="place"  
+              value="${escapeHtml(  
+                currentUser.place  
+              )}"  
+              required  
+              maxlength="100"  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              Email  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="email"  
+              type="email"  
+              value="${escapeHtml(  
+                currentUser.email  
+              )}"  
+              required  
+              maxlength="150"  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              Mobile  
+            </label>  
+
+            <input  
+              class="form-control"  
+              value="${escapeHtml(  
+                currentUser.mobile  
+              )}"  
+              disabled  
+            >  
+
+          </div>  
+
+          <button  
+            class="btn btn-primary"  
+            type="submit"  
+          >  
+            Profile Save करें  
+          </button>  
+
+        </form>  
+
+      </div>  
+
+    </div>  
+
+  </div>  
+</div>
+
+`);
+}
+
+async function saveProfile(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"profileResult"
+);
+
+const fd =
+new FormData(form);
+
+result.className =
+"message show";
+
+result.textContent =
+"Profile update हो रहा है...";
+
+try {
+await apiFetch(
+"/api/me",
+{
+method:
+"PUT",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+name:
+fd.get("name"),
+place:
+fd.get("place"),
+email:
+fd.get("email")
+})
+}
+);
+
+const me =  
+  await apiFetch(  
+    "/api/me"  
+  );  
+
+currentUser =  
+  me.user;  
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  "Profile successfully updated.";  
+
+updateAuthButton();
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+/* =========================================================
+PASSWORD
+========================================================= */
+
+function renderPassword() {
+showInterface(`
+<div class="interface-page">
+<div class="interface-inner">
+
+<div class="interface-top">  
+
+      <h1 class="interface-title">  
+        Change Password  
+      </h1>  
+
+      <button  
+        class="close-interface"  
+        onclick="openDashboard(currentUser)"  
+      >  
+        ← Dashboard  
+      </button>  
+
+    </div>  
+
+    <div class="auth-wrap">  
+
+      <div class="card auth-card">  
+
+        <div  
+          id="passwordResult"  
+          class="message"  
+        ></div>  
+
+        <form  
+          onsubmit="changePassword(event)"  
+        >  
+
+          <div class="form-group">  
+
+            <label>  
+              Current Password  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="currentPassword"  
+              type="password"  
+              required  
+            >  
+
+          </div>  
+
+          <div class="form-group">  
+
+            <label>  
+              New Password  
+            </label>  
+
+            <input  
+              class="form-control"  
+              name="newPassword"  
+              type="password"  
+              minlength="8"  
+              maxlength="128"  
+              required  
+            >  
+
+          </div>  
+
+          <button  
+            class="btn btn-primary"  
+            type="submit"  
+          >  
+            Password Change करें  
+          </button>  
+
+        </form>  
+
+      </div>  
+
+    </div>  
+
+  </div>  
+</div>
+
+`);
+}
+
+async function changePassword(
+event
+) {
+event.preventDefault();
+
+const form =
+event.target;
+
+const result =
+document.getElementById(
+"passwordResult"
+);
+
+const fd =
+new FormData(form);
+
+result.className =
+"message show";
+
+result.textContent =
+"Password change हो रहा है...";
+
+try {
+const data =
+await apiFetch(
+"/api/password",
+{
+method:
+"PUT",
+headers: {
+"Content-Type":
+"application/json"
+},
+body:
+JSON.stringify({
+currentPassword:
+fd.get(
+"currentPassword"
+),
+newPassword:
+fd.get(
+"newPassword"
+)
+})
+}
+);
+
+currentUser =  
+  null;  
+
+updateAuthButton();  
+
+result.className =  
+  "message show success";  
+
+result.textContent =  
+  data.message ||  
+  "Password changed successfully.";  
+
+setTimeout(  
+  () => {  
+    renderLoginInterface(  
+      "login"  
+    );  
+  },  
+  1000  
+);
+
+} catch (error) {
+result.className =
+"message show error";
+
+result.textContent =  
+  error.message;
+
+}
+}
+
+/* =========================================================
+LOGOUT
+========================================================= */
+
+async function logoutUser() {
+try {
+await apiFetch(
+"/api/logout",
+{
+method:
+"POST"
+}
+);
+} catch (error) {
+console.error(
+error
+);
+}
+
+currentUser =
+null;
+
+updateAuthButton();
+
+closeInterface();
+
+/*
+No automatic scroll.
+*/
+}
+
+/* =========================================================
+PRIVACY POLICY
+========================================================= */
+
+function renderPrivacyInterface() {
+  showInterface(`
+    <div class="interface-page">
+      <div class="interface-inner">
+
+        <div class="interface-top">
+          <h1 class="interface-title">
+            Privacy Policy
+          </h1>
+
+          <button
+            class="close-interface"
+            onclick="closeInterface()"
+          >
+            ✕ बंद करें
+          </button>
+        </div>
+
+        <article class="card">
+          <div class="card-body policy">
+
+            <p>
+              <strong>अंतिम अद्यतन:</strong>
+              September 2026
+            </p>
+
+            <h2>1. परिचय</h2>
+            <p>
+              OUMJYOTI ("हम", "हमारा", "हमारी वेबसाइट") भक्ति, सेवा और मानवता से संबंधित गतिविधियों के लिए यह वेबसाइट संचालित करता है। इस Privacy Policy का उद्देश्य यह स्पष्ट करना है कि वेबसाइट पर उपलब्ध account, registration, feedback और service सुविधाओं के उपयोग के दौरान प्राप्त जानकारी को किस प्रकार संभाला जाता है।
+            </p>
+
+            <p>
+              वेबसाइट का उपयोग करने, account बनाने या कोई जानकारी submit करने से पहले इस नीति को ध्यानपूर्वक पढ़ें। यदि आप इस नीति से सहमत नहीं हैं तो कृपया ऐसी सुविधा का उपयोग न करें जिसके लिए व्यक्तिगत जानकारी आवश्यक है।
+            </p>
+
+            <h2>2. हम कौन-सी जानकारी एकत्र कर सकते हैं</h2>
+            <p>
+              Account registration के समय हम नाम, स्थान, email address, mobile number तथा आपके द्वारा स्वेच्छा से दी गई PAN या Aadhaar जानकारी प्राप्त कर सकते हैं।
+            </p>
+
+            <p>
+              Feedback भेजते समय mobile number, email address और feedback message जैसी जानकारी प्राप्त की जा सकती है।
+            </p>
+
+            <h2>3. Registration Information</h2>
+            <p>
+              Registration के दौरान दी गई जानकारी account बनाने, पहचान सत्यापित करने, account management और website की member services उपलब्ध कराने के लिए उपयोग की जाती है।
+            </p>
+
+            <h2>4. Mobile Number और Email</h2>
+            <p>
+              Mobile number account login और account identification के लिए उपयोग किया जा सकता है। Email address account communication, profile management और feedback से संबंधित communication के लिए उपयोग किया जा सकता है।
+            </p>
+
+            <h2>5. PAN और Aadhaar</h2>
+            <p>
+              PAN और Aadhaar जैसी संवेदनशील जानकारी केवल तब ली जाती है जब member उसे registration के दौरान उपलब्ध कराता है। ऐसी जानकारी website के सामान्य public pages पर प्रदर्शित नहीं की जाती।
+            </p>
+
+            <p>
+              उपलब्ध encryption mechanism के माध्यम से PAN और Aadhaar को database में encrypted form में store किया जाता है। Authorized administrator को भी sensitive information का केवल masked रूप दिखाने के लिए system design किया गया है।
+            </p>
+
+            <p>
+              कृपया आवश्यकता न होने पर संवेदनशील पहचान दस्तावेजों की जानकारी साझा न करें।
+            </p>
+
+            <h2>6. Password Security</h2>
+            <p>
+              Password plain text में database में store नहीं किया जाता। Password को cryptographic password hashing process के माध्यम से सुरक्षित किया जाता है। Users को अपना password किसी अन्य व्यक्ति के साथ साझा नहीं करना चाहिए।
+            </p>
+
+            <h2>7. Login Sessions और Cookies</h2>
+            <p>
+              Login के बाद website secure session cookie का उपयोग कर सकती है ताकि आपको प्रत्येक page पर दोबारा login न करना पड़े। Session token का server-side hash रखा जाता है और session की निर्धारित अवधि समाप्त होने पर access समाप्त किया जा सकता है।
+            </p>
+
+            <h2>8. जानकारी का उपयोग</h2>
+            <ul>
+              <li>Member account बनाने और manage करने के लिए।</li>
+              <li>Login और authentication के लिए।</li>
+              <li>Seva activities और member services उपलब्ध कराने के लिए।</li>
+              <li>Feedback प्राप्त करने और उसका response/manage करने के लिए।</li>
+              <li>Website को सुरक्षित और व्यवस्थित रखने के लिए।</li>
+              <li>Administrative और operational purposes के लिए।</li>
+            </ul>
+
+            <h2>9. Feedback</h2>
+            <p>
+              Website पर भेजा गया feedback authorized administrators/staff द्वारा service improvement और response purposes के लिए देखा जा सकता है। Feedback में password, Aadhaar, PAN, banking password या अन्य अत्यधिक संवेदनशील जानकारी लिखने से बचें।
+            </p>
+
+            <h2>10. Data Protection</h2>
+            <p>
+              Website authentication, password hashing, encrypted sensitive fields और restricted administrative routes जैसे technical safeguards का उपयोग करती है। फिर भी कोई भी internet system पूर्णतः जोखिम-मुक्त होने की गारंटी नहीं देता।
+            </p>
+
+            <h2>11. Administrative Access</h2>
+            <p>
+              Website के administrative functions केवल authorized admin accounts के लिए उपलब्ध हैं। Staff accounts को उनके assigned permissions के अनुसार सीमित access दिया जा सकता है। Sensitive identity information के लिए additional restriction लागू है।
+            </p>
+
+            <h2>12. Image और Website Content</h2>
+            <p>
+              Website administration के दौरान uploaded images और content Cloudflare infrastructure तथा configured object storage में रखे जा सकते हैं। केवल authorized administrators को website management और image upload सुविधाएँ उपलब्ध कराई जाती हैं।
+            </p>
+
+            <h2>13. Third-Party Infrastructure</h2>
+            <p>
+              Website hosting, database, object storage और network delivery के लिए third-party infrastructure providers का उपयोग किया जा सकता है। ऐसे providers अपने लागू terms और privacy practices के अनुसार infrastructure operate कर सकते हैं।
+            </p>
+
+            <h2>14. Data Retention</h2>
+            <p>
+              Account information तब तक रखी जा सकती है जब तक account और संबंधित operational requirements के लिए आवश्यक हो। Feedback और administrative records को service management, accountability या legal requirements के अनुसार अधिक समय तक रखा जा सकता है।
+            </p>
+
+            <h2>15. Account Deactivation</h2>
+            <p>
+              Administrator किसी account को policy violation, security concern या operational कारणों से disable कर सकता है। Disabled account का login access समाप्त हो जाता है।
+            </p>
+
+            <h2>16. Children’s Privacy</h2>
+            <p>
+              यदि कोई user कम आयु का है तो उसे अपने parent या legal guardian की अनुमति के बिना ऐसी व्यक्तिगत जानकारी submit नहीं करनी चाहिए जिसके लिए अनुमति आवश्यक हो।
+            </p>
+
+            <h2>17. User Responsibilities</h2>
+            <ul>
+              <li>सही और अद्यतन जानकारी प्रदान करें।</li>
+              <li>अपना password सुरक्षित रखें।</li>
+              <li>दूसरे व्यक्ति का account उपयोग न करें।</li>
+              <li>अनावश्यक sensitive information submit न करें।</li>
+              <li>Website का दुरुपयोग या unauthorized access attempt न करें।</li>
+            </ul>
+
+            <h2>18. Security Incidents</h2>
+            <p>
+              यदि हमें किसी वास्तविक security incident की जानकारी मिलती है जो users की information को प्रभावित कर सकता है, तो उपलब्ध परिस्थितियों और लागू requirements के अनुसार उचित investigation तथा आवश्यक communication करने का प्रयास किया जाएगा।
+            </p>
+
+            <h2>19. Privacy Policy में बदलाव</h2>
+            <p>
+              OUMJYOTI समय-समय पर इस Privacy Policy को update कर सकता है। महत्वपूर्ण बदलाव होने पर website पर updated version उपलब्ध कराया जा सकता है। नई policy प्रकाशित होने के बाद website का continued use updated terms की awareness को दर्शाता है, जहां लागू हो।
+            </p>
+
+            <h2>20. Contact</h2>
+            <p>
+              Privacy, account information या website data से संबंधित किसी प्रश्न के लिए website पर उपलब्ध official contact information या feedback सुविधा का उपयोग किया जा सकता है।
+            </p>
+
+            <h2>21. Consent</h2>
+            <p>
+              Website की registration, login और अन्य applicable services का उपयोग करते समय user द्वारा दी गई जानकारी को इस Privacy Policy के अनुसार handle किया जा सकता है, subject to applicable law and user rights.
+            </p>
+
+            <p>
+              <strong>महत्वपूर्ण:</strong>
+              यह Privacy Policy website की operational data practices का वर्णन करती है और किसी specific jurisdiction के लिए कानूनी सलाह का विकल्प नहीं है। लागू कानून और regulatory requirements के अनुसार policy को समय-समय पर professional review की आवश्यकता हो सकती है।
+            </p>
+
+          </div>
+        </article>
+
+      </div>
+    </div>
+  `);
+}
+
+
+/* =========================================================
+CURRENT USER CHECK
+========================================================= */
+
+async function getCurrentUser() {
+  try {
+    const data = await apiFetch("/api/me");
+
+    if (data.authenticated) {
+      currentUser = data.user;
+    } else {
+      currentUser = null;
+    }
+
+    updateAuthButton();
+
+  } catch (error) {
+    console.error("Auth check error:", error);
+
+    currentUser = null;
+
+    updateAuthButton();
+  }
+}
+
+
+/* =========================================================
+INITIALIZE
+========================================================= */
+
+async function init() {
+  await Promise.all([
+    loadSiteContent(),
+    loadSeva(),
+    getCurrentUser()
+  ]);
+}
+
+init();
+
+</script>
+</body>
+</html>
