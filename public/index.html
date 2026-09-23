@@ -1380,23 +1380,75 @@ async function saveWebsiteContent(e) {
 
 async function addNewSevaTopic(e) {
   e.preventDefault();
+
   const result = document.getElementById("addSevaResult");
-  const formData = new FormData(e.target);
+  const form = e.target;
+  const formData = new FormData(form);
+
+  const title = String(formData.get("title") || "").trim();
+  const description = String(formData.get("description") || "").trim();
+  const icon = String(formData.get("icon") || "🕉️").trim();
+  let imageUrl = String(formData.get("image_url") || "").trim();
+
+  const fileInput = document.getElementById("sevaImageFile");
+  const file = fileInput?.files?.[0];
+
   result.className = "message show";
-  result.textContent = "नया सेवा टॉपिक जोड़ा जा रहा है...";
+
   try {
+    /* STEP 1: Upload selected image to R2 */
+    if (file) {
+      result.textContent = "फोटो R2 में upload हो रही है...";
+
+      const uploadData = new FormData();
+      uploadData.append("file", file);
+
+      const uploadResult = await apiFetch("/api/admin/upload", {
+        method: "POST",
+        body: uploadData
+      });
+
+      if (!uploadResult.ok || !uploadResult.url) {
+        throw new Error(
+          uploadResult.error || "फोटो upload नहीं हो सकी।"
+        );
+      }
+
+      imageUrl = uploadResult.url;
+    }
+
+    /* STEP 2: Save Seva information in D1 */
+    result.textContent = "सेवा टॉपिक सेव हो रहा है...";
+
     await apiFetch("/api/admin/seva", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(formData))
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title,
+        description: description,
+        icon: icon,
+        image_url: imageUrl
+      })
     });
+
     result.className = "message show success";
-    result.textContent = "सेवा टॉपिक सफलतापूर्वक जोड़ा गया!";
+    result.textContent =
+      "सेवा टॉपिक और फोटो सफलतापूर्वक सेव हो गए!";
+
+    /* STEP 3: Refresh website data */
+    form.reset();
+
     await loadSeva();
     await loadWebsiteManagement();
+
   } catch (err) {
+    console.error("ADD_SEVA_ERROR:", err);
+
     result.className = "message show error";
-    result.textContent = err.message;
+    result.textContent =
+      err.message || "सेवा टॉपिक सेव नहीं हो सका।";
   }
 }
 
