@@ -1352,16 +1352,6 @@ async function loadWebsiteManagement() {
 }
 
 // Convert uploaded file to Data URL for instant storage/preview
-function previewImageFile(input) {
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      document.getElementById('sevaImageUrlInput').value = e.target.result;
-    }
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
 async function saveWebsiteContent(e) {
   e.preventDefault();
   const result = document.getElementById("websiteSaveResult");
