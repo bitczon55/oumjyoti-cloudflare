@@ -1352,8 +1352,15 @@ async function loadWebsiteManagement() {
         </div>
       </div>
     `;
-  } catch (err) {
-    box.innerHTML = `<div class="message show error">${escapeHtml(err.message)}</div>`;
+    } catch (err) {
+    console.error("LOAD_WEBSITE_MANAGEMENT_ERROR:", err);
+
+    box.innerHTML = `
+      <div class="message show error">
+        <strong>Website Management Error</strong><br>
+        ${escapeHtml(err.message || "Unknown error")}
+      </div>
+    `;
   }
 }
 
