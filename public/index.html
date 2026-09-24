@@ -1367,22 +1367,50 @@ async function loadWebsiteManagement() {
 // Website settings
 async function saveWebsiteContent(e) {
   e.preventDefault();
+
   const result = document.getElementById("websiteSaveResult");
   const formData = new FormData(e.target);
+
   result.className = "message show";
-  result.textContent = "Saving...";
+  result.textContent = "Settings save हो रही हैं...";
+
   try {
-    await apiFetch("/api/admin/site-content", {
+    const payload = Object.fromEntries(formData);
+
+    console.log("SAVE WEBSITE PAYLOAD:", payload);
+
+    const response = await fetch("/api/admin/site-content", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(Object.fromEntries(formData))
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
     });
+
+    const data = await response.json().catch(() => ({}));
+
+    console.log("SAVE WEBSITE RESPONSE:", response.status, data);
+
+    if (!response.ok) {
+      throw new Error(
+        data.error ||
+        data.message ||
+        `Server Error (${response.status})`
+      );
+    }
+
     result.className = "message show success";
-    result.textContent = "Settings updated successfully!";
+    result.textContent = "Website settings successfully save हो गईं!";
+
     await loadSiteContent();
+
   } catch (err) {
+    console.error("SAVE_WEBSITE_ERROR:", err);
+
     result.className = "message show error";
-    result.textContent = err.message;
+    result.textContent =
+      "Error: " + (err.message || "Internal server error");
   }
 }
 
